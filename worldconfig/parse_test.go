@@ -36,4 +36,8 @@ func TestParsePostgres(t *testing.T) {
 	if cfg.PsqlConnection.Host != "postgres" {
 		t.Fatal("param err")
 	}
+
+	if cfg.PsqlConnection.Port != 5432 {
+		t.Fatal("param err: ", cfg.PsqlConnection.Port)
+	}
 }

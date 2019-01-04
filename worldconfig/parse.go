@@ -1,9 +1,11 @@
 package worldconfig
 
 import (
+	"fmt"
 	"bufio"
 	"os"
 	"strings"
+	"strconv"
 )
 
 const (
@@ -36,7 +38,27 @@ type WorldConfig struct {
 }
 
 func parseConnectionString(str string) *PsqlConfig {
-	return &PsqlConfig{}
+	cfg := PsqlConfig{}
+
+	pairs := strings.Split(str, "[ ]")
+	for _, pair := range pairs {
+		fmt.Println(pair)
+		kv := strings.Split(pair, "=")
+		switch kv[0] {
+		case "host":
+			cfg.Host = kv[1]
+		case "port":
+			cfg.Port, _ = strconv.Atoi(kv[1])
+		case "user":
+			cfg.Host = kv[1]
+		case "password":
+			cfg.Password = kv[1]
+		case "dbname":
+			cfg.DbName = kv[1]
+		}
+	}
+
+	return &cfg
 }
 
 func Parse(filename string) WorldConfig {
@@ -49,10 +71,10 @@ func Parse(filename string) WorldConfig {
 	cfg := WorldConfig{}
 
 	scanner := bufio.NewScanner(file)
+	lastPart := ""
 	for scanner.Scan() {
 		sc := bufio.NewScanner(strings.NewReader(scanner.Text()))
 		sc.Split(bufio.ScanWords)
-		lastPart := ""
 		for sc.Scan() {
 			switch (lastPart) {
 			case CONFIG_BACKEND:
@@ -61,8 +83,10 @@ func Parse(filename string) WorldConfig {
 				cfg.PlayerBackend = sc.Text()
 			case CONFIG_PSQL_CONNECTION:
 				cfg.PsqlConnection = parseConnectionString(sc.Text())
+				continue
 			case CONFIG_PSQL_PLAYER_CONNECTION:
 				cfg.PsqlPlayerConnection = parseConnectionString(sc.Text())
+				continue
 			}
 
 			if sc.Text() != "=" {
