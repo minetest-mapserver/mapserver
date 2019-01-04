@@ -2,12 +2,16 @@ package main
 
 import (
 	"mapserver/params"
+	"mapserver/worldconfig"
+	"fmt"
 )
 
 func main() {
-	params.Parse()
-	p := params.Params()
+	p := params.Parse()
 	if p.Help {
 		return
 	}
+
+	worldcfg := worldconfig.Parse(p.Worlddir + "world.mt")
+	fmt.Println("Backend: ", worldcfg.Backend)
 }

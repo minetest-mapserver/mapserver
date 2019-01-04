@@ -10,13 +10,7 @@ type ParamsType struct {
 	Help     bool
 }
 
-var params ParamsType
-
-func Params() ParamsType {
-	return params
-}
-
-func Parse() {
+func Parse() ParamsType {
 	params := ParamsType{}
 
 	flag.StringVar(&(params.Worlddir), "worlddir", "./", "world directory")
@@ -27,4 +21,6 @@ func Parse() {
 	if params.Help {
 		flag.PrintDefaults()
 	}
+
+	return params
 }
