@@ -4,10 +4,10 @@ import (
 	"mapserver/params"
 )
 
-func main(){
+func main() {
 	params.Parse()
 	p := params.Params()
-	if (p.Help){
+	if p.Help {
 		return
 	}
 }

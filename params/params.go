@@ -6,8 +6,8 @@ import (
 
 type ParamsType struct {
 	Worlddir string
-	Port int
-	Help bool
+	Port     int
+	Help     bool
 }
 
 var params ParamsType
@@ -16,7 +16,7 @@ func Params() ParamsType {
 	return params
 }
 
-func Parse(){
+func Parse() {
 	params := ParamsType{}
 
 	flag.StringVar(&(params.Worlddir), "worlddir", "./", "world directory")
@@ -24,7 +24,7 @@ func Parse(){
 	flag.BoolVar(&(params.Help), "help", false, "Show help")
 	flag.Parse()
 
-	if (params.Help) {
+	if params.Help {
 		flag.PrintDefaults()
 	}
 }
