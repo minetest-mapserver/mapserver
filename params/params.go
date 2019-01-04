@@ -2,11 +2,12 @@ package params
 
 import (
 	"flag"
-	"fmt"
 )
 
 type ParamsType struct {
-	worlddir string
+	Worlddir string
+	Port int
+	Help bool
 }
 
 var params ParamsType
@@ -17,7 +18,13 @@ func Params() ParamsType {
 
 func Parse(){
 	params := ParamsType{}
-	flag.StringVar(&(params.worlddir), "worlddir", "./", "world directory")
+
+	flag.StringVar(&(params.Worlddir), "worlddir", "./", "world directory")
+	flag.IntVar(&(params.Port), "port", 8080, "port to use")
+	flag.BoolVar(&(params.Help), "help", false, "Show help")
 	flag.Parse()
-	fmt.Println("World dir is: ", params.worlddir)
+
+	if (params.Help) {
+		flag.PrintDefaults()
+	}
 }

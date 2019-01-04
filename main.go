@@ -6,4 +6,8 @@ import (
 
 func main(){
 	params.Parse()
+	p := params.Params()
+	if (p.Help){
+		return
+	}
 }
