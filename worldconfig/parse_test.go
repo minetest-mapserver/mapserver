@@ -33,7 +33,7 @@ func TestParsePostgres(t *testing.T) {
 		t.Fatal("no connection")
 	}
 
-	if cfg.PsqlConnection[""] != "x" {
+	if cfg.PsqlConnection.Host != "postgres" {
 		t.Fatal("param err")
 	}
 }

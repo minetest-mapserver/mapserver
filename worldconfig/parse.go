@@ -19,16 +19,24 @@ const (
 	CONFIG_PSQL_PLAYER_CONNECTION string = "pgsql_player_connection"
 )
 
+type PsqlConfig struct {
+	Host string
+	Port int
+	Username string
+	Password string
+	DbName string
+}
+
 type WorldConfig struct {
 	Backend       string
 	PlayerBackend string
 
-	PsqlConnection map[string]string
-	PsqlPlayerConnection map[string]string
+	PsqlConnection *PsqlConfig
+	PsqlPlayerConnection *PsqlConfig
 }
 
-func parseConnectionString(str string) map[string]string {
-	return make(map[string]string)
+func parseConnectionString(str string) *PsqlConfig {
+	return &PsqlConfig{}
 }
 
 func Parse(filename string) WorldConfig {
@@ -39,7 +47,6 @@ func Parse(filename string) WorldConfig {
 	defer file.Close()
 
 	cfg := WorldConfig{}
-	cfg.PsqlConnection = parseConnectionString("")
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
