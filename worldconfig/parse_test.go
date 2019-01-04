@@ -20,7 +20,20 @@ func TestParsePostgres(t *testing.T) {
 	if cfg.Backend != worldconfig.BACKEND_POSTGRES {
 		t.Fatal("not postgres")
 	}
+
 	if cfg.PlayerBackend != worldconfig.BACKEND_POSTGRES {
 		t.Fatal("not postgres")
+	}
+
+	if cfg.PsqlConnection == nil {
+		t.Fatal("no connection")
+	}
+
+	if cfg.PsqlPlayerConnection == nil {
+		t.Fatal("no connection")
+	}
+
+	if cfg.PsqlConnection[""] != "x" {
+		t.Fatal("param err")
 	}
 }
