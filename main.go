@@ -13,5 +13,5 @@ func main() {
 	}
 
 	worldcfg := worldconfig.Parse(p.Worlddir + "world.mt")
-	fmt.Println("Backend: ", worldcfg.Backend)
+	fmt.Println("Config ", worldcfg)
 }

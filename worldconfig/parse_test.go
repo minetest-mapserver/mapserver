@@ -2,6 +2,7 @@ package worldconfig_test
 
 import (
 	"testing"
+	"fmt"
 	worldconfig "mapserver/worldconfig"
 )
 
@@ -17,20 +18,13 @@ func TestParseSqlite(t *testing.T) {
 
 func TestParsePostgres(t *testing.T) {
 	cfg := worldconfig.Parse("./testdata/world.mt.postgres")
+	fmt.Println(cfg)
 	if cfg.Backend != worldconfig.BACKEND_POSTGRES {
 		t.Fatal("not postgres")
 	}
 
 	if cfg.PlayerBackend != worldconfig.BACKEND_POSTGRES {
 		t.Fatal("not postgres")
-	}
-
-	if cfg.PsqlConnection == nil {
-		t.Fatal("no connection")
-	}
-
-	if cfg.PsqlPlayerConnection == nil {
-		t.Fatal("no connection")
 	}
 
 	if cfg.PsqlConnection.Host != "postgres" {
