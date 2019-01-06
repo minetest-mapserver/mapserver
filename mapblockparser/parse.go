@@ -21,27 +21,12 @@ func readU16(data []byte, offset int){
 func readU32(data []byte, offset int){
 }
 
-type CountedReader struct {
-	reader io.Reader
-	Count int
-}
-
-func (r *CountedReader) Read(p []byte) (int, error){
-	i,err := r.reader.Read(p)
-	r.Count += i
-	return i,err
-}
-
-func (r *CountedReader) ReadByte() (byte, error){
-	r.Count++;
-	return r.reader.ReadByte()
-}
 
 func parseMapdata(mapblock *MapBlock, data []byte) (int, error) {
 	r := bytes.NewReader(data)
 
 	cr := new(CountedReader)
-	cr.reader = r
+	cr.Reader = r
 
 	z, err := zlib.NewReader(cr)
 	if err != nil {
@@ -66,7 +51,7 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 	r := bytes.NewReader(data)
 
 	cr := new(CountedReader)
-	cr.reader = r
+	cr.Reader = r
 
 	z, err := zlib.NewReader(cr)
 	if err != nil {
@@ -78,7 +63,7 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 	buf := new(bytes.Buffer)
 	io.Copy(buf, z)
 
-	log.Println("Metadata length ", buf.Len())
+	log.Println("Metadata length ", buf.Len(), buf.String())
 
 	return cr.Count, nil
 }
