@@ -2,71 +2,11 @@ package mapblockparser
 
 import (
 	"errors"
-	"compress/zlib"
-	"bytes"
-	"io"
 	"strconv"
 	log "github.com/sirupsen/logrus"
 )
 
-type MapBlock struct {
-	Version byte
-	Underground bool
-	Mapdata []byte
-}
 
-func readU16(data []byte, offset int){
-}
-
-func readU32(data []byte, offset int){
-}
-
-
-func parseMapdata(mapblock *MapBlock, data []byte) (int, error) {
-	r := bytes.NewReader(data)
-
-	cr := new(CountedReader)
-	cr.Reader = r
-
-	z, err := zlib.NewReader(cr)
-	if err != nil {
-		return 0, err
-	}
-
-	defer z.Close()
-
-	buf := new(bytes.Buffer)
-	io.Copy(buf, z)
-
-	if buf.Len() != 16384 {
-		return 0, errors.New("Mapdata length invalid: " + strconv.Itoa(buf.Len()))
-	}
-
-	mapblock.Mapdata = buf.Bytes()
-
-	return cr.Count, nil
-}
-
-func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
-	r := bytes.NewReader(data)
-
-	cr := new(CountedReader)
-	cr.Reader = r
-
-	z, err := zlib.NewReader(cr)
-	if err != nil {
-		return 0, err
-	}
-
-	defer z.Close()
-
-	buf := new(bytes.Buffer)
-	io.Copy(buf, z)
-
-	log.Println("Metadata length ", buf.Len(), buf.String())
-
-	return cr.Count, nil
-}
 
 func Parse(data []byte) (*MapBlock, error) {
 	mapblock := MapBlock{}
@@ -74,7 +14,9 @@ func Parse(data []byte) (*MapBlock, error) {
 		return nil, errors.New("no data")
 	}
 
-	log.Println("data-length: ", len(data))
+	log.WithFields(log.Fields{
+		"data-length": len(data),
+	}).Debug("Parsing mapblock")
 
 	offset := 0
 
@@ -85,6 +27,17 @@ func Parse(data []byte) (*MapBlock, error) {
 	flags := data[1]
 	mapblock.Underground = (flags & 0x01) == 0x01
 
+	content_width := data[4]
+	params_width := data[4]
+
+	if content_width != 2 {
+		return nil, errors.New("content_width = " + strconv.Itoa(int(content_width)))
+	}
+
+	if params_width != 2 {
+		return nil, errors.New("params_width = " + strconv.Itoa(int(params_width)))
+	}
+
 	//mapdata (blocks)
 	offset = 6
 
@@ -94,11 +47,7 @@ func Parse(data []byte) (*MapBlock, error) {
 		return nil, err
 	}
 
-	log.Println("Mapdata length: ", count)
-
 	offset += count
-
-	log.Println("New offset: ", offset)
 
 	count, err = parseMetadata(&mapblock, data[offset:])
 	if err != nil {

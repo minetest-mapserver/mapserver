@@ -5,9 +5,12 @@ import (
 	"io/ioutil"
 	"strconv"
 	mapblockparser "mapserver/mapblockparser"
+	log "github.com/sirupsen/logrus"
 )
 
 func TestParse(t *testing.T){
+	log.SetLevel(log.DebugLevel)
+
 	data, err := ioutil.ReadFile("testdata/0.0.0")
 	if err != nil {
 		t.Error(err)
