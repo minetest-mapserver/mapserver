@@ -1,24 +1,31 @@
 package mapblockparser
 
-
 type MapBlock struct {
-	Version byte
+	Version     byte
 	Underground bool
-	Mapdata []byte
-	Metadata Metadata
+	Mapdata     []byte
+	Metadata    Metadata
 }
 
+func NewMapblock() MapBlock {
+	mb := MapBlock{}
+	mb.Metadata = NewMetadata()
+	return mb
+}
 
 type Metadata struct {
 	Inventories map[int]map[string]*Inventory
-	Pairs map[int]map[string]string
+	Pairs       map[int]map[string]string
+}
+
+func NewMetadata() Metadata {
+	md := Metadata{}
+	md.Inventories = make(map[int]map[string]*Inventory)
+	md.Pairs = make(map[int]map[string]string)
+	return md
 }
 
 func (md *Metadata) GetPairsMap(pos int) map[string]string {
-	if md.Pairs == nil {
-		md.Pairs = make(map[int]map[string]string)
-	}
-
 	pairsMap := md.Pairs[pos]
 	if pairsMap == nil {
 		pairsMap = make(map[string]string)
@@ -50,12 +57,12 @@ func (md *Metadata) GetInventory(pos int, name string) *Inventory {
 }
 
 type Item struct {
-	Name string
+	Name  string
 	Count int
-	Wear int
+	Wear  int
 }
 
 type Inventory struct {
-	Size int
+	Size  int
 	Items []Item
 }

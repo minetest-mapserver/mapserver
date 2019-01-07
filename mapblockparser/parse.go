@@ -3,13 +3,12 @@ package mapblockparser
 import (
 	"errors"
 	"strconv"
+
 	log "github.com/sirupsen/logrus"
 )
 
-
-
 func Parse(data []byte) (*MapBlock, error) {
-	mapblock := MapBlock{}
+	mapblock := NewMapblock()
 	if len(data) == 0 {
 		return nil, errors.New("no data")
 	}
@@ -56,4 +55,3 @@ func Parse(data []byte) (*MapBlock, error) {
 
 	return &mapblock, nil
 }
-

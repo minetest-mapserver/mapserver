@@ -1,14 +1,14 @@
 package mapblockparser
 
 import (
-	"fmt"
-	"testing"
 	"io/ioutil"
 	"strconv"
+	"testing"
+
 	log "github.com/sirupsen/logrus"
 )
 
-func TestReadU16(t *testing.T){
+func TestReadU16(t *testing.T) {
 	v := readU16([]byte{0x00, 0x00}, 0)
 	if v != 0 {
 		t.Error(v)
@@ -25,14 +25,14 @@ func TestReadU16(t *testing.T){
 	}
 
 }
-func TestReadU32(t *testing.T){
+func TestReadU32(t *testing.T) {
 	v := readU32([]byte{0x00, 0x00, 0x00, 0x00}, 0)
 	if v != 0 {
 		t.Error(v)
 	}
 }
 
-func TestParse(t *testing.T){
+func TestParse(t *testing.T) {
 	log.SetLevel(log.DebugLevel)
 
 	data, err := ioutil.ReadFile("testdata/0.0.0")
@@ -41,7 +41,6 @@ func TestParse(t *testing.T){
 	}
 
 	mapblock, err := Parse(data)
-	fmt.Println("mapblock.Metadata", mapblock.Metadata)
 
 	if err != nil {
 		t.Error(err)
@@ -65,17 +64,30 @@ func TestParse(t *testing.T){
 	}
 }
 
-
-func TestParse2(t *testing.T){
+func TestParse2(t *testing.T) {
 	log.SetLevel(log.DebugLevel)
 
-	data, err := ioutil.ReadFile("testdata/0.9.0")
+	data, err := ioutil.ReadFile("testdata/11.0.2")
 	if err != nil {
 		t.Error(err)
 	}
 
 	_, err = Parse(data)
-	//fmt.Println("mapblock.Metadata", mapblock.Metadata)
+
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestParse3(t *testing.T) {
+	log.SetLevel(log.DebugLevel)
+
+	data, err := ioutil.ReadFile("testdata/0.1.0")
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = Parse(data)
 
 	if err != nil {
 		t.Error(err)

@@ -1,16 +1,16 @@
 package mapblockparser
 
 import (
-	"errors"
-	"compress/zlib"
 	"bytes"
+	"compress/zlib"
+	"errors"
 	"io"
 	"strconv"
+
 	log "github.com/sirupsen/logrus"
 )
 
 //TODO: mapdata struct with accessors
-
 
 func parseMapdata(mapblock *MapBlock, data []byte) (int, error) {
 	log.WithFields(log.Fields{
