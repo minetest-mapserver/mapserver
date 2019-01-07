@@ -1,6 +1,7 @@
 package mapblockparser
 
 import (
+	"fmt"
 	"io/ioutil"
 	"strconv"
 	"testing"
@@ -72,10 +73,14 @@ func TestParse2(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = Parse(data)
+	mapblock, err := Parse(data)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	for k, v := range mapblock.BlockMapping {
+		fmt.Println("Key", k, "Value", v)
 	}
 }
 

@@ -1,15 +1,17 @@
 package mapblockparser
 
 type MapBlock struct {
-	Version     byte
-	Underground bool
-	Mapdata     []byte
-	Metadata    Metadata
+	Version      byte
+	Underground  bool
+	Mapdata      []byte
+	Metadata     Metadata
+	BlockMapping map[int]string
 }
 
 func NewMapblock() MapBlock {
 	mb := MapBlock{}
 	mb.Metadata = NewMetadata()
+	mb.BlockMapping = make(map[int]string)
 	return mb
 }
 
