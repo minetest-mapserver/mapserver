@@ -7,6 +7,30 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+func TestReadU16(t *testing.T){
+	v := readU16([]byte{0x00, 0x00}, 0)
+	if v != 0 {
+		t.Error(v)
+	}
+
+	v = readU16([]byte{0x00, 0x01}, 0)
+	if v != 1 {
+		t.Error(v)
+	}
+
+	v = readU16([]byte{0x01, 0x00}, 0)
+	if v != 256 {
+		t.Error(v)
+	}
+
+}
+func TestReadU32(t *testing.T){
+	v := readU32([]byte{0x00, 0x00, 0x00, 0x00}, 0)
+	if v != 0 {
+		t.Error(v)
+	}
+}
+
 func TestParse(t *testing.T){
 	log.SetLevel(log.DebugLevel)
 
