@@ -9,21 +9,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type Metadata struct {
-	Inventories map[int]map[string]Inventory
-	Pairs map[int]map[string]string
-}
-
-type Item struct {
-	Name string
-	Count int
-	Wear int
-}
-
-type Inventory struct {
-	Size int
-	Items []Item
-}
 
 func readU16(data []byte, offset int) int {
 	return (int(data[offset]) << 8) | int(data[offset + 1])
