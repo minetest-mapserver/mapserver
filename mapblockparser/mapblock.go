@@ -11,17 +11,17 @@ type MapBlock struct {
 
 type Metadata struct {
 	Inventories map[int]map[string]*Inventory
-	Pairs map[int]map[string]*string
+	Pairs map[int]map[string]string
 }
 
-func (md *Metadata) GetPairsMap(pos int) map[string]*string {
+func (md *Metadata) GetPairsMap(pos int) map[string]string {
 	if md.Pairs == nil {
-		md.Pairs = make(map[int]map[string]*string)
+		md.Pairs = make(map[int]map[string]string)
 	}
 
 	pairsMap := md.Pairs[pos]
 	if pairsMap == nil {
-		pairsMap = make(map[string]*string)
+		pairsMap = make(map[string]string)
 		md.Pairs[pos] = pairsMap
 	}
 

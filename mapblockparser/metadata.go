@@ -49,6 +49,10 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 	buf := new(bytes.Buffer)
 	io.Copy(buf, z)
 
+	if cr.Count == 0 {
+		return 0, errors.New("no data")
+	}
+
 	metadata := buf.Bytes()
 
 	offset := 0
@@ -86,17 +90,14 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 			offset+=keyLength
 
 			valueLength := readU32(metadata, offset)
-			offset+=4;
+			offset+=4
 
-			value := string(metadata[offset:keyLength+offset])
+			value := string(metadata[offset:valueLength+offset])
 			offset+=valueLength
 
-			pairsMap[key] = &value
+			pairsMap[key] = value
 
 			offset++
-
-			log.Println("MD item", i, offset, position, valuecount, valueLength, keyLength, pairsMap)//XXX
-
 		}
 
 		var currentInventoryName *string = nil
@@ -108,7 +109,7 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 			txt := scanner.Text()
 			offset += len(txt) + 1;
 
-			log.Println("inv", txt)
+			log.Println("inv", txt)//XXX
 
 			if txt == INVENTORY_END {
 				currentInventoryName = nil

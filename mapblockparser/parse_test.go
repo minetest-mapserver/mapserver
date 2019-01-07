@@ -1,6 +1,7 @@
 package mapblockparser
 
 import (
+	"fmt"
 	"testing"
 	"io/ioutil"
 	"strconv"
@@ -40,6 +41,7 @@ func TestParse(t *testing.T){
 	}
 
 	mapblock, err := Parse(data)
+	fmt.Println("mapblock.Metadata", mapblock.Metadata)
 
 	if err != nil {
 		t.Error(err)
@@ -55,5 +57,27 @@ func TestParse(t *testing.T){
 
 	if len(mapblock.Mapdata) != 16384 {
 		t.Error("Mapdata length wrong")
+	}
+
+	pairs := mapblock.Metadata.GetPairsMap(0)
+	if pairs["owner"] != "pipo" {
+		t.Error(pairs["owner"])
+	}
+}
+
+
+func TestParse2(t *testing.T){
+	log.SetLevel(log.DebugLevel)
+
+	data, err := ioutil.ReadFile("testdata/0.9.0")
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = Parse(data)
+	//fmt.Println("mapblock.Metadata", mapblock.Metadata)
+
+	if err != nil {
+		t.Error(err)
 	}
 }
