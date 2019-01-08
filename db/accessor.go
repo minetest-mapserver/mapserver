@@ -7,7 +7,6 @@ type Block struct {
 }
 
 type DBAccessor interface {
-	IsMigrated() (bool, error)
 	Migrate() error
 	FindLatestBlocks(mintime int64, limit int) ([]Block, error)
 	FindBlocks(posx int, posz int, posystart int, posyend int) ([]Block, error)

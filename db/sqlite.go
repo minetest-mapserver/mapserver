@@ -5,12 +5,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+const migrateScript = `
+`
+
 type Sqlite3Accessor struct {
 	db *sql.DB
-}
-
-func (db *Sqlite3Accessor) IsMigrated() (bool, error) {
-	return false, nil
 }
 
 func (db *Sqlite3Accessor) Migrate() error {
