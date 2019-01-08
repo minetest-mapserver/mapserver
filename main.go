@@ -7,8 +7,8 @@ import (
 	"fmt"
 )
 
-var (
-	Version string
+const (
+	Version = "2.0-DEV"
 )
 
 func main() {
@@ -21,9 +21,6 @@ func main() {
 
 	if p.Version {
 		fmt.Print("Mapserver version: ")
-		if Version == "" {
-			Version = "SNAPSHOT"
-		}
 		fmt.Println(Version)
 		return
 	}
