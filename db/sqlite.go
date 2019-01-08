@@ -11,22 +11,18 @@ func (db *Sqlite3Accessor) Migrate() error {
 	return nil
 }
 
-func (db *Sqlite3Accessor) FindLatestBlocks(time int64, limit int) []Block {
+func (db *Sqlite3Accessor) FindLatestBlocks(mintime int64, limit int) ([]Block, error) {
 	return make([]Block, 0)
 }
 
-func (db *Sqlite3Accessor) FindBlocks(posx int, posz int, posystart int, posyend int) []Block {
+func (db *Sqlite3Accessor) FindBlocks(posx int, posz int, posystart int, posyend int) ([]Block, error) {
 	return make([]Block, 0)
 }
 
-func (db *Sqlite3Accessor) GetXRange(posystart int, posyend int) (int, int) {
-	return 0, 0
+func (db *Sqlite3Accessor) CountBlocks(x1, x2, y1, y2, z1, z2 int) (int, error) {
+	return 0
 }
 
-func (db *Sqlite3Accessor) GetZRange(posystart int, posyend int) (int, int) {
-	return 0, 0
-}
-
-func NewSqliteAccessor(filename string) {
-
+func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
+	return nil, nil
 }
