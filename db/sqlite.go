@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
+	"time"
 )
 
 const migrateScript = `
@@ -46,10 +47,14 @@ func (db *Sqlite3Accessor) Migrate() error {
 
 	if !hasMtime {
 		log.Info("Migrating database")
+		start := time.Now()
 		_, err = rwdb.Exec(migrateScript)
 		if err != nil {
 			return err
 		}
+		t := time.Now()
+		elapsed := t.Sub(start)
+		log.WithFields(logrus.Fields{"elapsed":elapsed}).Info("Migration completed")
 	}
 
 	return nil
