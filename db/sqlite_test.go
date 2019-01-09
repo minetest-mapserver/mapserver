@@ -112,16 +112,14 @@ func TestMigrateAndQuery(t *testing.T){
     panic(err)
   }
 
-  count, err := a.CountBlocks(
-    coords.NewMapBlockCoords(coords.MinCoord,coords.MinCoord,coords.MinCoord),
-    coords.NewMapBlockCoords(coords.MaxCoord,coords.MaxCoord,coords.MaxCoord))
+  block, err := a.GetBlock(coords.NewMapBlockCoords(0,0,0))
 
   if err != nil {
     panic(err)
   }
 
-  if count <= 0 {
-    t.Fatal("wrong count!")
+  if block == nil {
+    t.Fatal("no data")
   }
 
 }

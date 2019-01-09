@@ -6,27 +6,26 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/coords"
 	"time"
-	"errors"
 )
 
 var log *logrus.Entry
 func init(){
-	log = logrus.WithFields(logrus.Fields{"prefix": "db/sqlite.Migrate"})
+	log = logrus.WithFields(logrus.Fields{"prefix": "db/sqlite"})
 }
 
 const migrateScript = `
-alter table blocks add mtime timestamp default NULL;
-update blocks set mtime = current_timestamp;
+alter table blocks add mtime integer default NULL;
+update blocks set mtime = strftime('%s', 'now');
 create index blocks_mtime on blocks(mtime);
 
 CREATE TRIGGER update_blocks_mtime_insert after insert on blocks for each row
 begin
-update blocks set mtime = current_timestamp where pos = new.pos;
+update blocks set mtime = strftime('%s', 'now') where pos = new.pos;
 end;
 
 CREATE TRIGGER update_blocks_mtime_update after update on blocks for each row
 begin
-update blocks set mtime = current_timestamp where pos = old.pos;
+update blocks set mtime = strftime('%s', 'now') where pos = old.pos;
 end;
 `
 
@@ -66,44 +65,44 @@ func (db *Sqlite3Accessor) Migrate() error {
 	return nil
 }
 
+func convertRows(pos int64, data []byte, mtime int64) Block {
+	c := coords.PlainToCoord(pos)
+	return Block{Pos:c, Data:data, Mtime:mtime}
+}
+
 func (db *Sqlite3Accessor) FindLatestBlocks(mintime int64, limit int) ([]Block, error) {
 	return make([]Block, 0), nil
 }
 
-func (db *Sqlite3Accessor) FindBlocks(pos1, pos2 coords.MapBlockCoords) ([]Block, error) {
-	return make([]Block, 0), nil
-}
-
-const countBlockQuery = `
-select count(*) from blocks b
-where b.pos >= ? and b.pos <= ?
+const getBlockQuery = `
+select pos,data,mtime from blocks b where b.pos = ?
 `
 
-func (db *Sqlite3Accessor) CountBlocks(pos1, pos2 coords.MapBlockCoords) (int, error) {
-	ppos1 := coords.CoordToPlain(pos1)
-	ppos2 := coords.CoordToPlain(pos2)
+func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
+	ppos := coords.CoordToPlain(pos)
 
-	if ppos1 > ppos2 {
-		ppos1, ppos2 = ppos2, ppos1
-	}
-
-	rows, err := db.db.Query(countBlockQuery, ppos1, ppos2)
+	rows, err := db.db.Query(getBlockQuery, ppos)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
-	if !rows.Next() {
-		return 0, errors.New("No results")
+	if rows.Next() {
+		var pos int64
+		var data []byte
+		var mtime int64
+
+		err = rows.Scan(&pos, &data, &mtime)
+		if err != nil {
+			return nil, err
+		}
+
+		mb := convertRows(pos, data, mtime)
+		return &mb, nil
 	}
 
-	var count int
-	err = rows.Scan(&count)
-	if err != nil {
-		return 0, err
-	}
-
-	return count, nil
+	return nil, nil
 }
+
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
 	db, err := sql.Open("sqlite3", filename + "?mode=ro")
