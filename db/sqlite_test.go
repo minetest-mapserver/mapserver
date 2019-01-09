@@ -36,4 +36,12 @@ func TestMigrate(t *testing.T){
   }
 
   createEmptyDatabase(tmpfile.Name())
+  a, err := NewSqliteAccessor(tmpfile.Name())
+  if err != nil {
+    panic(err)
+  }
+  err = a.Migrate()
+  if err != nil {
+    panic(err)
+  }
 }
