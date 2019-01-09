@@ -7,6 +7,7 @@ import (
   "testing"
   "io/ioutil"
   "database/sql"
+  "mapserver/coords"
   _ "github.com/mattn/go-sqlite3"
 )
 
@@ -58,10 +59,11 @@ func createTestDatabase(filename string) error {
 }
 
 func TestMigrateEmpty(t *testing.T){
-  tmpfile, err := ioutil.TempFile("", "example")
+  tmpfile, err := ioutil.TempFile("", "TestMigrateEmpty.*.sqlite")
   if err != nil {
     panic(err)
   }
+  defer os.Remove(tmpfile.Name())
 
   createEmptyDatabase(tmpfile.Name())
   a, err := NewSqliteAccessor(tmpfile.Name())
@@ -75,10 +77,11 @@ func TestMigrateEmpty(t *testing.T){
 }
 
 func TestMigrate(t *testing.T){
-  tmpfile, err := ioutil.TempFile("", "example")
+  tmpfile, err := ioutil.TempFile("", "TestMigrate.*.sqlite")
   if err != nil {
     panic(err)
   }
+  defer os.Remove(tmpfile.Name())
 
   createTestDatabase(tmpfile.Name())
   a, err := NewSqliteAccessor(tmpfile.Name())
@@ -93,10 +96,11 @@ func TestMigrate(t *testing.T){
 
 
 func TestMigrateAndQuery(t *testing.T){
-  tmpfile, err := ioutil.TempFile("", "example")
+  tmpfile, err := ioutil.TempFile("", "TestMigrateAndQuery.*.sqlite")
   if err != nil {
     panic(err)
   }
+  defer os.Remove(tmpfile.Name())
 
   createTestDatabase(tmpfile.Name())
   a, err := NewSqliteAccessor(tmpfile.Name())
@@ -108,7 +112,10 @@ func TestMigrateAndQuery(t *testing.T){
     panic(err)
   }
 
-  count, err := a.CountBlocks(-1000, 1000, -1000, 1000, -1000, 1000)
+  count, err := a.CountBlocks(
+    coords.NewMapBlockCoords(coords.MinCoord,coords.MinCoord,coords.MinCoord),
+    coords.NewMapBlockCoords(coords.MaxCoord,coords.MaxCoord,coords.MaxCoord))
+
   if err != nil {
     panic(err)
   }

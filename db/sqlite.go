@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
+	"mapserver/coords"
 	"time"
 	"errors"
 )
@@ -69,12 +70,24 @@ func (db *Sqlite3Accessor) FindLatestBlocks(mintime int64, limit int) ([]Block, 
 	return make([]Block, 0), nil
 }
 
-func (db *Sqlite3Accessor) FindBlocks(posx int, posz int, posystart int, posyend int) ([]Block, error) {
+func (db *Sqlite3Accessor) FindBlocks(pos1, pos2 coords.MapBlockCoords) ([]Block, error) {
 	return make([]Block, 0), nil
 }
 
-func (db *Sqlite3Accessor) CountBlocks(x1, x2, y1, y2, z1, z2 int) (int, error) {
-	rows, err := db.db.Query("select count(*) from blocks")
+const countBlockQuery = `
+select count(*) from blocks b
+where b.pos >= ? and b.pos <= ?
+`
+
+func (db *Sqlite3Accessor) CountBlocks(pos1, pos2 coords.MapBlockCoords) (int, error) {
+	ppos1 := coords.CoordToPlain(pos1)
+	ppos2 := coords.CoordToPlain(pos2)
+
+	if ppos1 > ppos2 {
+		ppos1, ppos2 = ppos2, ppos1
+	}
+
+	rows, err := db.db.Query(countBlockQuery, ppos1, ppos2)
 	if err != nil {
 		return 0, err
 	}
