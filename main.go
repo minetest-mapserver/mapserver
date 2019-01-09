@@ -5,6 +5,7 @@ import (
 	"mapserver/worldconfig"
 	"flag"
 	"fmt"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -26,5 +27,7 @@ func main() {
 	}
 
 	worldcfg := worldconfig.Parse(p.Worlddir + "world.mt")
+	logrus.WithFields(logrus.Fields{"version":Version}).Info("Starting mapserver")
+
 	fmt.Println("Config ", worldcfg)
 }

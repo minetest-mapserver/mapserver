@@ -6,17 +6,11 @@ import (
 	"errors"
 	"io"
 	"strconv"
-
-	log "github.com/sirupsen/logrus"
 )
 
 //TODO: mapdata struct with accessors
 
 func parseMapdata(mapblock *MapBlock, data []byte) (int, error) {
-	log.WithFields(log.Fields{
-		"data-length": len(data),
-	}).Debug("Parsing map-data")
-
 	r := bytes.NewReader(data)
 
 	cr := new(CountedReader)

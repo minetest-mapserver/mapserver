@@ -8,8 +8,6 @@ import (
 	"io"
 	"strconv"
 	"strings"
-
-	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -30,10 +28,6 @@ func readU32(data []byte, offset int) int {
 }
 
 func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
-	log.WithFields(log.Fields{
-		"data-length": len(data),
-	}).Debug("Parsing metadata")
-
 	r := bytes.NewReader(data)
 
 	cr := new(CountedReader)
@@ -64,11 +58,6 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 
 	offset++
 	count := readU16(metadata, offset)
-
-	log.WithFields(log.Fields{
-		"count":   count,
-		"version": version,
-	}).Debug("Parsed metadata-header")
 
 	offset += 2
 

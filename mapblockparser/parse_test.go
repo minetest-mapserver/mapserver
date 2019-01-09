@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"strconv"
 	"testing"
-
-	log "github.com/sirupsen/logrus"
 )
 
 func TestReadU16(t *testing.T) {
@@ -34,7 +32,6 @@ func TestReadU32(t *testing.T) {
 }
 
 func TestParse(t *testing.T) {
-	log.SetLevel(log.DebugLevel)
 
 	data, err := ioutil.ReadFile("testdata/0.0.0")
 	if err != nil {
@@ -66,7 +63,6 @@ func TestParse(t *testing.T) {
 }
 
 func TestParse2(t *testing.T) {
-	log.SetLevel(log.DebugLevel)
 
 	data, err := ioutil.ReadFile("testdata/11.0.2")
 	if err != nil {
@@ -85,7 +81,6 @@ func TestParse2(t *testing.T) {
 }
 
 func TestParse3(t *testing.T) {
-	log.SetLevel(log.DebugLevel)
 
 	data, err := ioutil.ReadFile("testdata/0.1.0")
 	if err != nil {

@@ -3,8 +3,6 @@ package mapblockparser
 import (
 	"errors"
 	"strconv"
-
-	log "github.com/sirupsen/logrus"
 )
 
 func Parse(data []byte) (*MapBlock, error) {
@@ -12,10 +10,6 @@ func Parse(data []byte) (*MapBlock, error) {
 	if len(data) == 0 {
 		return nil, errors.New("no data")
 	}
-
-	log.WithFields(log.Fields{
-		"data-length": len(data),
-	}).Debug("Parsing mapblock")
 
 	offset := 0
 

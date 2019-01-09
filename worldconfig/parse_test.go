@@ -1,29 +1,28 @@
-package worldconfig_test
+package worldconfig
 
 import (
 	"testing"
 	"fmt"
-	worldconfig "mapserver/worldconfig"
 )
 
 func TestParseSqlite(t *testing.T) {
-	cfg := worldconfig.Parse("./testdata/world.mt.sqlite")
-	if cfg.Backend != worldconfig.BACKEND_SQLITE3 {
+	cfg := Parse("./testdata/world.mt.sqlite")
+	if cfg.Backend != BACKEND_SQLITE3 {
 		t.Fatal("not sqlite3")
 	}
-	if cfg.PlayerBackend != worldconfig.BACKEND_FILES {
+	if cfg.PlayerBackend != BACKEND_FILES {
 		t.Fatal("not files")
 	}
 }
 
 func TestParsePostgres(t *testing.T) {
-	cfg := worldconfig.Parse("./testdata/world.mt.postgres")
+	cfg := Parse("./testdata/world.mt.postgres")
 	fmt.Println(cfg)
-	if cfg.Backend != worldconfig.BACKEND_POSTGRES {
+	if cfg.Backend != BACKEND_POSTGRES {
 		t.Fatal("not postgres")
 	}
 
-	if cfg.PlayerBackend != worldconfig.BACKEND_POSTGRES {
+	if cfg.PlayerBackend != BACKEND_POSTGRES {
 		t.Fatal("not postgres")
 	}
 
