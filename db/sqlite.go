@@ -5,6 +5,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
 	"time"
+	"errors"
 )
 
 var log *logrus.Entry
@@ -73,7 +74,22 @@ func (db *Sqlite3Accessor) FindBlocks(posx int, posz int, posystart int, posyend
 }
 
 func (db *Sqlite3Accessor) CountBlocks(x1, x2, y1, y2, z1, z2 int) (int, error) {
-	return 0, nil
+	rows, err := db.db.Query("select count(*) from blocks")
+	if err != nil {
+		return 0, err
+	}
+
+	if !rows.Next() {
+		return 0, errors.New("No results")
+	}
+
+	var count int
+	err = rows.Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
 }
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {

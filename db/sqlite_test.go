@@ -90,3 +90,31 @@ func TestMigrate(t *testing.T){
     panic(err)
   }
 }
+
+
+func TestMigrateAndQuery(t *testing.T){
+  tmpfile, err := ioutil.TempFile("", "example")
+  if err != nil {
+    panic(err)
+  }
+
+  createTestDatabase(tmpfile.Name())
+  a, err := NewSqliteAccessor(tmpfile.Name())
+  if err != nil {
+    panic(err)
+  }
+  err = a.Migrate()
+  if err != nil {
+    panic(err)
+  }
+
+  count, err := a.CountBlocks(-1000, 1000, -1000, 1000, -1000, 1000)
+  if err != nil {
+    panic(err)
+  }
+
+  if count <= 0 {
+    t.Fatal("wrong count!")
+  }
+
+}
