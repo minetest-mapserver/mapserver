@@ -7,6 +7,11 @@ import (
 	"time"
 )
 
+var log *logrus.Entry
+func init(){
+	log = logrus.WithFields(logrus.Fields{"prefix": "db/sqlite.Migrate"})
+}
+
 const migrateScript = `
 alter table blocks add mtime timestamp default NULL;
 update blocks set mtime = current_timestamp;
@@ -29,7 +34,6 @@ type Sqlite3Accessor struct {
 }
 
 func (db *Sqlite3Accessor) Migrate() error {
-	log := logrus.WithFields(logrus.Fields{"prefix": "db/sqlite.Migrate","filename":db.filename})
 
 	//RW connection
 	rwdb, err := sql.Open("sqlite3", db.filename + "?mode=rw")
@@ -46,7 +50,7 @@ func (db *Sqlite3Accessor) Migrate() error {
 	}
 
 	if !hasMtime {
-		log.Info("Migrating database")
+		log.WithFields(logrus.Fields{"filename":db.filename}).Info("Migrating database")
 		start := time.Now()
 		_, err = rwdb.Exec(migrateScript)
 		if err != nil {
