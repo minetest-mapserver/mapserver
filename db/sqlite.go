@@ -14,8 +14,7 @@ func init(){
 }
 
 const migrateScript = `
-alter table blocks add mtime integer default NULL;
-update blocks set mtime = strftime('%s', 'now');
+alter table blocks add mtime integer default 0;
 create index blocks_mtime on blocks(mtime);
 
 CREATE TRIGGER update_blocks_mtime_insert after insert on blocks for each row
@@ -28,6 +27,9 @@ begin
 update blocks set mtime = strftime('%s', 'now') where pos = old.pos;
 end;
 `
+
+//TODO: initial run: https://stackoverflow.com/questions/14468586/efficient-paging-in-sqlite-with-millions-of-records
+//TODO: postgres test
 
 type Sqlite3Accessor struct {
 	db *sql.DB
