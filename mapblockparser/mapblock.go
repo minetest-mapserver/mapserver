@@ -8,6 +8,16 @@ type MapBlock struct {
 	BlockMapping map[int]string
 }
 
+func getNodePos(x,y,z int) int {
+	return x + (y * 16) + (z * 256)
+}
+
+func (mb *MapBlock) GetNodeName(x,y,z int) string {
+	pos := getNodePos(x,y,z)
+	id := readU16(mb.Mapdata, pos * 2)
+	return mb.BlockMapping[id]
+}
+
 func NewMapblock() MapBlock {
 	mb := MapBlock{}
 	mb.Metadata = NewMetadata()
