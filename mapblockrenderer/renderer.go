@@ -1,20 +1,19 @@
 package mapblockrenderer
 
 import (
-  "mapserver/coords"
-  "mapserver/db"
-  "mapserver/colormapping"
+	"mapserver/colormapping"
+	"mapserver/coords"
 )
 
 type MapBlockRenderer struct {
-  accessor *coords.DBAccessor
-  colors *colormapping.ColorMapping
+	accessor *coords.DBAccessor
+	colors   *colormapping.ColorMapping
 }
 
-func NewMapBlockRenderer(accessor *coords.DBAccessor, colors *colormapping.ColorMapping){
-  //TODO
+func NewMapBlockRenderer(accessor *coords.DBAccessor, colors *colormapping.ColorMapping) {
+	//TODO
 }
 
-func (r *MapBlockRenderer) Render(range coords.MapBlockRange){
-  //TODO
+func (r *MapBlockRenderer) Render(r coords.MapBlockRange) {
+	//TODO
 }
