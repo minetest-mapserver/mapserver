@@ -8,11 +8,6 @@ import (
 	"time"
 )
 
-var log *logrus.Entry
-func init(){
-	log = logrus.WithFields(logrus.Fields{"prefix": "db/sqlite"})
-}
-
 const migrateScript = `
 alter table blocks add mtime integer default 0;
 create index blocks_mtime on blocks(mtime);
