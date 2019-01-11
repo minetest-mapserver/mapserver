@@ -7,6 +7,7 @@ import (
 	"mapserver/db"
 	"os"
 	"testing"
+	"github.com/sirupsen/logrus"
 )
 
 func copy(src, dst string) error {
@@ -55,6 +56,7 @@ func GetTestDatabase() db.DBAccessor {
 }
 
 func TestSimpleAccess(t *testing.T) {
+	logrus.SetLevel(logrus.DebugLevel)
 	a := GetTestDatabase()
 	cache := NewMapBlockAccessor(a)
 	mb, err := cache.GetMapBlock(coords.NewMapBlockCoords(0, 0, 0))

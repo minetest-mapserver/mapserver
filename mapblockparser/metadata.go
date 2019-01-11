@@ -8,6 +8,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -49,8 +50,15 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 
 	metadata := buf.Bytes()
 
+	log.WithFields(logrus.Fields{"metadata-length": len(metadata)}).Debug("Parsing metadata")
+
 	offset := 0
 	version := metadata[offset]
+
+	if version == 0 {
+		//No data?
+		return cr.Count, nil
+	}
 
 	if version != 2 {
 		return 0, errors.New("Wrong metadata version: " + strconv.Itoa(int(version)))
