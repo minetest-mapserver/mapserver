@@ -50,7 +50,7 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 
 	metadata := buf.Bytes()
 
-	log.WithFields(logrus.Fields{"metadata-length": len(metadata)}).Debug("Parsing metadata")
+	log.WithFields(logrus.Fields{"metadata-length": len(metadata)}).Trace("Parsing metadata")
 
 	offset := 0
 	version := metadata[offset]

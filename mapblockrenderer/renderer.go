@@ -7,6 +7,8 @@ import (
 	"image"
 	"image/draw"
 	"errors"
+	"time"
+	"github.com/sirupsen/logrus"
 )
 
 type MapBlockRenderer struct {
@@ -32,6 +34,13 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 	if pos1.Z != pos2.Z {
 		return nil, errors.New("Z does not line up")
 	}
+	
+	start := time.Now()
+	defer func(){
+		t := time.Now()
+		elapsed := t.Sub(start)
+		log.WithFields(logrus.Fields{"elapsed":elapsed}).Debug("Rendering completed")
+	}()
 
 	upLeft := image.Point{0, 0}
 	lowRight := image.Point{IMG_SIZE, IMG_SIZE}
@@ -96,6 +105,10 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 				}
 			}
 		}
+	}
+
+	if foundBlocks == 0 {
+		return nil, nil
 	}
 
 	return img, nil

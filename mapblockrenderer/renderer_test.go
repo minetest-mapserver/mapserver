@@ -5,14 +5,19 @@ import (
 	"io/ioutil"
 	"mapserver/coords"
 	"testing"
+  "fmt"
 	"mapserver/testutils"
 	"mapserver/db"
   "mapserver/colormapping"
   "mapserver/mapblockaccessor"
   "image/png"
+  "github.com/sirupsen/logrus"
+  "time"
 )
 
 func TestSimpleRender(t *testing.T) {
+  logrus.SetLevel(logrus.InfoLevel)
+
   tmpfile, err := ioutil.TempFile("", "TestMigrate.*.sqlite")
   if err != nil {
     panic(err)
@@ -38,9 +43,23 @@ func TestSimpleRender(t *testing.T) {
   }
 
   r := NewMapBlockRenderer(cache, c)
-  img, _ := r.Render(coords.NewMapBlockCoords(0, 10, 0), coords.NewMapBlockCoords(0, -1, 0))
+  os.Mkdir("../output", 0755)
 
-  f, _ := os.Create("image.png")
-  png.Encode(f, img)
-  f.Close()
+  for x := -3; x < 3; x++ {
+    for z := -3; z < 3; z++ {
+      img, _ := r.Render(coords.NewMapBlockCoords(x, 10, z), coords.NewMapBlockCoords(x, -1, z))
+
+      if img != nil {
+        f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", x, z))
+        start := time.Now()
+        png.Encode(f, img)
+        f.Close()
+        t := time.Now()
+        elapsed := t.Sub(start)
+        log.WithFields(logrus.Fields{"elapsed":elapsed}).Debug("Encoding completed")
+
+      }
+    }
+  }
+
 }
