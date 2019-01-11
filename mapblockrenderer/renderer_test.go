@@ -32,10 +32,15 @@ func TestSimpleRender(t *testing.T) {
 
   cache := mapblockaccessor.NewMapBlockAccessor(a)
   c := colormapping.NewColorMapping()
+  err = c.LoadVFSColors(false, "/colors.txt")
+  if err != nil {
+    t.Fatal(err)
+  }
 
   r := NewMapBlockRenderer(cache, c)
-  img := r.Render(coords.NewMapBlockCoords(0, 10, 0), coords.NewMapBlockCoords(0, -1, 0))
+  img, _ := r.Render(coords.NewMapBlockCoords(0, 10, 0), coords.NewMapBlockCoords(0, -1, 0))
 
   f, _ := os.Create("image.png")
   png.Encode(f, img)
+  f.Close()
 }
