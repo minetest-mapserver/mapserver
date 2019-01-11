@@ -15,6 +15,27 @@ import (
   "time"
 )
 
+type JobData struct {
+  pos1, pos2 coords.MapBlockCoords
+  x,z int
+}
+
+func worker(r *MapBlockRenderer, jobs <-chan JobData) {
+  for d := range jobs {
+    img, _ := r.Render(d.pos1, d.pos2)
+
+    if img != nil {
+      f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", d.x, d.z))
+      start := time.Now()
+      png.Encode(f, img)
+      f.Close()
+      t := time.Now()
+      elapsed := t.Sub(start)
+      log.WithFields(logrus.Fields{"elapsed":elapsed}).Debug("Encoding completed")
+    }
+  }
+}
+
 func TestSimpleRender(t *testing.T) {
   logrus.SetLevel(logrus.InfoLevel)
 
@@ -45,21 +66,24 @@ func TestSimpleRender(t *testing.T) {
   r := NewMapBlockRenderer(cache, c)
   os.Mkdir("../output", 0755)
 
-  for x := -3; x < 3; x++ {
-    for z := -3; z < 3; z++ {
-      img, _ := r.Render(coords.NewMapBlockCoords(x, 10, z), coords.NewMapBlockCoords(x, -1, z))
+  jobs := make(chan JobData, 100)
+  go worker(&r, jobs)
+  go worker(&r, jobs)
+  go worker(&r, jobs)
 
-      if img != nil {
-        f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", x, z))
-        start := time.Now()
-        png.Encode(f, img)
-        f.Close()
-        t := time.Now()
-        elapsed := t.Sub(start)
-        log.WithFields(logrus.Fields{"elapsed":elapsed}).Debug("Encoding completed")
+  from := -1
+  to := 1
 
-      }
+  for x := from; x < to; x++ {
+    for z := from; z < to; z++ {
+      pos1 := coords.NewMapBlockCoords(x, 10, z)
+      pos2 := coords.NewMapBlockCoords(x, -1, z)
+
+      jobs <- JobData{pos1:pos1, pos2:pos2, x:x, z:z}
     }
   }
+
+  close(jobs)
+
 
 }
