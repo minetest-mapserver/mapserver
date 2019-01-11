@@ -8,17 +8,14 @@ import (
   "strings"
   "strconv"
   "github.com/sirupsen/logrus"
+  "image/color"
 )
 
-type Color struct {
-  R,G,B,A int
-}
-
 type ColorMapping struct {
-  colors map[string]*Color
+  colors map[string]*color.RGBA
 }
 
-func (m *ColorMapping) GetColor(name string) *Color {
+func (m *ColorMapping) GetColor(name string) *color.RGBA {
   return m.colors[name]
 }
 
@@ -37,7 +34,6 @@ func (m *ColorMapping) LoadBytes(buffer []byte) error {
       continue
     }
 
-    c := Color{}
     parts := strings.Fields(txt)
 
     if len(parts) < 4 {
@@ -60,22 +56,14 @@ func (m *ColorMapping) LoadBytes(buffer []byte) error {
         return err
       }
 
-      c.R = int(r)
-      c.G = int(g)
-      c.B = int(b)
+      c := color.RGBA{uint8(r),uint8(g),uint8(b), 0xFF}
+      m.colors[parts[0]] = &c
     }
 
     if len(parts) >= 5 {
       //with alpha
-      a, err := strconv.ParseInt(parts[4], 10, 32)
-      if err != nil {
-        return err
-      }
-
-      c.A = int(a)
     }
 
-    m.colors[parts[0]] = &c
   }
 
   return nil
@@ -96,6 +84,6 @@ func (m *ColorMapping) LoadVFSColors(useLocal bool, filename string) error {
   return m.LoadBytes(buffer)
 }
 
-func CreateColorMapping() *ColorMapping {
-  return &ColorMapping{colors: make(map[string]*Color)}
+func NewColorMapping() *ColorMapping {
+  return &ColorMapping{colors: make(map[string]*color.RGBA)}
 }
