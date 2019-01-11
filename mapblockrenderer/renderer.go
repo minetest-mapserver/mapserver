@@ -7,7 +7,6 @@ import (
 	"image"
 	"image/draw"
 	"errors"
-	"fmt"
 )
 
 type MapBlockRenderer struct {
@@ -72,7 +71,6 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 
 					nodeName := mb.GetNodeName(x,y,z)
 
-					fmt.Println(x,y,z, nodeName)//XXX
 					if nodeName == "" {
 						continue
 					}
@@ -93,16 +91,10 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 					draw.Draw(img, rect, &image.Uniform{c}, image.ZP, draw.Src)
 
 					if foundBlocks == EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK {
-						break
+						return img, nil
 					}
 				}
-				if foundBlocks == EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK {
-					break
-				}
 			}
-		}
-		if foundBlocks == EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK {
-			break
 		}
 	}
 
