@@ -1,63 +1,14 @@
 package db
 
 import (
-	"database/sql"
-	"fmt"
-	"io"
 	"io/ioutil"
 	"mapserver/coords"
 	"os"
 	"testing"
-
+	"mapserver/testutils"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-const emptyBlocksScript = `
-create table blocks (
-  pos int,
-  data blob
-);
-`
-
-const testDatabase = "./testdata/map.sqlite"
-
-func createEmptyDatabase(filename string) {
-	db, err := sql.Open("sqlite3", filename)
-	if err != nil {
-		panic(err)
-	}
-	rows, err := db.Query(emptyBlocksScript)
-	if err != nil {
-		panic(err)
-	}
-	rows.Next()
-	fmt.Println(rows)
-	db.Close()
-}
-
-func copy(src, dst string) error {
-	in, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer in.Close()
-
-	out, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	_, err = io.Copy(out, in)
-	if err != nil {
-		return err
-	}
-	return out.Close()
-}
-
-func createTestDatabase(filename string) error {
-	return copy(testDatabase, filename)
-}
 
 func TestMigrateEmpty(t *testing.T) {
 	tmpfile, err := ioutil.TempFile("", "TestMigrateEmpty.*.sqlite")
@@ -66,7 +17,7 @@ func TestMigrateEmpty(t *testing.T) {
 	}
 	defer os.Remove(tmpfile.Name())
 
-	createEmptyDatabase(tmpfile.Name())
+	testutils.CreateEmptyDatabase(tmpfile.Name())
 	a, err := NewSqliteAccessor(tmpfile.Name())
 	if err != nil {
 		panic(err)
@@ -84,7 +35,7 @@ func TestMigrate(t *testing.T) {
 	}
 	defer os.Remove(tmpfile.Name())
 
-	createTestDatabase(tmpfile.Name())
+	testutils.CreateEmptyDatabase(tmpfile.Name())
 	a, err := NewSqliteAccessor(tmpfile.Name())
 	if err != nil {
 		panic(err)
@@ -102,11 +53,12 @@ func TestMigrateAndQuery(t *testing.T) {
 	}
 	defer os.Remove(tmpfile.Name())
 
-	createTestDatabase(tmpfile.Name())
+	testutils.CreateTestDatabase(tmpfile.Name())
 	a, err := NewSqliteAccessor(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}
+
 	err = a.Migrate()
 	if err != nil {
 		panic(err)
