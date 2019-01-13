@@ -5,9 +5,9 @@ import (
 )
 
 type Block struct {
-	Pos coords.MapBlockCoords
-	Data             []byte
-	Mtime            int64
+	Pos   coords.MapBlockCoords
+	Data  []byte
+	Mtime int64
 }
 
 type DBAccessor interface {

@@ -1,25 +1,25 @@
 package tilerenderer
 
 import (
-  "mapserver/coords"
-  "mapserver/mapblockrenderer"
-  "mapserver/tiledb"
-  "image"
+	"image"
+	"mapserver/coords"
+	"mapserver/mapblockrenderer"
+	"mapserver/tiledb"
 )
 
 type TileRenderer struct {
-  mapblockrenderer *mapblockrenderer.MapBlockRenderer
-  tiledb *tiledb.DBAccessor
+	mapblockrenderer *mapblockrenderer.MapBlockRenderer
+	tiledb           *tiledb.DBAccessor
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer, tiledb *tiledb.DBAccessor) *TileRenderer {
-  return &TileRenderer{
-    mapblockrenderer: mapblockrenderer,
-    tiledb: tiledb,
-  }
+	return &TileRenderer{
+		mapblockrenderer: mapblockrenderer,
+		tiledb:           tiledb,
+	}
 }
 
 //TODO layerConfig
 func (tr *TileRenderer) Render(tc coords.TileCoords, layerId int) (*image.NRGBA, error) {
-  return nil, nil
+	return nil, nil
 }

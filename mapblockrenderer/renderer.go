@@ -1,14 +1,14 @@
 package mapblockrenderer
 
 import (
+	"errors"
+	"github.com/sirupsen/logrus"
+	"image"
+	"image/draw"
 	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/mapblockaccessor"
-	"image"
-	"image/draw"
-	"errors"
 	"time"
-	"github.com/sirupsen/logrus"
 )
 
 type MapBlockRenderer struct {
@@ -21,9 +21,9 @@ func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *co
 }
 
 const (
-	IMG_SCALE = 16
-	IMG_SIZE = IMG_SCALE * 16
-	EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK = 16*16
+	IMG_SCALE                         = 16
+	IMG_SIZE                          = IMG_SCALE * 16
+	EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK = 16 * 16
 )
 
 func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGBA, error) {
@@ -34,12 +34,12 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 	if pos1.Z != pos2.Z {
 		return nil, errors.New("Z does not line up")
 	}
-	
+
 	start := time.Now()
-	defer func(){
+	defer func() {
 		t := time.Now()
 		elapsed := t.Sub(start)
-		log.WithFields(logrus.Fields{"elapsed":elapsed}).Debug("Rendering completed")
+		log.WithFields(logrus.Fields{"elapsed": elapsed}).Debug("Rendering completed")
 	}()
 
 	upLeft := image.Point{0, 0}
@@ -78,7 +78,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 						continue
 					}
 
-					nodeName := mb.GetNodeName(x,y,z)
+					nodeName := mb.GetNodeName(x, y, z)
 
 					if nodeName == "" {
 						continue

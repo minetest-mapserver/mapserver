@@ -8,7 +8,7 @@ type ParamsType struct {
 	Worlddir string
 	Port     int
 	Help     bool
-	Version bool
+	Version  bool
 }
 
 func Parse() ParamsType {

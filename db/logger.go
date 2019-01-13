@@ -5,6 +5,7 @@ import (
 )
 
 var log *logrus.Entry
-func init(){
+
+func init() {
 	log = logrus.WithFields(logrus.Fields{"prefix": "db"})
 }

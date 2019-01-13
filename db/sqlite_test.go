@@ -1,14 +1,13 @@
 package db
 
 import (
+	_ "github.com/mattn/go-sqlite3"
 	"io/ioutil"
 	"mapserver/coords"
+	"mapserver/testutils"
 	"os"
 	"testing"
-	"mapserver/testutils"
-	_ "github.com/mattn/go-sqlite3"
 )
-
 
 func TestMigrateEmpty(t *testing.T) {
 	tmpfile, err := ioutil.TempFile("", "TestMigrateEmpty.*.sqlite")

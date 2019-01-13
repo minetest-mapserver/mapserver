@@ -5,10 +5,10 @@ import (
 	"bytes"
 	"compress/zlib"
 	"errors"
+	"github.com/sirupsen/logrus"
 	"io"
 	"strconv"
 	"strings"
-	"github.com/sirupsen/logrus"
 )
 
 const (

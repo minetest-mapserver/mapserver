@@ -1,16 +1,14 @@
 package testutils
 
-
 import (
-  "database/sql"
-  _ "github.com/mattn/go-sqlite3"
+	"database/sql"
+	"fmt"
+	_ "github.com/mattn/go-sqlite3"
 	"io"
-  "path/filepath"
 	"os"
-  "fmt"
-  "runtime"
+	"path/filepath"
+	"runtime"
 )
-
 
 const emptyBlocksScript = `
 create table blocks (
@@ -40,10 +38,9 @@ func copy(src, dst string) error {
 }
 
 func CreateTestDatabase(filename string) error {
-  _, currentfilename, _, _ := runtime.Caller(0)
-	return copy(filepath.Dir(currentfilename) + "/testdata/map.sqlite", filename)
+	_, currentfilename, _, _ := runtime.Caller(0)
+	return copy(filepath.Dir(currentfilename)+"/testdata/map.sqlite", filename)
 }
-
 
 func CreateEmptyDatabase(filename string) {
 	db, err := sql.Open("sqlite3", filename)

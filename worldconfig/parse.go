@@ -1,39 +1,39 @@
 package worldconfig
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 const (
-	BACKEND_SQLITE3 string = "sqlite3"
-	BACKEND_FILES string = "files"
+	BACKEND_SQLITE3  string = "sqlite3"
+	BACKEND_FILES    string = "files"
 	BACKEND_POSTGRES string = "postgresql"
 )
 
 const (
-	CONFIG_BACKEND string = "backend"
-	CONFIG_PLAYER_BACKEND string = "player_backend"
-	CONFIG_PSQL_CONNECTION string = "pgsql_connection"
+	CONFIG_BACKEND                string = "backend"
+	CONFIG_PLAYER_BACKEND         string = "player_backend"
+	CONFIG_PSQL_CONNECTION        string = "pgsql_connection"
 	CONFIG_PSQL_PLAYER_CONNECTION string = "pgsql_player_connection"
 )
 
 type PsqlConfig struct {
-	Host string
-	Port int
+	Host     string
+	Port     int
 	Username string
 	Password string
-	DbName string
+	DbName   string
 }
 
 type WorldConfig struct {
 	Backend       string
 	PlayerBackend string
 
-	PsqlConnection PsqlConfig
+	PsqlConnection       PsqlConfig
 	PsqlPlayerConnection PsqlConfig
 }
 

@@ -9,7 +9,6 @@ const (
 	maxValue            = 1<<(numBitsPerComponent-1) - 1
 )
 
-
 func CoordToPlain(c MapBlockCoords) int64 {
 	return int64(c.Z)<<(2*numBitsPerComponent) +
 		int64(c.Y)<<numBitsPerComponent +

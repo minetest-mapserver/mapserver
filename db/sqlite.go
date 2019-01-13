@@ -27,14 +27,14 @@ end;
 //TODO: postgres test
 
 type Sqlite3Accessor struct {
-	db *sql.DB
+	db       *sql.DB
 	filename string
 }
 
 func (db *Sqlite3Accessor) Migrate() error {
 
 	//RW connection
-	rwdb, err := sql.Open("sqlite3", db.filename + "?mode=rw")
+	rwdb, err := sql.Open("sqlite3", db.filename+"?mode=rw")
 	if err != nil {
 		return err
 	}
@@ -48,7 +48,7 @@ func (db *Sqlite3Accessor) Migrate() error {
 	}
 
 	if !hasMtime {
-		log.WithFields(logrus.Fields{"filename":db.filename}).Info("Migrating database")
+		log.WithFields(logrus.Fields{"filename": db.filename}).Info("Migrating database")
 		start := time.Now()
 		_, err = rwdb.Exec(migrateScript)
 		if err != nil {
@@ -56,7 +56,7 @@ func (db *Sqlite3Accessor) Migrate() error {
 		}
 		t := time.Now()
 		elapsed := t.Sub(start)
-		log.WithFields(logrus.Fields{"elapsed":elapsed}).Info("Migration completed")
+		log.WithFields(logrus.Fields{"elapsed": elapsed}).Info("Migration completed")
 	}
 
 	return nil
@@ -64,7 +64,7 @@ func (db *Sqlite3Accessor) Migrate() error {
 
 func convertRows(pos int64, data []byte, mtime int64) Block {
 	c := coords.PlainToCoord(pos)
-	return Block{Pos:c, Data:data, Mtime:mtime}
+	return Block{Pos: c, Data: data, Mtime: mtime}
 }
 
 func (db *Sqlite3Accessor) FindLatestBlocks(mintime int64, limit int) ([]Block, error) {
@@ -100,9 +100,8 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 	return nil, nil
 }
 
-
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite3", filename + "?mode=ro")
+	db, err := sql.Open("sqlite3", filename+"?mode=ro")
 	if err != nil {
 		return nil, err
 	}

@@ -1,8 +1,8 @@
 package worldconfig
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func TestParseSqlite(t *testing.T) {

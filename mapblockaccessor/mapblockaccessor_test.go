@@ -1,13 +1,13 @@
 package mapblockaccessor
 
 import (
-	"os"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/coords"
-	"testing"
-	"mapserver/testutils"
 	"mapserver/db"
-	"github.com/sirupsen/logrus"
+	"mapserver/testutils"
+	"os"
+	"testing"
 )
 
 func TestSimpleAccess(t *testing.T) {

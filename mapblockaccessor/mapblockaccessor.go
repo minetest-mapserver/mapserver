@@ -1,17 +1,17 @@
 package mapblockaccessor
 
 import (
+	"fmt"
+	"github.com/patrickmn/go-cache"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/mapblockparser"
-	"github.com/patrickmn/go-cache"
 	"time"
-	"fmt"
 )
 
 type MapBlockAccessor struct {
 	accessor db.DBAccessor
-	c *cache.Cache
+	c        *cache.Cache
 }
 
 func getKey(pos coords.MapBlockCoords) string {
