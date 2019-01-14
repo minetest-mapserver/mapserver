@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
+	"mapserver/coords"
 )
 
 func TestMigrate(t *testing.T) {
@@ -22,4 +23,12 @@ func TestMigrate(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+
+	pos := coords.NewTileCoords(0,0,13)
+	_, err = db.GetTile(0, pos)
+	if err != nil {
+		panic(err)
+	}
+
+
 }
