@@ -14,5 +14,5 @@ type Tile struct {
 type DBAccessor interface {
 	Migrate() error
 	GetTile(layerId int, pos coords.TileCoords) (*Tile, error)
-	SetTile(pos coords.TileCoords, tile *Tile) error
+	SetTile(tile *Tile) error
 }

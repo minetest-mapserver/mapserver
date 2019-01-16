@@ -2,9 +2,9 @@ package tiledb
 
 import (
 	"io/ioutil"
+	"mapserver/coords"
 	"os"
 	"testing"
-	"mapserver/coords"
 )
 
 func TestMigrate(t *testing.T) {
@@ -24,11 +24,18 @@ func TestMigrate(t *testing.T) {
 		panic(err)
 	}
 
-	pos := coords.NewTileCoords(0,0,13)
+	pos := coords.NewTileCoords(0, 0, 13)
 	_, err = db.GetTile(0, pos)
 	if err != nil {
 		panic(err)
 	}
 
+	data := []byte{}
+	tile := Tile{LayerId: 0, Pos: pos, Data: data}
+	err = db.SetTile(&tile)
+
+	if err != nil {
+		panic(err)
+	}
 
 }
