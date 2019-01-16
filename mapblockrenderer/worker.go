@@ -1,11 +1,10 @@
 package mapblockrenderer
 
 import (
-  "time"
-  "bytes"
-  "mapserver/coords"
-  "image/png"
-
+	"bytes"
+	"image/png"
+	"mapserver/coords"
+	"time"
 )
 
 type JobData struct {
@@ -14,27 +13,27 @@ type JobData struct {
 }
 
 type JobResult struct {
-  Data *bytes.Buffer
-  Duration time.Duration
-  Job JobData
+	Data     *bytes.Buffer
+	Duration time.Duration
+	Job      JobData
 }
 
-func worker(r *MapBlockRenderer, jobs <-chan JobData, results chan<- JobResult) {
+func Worker(r *MapBlockRenderer, jobs <-chan JobData, results chan<- JobResult) {
 	for d := range jobs {
 		img, _ := r.Render(d.Pos1, d.Pos2)
 
-    w := new(bytes.Buffer)
-    start := time.Now()
+		w := new(bytes.Buffer)
+		start := time.Now()
 
 		if img != nil {
 			png.Encode(w, img)
 		}
 
-    t := time.Now()
-    elapsed := t.Sub(start)
+		t := time.Now()
+		elapsed := t.Sub(start)
 
-    res := JobResult{Data: w, Duration: elapsed, Job: d}
-    results <- res
+		res := JobResult{Data: w, Duration: elapsed, Job: d}
+		results <- res
 
 	}
 }

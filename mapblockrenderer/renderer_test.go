@@ -2,7 +2,7 @@ package mapblockrenderer
 
 import (
 	"fmt"
-	"image/png"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/colormapping"
 	"mapserver/coords"
@@ -11,31 +11,7 @@ import (
 	"mapserver/testutils"
 	"os"
 	"testing"
-	"time"
-
-	"github.com/sirupsen/logrus"
 )
-
-type JobData struct {
-	pos1, pos2 coords.MapBlockCoords
-	x, z       int
-}
-
-func worker(r *MapBlockRenderer, jobs <-chan JobData) {
-	for d := range jobs {
-		img, _ := r.Render(d.pos1, d.pos2)
-
-		if img != nil {
-			f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", d.x, d.z))
-			start := time.Now()
-			png.Encode(f, img)
-			f.Close()
-			t := time.Now()
-			elapsed := t.Sub(start)
-			logrus.WithFields(logrus.Fields{"elapsed": elapsed}).Debug("Encoding completed")
-		}
-	}
-}
 
 func TestSimpleRender(t *testing.T) {
 	logrus.SetLevel(logrus.InfoLevel)
@@ -67,10 +43,23 @@ func TestSimpleRender(t *testing.T) {
 	r := NewMapBlockRenderer(cache, c)
 	os.Mkdir("../output", 0755)
 
+	results := make(chan JobResult, 100)
 	jobs := make(chan JobData, 100)
-	go worker(&r, jobs)
-	go worker(&r, jobs)
-	go worker(&r, jobs)
+
+	go Worker(&r, jobs, results)
+	go Worker(&r, jobs, results)
+	go Worker(&r, jobs, results)
+
+	go func() {
+		for result := range results {
+			if result.Data.Len() == 0 {
+				continue
+			}
+			f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", result.Job.X, result.Job.Z))
+			result.Data.WriteTo(f)
+			f.Close()
+		}
+	}()
 
 	from := -10
 	to := 10
@@ -80,10 +69,11 @@ func TestSimpleRender(t *testing.T) {
 			pos1 := coords.NewMapBlockCoords(x, 10, z)
 			pos2 := coords.NewMapBlockCoords(x, -1, z)
 
-			jobs <- JobData{pos1: pos1, pos2: pos2, x: x, z: z}
+			jobs <- JobData{Pos1: pos1, Pos2: pos2, X: x, Z: z}
 		}
 	}
 
 	close(jobs)
+	close(results)
 
 }
