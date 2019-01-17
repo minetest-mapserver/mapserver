@@ -166,7 +166,7 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 
 	isEmpty := upperLeft == nil && upperRight == nil && lowerLeft == nil && lowerRight == nil
 
-	if isEmpty && tc.Zoom == 11 {
+	if isEmpty && (tc.Zoom == 11 || tc.Zoom == 10) {
 		//don't cache empty zoomed tiles
 		return nil, nil
 	}

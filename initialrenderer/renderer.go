@@ -19,7 +19,7 @@ func Render(tr *tilerenderer.TileRenderer,
   layers []layerconfig.Layer){
 
     start := time.Now()
-    complete_count := 512*512
+    complete_count := 256*256
     current_count := 0
     perf_count := 0
 
@@ -33,9 +33,9 @@ func Render(tr *tilerenderer.TileRenderer,
     for _, layer := range(layers) {
 
     	//zoom 10 iterator
-    	for x := -255; x<256; x++ {
-    		for y := -255; y<256; y++ {
-    			tc := coords.NewTileCoords(x,y,10,layer.Id)
+    	for x := -127; x<128; x++ {
+    		for y := -127; y<128; y++ {
+    			tc := coords.NewTileCoords(x,y,9,layer.Id)
           jobs <- tc
           current_count++
           perf_count++
