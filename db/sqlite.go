@@ -128,6 +128,11 @@ func (db *Sqlite3Accessor) CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.M
 		}
 	}
 
+	if len(poslist) > 999 {
+		//https://stackoverflow.com/questions/7106016/too-many-sql-variables-error-in-django-witih-sqlite3
+		return -1, nil
+	}
+
 	getBlocksQuery := "select count(*) from blocks b where b.pos in (?" + strings.Repeat(",?", len(poslist)-1) + ")"
 
 	rows, err := db.db.Query(getBlocksQuery, poslist...)
