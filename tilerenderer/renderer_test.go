@@ -58,7 +58,7 @@ func TestTileRender(t *testing.T) {
     panic("no renderer")
   }
 
-  coord := coords.NewTileCoords(0,0,11,0)
+  coord := coords.NewTileCoords(0,0,12,0)
 
   data, err := tr.Render(coord)
 

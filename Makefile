@@ -10,3 +10,7 @@ $(STATIC_VFS):
 
 build: $(STATIC_VFS)
 	go build
+
+profile:
+	go test -cpuprofile=cprof ./tilerenderer
+	go tool pprof --text cprof
