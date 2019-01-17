@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"image/png"
 	"image/draw"
+	"mapserver/db"
 	"mapserver/coords"
 	"mapserver/mapblockrenderer"
 	"mapserver/layerconfig"
@@ -18,16 +19,19 @@ type TileRenderer struct {
 	mapblockrenderer *mapblockrenderer.MapBlockRenderer
 	layers []layerconfig.Layer
 	tdb tiledb.DBAccessor
+	dba db.DBAccessor
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 	tdb tiledb.DBAccessor,
+	dba db.DBAccessor,
 	layers []layerconfig.Layer) *TileRenderer {
 
 	return &TileRenderer{
 		mapblockrenderer: mapblockrenderer,
 		layers: layers,
 		tdb: tdb,
+		dba: dba,
 	}
 }
 
@@ -96,6 +100,16 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		mbr := coords.GetMapBlockRangeFromTile(tc, 0)
 		mbr.Pos1.Y = layer.From
 		mbr.Pos2.Y = layer.To
+
+		count, err := tr.dba.CountBlocks(mbr.Pos1, mbr.Pos2)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if count == 0 {
+			return nil, nil
+		}
 
 		return tr.mapblockrenderer.Render(mbr.Pos1, mbr.Pos2)
 	}

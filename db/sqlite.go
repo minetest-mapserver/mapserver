@@ -85,6 +85,8 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 		return nil, err
 	}
 
+	defer rows.Close()
+
 	if rows.Next() {
 		var pos int64
 		var data []byte
@@ -103,16 +105,16 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 }
 
 
-func (db *Sqlite3Accessor) GetBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) ([]Block, error){
+func (db *Sqlite3Accessor) CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) (int, error){
 
 	poslist := make([]interface{}, 0)
 
 	if pos1.X != pos2.X {
-		return nil, errors.New("x does not line up")
+		return 0, errors.New("x does not line up")
 	}
 
 	if pos1.Z != pos2.Z {
-		return nil, errors.New("z does not line up")
+		return 0, errors.New("z does not line up")
 	}
 
 	minY := pos1.Y
@@ -126,30 +128,27 @@ func (db *Sqlite3Accessor) GetBlocks(pos1 coords.MapBlockCoords, pos2 coords.Map
 		poslist = append(poslist, coords.CoordToPlain(coords.NewMapBlockCoords(pos1.X, y, pos1.Z)))
 	}
 
-	getBlocksQuery := "select pos,data,mtime from blocks b where b.pos in (?" + strings.Repeat(",?", len(poslist)-1) + ")"
+	getBlocksQuery := "select count(*) from blocks b where b.pos in (?" + strings.Repeat(",?", len(poslist)-1) + ")"
 
 	rows, err := db.db.Query(getBlocksQuery, poslist...)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
-	blocklist := make([]Block, 0)
+	defer rows.Close()
 
-	for rows.Next() {
-		var pos int64
-		var data []byte
-		var mtime int64
+	if rows.Next() {
+		var count int
 
-		err = rows.Scan(&pos, &data, &mtime)
+		err = rows.Scan(&count)
 		if err != nil {
-			return nil, err
+			return 0, err
 		}
 
-		mb := convertRows(pos, data, mtime)
-		blocklist = append(blocklist, mb)
+		return count, nil
 	}
 
-	return blocklist, nil
+	return 0, errors.New("No rows returned")
 }
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {

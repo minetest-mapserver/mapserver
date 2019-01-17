@@ -52,7 +52,7 @@ func TestTileRender(t *testing.T) {
 	tdb, _ := tiledb.NewSqliteAccessor(tiletmpfile.Name())
 	tdb.Migrate()
 
-  tr := NewTileRenderer(r, tdb, layerconfig.DefaultLayers)
+  tr := NewTileRenderer(r, tdb, a, layerconfig.DefaultLayers)
 
   if tr == nil {
     panic("no renderer")

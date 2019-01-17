@@ -75,7 +75,7 @@ func main() {
 		panic(err)
 	}
 
-	tr := tilerenderer.NewTileRenderer(r, tdb, layerconfig.DefaultLayers)
+	tr := tilerenderer.NewTileRenderer(r, tdb, a, layerconfig.DefaultLayers)
 
 	initialrenderer.Render(tr, layerconfig.DefaultLayers)
 

@@ -13,6 +13,6 @@ type Block struct {
 type DBAccessor interface {
 	Migrate() error
 	FindLatestBlocks(mintime int64, limit int) ([]Block, error)
-	GetBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) ([]Block, error)
+	CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) (int, error)
 	GetBlock(pos coords.MapBlockCoords) (*Block, error)
 }

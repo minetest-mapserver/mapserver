@@ -94,13 +94,13 @@ func TestMigrateAndQueryStride(t *testing.T) {
 		panic(err)
 	}
 
-	blocks, err := a.GetBlocks(coords.NewMapBlockCoords(0, -1, 0), coords.NewMapBlockCoords(0, 10, 0))
+	count, err := a.CountBlocks(coords.NewMapBlockCoords(0, -1, 0), coords.NewMapBlockCoords(0, 10, 0))
 
 	if err != nil {
 		panic(err)
 	}
 
-	if blocks == nil {
+	if count == 0 {
 		t.Fatal("no data")
 	}
 
