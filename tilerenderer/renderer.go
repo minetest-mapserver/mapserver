@@ -55,6 +55,11 @@ func (tr *TileRenderer) Render(tc coords.TileCoords) ([]byte, error) {
 			return nil, err
 		}
 
+		if img == nil {
+			//empty tile
+			return nil, nil
+		}
+
 		buf := new(bytes.Buffer)
 		png.Encode(buf, img)
 
@@ -95,12 +100,17 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		return nil, errors.New("No layer found")
 	}
 
+	if tc.Zoom > 13 || tc.Zoom < 1 {
+		return nil, errors.New("Invalid zoom")
+	}
+
 	if tc.Zoom == 13 {
 		//max zoomed in on mapblock level
 		mbr := coords.GetMapBlockRangeFromTile(tc, 0)
 		mbr.Pos1.Y = layer.From
 		mbr.Pos2.Y = layer.To
 
+		//count blocks
 		count, err := tr.dba.CountBlocks(mbr.Pos1, mbr.Pos2)
 
 		if err != nil {
@@ -114,8 +124,21 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		return tr.mapblockrenderer.Render(mbr.Pos1, mbr.Pos2)
 	}
 
-	if tc.Zoom > 13 || tc.Zoom < 1 {
-		return nil, errors.New("Invalid zoom")
+	if tc.Zoom == 12 {
+		//count blocks and ignore empty tiles
+		mbr := coords.GetMapBlockRangeFromTile(tc, 0)
+		mbr.Pos1.Y = layer.From
+		mbr.Pos2.Y = layer.To
+
+		count, err := tr.dba.CountBlocks(mbr.Pos1, mbr.Pos2)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if count == 0 {
+			return nil, nil
+		}
 	}
 
 	//zoom 1-12

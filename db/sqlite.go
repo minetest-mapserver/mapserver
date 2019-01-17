@@ -104,28 +104,28 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 	return nil, nil
 }
 
+func sortAsc(a, b int) (int, int){
+	if a > b {
+		return b, a
+	} else {
+		return a, b
+	}
+}
 
 func (db *Sqlite3Accessor) CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) (int, error){
 
 	poslist := make([]interface{}, 0)
 
-	if pos1.X != pos2.X {
-		return 0, errors.New("x does not line up")
-	}
+	minX, maxX := sortAsc(pos1.X, pos2.X)
+	minY, maxY := sortAsc(pos1.Y, pos2.Y)
+	minZ, maxZ := sortAsc(pos1.Z, pos2.Z)
 
-	if pos1.Z != pos2.Z {
-		return 0, errors.New("z does not line up")
-	}
-
-	minY := pos1.Y
-	maxY := pos2.Y
-
-	if minY > maxY {
-		minY, maxY = maxY, minY
-	}
-
-	for y := minY; y <= maxY; y++ {
-		poslist = append(poslist, coords.CoordToPlain(coords.NewMapBlockCoords(pos1.X, y, pos1.Z)))
+	for x := minX; x <= maxX; x++ {
+		for y := minY; y <= maxY; y++ {
+			for z := minZ; z <= maxZ; z++ {
+				poslist = append(poslist, coords.CoordToPlain(coords.NewMapBlockCoords(x,y,z)))
+			}
+		}
 	}
 
 	getBlocksQuery := "select count(*) from blocks b where b.pos in (?" + strings.Repeat(",?", len(poslist)-1) + ")"
