@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"mapserver/initialrenderer"
 	"mapserver/colormapping"
 	"mapserver/db"
 	"mapserver/mapblockaccessor"
@@ -13,7 +14,6 @@ import (
 	"mapserver/tilerenderer"
 	"mapserver/tiledb"
 	"mapserver/layerconfig"
-	"mapserver/coords"
 
 )
 
@@ -77,11 +77,6 @@ func main() {
 
 	tr := tilerenderer.NewTileRenderer(r, tdb, layerconfig.DefaultLayers)
 
-	tc := coords.NewTileCoords(0,0,9,0)
-	_, err = tr.Render(tc)
-
-	if err != nil {
-		panic(err)
-	}
+	initialrenderer.Render(tr, layerconfig.DefaultLayers)
 
 }
