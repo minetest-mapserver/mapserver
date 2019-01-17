@@ -9,7 +9,7 @@ func NewMapBlockCoords(x, y, z int) MapBlockCoords {
 }
 
 type MapBlockRange struct {
-	pos1, pos2 MapBlockCoords
+	Pos1, Pos2 MapBlockCoords
 }
 
 const (

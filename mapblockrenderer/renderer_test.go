@@ -46,9 +46,9 @@ func TestSimpleRender(t *testing.T) {
 	results := make(chan JobResult, 100)
 	jobs := make(chan JobData, 100)
 
-	go Worker(&r, jobs, results)
-	go Worker(&r, jobs, results)
-	go Worker(&r, jobs, results)
+	go Worker(r, jobs, results)
+	go Worker(r, jobs, results)
+	go Worker(r, jobs, results)
 
 	go func() {
 		for result := range results {

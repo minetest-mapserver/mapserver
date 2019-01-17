@@ -16,8 +16,8 @@ type MapBlockRenderer struct {
 	colors   *colormapping.ColorMapping
 }
 
-func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping) MapBlockRenderer {
-	return MapBlockRenderer{accessor: accessor, colors: colors}
+func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping) *MapBlockRenderer {
+	return &MapBlockRenderer{accessor: accessor, colors: colors}
 }
 
 const (

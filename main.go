@@ -72,6 +72,6 @@ func main() {
 		panic(err)
 	}
 
-	initialrenderer.Render(&r, tdb)
+	initialrenderer.Render(r, tdb)
 
 }
