@@ -164,6 +164,13 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		return nil, err
 	}
 
+	isEmpty := upperLeft == nil && upperRight == nil && lowerLeft == nil && lowerRight == nil
+
+	if isEmpty && (tc.Zoom == 12 || tc.Zoom == 11) {
+		//don't cache empty zoomed tiles
+		return nil, nil
+	}
+
 	img := image.NewNRGBA(
 		image.Rectangle{
 			image.Point{0, 0},
@@ -196,12 +203,6 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		png.Encode(buf, img)
 	}
 
-	isEmpty := upperLeft == nil && upperRight == nil && lowerLeft == nil && lowerRight == nil
-
-	if isEmpty && (tc.Zoom == 12 || tc.Zoom == 11 || tc.Zoom == 10) {
-		//don't cache empty zoomed tiles
-		return nil, nil
-	}
 
 	tile := tiledb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
 	tr.tdb.SetTile(&tile)
