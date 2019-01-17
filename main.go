@@ -10,8 +10,11 @@ import (
 	"mapserver/params"
 	"mapserver/worldconfig"
 	"github.com/sirupsen/logrus"
-	"mapserver/initialrenderer"
+	"mapserver/tilerenderer"
 	"mapserver/tiledb"
+	"mapserver/layerconfig"
+	"mapserver/coords"
+
 )
 
 const (
@@ -72,6 +75,13 @@ func main() {
 		panic(err)
 	}
 
-	initialrenderer.Render(r, tdb)
+	tr := tilerenderer.NewTileRenderer(r, tdb, layerconfig.DefaultLayers)
+
+	tc := coords.NewTileCoords(0,0,9,0)
+	_, err = tr.Render(tc)
+
+	if err != nil {
+		panic(err)
+	}
 
 }
