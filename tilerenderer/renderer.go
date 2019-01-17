@@ -3,6 +3,7 @@ package tilerenderer
 import (
 	"errors"
 	"image"
+	"time"
 	"bytes"
 	"image/png"
 	"image/draw"
@@ -153,6 +154,13 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		draw.Draw(img, rect, lowerRight, image.ZP, draw.Src)
 	}
 
+	buf := new(bytes.Buffer)
+	if img != nil {
+		png.Encode(buf, img)
+	}
+
+	tile := tiledb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
+	tr.tdb.SetTile(&tile)
 
 	return img, nil
 }
