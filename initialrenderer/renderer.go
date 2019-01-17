@@ -21,6 +21,7 @@ func Render(tr *tilerenderer.TileRenderer,
     start := time.Now()
     complete_count := 512*512
     current_count := 0
+    perf_count := 0
 
     jobs := make(chan coords.TileCoords, 100)
 
@@ -37,6 +38,7 @@ func Render(tr *tilerenderer.TileRenderer,
     			tc := coords.NewTileCoords(x,y,10,layer.Id)
           jobs <- tc
           current_count++
+          perf_count++
 
           if time.Now().Sub(start).Seconds() > 2 {
             start = time.Now()
@@ -47,8 +49,10 @@ func Render(tr *tilerenderer.TileRenderer,
               "y": y,
               "progress%": progress,
               "layer": layer.Name,
+              "perf": perf_count,
             }
 
+            perf_count = 0
             logrus.WithFields(fields).Info("Initial render progress")
           }
     		}
