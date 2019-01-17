@@ -17,7 +17,7 @@ import (
 )
 
 func TestTileRender(t *testing.T) {
-	logrus.SetLevel(logrus.InfoLevel)
+	logrus.SetLevel(logrus.DebugLevel)
 
 	tmpfile, err := ioutil.TempFile("", "TestTileRender.*.sqlite")
 	if err != nil {
@@ -58,7 +58,7 @@ func TestTileRender(t *testing.T) {
     panic("no renderer")
   }
 
-  coord := coords.NewTileCoords(0,0,12,0)
+  coord := coords.NewTileCoords(0,0,11,0)
 
   data, err := tr.Render(coord)
 

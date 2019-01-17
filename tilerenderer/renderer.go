@@ -10,6 +10,7 @@ import (
 	"mapserver/mapblockrenderer"
 	"mapserver/layerconfig"
 	"mapserver/tiledb"
+	"github.com/sirupsen/logrus"
 )
 
 type TileRenderer struct {
@@ -75,6 +76,8 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		return cachedimg.(*image.NRGBA), nil
 	}
 
+	log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
+
 	var layer *layerconfig.Layer
 
 	for _, l := range(tr.layers) {
@@ -131,16 +134,24 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 	)
 
 	rect := image.Rect(0, 0, 128, 128)
-	draw.Draw(img, rect, upperLeft, image.ZP, draw.Src)
+	if upperLeft != nil {
+		draw.Draw(img, rect, upperLeft, image.ZP, draw.Src)
+	}
 
 	rect = image.Rect(128, 0, 256, 128)
-	draw.Draw(img, rect, upperRight, image.ZP, draw.Src)
+	if upperRight != nil {
+		draw.Draw(img, rect, upperRight, image.ZP, draw.Src)
+	}
 
 	rect = image.Rect(0, 128, 128, 256)
-	draw.Draw(img, rect, lowerLeft, image.ZP, draw.Src)
+	if lowerLeft != nil {
+		draw.Draw(img, rect, lowerLeft, image.ZP, draw.Src)
+	}
 
 	rect = image.Rect(128, 128, 256, 256)
-	draw.Draw(img, rect, lowerRight, image.ZP, draw.Src)
+	if lowerRight != nil {
+		draw.Draw(img, rect, lowerRight, image.ZP, draw.Src)
+	}
 
 
 	return img, nil
