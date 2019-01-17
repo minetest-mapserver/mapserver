@@ -53,6 +53,8 @@ func (db *Sqlite3Accessor) GetTile(layerId int, pos coords.TileCoords) (*Tile, e
 		return nil, err
 	}
 
+	defer rows.Close()
+
 	if rows.Next() {
 		var data []byte
 		var mtime int64
@@ -80,13 +82,12 @@ func (db *Sqlite3Accessor) GetTile(layerId int, pos coords.TileCoords) (*Tile, e
 }
 
 const setTileQuery = `
-insert into tiles(x,y,zoom,layerid,data,mtime)
+insert or replace into tiles(x,y,zoom,layerid,data,mtime)
 values(?, ?, ?, ?, ?, ?)
-on conflict replace
 `
 
 func (db *Sqlite3Accessor) SetTile(tile *Tile) error {
-	_, err := db.db.Query(setTileQuery, tile.Pos.X, tile.Pos.Y, tile.Pos.Zoom, tile.LayerId, tile.Data, tile.Mtime)
+	_, err := db.db.Exec(setTileQuery, tile.Pos.X, tile.Pos.Y, tile.Pos.Zoom, tile.LayerId, tile.Data, tile.Mtime)
 	return err
 }
 
