@@ -6,6 +6,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/coords"
 	"time"
+	"strings"
+	"errors"
 )
 
 const migrateScript = `
@@ -98,6 +100,56 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 	}
 
 	return nil, nil
+}
+
+
+func (db *Sqlite3Accessor) GetBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) ([]Block, error){
+
+	poslist := make([]interface{}, 0)
+
+	if pos1.X != pos2.X {
+		return nil, errors.New("x does not line up")
+	}
+
+	if pos1.Z != pos2.Z {
+		return nil, errors.New("z does not line up")
+	}
+
+	minY := pos1.Y
+	maxY := pos2.Y
+
+	if minY > maxY {
+		minY, maxY = maxY, minY
+	}
+
+	for y := minY; y <= maxY; y++ {
+		poslist = append(poslist, coords.CoordToPlain(coords.NewMapBlockCoords(pos1.X, y, pos1.Z)))
+	}
+
+	getBlocksQuery := "select pos,data,mtime from blocks b where b.pos in (?" + strings.Repeat(",?", len(poslist)-1) + ")"
+
+	rows, err := db.db.Query(getBlocksQuery, poslist...)
+	if err != nil {
+		return nil, err
+	}
+
+	blocklist := make([]Block, 0)
+
+	for rows.Next() {
+		var pos int64
+		var data []byte
+		var mtime int64
+
+		err = rows.Scan(&pos, &data, &mtime)
+		if err != nil {
+			return nil, err
+		}
+
+		mb := convertRows(pos, data, mtime)
+		blocklist = append(blocklist, mb)
+	}
+
+	return blocklist, nil
 }
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {

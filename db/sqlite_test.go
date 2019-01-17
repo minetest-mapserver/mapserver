@@ -74,3 +74,34 @@ func TestMigrateAndQuery(t *testing.T) {
 	}
 
 }
+
+
+func TestMigrateAndQueryStride(t *testing.T) {
+	tmpfile, err := ioutil.TempFile("", "TestMigrateAndQueryStride.*.sqlite")
+	if err != nil {
+		panic(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	testutils.CreateTestDatabase(tmpfile.Name())
+	a, err := NewSqliteAccessor(tmpfile.Name())
+	if err != nil {
+		panic(err)
+	}
+
+	err = a.Migrate()
+	if err != nil {
+		panic(err)
+	}
+
+	blocks, err := a.GetBlocks(coords.NewMapBlockCoords(0, -1, 0), coords.NewMapBlockCoords(0, 10, 0))
+
+	if err != nil {
+		panic(err)
+	}
+
+	if blocks == nil {
+		t.Fatal("no data")
+	}
+
+}
