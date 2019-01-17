@@ -63,8 +63,8 @@ func TestSimpleRender(t *testing.T) {
 		}
 	}()
 
-	from := -10
-	to := 10
+	from := -3
+	to := 3
 
 	for x := from; x < to; x++ {
 		for z := from; z < to; z++ {

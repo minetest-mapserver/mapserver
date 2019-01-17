@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"image"
 	"image/draw"
+	"image/color"
 	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/mapblockaccessor"
@@ -14,10 +15,11 @@ import (
 type MapBlockRenderer struct {
 	accessor *mapblockaccessor.MapBlockAccessor
 	colors   *colormapping.ColorMapping
+	enableShadow bool
 }
 
 func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping) *MapBlockRenderer {
-	return &MapBlockRenderer{accessor: accessor, colors: colors}
+	return &MapBlockRenderer{accessor: accessor, colors: colors, enableShadow: true}
 }
 
 const (
@@ -25,6 +27,31 @@ const (
 	IMG_SIZE                          = IMG_SCALE * 16
 	EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK = 16 * 16
 )
+
+func IsViewBlocking(nodeName string) bool {
+	return nodeName != "" && nodeName != "vacuum:vacuum"
+}
+
+func clamp(num int) uint8 {
+    if num < 0 {
+        return 0
+    }
+
+		if num > 255 {
+			return 255
+		}
+
+    return uint8(num)
+}
+
+func addColorComponent(c *color.RGBA, value int) *color.RGBA {
+	return &color.RGBA{
+		R: clamp( int(c.R) + value ),
+		G: clamp( int(c.G) + value ),
+		B: clamp( int(c.B) + value ),
+		A: clamp( int(c.A) + value ),
+	}
+}
 
 func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGBA, error) {
 	if pos1.X != pos2.X {
@@ -88,6 +115,62 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 
 					if c == nil {
 						continue
+					}
+
+					if r.enableShadow {
+						var left, leftAbove, top, topAbove string
+
+						if x > 0 {
+							//same mapblock
+							left = mb.GetNodeName(x-1, y, z)
+							leftAbove = mb.GetNodeName(x-1, y+1, z)
+
+						} else {
+							//neighbouring mapblock
+							neighbourPos := coords.NewMapBlockCoords(currentPos.X-1, currentPos.Y, currentPos.Z)
+							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
+
+							if neighbourMapblock != nil && err == nil {
+								left = mb.GetNodeName(15, y, z)
+								leftAbove = mb.GetNodeName(15, y+1, z)
+							}
+						}
+
+						if z < 14 {
+							//same mapblock
+							top = mb.GetNodeName(x, y, z+1)
+							topAbove = mb.GetNodeName(x, y+1, z+1)
+
+						} else {
+							//neighbouring mapblock
+							neighbourPos := coords.NewMapBlockCoords(currentPos.X, currentPos.Y, currentPos.Z+1)
+							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
+
+							if neighbourMapblock != nil && err == nil {
+								left = mb.GetNodeName(x, y, 0)
+								leftAbove = mb.GetNodeName(x, y+1, z+0)
+							}
+						}
+
+						if IsViewBlocking(leftAbove) {
+							//add shadow
+							c = addColorComponent(c, -10)
+						}
+
+						if IsViewBlocking(topAbove) {
+							//add shadow
+							c = addColorComponent(c, -10)
+						}
+
+						if !IsViewBlocking(left) {
+							//add light
+							c = addColorComponent(c, 10)
+						}
+
+						if !IsViewBlocking(top) {
+							//add light
+							c = addColorComponent(c, 10)
+						}
 					}
 
 					rect := image.Rect(
