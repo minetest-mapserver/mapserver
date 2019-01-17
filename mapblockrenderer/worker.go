@@ -9,7 +9,6 @@ import (
 
 type JobData struct {
 	Pos1, Pos2 coords.MapBlockCoords
-	X, Z       int
 }
 
 type JobResult struct {

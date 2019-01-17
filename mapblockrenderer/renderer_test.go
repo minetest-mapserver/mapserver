@@ -55,7 +55,9 @@ func TestSimpleRender(t *testing.T) {
 			if result.Data.Len() == 0 {
 				continue
 			}
-			f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", result.Job.X, result.Job.Z))
+
+			tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1)
+			f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", tc.X, tc.Y))
 			result.Data.WriteTo(f)
 			f.Close()
 		}
@@ -69,11 +71,11 @@ func TestSimpleRender(t *testing.T) {
 			pos1 := coords.NewMapBlockCoords(x, 10, z)
 			pos2 := coords.NewMapBlockCoords(x, -1, z)
 
-			jobs <- JobData{Pos1: pos1, Pos2: pos2, X: x, Z: z}
+			jobs <- JobData{Pos1: pos1, Pos2: pos2}
 		}
 	}
 
 	close(jobs)
-	close(results)
+	defer close(results)
 
 }
