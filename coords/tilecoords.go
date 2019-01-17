@@ -7,21 +7,23 @@ import (
 type TileCoords struct {
 	X, Y int
 	Zoom int
+	LayerId int
 }
 
 type TileQuadrants struct {
 	UpperLeft, UpperRight, LowerLeft, LowerRight TileCoords
 }
 
-func NewTileCoords(x, y, zoom int) TileCoords {
-	return TileCoords{X: x, Y: y, Zoom: zoom}
+func NewTileCoords(x, y, zoom int, layerId int) TileCoords {
+	return TileCoords{X: x, Y: y, Zoom: zoom, LayerId: layerId}
 }
 
 func (tc TileCoords) GetZoomedOutTile() TileCoords {
 	return TileCoords{
 		X:    int(math.Floor(float64(tc.X) / 2.0)),
 		Y:    int(math.Floor(float64(tc.Y) / 2.0)),
-		Zoom: tc.Zoom - 1}
+		Zoom: tc.Zoom - 1,
+		LayerId: tc.LayerId}
 }
 
 func (tc TileCoords) GetZoomedQuadrantsFromTile() TileQuadrants {
@@ -30,10 +32,10 @@ func (tc TileCoords) GetZoomedQuadrantsFromTile() TileQuadrants {
 	nextZoomX := tc.X * 2
 	nextZoomY := tc.Y * 2
 
-	upperLeft := TileCoords{X: nextZoomX, Y: nextZoomY, Zoom: nextZoom}
-	upperRight := TileCoords{X: nextZoomX + 1, Y: nextZoomY, Zoom: nextZoom}
-	lowerLeft := TileCoords{X: nextZoomX, Y: nextZoomY + 1, Zoom: nextZoom}
-	lowerRight := TileCoords{X: nextZoomX + 1, Y: nextZoomY + 1, Zoom: nextZoom}
+	upperLeft := TileCoords{X: nextZoomX, Y: nextZoomY, Zoom: nextZoom, LayerId: tc.LayerId}
+	upperRight := TileCoords{X: nextZoomX + 1, Y: nextZoomY, Zoom: nextZoom, LayerId: tc.LayerId}
+	lowerLeft := TileCoords{X: nextZoomX, Y: nextZoomY + 1, Zoom: nextZoom, LayerId: tc.LayerId}
+	lowerRight := TileCoords{X: nextZoomX + 1, Y: nextZoomY + 1, Zoom: nextZoom, LayerId: tc.LayerId}
 
 	return TileQuadrants{
 		UpperLeft:  upperLeft,

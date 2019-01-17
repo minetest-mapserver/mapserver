@@ -47,8 +47,8 @@ and t.y = ?
 and t.zoom = ?
 `
 
-func (db *Sqlite3Accessor) GetTile(layerId int, pos coords.TileCoords) (*Tile, error) {
-	rows, err := db.db.Query(getTileQuery, layerId, pos.X, pos.Y, pos.Zoom)
+func (db *Sqlite3Accessor) GetTile(pos coords.TileCoords) (*Tile, error) {
+	rows, err := db.db.Query(getTileQuery, pos.LayerId, pos.X, pos.Y, pos.Zoom)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,6 @@ func (db *Sqlite3Accessor) GetTile(layerId int, pos coords.TileCoords) (*Tile, e
 
 		mb := Tile{
 			Pos:     pos,
-			LayerId: layerId,
 			Data:    data,
 			Mtime:   mtime,
 		}
@@ -87,7 +86,7 @@ values(?, ?, ?, ?, ?, ?)
 `
 
 func (db *Sqlite3Accessor) SetTile(tile *Tile) error {
-	_, err := db.db.Exec(setTileQuery, tile.Pos.X, tile.Pos.Y, tile.Pos.Zoom, tile.LayerId, tile.Data, tile.Mtime)
+	_, err := db.db.Exec(setTileQuery, tile.Pos.X, tile.Pos.Y, tile.Pos.Zoom, tile.Pos.LayerId, tile.Data, tile.Mtime)
 	return err
 }
 

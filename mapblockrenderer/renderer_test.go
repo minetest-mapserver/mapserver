@@ -76,6 +76,5 @@ func TestSimpleRender(t *testing.T) {
 	}
 
 	close(jobs)
-	defer close(results)
 
 }

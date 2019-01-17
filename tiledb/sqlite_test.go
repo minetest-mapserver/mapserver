@@ -24,8 +24,8 @@ func TestMigrate(t *testing.T) {
 		panic(err)
 	}
 
-	pos := coords.NewTileCoords(0, 0, 13)
-	tile, err := db.GetTile(0, pos)
+	pos := coords.NewTileCoords(0, 0, 13, 0)
+	tile, err := db.GetTile(pos)
 	if err != nil {
 		panic(err)
 	}
@@ -35,14 +35,14 @@ func TestMigrate(t *testing.T) {
 	}
 
 	data := []byte{0x01, 0x02}
-	tile2 := Tile{LayerId: 0, Pos: pos, Data: data}
+	tile2 := Tile{Pos: pos, Data: data}
 	err = db.SetTile(&tile2)
 
 	if err != nil {
 		panic(err)
 	}
 
-	tile3, err := db.GetTile(0, pos)
+	tile3, err := db.GetTile(pos)
 
 	if err != nil {
 		panic(err)

@@ -22,7 +22,7 @@ func Render(renderer *mapblockrenderer.MapBlockRenderer,
     go func() {
       for result := range results {
         tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1)
-        tile := tiledb.Tile{Pos: tc, LayerId: 0, Data: result.Data.Bytes(), Mtime: time.Now().Unix()}
+        tile := tiledb.Tile{Pos: tc, Data: result.Data.Bytes(), Mtime: time.Now().Unix()}
         tdb.SetTile(&tile)
       }
     }()
