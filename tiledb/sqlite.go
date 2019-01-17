@@ -86,8 +86,9 @@ values(?, ?, ?, ?, ?, ?)
 `
 
 func (db *Sqlite3Accessor) SetTile(tile *Tile) error {
-	_, err := db.db.Exec(setTileQuery, tile.Pos.X, tile.Pos.Y, tile.Pos.Zoom, tile.Pos.LayerId, tile.Data, tile.Mtime)
-	return err
+	//_, err := db.db.Exec(setTileQuery, tile.Pos.X, tile.Pos.Y, tile.Pos.Zoom, tile.Pos.LayerId, tile.Data, tile.Mtime)
+	//return err
+	return nil
 }
 
 const removeTileQuery = `
