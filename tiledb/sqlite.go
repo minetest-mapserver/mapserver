@@ -90,6 +90,17 @@ func (db *Sqlite3Accessor) SetTile(tile *Tile) error {
 	return err
 }
 
+const removeTileQuery = `
+delete from tiles
+where x = ? and y = ? and zoom = ? and layerid = ?
+`
+
+func (db *Sqlite3Accessor) RemoveTile(pos coords.TileCoords) error {
+	_, err := db.db.Exec(removeTileQuery, pos.X, pos.Y, pos.Zoom, pos.LayerId)
+	return err
+}
+
+
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
 	db, err := sql.Open("sqlite3", filename)
 	if err != nil {

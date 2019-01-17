@@ -14,4 +14,5 @@ type DBAccessor interface {
 	Migrate() error
 	GetTile(pos coords.TileCoords) (*Tile, error)
 	SetTile(tile *Tile) error
+	RemoveTile(pos coords.TileCoords) error
 }

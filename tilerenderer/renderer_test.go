@@ -9,8 +9,11 @@ import (
   "mapserver/testutils"
   "mapserver/mapblockrenderer"
   "mapserver/coords"
+	"mapserver/layerconfig"
+	"mapserver/tiledb"
 	"os"
 	"testing"
+	"bytes"
 )
 
 func TestTileRender(t *testing.T) {
@@ -20,6 +23,7 @@ func TestTileRender(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+
 	defer os.Remove(tmpfile.Name())
 	testutils.CreateTestDatabase(tmpfile.Name())
 
@@ -42,7 +46,13 @@ func TestTileRender(t *testing.T) {
 
 	r := mapblockrenderer.NewMapBlockRenderer(cache, c)
 
-  tr := NewTileRenderer(r)
+	tiletmpfile, err := ioutil.TempFile("", "TestTileRenderTiles.*.sqlite")
+	defer os.Remove(tiletmpfile.Name())
+
+	tdb, _ := tiledb.NewSqliteAccessor(tiletmpfile.Name())
+	tdb.Migrate()
+
+  tr := NewTileRenderer(r, tdb, layerconfig.DefaultLayers)
 
   if tr == nil {
     panic("no renderer")
@@ -59,4 +69,7 @@ func TestTileRender(t *testing.T) {
   if data == nil {
     panic("no data")
   }
+
+	f, _ := os.Create("../output/0_0_12.png")
+	bytes.NewReader(data).WriteTo(f)
 }
