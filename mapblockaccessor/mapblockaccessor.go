@@ -12,6 +12,11 @@ import (
 type MapBlockAccessor struct {
 	accessor db.DBAccessor
 	c        *cache.Cache
+	listeners []MapBlockListener
+}
+
+type MapBlockListener interface {
+	OnParsedMapBlock(block *mapblockparser.MapBlock)
 }
 
 func getKey(pos coords.MapBlockCoords) string {
@@ -22,6 +27,10 @@ func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
 	c := cache.New(5*time.Minute, 10*time.Minute)
 
 	return &MapBlockAccessor{accessor: accessor, c: c}
+}
+
+func (a *MapBlockAccessor) AddListener(l MapBlockListener) {
+	a.listeners = append(a.listeners, l)
 }
 
 func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.MapBlock) {
@@ -44,6 +53,10 @@ func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*map
 		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)
 		if err != nil {
 			return nil, err
+		}
+
+		for _, listener := range(a.listeners) {
+			listener.OnParsedMapBlock(mapblock)
 		}
 
 		a.c.Set(key, mapblock, cache.DefaultExpiration)
@@ -73,6 +86,10 @@ func (a *MapBlockAccessor) GetMapBlock(pos coords.MapBlockCoords) (*mapblockpars
 	mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)
 	if err != nil {
 		return nil, err
+	}
+
+	for _, listener := range(a.listeners) {
+		listener.OnParsedMapBlock(mapblock)
 	}
 
 	a.c.Set(key, mapblock, cache.DefaultExpiration)
