@@ -7,7 +7,7 @@ import (
 type ParamsType struct {
 	Help       bool
 	Version    bool
-	Debug	bool
+	Debug      bool
 	Dumpconfig bool
 }
 

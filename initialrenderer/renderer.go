@@ -26,12 +26,11 @@ func Render(tr *tilerenderer.TileRenderer,
 	jobs := make(chan coords.TileCoords, 100)
 
 	fields := logrus.Fields{
-		"workers":           runtime.NumCPU(),
+		"workers": runtime.NumCPU(),
 	}
 	logrus.WithFields(fields).Info("Starting initial render progress")
 
-
-	for i := 0; i<runtime.NumCPU(); i++ {
+	for i := 0; i < runtime.NumCPU(); i++ {
 		go worker(tr, jobs)
 	}
 
