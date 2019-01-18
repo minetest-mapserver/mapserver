@@ -13,11 +13,15 @@ import (
 )
 
 func main() {
-	logrus.SetLevel(logrus.InfoLevel)
-
 	//Parse command line
 
 	p := params.Parse()
+
+	if p.Debug {
+		logrus.SetLevel(logrus.DebugLevel)
+	} else {
+		logrus.SetLevel(logrus.InfoLevel)
+	}
 
 	if p.Help {
 		params.PrintHelp()
