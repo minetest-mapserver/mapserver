@@ -47,7 +47,7 @@ func Render(tr *tilerenderer.TileRenderer,
             fields := logrus.Fields{
               "x": x,
               "y": y,
-              "progress%": progress,
+              "progress(%)": progress,
               "layer": layer.Name,
               "perf": perf_count,
             }

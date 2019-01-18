@@ -1,82 +1,45 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"mapserver/initialrenderer"
-	"mapserver/colormapping"
-	"mapserver/db"
-	"mapserver/mapblockaccessor"
-	"mapserver/mapblockrenderer"
-	"mapserver/params"
-	"mapserver/worldconfig"
 	"github.com/sirupsen/logrus"
-	"mapserver/tilerenderer"
-	"mapserver/tiledb"
 	"mapserver/layerconfig"
-
+	"mapserver/app"
+	"mapserver/params"
+	"fmt"
 )
 
-const (
-	Version = "2.0-DEV"
-)
+
 
 func main() {
 	logrus.SetLevel(logrus.InfoLevel)
 
-	p := params.Parse()
+	//Parse command line
 
-	if p.Help {
-		flag.PrintDefaults()
-		return
-	}
+  p := params.Parse()
 
-	if p.Version {
-		fmt.Print("Mapserver version: ")
-		fmt.Println(Version)
-		return
-	}
+  if p.Help {
+    params.PrintHelp()
+    return
+  }
 
-	worldcfg := worldconfig.Parse(p.Worlddir + "world.mt")
-	logrus.WithFields(logrus.Fields{"version": Version}).Info("Starting mapserver")
+  if p.Version {
+    fmt.Print("Mapserver version: ")
+    fmt.Println(app.Version)
+    return
+  }
 
-	if worldcfg.Backend != worldconfig.BACKEND_SQLITE3 {
-		panic("no sqlite3 backend found!")
-	}
+	//setup app context
 
-	a, err := db.NewSqliteAccessor("map.sqlite")
+	ctx, err := app.Setup(p)
+
 	if err != nil {
+		//error case
 		panic(err)
 	}
 
-	err = a.Migrate()
-	if err != nil {
-		panic(err)
-	}
+	//run initial rendering
 
-	cache := mapblockaccessor.NewMapBlockAccessor(a)
-	c := colormapping.NewColorMapping()
-	err = c.LoadVFSColors(false, "/colors.txt")
-	if err != nil {
-		panic(err)
-	}
-
-	r := mapblockrenderer.NewMapBlockRenderer(cache, c)
-
-	tdb, err := tiledb.NewSqliteAccessor("tiles.sqlite")
-
-	if err != nil {
-		panic(err)
-	}
-
-	err = tdb.Migrate()
-
-	if err != nil {
-		panic(err)
-	}
-
-	tr := tilerenderer.NewTileRenderer(r, tdb, a, layerconfig.DefaultLayers)
-
-	initialrenderer.Render(tr, layerconfig.DefaultLayers)
+	initialrenderer.Render(ctx.Tilerenderer, layerconfig.DefaultLayers)
 
 }

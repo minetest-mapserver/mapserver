@@ -22,3 +22,7 @@ func Parse() ParamsType {
 
 	return params
 }
+
+func PrintHelp(){
+	flag.PrintDefaults()
+}
