@@ -5,6 +5,7 @@ import (
 	"mapserver/coords"
 	"mapserver/layerconfig"
 	"mapserver/tilerenderer"
+	"runtime"
 	"time"
 )
 
@@ -24,10 +25,15 @@ func Render(tr *tilerenderer.TileRenderer,
 
 	jobs := make(chan coords.TileCoords, 100)
 
-	go worker(tr, jobs)
-	go worker(tr, jobs)
-	go worker(tr, jobs)
-	go worker(tr, jobs)
+	fields := logrus.Fields{
+		"workers":           runtime.NumCPU(),
+	}
+	logrus.WithFields(fields).Info("Starting initial render progress")
+
+
+	for i := 0; i<runtime.NumCPU(); i++ {
+		go worker(tr, jobs)
+	}
 
 	for _, layer := range layers {
 
