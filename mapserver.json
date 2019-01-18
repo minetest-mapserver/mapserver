@@ -1,7 +1,7 @@
 {
 	"port": 8080,
-	"enableinitialrendering": true,
-	"enableincrementalupdate": false,
+	"enableinitialrendering": false,
+	"enableincrementalupdate": true,
 	"webdev": true,
 	"webapi": {
 		"enablemapblock": true

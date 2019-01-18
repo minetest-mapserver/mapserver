@@ -3,6 +3,7 @@ package mapblockaccessor
 import (
 	"fmt"
 	"github.com/patrickmn/go-cache"
+	"github.com/sirupsen/logrus"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/mapblockparser"
@@ -48,6 +49,14 @@ func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*map
 	mblist := make([]*mapblockparser.MapBlock, 0)
 
 	for _, block := range blocks {
+
+		fields := logrus.Fields{
+			"x": block.Pos.X,
+			"y": block.Pos.Y,
+			"z": block.Pos.Z,
+		}
+		logrus.WithFields(fields).Debug("updated mapblock")
+
 		key := getKey(block.Pos)
 
 		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)
