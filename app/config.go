@@ -7,16 +7,26 @@ import (
 )
 
 type Config struct {
-	Port                   int  `json:"port"`
-	EnableInitialRendering bool `json:"enableinitialrendering"`
-	Webdev                 bool `json:"webdev"`
+	Port                   int          `json:"port"`
+	EnableInitialRendering bool         `json:"enableinitialrendering"`
+	Webdev                 bool         `json:"webdev"`
+	WebApi                 WebApiConfig `json:"webapi"`
+}
+
+type WebApiConfig struct {
+	EnableMapblock bool `json:"enablemapblock"`
 }
 
 func ParseConfig(filename string) (*Config, error) {
+	webapi := WebApiConfig{
+		EnableMapblock: false,
+	}
+
 	cfg := Config{
 		Port:                   8080,
 		EnableInitialRendering: true,
 		Webdev:                 false,
+		WebApi:                 webapi,
 	}
 
 	info, err := os.Stat(filename)

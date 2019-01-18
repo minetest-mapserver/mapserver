@@ -18,7 +18,11 @@ func Serve(ctx *app.App) {
 	mux := http.NewServeMux()
 
 	mux.Handle("/", http.FileServer(vfs.FS(ctx.Config.Webdev)))
-  mux.Handle("/tile/", &Tiles{ctx: ctx})
+	mux.Handle("/api/tile/", &Tiles{ctx: ctx})
+
+	if ctx.Config.WebApi.EnableMapblock {
+		mux.Handle("/api/mapblock/", &MapblockHandler{ctx: ctx})
+	}
 
 	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), mux)
 	if err != nil {

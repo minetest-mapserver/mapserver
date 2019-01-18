@@ -1,11 +1,27 @@
 package mapblockparser
 
 type MapBlock struct {
-	Version      byte
-	Underground  bool
-	Mapdata      []byte
-	Metadata     Metadata
-	BlockMapping map[int]string
+	Version      byte           `json:"version"`
+	Underground  bool           `json:"underground"`
+	Mapdata      []byte         `json:"mapdata"`
+	Metadata     Metadata       `json:"metadata"`
+	BlockMapping map[int]string `json:"blockmapping"`
+}
+
+type Metadata struct {
+	Inventories map[int]map[string]*Inventory `json:"inventories"`
+	Pairs       map[int]map[string]string     `json:"pairs"`
+}
+
+type Item struct {
+	Name  string `json:"name"`
+	Count int    `json:"count"`
+	Wear  int    `json:"wear"`
+}
+
+type Inventory struct {
+	Size  int    `json:"size"`
+	Items []Item `json:"items"`
 }
 
 func getNodePos(x, y, z int) int {
@@ -23,11 +39,6 @@ func NewMapblock() MapBlock {
 	mb.Metadata = NewMetadata()
 	mb.BlockMapping = make(map[int]string)
 	return mb
-}
-
-type Metadata struct {
-	Inventories map[int]map[string]*Inventory
-	Pairs       map[int]map[string]string
 }
 
 func NewMetadata() Metadata {
@@ -66,15 +77,4 @@ func (md *Metadata) GetInventory(pos int, name string) *Inventory {
 	}
 
 	return inv
-}
-
-type Item struct {
-	Name  string
-	Count int
-	Wear  int
-}
-
-type Inventory struct {
-	Size  int
-	Items []Item
 }
