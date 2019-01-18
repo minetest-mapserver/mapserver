@@ -3,11 +3,11 @@ package mapobject
 import (
 	"mapserver/coords"
 	"mapserver/mapblockparser"
-	"mapserver/mapdb"
+	"mapserver/mapobjectdb"
 )
 
 type ClearMapData struct {
-	db mapdb.DBAccessor
+	db mapobjectdb.DBAccessor
 }
 
 func (this *ClearMapData) OnParsedMapBlock(block *mapblockparser.MapBlock, pos coords.MapBlockCoords) {

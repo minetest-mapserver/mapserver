@@ -1,10 +1,10 @@
-package mapdb
+package mapobjectdb
 
 import (
 	"mapserver/coords"
 )
 
-type MapData struct {
+type MapObject struct {
 	//mapblock position
 	MBPos coords.MapBlockCoords
 
@@ -24,7 +24,7 @@ type SearchQuery struct {
 
 type DBAccessor interface {
 	Migrate() error
-	GetMapData(q SearchQuery) ([]MapData, error)
+	GetMapData(q SearchQuery) ([]MapObject, error)
 	RemoveMapData(pos coords.MapBlockCoords) error
-	AddMapData(data MapData) error
+	AddMapData(data MapObject) error
 }
