@@ -69,8 +69,39 @@ func convertRows(pos int64, data []byte, mtime int64) Block {
 	return Block{Pos: c, Data: data, Mtime: mtime}
 }
 
+const getLatestBlockQuery = `
+select pos,data,mtime
+from blocks b
+where b.mtime >= ?
+order by b.mtime asc
+limit ?
+`
+
 func (db *Sqlite3Accessor) FindLatestBlocks(mintime int64, limit int) ([]Block, error) {
-	return make([]Block, 0), nil
+	blocks := make([]Block, 0)
+
+	rows, err := db.db.Query(getLatestBlockQuery, mintime, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var pos int64
+		var data []byte
+		var mtime int64
+
+		err = rows.Scan(&pos, &data, &mtime)
+		if err != nil {
+			return nil, err
+		}
+
+		mb := convertRows(pos, data, mtime)
+		blocks = append(blocks, mb)
+	}
+
+	return blocks, nil
 }
 
 const getBlockQuery = `

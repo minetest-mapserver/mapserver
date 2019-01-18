@@ -6,6 +6,7 @@ type MapBlock struct {
 	Mapdata      []byte         `json:"mapdata"`
 	Metadata     Metadata       `json:"metadata"`
 	BlockMapping map[int]string `json:"blockmapping"`
+	Mtime	int64	`json:"mtime"`
 }
 
 type Metadata struct {

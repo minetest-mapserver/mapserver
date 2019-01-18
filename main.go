@@ -8,7 +8,7 @@ import (
 	"mapserver/layerconfig"
 	"mapserver/params"
 	"mapserver/web"
-
+	"mapserver/tileupdate"
 	"fmt"
 )
 
@@ -57,6 +57,11 @@ func main() {
 	//run initial rendering
 	if ctx.Config.EnableInitialRendering {
 		go initialrenderer.Render(ctx.Tilerenderer, layerconfig.DefaultLayers)
+	}
+
+	//Incremental update
+	if ctx.Config.EnableIncrementalUpdate {
+		go tileupdate.Job(ctx)
 	}
 
 	//Start http server
