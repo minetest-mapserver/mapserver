@@ -56,7 +56,8 @@ func main() {
 	}
 
 	//run initial rendering
-
-	initialrenderer.Render(ctx.Tilerenderer, layerconfig.DefaultLayers)
+	if ctx.Config.EnableInitialRendering {
+		initialrenderer.Render(ctx.Tilerenderer, layerconfig.DefaultLayers)
+	}
 
 }
