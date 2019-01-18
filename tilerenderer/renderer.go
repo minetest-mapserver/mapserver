@@ -1,25 +1,25 @@
 package tilerenderer
 
 import (
-	"errors"
-	"image"
-	"time"
 	"bytes"
-	"image/png"
-	"image/draw"
-	"mapserver/db"
-	"mapserver/coords"
-	"mapserver/mapblockrenderer"
-	"mapserver/layerconfig"
-	"mapserver/tiledb"
+	"errors"
 	"github.com/sirupsen/logrus"
+	"image"
+	"image/draw"
+	"image/png"
+	"mapserver/coords"
+	"mapserver/db"
+	"mapserver/layerconfig"
+	"mapserver/mapblockrenderer"
+	"mapserver/tiledb"
+	"time"
 )
 
 type TileRenderer struct {
 	mapblockrenderer *mapblockrenderer.MapBlockRenderer
-	layers []layerconfig.Layer
-	tdb tiledb.DBAccessor
-	dba db.DBAccessor
+	layers           []layerconfig.Layer
+	tdb              tiledb.DBAccessor
+	dba              db.DBAccessor
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
@@ -29,14 +29,14 @@ func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 
 	return &TileRenderer{
 		mapblockrenderer: mapblockrenderer,
-		layers: layers,
-		tdb: tdb,
-		dba: dba,
+		layers:           layers,
+		tdb:              tdb,
+		dba:              dba,
 	}
 }
 
 const (
-	IMG_SIZE                          = 256
+	IMG_SIZE = 256
 )
 
 func (tr *TileRenderer) Render(tc coords.TileCoords) ([]byte, error) {
@@ -90,7 +90,7 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 
 	var layer *layerconfig.Layer
 
-	for _, l := range(tr.layers) {
+	for _, l := range tr.layers {
 		if l.Id == tc.LayerId {
 			layer = &l
 		}
@@ -202,7 +202,6 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 	if img != nil {
 		png.Encode(buf, img)
 	}
-
 
 	tile := tiledb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
 	tr.tdb.SetTile(&tile)

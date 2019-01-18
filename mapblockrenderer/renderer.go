@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/sirupsen/logrus"
 	"image"
-	"image/draw"
 	"image/color"
+	"image/draw"
 	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/mapblockaccessor"
@@ -13,8 +13,8 @@ import (
 )
 
 type MapBlockRenderer struct {
-	accessor *mapblockaccessor.MapBlockAccessor
-	colors   *colormapping.ColorMapping
+	accessor     *mapblockaccessor.MapBlockAccessor
+	colors       *colormapping.ColorMapping
 	enableShadow bool
 }
 
@@ -33,23 +33,23 @@ func IsViewBlocking(nodeName string) bool {
 }
 
 func clamp(num int) uint8 {
-    if num < 0 {
-        return 0
-    }
+	if num < 0 {
+		return 0
+	}
 
-		if num > 255 {
-			return 255
-		}
+	if num > 255 {
+		return 255
+	}
 
-    return uint8(num)
+	return uint8(num)
 }
 
 func addColorComponent(c *color.RGBA, value int) *color.RGBA {
 	return &color.RGBA{
-		R: clamp( int(c.R) + value ),
-		G: clamp( int(c.G) + value ),
-		B: clamp( int(c.B) + value ),
-		A: clamp( int(c.A) + value ),
+		R: clamp(int(c.R) + value),
+		G: clamp(int(c.G) + value),
+		B: clamp(int(c.B) + value),
+		A: clamp(int(c.A) + value),
 	}
 }
 

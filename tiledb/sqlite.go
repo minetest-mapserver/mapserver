@@ -69,9 +69,9 @@ func (db *Sqlite3Accessor) GetTile(pos coords.TileCoords) (*Tile, error) {
 		}
 
 		mb := Tile{
-			Pos:     pos,
-			Data:    data,
-			Mtime:   mtime,
+			Pos:   pos,
+			Data:  data,
+			Mtime: mtime,
 		}
 
 		return &mb, nil
@@ -99,7 +99,6 @@ func (db *Sqlite3Accessor) RemoveTile(pos coords.TileCoords) error {
 	_, err := db.db.Exec(removeTileQuery, pos.X, pos.Y, pos.Zoom, pos.LayerId)
 	return err
 }
-
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
 	db, err := sql.Open("sqlite3", filename)

@@ -1,19 +1,19 @@
 package tilerenderer
 
 import (
+	"bytes"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/colormapping"
+	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/mapblockaccessor"
-  "mapserver/testutils"
-  "mapserver/mapblockrenderer"
-  "mapserver/coords"
 	"mapserver/layerconfig"
+	"mapserver/mapblockaccessor"
+	"mapserver/mapblockrenderer"
+	"mapserver/testutils"
 	"mapserver/tiledb"
 	"os"
 	"testing"
-	"bytes"
 )
 
 func TestTileRender(t *testing.T) {
@@ -52,23 +52,23 @@ func TestTileRender(t *testing.T) {
 	tdb, _ := tiledb.NewSqliteAccessor(tiletmpfile.Name())
 	tdb.Migrate()
 
-  tr := NewTileRenderer(r, tdb, a, layerconfig.DefaultLayers)
+	tr := NewTileRenderer(r, tdb, a, layerconfig.DefaultLayers)
 
-  if tr == nil {
-    panic("no renderer")
-  }
+	if tr == nil {
+		panic("no renderer")
+	}
 
-  coord := coords.NewTileCoords(0,0,12,0)
+	coord := coords.NewTileCoords(0, 0, 12, 0)
 
-  data, err := tr.Render(coord)
+	data, err := tr.Render(coord)
 
-  if err != nil {
-    panic(err)
-  }
+	if err != nil {
+		panic(err)
+	}
 
-  if data == nil {
-    panic("no data")
-  }
+	if data == nil {
+		panic("no data")
+	}
 
 	f, _ := os.Create("../output/0_0_12.png")
 	bytes.NewReader(data).WriteTo(f)

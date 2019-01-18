@@ -2,12 +2,12 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
 	"mapserver/coords"
-	"time"
 	"strings"
-	"errors"
+	"time"
 )
 
 const migrateScript = `
@@ -104,7 +104,7 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 	return nil, nil
 }
 
-func sortAsc(a, b int) (int, int){
+func sortAsc(a, b int) (int, int) {
 	if a > b {
 		return b, a
 	} else {
@@ -112,7 +112,7 @@ func sortAsc(a, b int) (int, int){
 	}
 }
 
-func (db *Sqlite3Accessor) CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) (int, error){
+func (db *Sqlite3Accessor) CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) (int, error) {
 
 	poslist := make([]interface{}, 0)
 
@@ -123,7 +123,7 @@ func (db *Sqlite3Accessor) CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.M
 	for x := minX; x <= maxX; x++ {
 		for y := minY; y <= maxY; y++ {
 			for z := minZ; z <= maxZ; z++ {
-				poslist = append(poslist, coords.CoordToPlain(coords.NewMapBlockCoords(x,y,z)))
+				poslist = append(poslist, coords.CoordToPlain(coords.NewMapBlockCoords(x, y, z)))
 			}
 		}
 	}

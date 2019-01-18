@@ -5,8 +5,8 @@ import (
 )
 
 type TileCoords struct {
-	X, Y int
-	Zoom int
+	X, Y    int
+	Zoom    int
 	LayerId int
 }
 
@@ -20,9 +20,9 @@ func NewTileCoords(x, y, zoom int, layerId int) TileCoords {
 
 func (tc TileCoords) GetZoomedOutTile() TileCoords {
 	return TileCoords{
-		X:    int(math.Floor(float64(tc.X) / 2.0)),
-		Y:    int(math.Floor(float64(tc.Y) / 2.0)),
-		Zoom: tc.Zoom - 1,
+		X:       int(math.Floor(float64(tc.X) / 2.0)),
+		Y:       int(math.Floor(float64(tc.Y) / 2.0)),
+		Zoom:    tc.Zoom - 1,
 		LayerId: tc.LayerId}
 }
 

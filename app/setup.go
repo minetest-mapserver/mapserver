@@ -1,53 +1,53 @@
 package app
 
 import (
-  "mapserver/params"
-  "mapserver/worldconfig"
-  "mapserver/db"
-  "mapserver/mapblockaccessor"
-  "mapserver/colormapping"
-  "mapserver/mapblockrenderer"
-  "mapserver/tiledb"
-  "mapserver/tilerenderer"
-  "mapserver/layerconfig"
+	"mapserver/colormapping"
+	"mapserver/db"
+	"mapserver/layerconfig"
+	"mapserver/mapblockaccessor"
+	"mapserver/mapblockrenderer"
+	"mapserver/params"
+	"mapserver/tiledb"
+	"mapserver/tilerenderer"
+	"mapserver/worldconfig"
 
-  "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 
-  "errors"
+	"errors"
 )
 
 func Setup(p params.ParamsType, cfg *Config) (*App, error) {
-  a := App{}
-  a.Params = p
-  a.Config = cfg
+	a := App{}
+	a.Params = p
+	a.Config = cfg
 
-  //Parse world config
+	//Parse world config
 
-  a.Worldconfig = worldconfig.Parse("world.mt")
-  logrus.WithFields(logrus.Fields{"version": Version}).Info("Starting mapserver")
+	a.Worldconfig = worldconfig.Parse("world.mt")
+	logrus.WithFields(logrus.Fields{"version": Version}).Info("Starting mapserver")
 
-  if a.Worldconfig.Backend != worldconfig.BACKEND_SQLITE3 {
-    return nil, errors.New("no supported backend found!")
-  }
+	if a.Worldconfig.Backend != worldconfig.BACKEND_SQLITE3 {
+		return nil, errors.New("no supported backend found!")
+	}
 
-  //create db accessor
-  var err error
-  a.Blockdb, err = db.NewSqliteAccessor("map.sqlite")
+	//create db accessor
+	var err error
+	a.Blockdb, err = db.NewSqliteAccessor("map.sqlite")
 	if err != nil {
 		return nil, err
 	}
 
-  //migrate block db
+	//migrate block db
 
 	err = a.Blockdb.Migrate()
 	if err != nil {
 		return nil, err
 	}
 
-  //mapblock accessor
+	//mapblock accessor
 	a.BlockAccessor = mapblockaccessor.NewMapBlockAccessor(a.Blockdb)
 
-  //color mapping
+	//color mapping
 
 	a.Colormapping = colormapping.NewColorMapping()
 	err = a.Colormapping.LoadVFSColors(false, "/colors.txt")
@@ -55,10 +55,10 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 		return nil, err
 	}
 
-  //mapblock renderer
-  a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
+	//mapblock renderer
+	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
 
-  //tile database
+	//tile database
 
 	a.Tiledb, err = tiledb.NewSqliteAccessor("tiles.sqlite")
 
@@ -66,7 +66,7 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 		return nil, err
 	}
 
-  //migrate tile database
+	//migrate tile database
 
 	err = a.Tiledb.Migrate()
 
@@ -74,13 +74,13 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 		return nil, err
 	}
 
-  //setup tile renderer
-  a.Tilerenderer = tilerenderer.NewTileRenderer(
-    a.Mapblockrenderer,
-    a.Tiledb,
-    a.Blockdb,
-    layerconfig.DefaultLayers,
-  )
+	//setup tile renderer
+	a.Tilerenderer = tilerenderer.NewTileRenderer(
+		a.Mapblockrenderer,
+		a.Tiledb,
+		a.Blockdb,
+		layerconfig.DefaultLayers,
+	)
 
-  return &a, nil
+	return &a, nil
 }

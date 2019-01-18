@@ -1,70 +1,67 @@
 package initialrenderer
 
 import (
-  "mapserver/tilerenderer"
-  "mapserver/layerconfig"
-  "mapserver/coords"
-  "github.com/sirupsen/logrus"
-  "time"
-
+	"github.com/sirupsen/logrus"
+	"mapserver/coords"
+	"mapserver/layerconfig"
+	"mapserver/tilerenderer"
+	"time"
 )
 
-func worker(tr *tilerenderer.TileRenderer, jobs <-chan coords.TileCoords){
-  for coord := range(jobs){
-    tr.Render(coord)
-  }
+func worker(tr *tilerenderer.TileRenderer, jobs <-chan coords.TileCoords) {
+	for coord := range jobs {
+		tr.Render(coord)
+	}
 }
 
 func Render(tr *tilerenderer.TileRenderer,
-  layers []layerconfig.Layer){
+	layers []layerconfig.Layer) {
 
-    start := time.Now()
-    complete_count := 256*256
-    current_count := 0
-    perf_count := 0
+	start := time.Now()
+	complete_count := 256 * 256
+	current_count := 0
+	perf_count := 0
 
-    jobs := make(chan coords.TileCoords, 100)
+	jobs := make(chan coords.TileCoords, 100)
 
-    go worker(tr, jobs)
-    go worker(tr, jobs)
-    go worker(tr, jobs)
-    go worker(tr, jobs)
+	go worker(tr, jobs)
+	go worker(tr, jobs)
+	go worker(tr, jobs)
+	go worker(tr, jobs)
 
-    for _, layer := range(layers) {
+	for _, layer := range layers {
 
-    	//zoom 10 iterator
-    	for x := -127; x<128; x++ {
-    		for y := -127; y<128; y++ {
-    			tc := coords.NewTileCoords(x,y,9,layer.Id)
-          jobs <- tc
-          current_count++
-          perf_count++
+		//zoom 10 iterator
+		for x := -127; x < 128; x++ {
+			for y := -127; y < 128; y++ {
+				tc := coords.NewTileCoords(x, y, 9, layer.Id)
+				jobs <- tc
+				current_count++
+				perf_count++
 
-          if time.Now().Sub(start).Seconds() > 2 {
-            start = time.Now()
-            progress := float64(current_count) / float64(complete_count) * 100
+				if time.Now().Sub(start).Seconds() > 2 {
+					start = time.Now()
+					progress := float64(current_count) / float64(complete_count) * 100
 
-            fields := logrus.Fields{
-              "x": x,
-              "y": y,
-              "progress(%)": progress,
-              "layer": layer.Name,
-              "perf": perf_count,
-            }
+					fields := logrus.Fields{
+						"x":           x,
+						"y":           y,
+						"progress(%)": progress,
+						"layer":       layer.Name,
+						"perf":        perf_count,
+					}
 
-            perf_count = 0
-            logrus.WithFields(fields).Info("Initial render progress")
-          }
-    		}
-    	}
+					perf_count = 0
+					logrus.WithFields(fields).Info("Initial render progress")
+				}
+			}
+		}
 
+	}
 
-    }
-
-    close(jobs)
+	close(jobs)
 
 }
-
 
 // zoom:1 == length=1
 // zoom:2 == length=2

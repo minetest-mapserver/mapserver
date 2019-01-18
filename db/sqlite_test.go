@@ -75,7 +75,6 @@ func TestMigrateAndQuery(t *testing.T) {
 
 }
 
-
 func TestMigrateAndQueryStride(t *testing.T) {
 	tmpfile, err := ioutil.TempFile("", "TestMigrateAndQueryStride.*.sqlite")
 	if err != nil {

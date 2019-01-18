@@ -19,8 +19,8 @@ func GetMapBlockRangeFromTile(tc TileCoords, y int) MapBlockRange {
 	mapBlockX1 := tc.X * scale
 	mapBlockZ1 := (tc.Y * scale * -1) - 1
 
-	mapBlockX2 := mapBlockX1 + scale-1
-	mapBlockZ2 := (mapBlockZ1 + ((scale-1) * -1))
+	mapBlockX2 := mapBlockX1 + scale - 1
+	mapBlockZ2 := (mapBlockZ1 + ((scale - 1) * -1))
 
 	return MapBlockRange{
 		Pos1: NewMapBlockCoords(mapBlockX1, y, mapBlockZ1),

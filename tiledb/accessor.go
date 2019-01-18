@@ -5,9 +5,9 @@ import (
 )
 
 type Tile struct {
-	Pos     coords.TileCoords
-	Data    []byte
-	Mtime   int64
+	Pos   coords.TileCoords
+	Data  []byte
+	Mtime int64
 }
 
 type DBAccessor interface {

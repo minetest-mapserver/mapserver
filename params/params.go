@@ -5,9 +5,9 @@ import (
 )
 
 type ParamsType struct {
-	Help     		bool
-	Version  		bool
-	Dumpconfig	bool
+	Help       bool
+	Version    bool
+	Dumpconfig bool
 }
 
 func Parse() ParamsType {
@@ -21,6 +21,6 @@ func Parse() ParamsType {
 	return params
 }
 
-func PrintHelp(){
+func PrintHelp() {
 	flag.PrintDefaults()
 }
