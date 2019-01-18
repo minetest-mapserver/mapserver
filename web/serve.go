@@ -1,7 +1,6 @@
 package web
 
 import (
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/vfs"
@@ -19,10 +18,7 @@ func Serve(ctx *app.App) {
 	mux := http.NewServeMux()
 
 	mux.Handle("/", http.FileServer(vfs.FS(ctx.Config.Webdev)))
-
-	mux.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Api endpoint")
-	})
+  mux.Handle("/tile/", &Tiles{ctx: ctx})
 
 	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), mux)
 	if err != nil {
