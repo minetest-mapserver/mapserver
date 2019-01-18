@@ -7,6 +7,7 @@ import (
 	"mapserver/initialrenderer"
 	"mapserver/layerconfig"
 	"mapserver/params"
+	"mapserver/web"
 
 	"fmt"
 )
@@ -55,7 +56,10 @@ func main() {
 
 	//run initial rendering
 	if ctx.Config.EnableInitialRendering {
-		initialrenderer.Render(ctx.Tilerenderer, layerconfig.DefaultLayers)
+		go initialrenderer.Render(ctx.Tilerenderer, layerconfig.DefaultLayers)
 	}
+
+	//Start http server
+	web.Serve(ctx)
 
 }

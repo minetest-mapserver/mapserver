@@ -13,7 +13,7 @@ type Config struct {
 
 func ParseConfig(filename string) (*Config, error) {
 	cfg := Config{
-		Port:                   80,
+		Port:                   8080,
 		EnableInitialRendering: true,
 	}
 
