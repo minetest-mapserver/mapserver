@@ -7,6 +7,7 @@ import (
 )
 
 func Job(ctx *app.App) {
+	//TODO remember last time run
 	t := time.Now().Unix()
 
 	fields := logrus.Fields{
