@@ -29,7 +29,7 @@ func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.
 	a.c.Set(key, mb, cache.DefaultExpiration)
 }
 
-func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*mapblockparser.MapBlock, error){
+func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*mapblockparser.MapBlock, error) {
 	blocks, err := a.accessor.FindLatestBlocks(mintime, limit)
 
 	if err != nil {
@@ -38,7 +38,7 @@ func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*map
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
 
-	for _, block := range(blocks) {
+	for _, block := range blocks {
 		key := getKey(block.Pos)
 
 		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)

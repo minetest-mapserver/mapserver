@@ -2,14 +2,14 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/initialrenderer"
 	"mapserver/layerconfig"
 	"mapserver/params"
-	"mapserver/web"
 	"mapserver/tileupdate"
-	"fmt"
+	"mapserver/web"
 )
 
 func main() {

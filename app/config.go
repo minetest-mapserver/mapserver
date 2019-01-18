@@ -7,11 +7,11 @@ import (
 )
 
 type Config struct {
-	Port                   int          `json:"port"`
-	EnableInitialRendering bool         `json:"enableinitialrendering"`
-	EnableIncrementalUpdate bool	`json:"enableincrementalupdate"`
-	Webdev                 bool         `json:"webdev"`
-	WebApi                 WebApiConfig `json:"webapi"`
+	Port                    int          `json:"port"`
+	EnableInitialRendering  bool         `json:"enableinitialrendering"`
+	EnableIncrementalUpdate bool         `json:"enableincrementalupdate"`
+	Webdev                  bool         `json:"webdev"`
+	WebApi                  WebApiConfig `json:"webapi"`
 }
 
 type WebApiConfig struct {
@@ -24,11 +24,11 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	cfg := Config{
-		Port:                   8080,
-		EnableInitialRendering: true,
+		Port:                    8080,
+		EnableInitialRendering:  true,
 		EnableIncrementalUpdate: true,
-		Webdev:                 false,
-		WebApi:                 webapi,
+		Webdev:                  false,
+		WebApi:                  webapi,
 	}
 
 	info, err := os.Stat(filename)
