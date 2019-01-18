@@ -17,6 +17,7 @@ const (
 
 type App struct {
   Params params.ParamsType
+  Config *Config
   Worldconfig worldconfig.WorldConfig
 
   Blockdb db.DBAccessor

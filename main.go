@@ -29,9 +29,15 @@ func main() {
     return
   }
 
+	//parse Config
+	cfg, err := app.ParseConfig("mapserver.json")
+	if err != nil {
+		panic(err)
+	}
+
 	//setup app context
 
-	ctx, err := app.Setup(p)
+	ctx, err := app.Setup(p, cfg)
 
 	if err != nil {
 		//error case

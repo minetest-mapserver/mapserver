@@ -16,13 +16,14 @@ import (
   "errors"
 )
 
-func Setup(p params.ParamsType) (*App, error) {
+func Setup(p params.ParamsType, cfg *Config) (*App, error) {
   a := App{}
   a.Params = p
+  a.Config = cfg
 
   //Parse world config
 
-  a.Worldconfig = worldconfig.Parse(a.Params.Worlddir + "world.mt")
+  a.Worldconfig = worldconfig.Parse("world.mt")
   logrus.WithFields(logrus.Fields{"version": Version}).Info("Starting mapserver")
 
   if a.Worldconfig.Backend != worldconfig.BACKEND_SQLITE3 {
