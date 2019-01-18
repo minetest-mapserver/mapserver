@@ -7,13 +7,13 @@ import (
 type MapData struct {
 	//mapblock position
 	MBPos coords.MapBlockCoords
-	
+
 	//block position
 	X, Y, Z int
 
-	Type    string
-	Data    string
-	Mtime   int64
+	Type  string
+	Data  string
+	Mtime int64
 }
 
 type SearchQuery struct {

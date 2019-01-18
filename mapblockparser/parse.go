@@ -6,12 +6,13 @@ import (
 )
 
 func Parse(data []byte, mtime int64) (*MapBlock, error) {
-	mapblock := NewMapblock()
-	mapblock.Mtime = mtime
-
 	if len(data) == 0 {
 		return nil, errors.New("no data")
 	}
+
+	mapblock := NewMapblock()
+	mapblock.Mtime = mtime
+	mapblock.Size = len(data)
 
 	offset := 0
 

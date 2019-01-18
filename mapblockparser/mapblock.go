@@ -1,6 +1,7 @@
 package mapblockparser
 
 type MapBlock struct {
+	Size         int            `json:"size"`
 	Version      byte           `json:"version"`
 	Underground  bool           `json:"underground"`
 	Mapdata      []byte         `json:"mapdata"`

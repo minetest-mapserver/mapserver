@@ -12,7 +12,7 @@ type ClearMapData struct {
 
 func (this *ClearMapData) OnParsedMapBlock(block *mapblockparser.MapBlock, pos coords.MapBlockCoords) {
 	err := this.db.RemoveMapData(pos)
-  if err != nil {
-    panic(err)
-  }
+	if err != nil {
+		panic(err)
+	}
 }
