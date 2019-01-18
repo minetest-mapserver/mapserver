@@ -8,11 +8,13 @@ import (
 
 type Config struct {
   Port int        `json:"port"`
+  EnableInitialRendering bool   `json:"enableinitialrendering"`
 }
 
 func ParseConfig(filename string) (*Config, error) {
   cfg := Config{
     Port: 80,
+    EnableInitialRendering: true,
   }
 
   info, err := os.Stat(filename)
