@@ -26,7 +26,7 @@ func getKey(pos coords.MapBlockCoords) string {
 }
 
 func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
-	c := cache.New(1*time.Second, 2*time.Second)
+	c := cache.New(100*time.Millisecond, 200*time.Millisecond)
 
 	return &MapBlockAccessor{accessor: accessor, c: c}
 }
