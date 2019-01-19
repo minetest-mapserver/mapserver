@@ -1,6 +1,6 @@
 {
 	"port": 8080,
-	"enableinitialrendering": false,
+	"enableinitialrendering": true,
 	"enableincrementalupdate": true,
 	"webdev": true,
 	"webapi": {

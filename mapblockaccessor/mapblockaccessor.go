@@ -2,12 +2,13 @@ package mapblockaccessor
 
 import (
 	"fmt"
-	"github.com/patrickmn/go-cache"
-	"github.com/sirupsen/logrus"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/mapblockparser"
 	"time"
+
+	cache "github.com/patrickmn/go-cache"
+	"github.com/sirupsen/logrus"
 )
 
 type MapBlockAccessor struct {
@@ -25,7 +26,7 @@ func getKey(pos coords.MapBlockCoords) string {
 }
 
 func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
-	c := cache.New(5*time.Minute, 10*time.Minute)
+	c := cache.New(1*time.Second, 2*time.Second)
 
 	return &MapBlockAccessor{accessor: accessor, c: c}
 }
