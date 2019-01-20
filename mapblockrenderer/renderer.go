@@ -2,7 +2,6 @@ package mapblockrenderer
 
 import (
 	"errors"
-	"github.com/sirupsen/logrus"
 	"image"
 	"image/color"
 	"image/draw"
@@ -10,6 +9,8 @@ import (
 	"mapserver/coords"
 	"mapserver/mapblockaccessor"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 type MapBlockRenderer struct {
@@ -173,9 +174,12 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 						}
 					}
 
+					imgX := x * IMG_SCALE
+					imgY := (15 - z) * IMG_SCALE
+
 					rect := image.Rect(
-						x*IMG_SCALE, z*IMG_SCALE,
-						(x*IMG_SCALE)+IMG_SCALE, (z*IMG_SCALE)+IMG_SCALE,
+						imgX, imgY,
+						imgX+IMG_SCALE, imgY+IMG_SCALE,
 					)
 
 					foundBlocks++
