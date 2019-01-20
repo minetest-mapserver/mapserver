@@ -1,8 +1,9 @@
 package coords
 
 import (
-	"github.com/sirupsen/logrus"
 	"testing"
+
+	"github.com/sirupsen/logrus"
 )
 
 var log *logrus.Entry
@@ -31,12 +32,5 @@ func testCoordConvert(t *testing.T, mb MapBlockCoords) {
 	if mb.Z != mb2.Z {
 		t.Fatal("Z mismatch")
 	}
-
-}
-
-func TestConvertPlainMapBlock(t *testing.T) {
-	testCoordConvert(t, NewMapBlockCoords(10, 0, -10))
-	testCoordConvert(t, NewMapBlockCoords(-2048, 2047, -10))
-	testCoordConvert(t, NewMapBlockCoords(-3, 0, 2047)) //0...2047
 
 }
