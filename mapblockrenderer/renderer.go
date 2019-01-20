@@ -30,7 +30,19 @@ const (
 )
 
 func IsViewBlocking(nodeName string) bool {
-	return nodeName != "" && nodeName != "vacuum:vacuum"
+	if nodeName == "" {
+		return false
+	}
+
+	if nodeName == "vacuum:vacuum" {
+		return false
+	}
+
+	if nodeName == "air" {
+		return false
+	}
+
+	return true
 }
 
 func clamp(num int) uint8 {
@@ -132,8 +144,8 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
 
 							if neighbourMapblock != nil && err == nil {
-								left = mb.GetNodeName(15, y, z)
-								leftAbove = mb.GetNodeName(15, y+1, z)
+								left = neighbourMapblock.GetNodeName(15, y, z)
+								leftAbove = neighbourMapblock.GetNodeName(15, y+1, z)
 							}
 						}
 
@@ -148,8 +160,8 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
 
 							if neighbourMapblock != nil && err == nil {
-								left = mb.GetNodeName(x, y, 0)
-								leftAbove = mb.GetNodeName(x, y+1, z+0)
+								top = neighbourMapblock.GetNodeName(x, y, 0)
+								topAbove = neighbourMapblock.GetNodeName(x, y+1, z+0)
 							}
 						}
 
