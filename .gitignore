@@ -2,6 +2,6 @@ mapserver
 world.mt
 output
 map.sqlite
-tiles.sqlite
-tiles.sqlite-journal
+mapserver.sqlite
+mapserver.sqlite-journal
 mapserver.json
