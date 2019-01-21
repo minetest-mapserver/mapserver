@@ -10,7 +10,7 @@ import (
 	"mapserver/db"
 	"mapserver/layer"
 	"mapserver/mapblockrenderer"
-	"mapserver/tiledb"
+	"mapserver/mapobjectdb"
 	"time"
 
 	"github.com/disintegration/imaging"
@@ -20,12 +20,12 @@ import (
 type TileRenderer struct {
 	mapblockrenderer *mapblockrenderer.MapBlockRenderer
 	layers           []layer.Layer
-	tdb              tiledb.DBAccessor
+	tdb              mapobjectdb.DBAccessor
 	dba              db.DBAccessor
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
-	tdb tiledb.DBAccessor,
+	tdb mapobjectdb.DBAccessor,
 	dba db.DBAccessor,
 	layers []layer.Layer) *TileRenderer {
 
@@ -188,7 +188,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 		png.Encode(buf, img)
 	}
 
-	tile := tiledb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
+	tile := mapobjectdb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
 	tr.tdb.SetTile(&tile)
 
 	return img, nil

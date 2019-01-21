@@ -42,7 +42,7 @@ func Job(ctx *app.App) {
 
 			for tc.Zoom > 1 {
 				tc = tc.GetZoomedOutTile()
-				ctx.Tiledb.RemoveTile(tc)
+				ctx.Objectdb.RemoveTile(tc)
 			}
 		}
 

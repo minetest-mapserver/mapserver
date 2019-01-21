@@ -1,4 +1,4 @@
-package tiledb
+package mapobjectdb
 
 import (
 	"io/ioutil"

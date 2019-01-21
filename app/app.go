@@ -6,7 +6,7 @@ import (
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/params"
-	"mapserver/tiledb"
+	"mapserver/mapobjectdb"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
 )
@@ -21,7 +21,7 @@ type App struct {
 	Worldconfig worldconfig.WorldConfig
 
 	Blockdb db.DBAccessor
-	Tiledb  tiledb.DBAccessor
+	Objectdb  mapobjectdb.DBAccessor
 
 	BlockAccessor    *mapblockaccessor.MapBlockAccessor
 	Colormapping     *colormapping.ColorMapping

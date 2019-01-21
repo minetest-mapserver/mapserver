@@ -27,7 +27,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	zoom, _ := strconv.Atoi(parts[3])
 
 	c := coords.NewTileCoords(x, y, zoom, layerid)
-	tile, err := t.ctx.Tiledb.GetTile(c)
+	tile, err := t.ctx.Objectdb.GetTile(c)
 
 	if err != nil {
 		resp.WriteHeader(500)

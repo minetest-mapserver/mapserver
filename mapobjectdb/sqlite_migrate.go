@@ -9,7 +9,7 @@ import (
 
 const migrateScript = `
 create table if not exists objects(
-	id bigint primary key auto_increment,
+	id integer primary key autoincrement,
   x int,
   y int,
 	z int,
@@ -18,7 +18,17 @@ create table if not exists objects(
 	posz int,
 	type varchar,
 	data blob,
+  mtime bigint
+);
+
+create table if not exists tiles(
+  data blob,
   mtime bigint,
+  layerid int,
+  x int,
+  y int,
+  zoom int,
+  primary key(x,y,zoom,layerid)
 );
 `
 

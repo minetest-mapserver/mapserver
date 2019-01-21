@@ -6,7 +6,7 @@ import (
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/params"
-	"mapserver/tiledb"
+	"mapserver/mapobjectdb"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
 
@@ -58,7 +58,7 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 
 	//tile database
 
-	a.Tiledb, err = tiledb.NewSqliteAccessor("tiles.sqlite")
+	a.Objectdb, err = mapobjectdb.NewSqliteAccessor("mapserver.sqlite")
 
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 
 	//migrate tile database
 
-	err = a.Tiledb.Migrate()
+	err = a.Objectdb.Migrate()
 
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	//setup tile renderer
 	a.Tilerenderer = tilerenderer.NewTileRenderer(
 		a.Mapblockrenderer,
-		a.Tiledb,
+		a.Objectdb,
 		a.Blockdb,
 		a.Config.Layers,
 	)

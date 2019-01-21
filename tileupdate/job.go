@@ -4,7 +4,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
-	"mapserver/mapblockparser"
 	"time"
 )
 
@@ -23,9 +22,6 @@ func Job(ctx *app.App) {
 			panic(err)
 		}
 
-		//only mapblocks with valid layer
-		validmblist := make([]*mapblockparser.MapBlock, 0)
-
 		for _, mb := range mblist {
 			if mb.Mtime > rstate.LastMtime {
 				rstate.LastMtime = mb.Mtime
@@ -34,19 +30,17 @@ func Job(ctx *app.App) {
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
 			if tc == nil {
-				continue
+				panic("tile not in any layer")
 			}
-
-			validmblist = append(validmblist, mb)
 
 			for tc.Zoom > 1 {
 				tc = tc.GetZoomedOutTile()
-				ctx.Tiledb.RemoveTile(tc)
+				ctx.Objectdb.RemoveTile(tc)
 			}
 		}
 
 		//Render zoom 12-1
-		for _, mb := range validmblist {
+		for _, mb := range mblist {
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 			for tc.Zoom > 1 {
 				tc = tc.GetZoomedOutTile()
@@ -71,7 +65,6 @@ func Job(ctx *app.App) {
 		if len(mblist) > 0 {
 			fields = logrus.Fields{
 				"count":      len(mblist),
-				"validcount": len(validmblist),
 				"lastmtime":  rstate.LastMtime,
 			}
 			logrus.WithFields(fields).Info("incremental update")
