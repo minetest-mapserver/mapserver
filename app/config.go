@@ -97,7 +97,7 @@ func ParseConfig(filename string) (*Config, error) {
 		WebApi:                     &webapi,
 		RenderState:                &rstate,
 		Layers:                     layers,
-		InitialRenderingFetchLimit: 10000,
+		InitialRenderingFetchLimit: 1000,
 		UpdateRenderingFetchLimit:  10000,
 	}
 
