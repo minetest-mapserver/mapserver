@@ -22,15 +22,15 @@ func Job(ctx *app.App) {
 			panic(err)
 		}
 
-		lastcoords = *newlastcoords
-
-		if len(mblist) <= 1 {
+		if len(mblist) == 0 {
 			logrus.Info("Initial rendering complete")
 			rstate.InitialRun = false
 			ctx.Config.Save()
 
 			break
 		}
+
+		lastcoords = *newlastcoords
 
 		//for _, mb := range mblist {
 		//}

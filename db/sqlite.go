@@ -73,7 +73,7 @@ const getLegacyBlockQuery = `
 select pos,data,mtime
 from blocks b
 where b.mtime == 0
-and b.pos >= ?
+and b.pos > ?
 order by b.pos asc
 limit ?
 `

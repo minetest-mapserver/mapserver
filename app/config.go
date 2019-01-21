@@ -72,10 +72,10 @@ func ParseConfig(filename string) (*Config, error) {
 
 	rstate := RenderStateType{
 		InitialRun: true,
-		LastX:      coords.MinCoord,
-		LastY:      coords.MinCoord,
-		LastZ:      coords.MinCoord,
-		LastMtime:  0,
+		LastX:      coords.MinCoord-1,
+		LastY:      coords.MinCoord-1,
+		LastZ:      coords.MinCoord-1,
+		LastMtime:  1,
 	}
 
 	layers := []layer.Layer{
