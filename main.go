@@ -6,7 +6,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/initialrenderer"
-	"mapserver/layerconfig"
 	"mapserver/params"
 	"mapserver/tileupdate"
 	"mapserver/web"
@@ -60,7 +59,7 @@ func main() {
 
 	//run initial rendering
 	if ctx.Config.EnableInitialRendering {
-		go initialrenderer.Render(ctx.Tilerenderer, layerconfig.DefaultLayers)
+		go initialrenderer.Job(ctx)
 	}
 
 	//Incremental update

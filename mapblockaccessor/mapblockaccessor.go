@@ -40,6 +40,46 @@ func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.
 	a.c.Set(key, mb, cache.DefaultExpiration)
 }
 
+func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, limit int) (*coords.MapBlockCoords, []*mapblockparser.MapBlock, error) {
+
+	blocks, err := a.accessor.FindLegacyBlocks(lastpos, limit)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	mblist := make([]*mapblockparser.MapBlock, 0)
+	var newlastpos *coords.MapBlockCoords
+
+	for _, block := range blocks {
+
+		fields := logrus.Fields{
+			"x": block.Pos.X,
+			"y": block.Pos.Y,
+			"z": block.Pos.Z,
+		}
+		logrus.WithFields(fields).Debug("legacy mapblock")
+
+		key := getKey(block.Pos)
+
+		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		for _, listener := range a.listeners {
+			listener.OnParsedMapBlock(mapblock, block.Pos)
+		}
+
+		a.c.Set(key, mapblock, cache.DefaultExpiration)
+		mblist = append(mblist, mapblock)
+
+		newlastpos = &block.Pos
+	}
+
+	return newlastpos, mblist, nil
+}
+
 func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*mapblockparser.MapBlock, error) {
 	blocks, err := a.accessor.FindLatestBlocks(mintime, limit)
 
