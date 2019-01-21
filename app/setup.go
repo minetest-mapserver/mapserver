@@ -3,7 +3,6 @@ package app
 import (
 	"mapserver/colormapping"
 	"mapserver/db"
-	"mapserver/layerconfig"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/params"
@@ -22,7 +21,6 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	a.Config = cfg
 
 	//Parse world config
-
 	a.Worldconfig = worldconfig.Parse("world.mt")
 	logrus.WithFields(logrus.Fields{"version": Version}).Info("Starting mapserver")
 
@@ -79,7 +77,7 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 		a.Mapblockrenderer,
 		a.Tiledb,
 		a.Blockdb,
-		layerconfig.DefaultLayers,
+		a.Config.Layers,
 	)
 
 	return &a, nil

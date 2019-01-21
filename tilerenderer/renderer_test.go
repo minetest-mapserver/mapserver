@@ -7,7 +7,7 @@ import (
 	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/layerconfig"
+	"mapserver/layer"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/testutils"
@@ -52,7 +52,16 @@ func TestTileRender(t *testing.T) {
 	tdb, _ := tiledb.NewSqliteAccessor(tiletmpfile.Name())
 	tdb.Migrate()
 
-	tr := NewTileRenderer(r, tdb, a, layerconfig.DefaultLayers)
+	layers := []layer.Layer{
+		layer.Layer{
+			Id:   0,
+			Name: "Base",
+			From: -16,
+			To:   160,
+		},
+	}
+
+	tr := NewTileRenderer(r, tdb, a, layers)
 
 	if tr == nil {
 		panic("no renderer")

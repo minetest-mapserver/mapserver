@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"mapserver/coords"
+	"mapserver/layer"
 	"os"
 	"sync"
 )
@@ -15,6 +16,7 @@ type Config struct {
 	Webdev                  bool             `json:"webdev"`
 	WebApi                  *WebApiConfig    `json:"webapi"`
 	RenderState             *RenderStateType `json:"renderstate"`
+	Layers                  []layer.Layer    `json:"layers"`
 }
 
 type WebApiConfig struct {
@@ -76,6 +78,15 @@ func ParseConfig(filename string) (*Config, error) {
 		LastMtime:  0,
 	}
 
+	layers := []layer.Layer{
+		layer.Layer{
+			Id:   0,
+			Name: "Base",
+			From: -16,
+			To:   160,
+		},
+	}
+
 	cfg := Config{
 		Port:                    8080,
 		EnableInitialRendering:  true,
@@ -83,6 +94,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Webdev:                  false,
 		WebApi:                  &webapi,
 		RenderState:             &rstate,
+		Layers:                  layers,
 	}
 
 	info, err := os.Stat(filename)

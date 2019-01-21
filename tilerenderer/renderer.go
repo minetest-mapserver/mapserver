@@ -8,7 +8,7 @@ import (
 	"image/png"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/layerconfig"
+	"mapserver/layer"
 	"mapserver/mapblockrenderer"
 	"mapserver/tiledb"
 	"time"
@@ -19,7 +19,7 @@ import (
 
 type TileRenderer struct {
 	mapblockrenderer *mapblockrenderer.MapBlockRenderer
-	layers           []layerconfig.Layer
+	layers           []layer.Layer
 	tdb              tiledb.DBAccessor
 	dba              db.DBAccessor
 }
@@ -27,7 +27,7 @@ type TileRenderer struct {
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 	tdb tiledb.DBAccessor,
 	dba db.DBAccessor,
-	layers []layerconfig.Layer) *TileRenderer {
+	layers []layer.Layer) *TileRenderer {
 
 	return &TileRenderer{
 		mapblockrenderer: mapblockrenderer,
@@ -90,7 +90,7 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 
 	log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
 
-	var layer *layerconfig.Layer
+	var layer *layer.Layer
 
 	for _, l := range tr.layers {
 		if l.Id == tc.LayerId {

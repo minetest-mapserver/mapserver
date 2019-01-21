@@ -7,34 +7,31 @@ import (
 )
 
 func Job(ctx *app.App) {
-	//TODO remember last time run
-	t := time.Now().Unix()
+	rstate := ctx.Config.RenderState
 
 	fields := logrus.Fields{
-		"time": t,
+		"lastmtime": rstate.LastMtime,
 	}
 	logrus.WithFields(fields).Info("Starting incremental update")
 
 	for true {
-		mblist, err := ctx.BlockAccessor.FindLatestMapBlocks(t, 1000)
+		mblist, err := ctx.BlockAccessor.FindLatestMapBlocks(rstate.LastMtime, 1000)
 
 		if err != nil {
 			panic(err)
 		}
 
 		for _, mb := range mblist {
-			if mb.Mtime > t {
-				t = mb.Mtime + 1
+			if mb.Mtime > rstate.LastMtime {
+				rstate.LastMtime = mb.Mtime + 1
 			}
 		}
 
-		rstate := ctx.Config.RenderState
-		rstate.LastMtime = t
 		ctx.Config.Save()
 
 		fields = logrus.Fields{
-			"count": len(mblist),
-			"time":  t,
+			"count":     len(mblist),
+			"lastmtime": rstate.LastMtime,
 		}
 		logrus.WithFields(fields).Info("incremental update")
 
