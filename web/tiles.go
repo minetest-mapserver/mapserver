@@ -27,7 +27,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	zoom, _ := strconv.Atoi(parts[3])
 
 	c := coords.NewTileCoords(x, y, zoom, layerid)
-	data, err := t.ctx.Tilerenderer.Render(c)
+	tile, err := t.ctx.Tiledb.GetTile(c)
 
 	if err != nil {
 		resp.WriteHeader(500)
@@ -35,6 +35,13 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 	} else {
 		resp.Header().Add("content-type", "image/png")
-		resp.Write(data)
+
+		if tile == nil {
+			//TODO: blank tile
+
+		} else {
+			resp.Write(tile.Data)
+			
+		}
 	}
 }
