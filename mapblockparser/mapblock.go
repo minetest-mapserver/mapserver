@@ -5,14 +5,14 @@ import (
 )
 
 type MapBlock struct {
-	Pos coords.MapBlockCoords `json:"pos"`
-	Size         int            `json:"size"`
-	Version      byte           `json:"version"`
-	Underground  bool           `json:"underground"`
-	Mapdata      []byte         `json:"mapdata"`
-	Metadata     Metadata       `json:"metadata"`
-	BlockMapping map[int]string `json:"blockmapping"`
-	Mtime        int64          `json:"mtime"`
+	Pos          coords.MapBlockCoords `json:"pos"`
+	Size         int                   `json:"size"`
+	Version      byte                  `json:"version"`
+	Underground  bool                  `json:"underground"`
+	Mapdata      []byte                `json:"mapdata"`
+	Metadata     Metadata              `json:"metadata"`
+	BlockMapping map[int]string        `json:"blockmapping"`
+	Mtime        int64                 `json:"mtime"`
 }
 
 type Metadata struct {

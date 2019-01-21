@@ -17,7 +17,7 @@ func Job(ctx *app.App) {
 	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
 
 	for true {
-		newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, 10000)
+		newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, ctx.Config.InitialRenderingFetchLimit)
 
 		if err != nil {
 			panic(err)
@@ -59,9 +59,9 @@ func Job(ctx *app.App) {
 				tc = tc.GetZoomedOutTile()
 
 				fields = logrus.Fields{
-					"X":     tc.X,
-					"Y":     tc.Y,
-					"Zoom":     tc.Zoom,
+					"X":       tc.X,
+					"Y":       tc.Y,
+					"Zoom":    tc.Zoom,
 					"LayerId": tc.LayerId,
 				}
 				logrus.WithFields(fields).Debug("Dispatching tile rendering")
@@ -80,10 +80,10 @@ func Job(ctx *app.App) {
 		ctx.Config.Save()
 
 		fields = logrus.Fields{
-			"count": len(mblist),
-			"X":     lastcoords.X,
-			"Y":     lastcoords.Y,
-			"Z":     lastcoords.Z,
+			"count":      len(mblist),
+			"X":          lastcoords.X,
+			"Y":          lastcoords.Y,
+			"Z":          lastcoords.Z,
 			"validcount": len(validmblist),
 		}
 		logrus.WithFields(fields).Info("Initial rendering")

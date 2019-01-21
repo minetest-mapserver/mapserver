@@ -10,13 +10,15 @@ import (
 )
 
 type Config struct {
-	Port                    int              `json:"port"`
-	EnableInitialRendering  bool             `json:"enableinitialrendering"`
-	EnableIncrementalUpdate bool             `json:"enableincrementalupdate"`
-	Webdev                  bool             `json:"webdev"`
-	WebApi                  *WebApiConfig    `json:"webapi"`
-	RenderState             *RenderStateType `json:"renderstate"`
-	Layers                  []layer.Layer    `json:"layers"`
+	Port                       int              `json:"port"`
+	EnableInitialRendering     bool             `json:"enableinitialrendering"`
+	EnableIncrementalUpdate    bool             `json:"enableincrementalupdate"`
+	Webdev                     bool             `json:"webdev"`
+	WebApi                     *WebApiConfig    `json:"webapi"`
+	RenderState                *RenderStateType `json:"renderstate"`
+	Layers                     []layer.Layer    `json:"layers"`
+	InitialRenderingFetchLimit int              `json:"initialrenderingfetchlimit"`
+	UpdateRenderingFetchLimit  int              `json:"updaterenderingfetchlimit"`
 }
 
 type WebApiConfig struct {
@@ -72,9 +74,9 @@ func ParseConfig(filename string) (*Config, error) {
 
 	rstate := RenderStateType{
 		InitialRun: true,
-		LastX:      coords.MinCoord-1,
-		LastY:      coords.MinCoord-1,
-		LastZ:      coords.MinCoord-1,
+		LastX:      coords.MinCoord - 1,
+		LastY:      coords.MinCoord - 1,
+		LastZ:      coords.MinCoord - 1,
 		LastMtime:  1,
 	}
 
@@ -88,13 +90,15 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	cfg := Config{
-		Port:                    8080,
-		EnableInitialRendering:  true,
-		EnableIncrementalUpdate: true,
-		Webdev:                  false,
-		WebApi:                  &webapi,
-		RenderState:             &rstate,
-		Layers:                  layers,
+		Port:                       8080,
+		EnableInitialRendering:     true,
+		EnableIncrementalUpdate:    true,
+		Webdev:                     false,
+		WebApi:                     &webapi,
+		RenderState:                &rstate,
+		Layers:                     layers,
+		InitialRenderingFetchLimit: 10000,
+		UpdateRenderingFetchLimit:  10000,
 	}
 
 	info, err := os.Stat(filename)

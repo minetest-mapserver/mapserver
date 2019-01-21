@@ -1,8 +1,8 @@
 package coords
 
 import (
-	"math"
 	"mapserver/layer"
+	"math"
 )
 
 const (

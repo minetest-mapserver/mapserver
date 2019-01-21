@@ -1,9 +1,9 @@
 package coords
 
 import (
-	"testing"
-	"mapserver/layer"
 	"github.com/stretchr/testify/assert"
+	"mapserver/layer"
+	"testing"
 )
 
 func TestConvertMapblockToTile1(t *testing.T) {

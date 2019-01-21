@@ -2,8 +2,8 @@ package mapblockparser
 
 import (
 	"errors"
-	"strconv"
 	"mapserver/coords"
+	"strconv"
 )
 
 func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, error) {
@@ -13,7 +13,7 @@ func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, erro
 
 	mapblock := NewMapblock()
 	mapblock.Mtime = mtime
-	mapblock.Pos  = pos
+	mapblock.Pos = pos
 	mapblock.Size = len(data)
 
 	offset := 0

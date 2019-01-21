@@ -17,7 +17,7 @@ func Job(ctx *app.App) {
 	logrus.WithFields(fields).Info("Starting incremental update")
 
 	for true {
-		mblist, err := ctx.BlockAccessor.FindLatestMapBlocks(rstate.LastMtime, 10000)
+		mblist, err := ctx.BlockAccessor.FindLatestMapBlocks(rstate.LastMtime, ctx.Config.UpdateRenderingFetchLimit)
 
 		if err != nil {
 			panic(err)
@@ -52,9 +52,9 @@ func Job(ctx *app.App) {
 				tc = tc.GetZoomedOutTile()
 
 				fields = logrus.Fields{
-					"X":     tc.X,
-					"Y":     tc.Y,
-					"Zoom":     tc.Zoom,
+					"X":       tc.X,
+					"Y":       tc.Y,
+					"Zoom":    tc.Zoom,
 					"LayerId": tc.LayerId,
 				}
 				logrus.WithFields(fields).Debug("Dispatching tile rendering (update)")
@@ -70,8 +70,9 @@ func Job(ctx *app.App) {
 
 		if len(mblist) > 0 {
 			fields = logrus.Fields{
-				"count":     len(mblist),
-				"lastmtime": rstate.LastMtime,
+				"count":      len(mblist),
+				"validcount": len(validmblist),
+				"lastmtime":  rstate.LastMtime,
 			}
 			logrus.WithFields(fields).Info("incremental update")
 		}

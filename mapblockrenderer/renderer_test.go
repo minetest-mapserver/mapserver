@@ -7,9 +7,9 @@ import (
 	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/db"
+	"mapserver/layer"
 	"mapserver/mapblockaccessor"
 	"mapserver/testutils"
-	"mapserver/layer"
 	"os"
 	"testing"
 )
