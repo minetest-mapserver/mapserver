@@ -109,7 +109,7 @@ func (db *Sqlite3Accessor) FindLegacyBlocks(lastpos coords.MapBlockCoords, limit
 const getLatestBlockQuery = `
 select pos,data,mtime
 from blocks b
-where b.mtime >= ?
+where b.mtime > ?
 order by b.mtime asc
 limit ?
 `

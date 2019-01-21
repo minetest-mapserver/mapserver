@@ -17,7 +17,7 @@ func Job(ctx *app.App) {
 	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
 
 	for true {
-		newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, 1000)
+		newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, 10000)
 
 		if err != nil {
 			panic(err)
