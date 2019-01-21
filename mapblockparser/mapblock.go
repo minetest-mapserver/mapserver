@@ -10,7 +10,7 @@ type MapBlock struct {
 	Version      byte                  `json:"version"`
 	Underground  bool                  `json:"underground"`
 	Mapdata      []byte                `json:"mapdata"`
-	Metadata     Metadata              `json:"metadata"`
+	Metadata     *Metadata              `json:"metadata"`
 	BlockMapping map[int]string        `json:"blockmapping"`
 	Mtime        int64                 `json:"mtime"`
 }
@@ -48,11 +48,11 @@ func NewMapblock() MapBlock {
 	return mb
 }
 
-func NewMetadata() Metadata {
+func NewMetadata() *Metadata {
 	md := Metadata{}
 	md.Inventories = make(map[int]map[string]*Inventory)
 	md.Pairs = make(map[int]map[string]string)
-	return md
+	return &md
 }
 
 func (md *Metadata) GetPairsMap(pos int) map[string]string {
