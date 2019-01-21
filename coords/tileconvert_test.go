@@ -2,13 +2,22 @@ package coords
 
 import (
 	"testing"
-
+	"mapserver/layer"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestConvertMapblockToTile1(t *testing.T) {
 	mbc := NewMapBlockCoords(0, 0, 0)
-	tc := GetTileCoordsFromMapBlock(mbc)
+	layers := []layer.Layer{
+		layer.Layer{
+			Id:   0,
+			Name: "Base",
+			From: -16,
+			To:   160,
+		},
+	}
+
+	tc := GetTileCoordsFromMapBlock(mbc, layers)
 
 	if tc.X != 0 {
 		t.Fatal("x does not match")
@@ -39,7 +48,16 @@ func TestGetMapBlockRangeFromTile(t *testing.T) {
 
 func TestConvertMapblockToTile2(t *testing.T) {
 	mbc := NewMapBlockCoords(1, 0, 1)
-	tc := GetTileCoordsFromMapBlock(mbc)
+	layers := []layer.Layer{
+		layer.Layer{
+			Id:   0,
+			Name: "Base",
+			From: -16,
+			To:   160,
+		},
+	}
+
+	tc := GetTileCoordsFromMapBlock(mbc, layers)
 
 	if tc.X != 1 {
 		t.Fatal("x does not match")
@@ -56,7 +74,16 @@ func TestConvertMapblockToTile2(t *testing.T) {
 
 func TestConvertMapblockToTile3(t *testing.T) {
 	mbc := NewMapBlockCoords(-1, 0, -1)
-	tc := GetTileCoordsFromMapBlock(mbc)
+	layers := []layer.Layer{
+		layer.Layer{
+			Id:   0,
+			Name: "Base",
+			From: -16,
+			To:   160,
+		},
+	}
+
+	tc := GetTileCoordsFromMapBlock(mbc, layers)
 
 	if tc.X != -1 {
 		t.Fatal("x does not match")

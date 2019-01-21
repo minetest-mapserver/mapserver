@@ -2,17 +2,33 @@ package coords
 
 import (
 	"math"
+	"mapserver/layer"
 )
 
 const (
 	MAX_ZOOM = 13
 )
 
-func GetTileCoordsFromMapBlock(mbc MapBlockCoords) TileCoords {
-	return TileCoords{X: mbc.X, Y: (mbc.Z + 1) * -1, Zoom: MAX_ZOOM}
+func GetTileCoordsFromMapBlock(mbc MapBlockCoords, layers []layer.Layer) *TileCoords {
+	tc := TileCoords{X: mbc.X, Y: (mbc.Z + 1) * -1, Zoom: MAX_ZOOM}
+
+	var layerid *int
+	for _, l := range layers {
+		if mbc.Y > l.From && mbc.Y < l.To {
+			layerid = &l.Id
+		}
+	}
+
+	if layerid == nil {
+		return nil
+	}
+
+	tc.LayerId = *layerid
+
+	return &tc
 }
 
-func GetMapBlockRangeFromTile(tc TileCoords, y int) MapBlockRange {
+func GetMapBlockRangeFromTile(tc *TileCoords, y int) MapBlockRange {
 	scaleDiff := float64(MAX_ZOOM - tc.Zoom)
 	scale := int(math.Pow(2, scaleDiff))
 

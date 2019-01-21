@@ -47,7 +47,7 @@ and t.y = ?
 and t.zoom = ?
 `
 
-func (db *Sqlite3Accessor) GetTile(pos coords.TileCoords) (*Tile, error) {
+func (db *Sqlite3Accessor) GetTile(pos *coords.TileCoords) (*Tile, error) {
 	rows, err := db.db.Query(getTileQuery, pos.LayerId, pos.X, pos.Y, pos.Zoom)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ delete from tiles
 where x = ? and y = ? and zoom = ? and layerid = ?
 `
 
-func (db *Sqlite3Accessor) RemoveTile(pos coords.TileCoords) error {
+func (db *Sqlite3Accessor) RemoveTile(pos *coords.TileCoords) error {
 	_, err := db.db.Exec(removeTileQuery, pos.X, pos.Y, pos.Zoom, pos.LayerId)
 	return err
 }

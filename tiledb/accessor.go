@@ -5,14 +5,14 @@ import (
 )
 
 type Tile struct {
-	Pos   coords.TileCoords
+	Pos   *coords.TileCoords
 	Data  []byte
 	Mtime int64
 }
 
 type DBAccessor interface {
 	Migrate() error
-	GetTile(pos coords.TileCoords) (*Tile, error)
+	GetTile(pos *coords.TileCoords) (*Tile, error)
 	SetTile(tile *Tile) error
-	RemoveTile(pos coords.TileCoords) error
+	RemoveTile(pos *coords.TileCoords) error
 }

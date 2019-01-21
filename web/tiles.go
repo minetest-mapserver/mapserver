@@ -41,7 +41,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 		} else {
 			resp.Write(tile.Data)
-			
+
 		}
 	}
 }

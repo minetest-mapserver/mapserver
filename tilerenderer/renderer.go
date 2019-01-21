@@ -41,7 +41,7 @@ const (
 	IMG_SIZE = 256
 )
 
-func (tr *TileRenderer) Render(tc coords.TileCoords) ([]byte, error) {
+func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
 
 	//Check cache
 	tile, err := tr.tdb.GetTile(tc)
@@ -51,7 +51,7 @@ func (tr *TileRenderer) Render(tc coords.TileCoords) ([]byte, error) {
 
 	if tile == nil {
 		//No tile in db
-		img, err := tr.RenderImage(tc)
+		img, err := tr.RenderImage(tc, false)
 
 		if err != nil {
 			return nil, err
@@ -71,7 +71,7 @@ func (tr *TileRenderer) Render(tc coords.TileCoords) ([]byte, error) {
 	return tile.Data, nil
 }
 
-func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) {
+func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*image.NRGBA, error) {
 
 	cachedtile, err := tr.tdb.GetTile(tc)
 	if err != nil {
@@ -85,7 +85,19 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 			return nil, err
 		}
 
-		return cachedimg.(*image.NRGBA), nil
+		rect := image.Rectangle{
+			image.Point{0, 0},
+			image.Point{IMG_SIZE, IMG_SIZE},
+		}
+
+		img := image.NewNRGBA(rect)
+		draw.Draw(img, rect, cachedimg, image.ZP, draw.Src)
+
+		return img, nil
+	}
+
+	if cachedOnly {
+		return nil, nil
 	}
 
 	log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
@@ -112,65 +124,32 @@ func (tr *TileRenderer) RenderImage(tc coords.TileCoords) (*image.NRGBA, error) 
 		mbr.Pos1.Y = layer.From
 		mbr.Pos2.Y = layer.To
 
-		//count blocks
-		count, err := tr.dba.CountBlocks(mbr.Pos1, mbr.Pos2)
-
-		if err != nil {
-			return nil, err
-		}
-
-		if count == 0 {
-			return nil, nil
-		}
-
 		return tr.mapblockrenderer.Render(mbr.Pos1, mbr.Pos2)
-	}
-
-	if tc.Zoom == 12 {
-		//count blocks and ignore empty tiles
-		mbr := coords.GetMapBlockRangeFromTile(tc, 0)
-		mbr.Pos1.Y = layer.From
-		mbr.Pos2.Y = layer.To
-
-		count, err := tr.dba.CountBlocks(mbr.Pos1, mbr.Pos2)
-
-		if err != nil {
-			return nil, err
-		}
-
-		if count == 0 {
-			return nil, nil
-		}
 	}
 
 	//zoom 1-12
 	quads := tc.GetZoomedQuadrantsFromTile()
 
-	upperLeft, err := tr.RenderImage(quads.UpperLeft)
+	recursiveCachedOnly := tc.Zoom < 12
+
+	upperLeft, err := tr.RenderImage(quads.UpperLeft, recursiveCachedOnly)
 	if err != nil {
 		return nil, err
 	}
 
-	upperRight, err := tr.RenderImage(quads.UpperRight)
+	upperRight, err := tr.RenderImage(quads.UpperRight, recursiveCachedOnly)
 	if err != nil {
 		return nil, err
 	}
 
-	lowerLeft, err := tr.RenderImage(quads.LowerLeft)
+	lowerLeft, err := tr.RenderImage(quads.LowerLeft, recursiveCachedOnly)
 	if err != nil {
 		return nil, err
 	}
 
-	lowerRight, err := tr.RenderImage(quads.LowerRight)
+	lowerRight, err := tr.RenderImage(quads.LowerRight, recursiveCachedOnly)
 	if err != nil {
 		return nil, err
-	}
-
-	isEmpty := upperLeft == nil && upperRight == nil && lowerLeft == nil && lowerRight == nil
-
-	if isEmpty && (tc.Zoom == 11 || tc.Zoom == 10) {
-		//don't cache empty zoomed tiles
-		return nil, nil
 	}
 
 	img := image.NewNRGBA(

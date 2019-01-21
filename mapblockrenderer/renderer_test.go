@@ -9,12 +9,22 @@ import (
 	"mapserver/db"
 	"mapserver/mapblockaccessor"
 	"mapserver/testutils"
+	"mapserver/layer"
 	"os"
 	"testing"
 )
 
 func TestSimpleRender(t *testing.T) {
 	logrus.SetLevel(logrus.InfoLevel)
+
+	layers := []layer.Layer{
+		layer.Layer{
+			Id:   0,
+			Name: "Base",
+			From: -16,
+			To:   160,
+		},
+	}
 
 	tmpfile, err := ioutil.TempFile("", "TestMigrate.*.sqlite")
 	if err != nil {
@@ -56,7 +66,7 @@ func TestSimpleRender(t *testing.T) {
 				continue
 			}
 
-			tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1)
+			tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1, layers)
 			f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", tc.X, tc.Y))
 			result.Data.WriteTo(f)
 			f.Close()
