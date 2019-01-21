@@ -6,7 +6,6 @@ import (
 	"mapserver/coords"
 )
 
-
 const getTileQuery = `
 select data,mtime from tiles t
 where t.layerid = ?

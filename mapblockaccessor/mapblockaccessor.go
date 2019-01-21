@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/mapblockparser"
 	"mapserver/layer"
+	"mapserver/mapblockparser"
 	"time"
 
 	cache "github.com/patrickmn/go-cache"

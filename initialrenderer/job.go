@@ -4,6 +4,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
+	"time"
 )
 
 func Job(ctx *app.App) {
@@ -16,6 +17,8 @@ func Job(ctx *app.App) {
 	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
 
 	for true {
+		start := time.Now()
+
 		hasMore, newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, ctx.Config.InitialRenderingFetchLimit, ctx.Config.Layers)
 
 		if err != nil {
@@ -73,11 +76,15 @@ func Job(ctx *app.App) {
 		rstate.LastZ = lastcoords.Z
 		ctx.Config.Save()
 
+		t := time.Now()
+		elapsed := t.Sub(start)
+
 		fields = logrus.Fields{
-			"count":      len(mblist),
-			"X":          lastcoords.X,
-			"Y":          lastcoords.Y,
-			"Z":          lastcoords.Z,
+			"count":   len(mblist),
+			"X":       lastcoords.X,
+			"Y":       lastcoords.Y,
+			"Z":       lastcoords.Z,
+			"elapsed": elapsed,
 		}
 		logrus.WithFields(fields).Info("Initial rendering")
 	}

@@ -10,7 +10,7 @@ type MapBlock struct {
 	Version      byte                  `json:"version"`
 	Underground  bool                  `json:"underground"`
 	Mapdata      []byte                `json:"mapdata"`
-	Metadata     *Metadata              `json:"metadata"`
+	Metadata     *Metadata             `json:"metadata"`
 	BlockMapping map[int]string        `json:"blockmapping"`
 	Mtime        int64                 `json:"mtime"`
 }

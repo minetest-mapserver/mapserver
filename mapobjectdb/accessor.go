@@ -10,7 +10,6 @@ type Tile struct {
 	Mtime int64
 }
 
-
 type MapObject struct {
 	//mapblock position
 	MBPos coords.MapBlockCoords

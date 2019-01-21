@@ -5,8 +5,8 @@ import (
 	"mapserver/db"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
-	"mapserver/params"
 	"mapserver/mapobjectdb"
+	"mapserver/params"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
 )
@@ -20,8 +20,8 @@ type App struct {
 	Config      *Config
 	Worldconfig worldconfig.WorldConfig
 
-	Blockdb db.DBAccessor
-	Objectdb  mapobjectdb.DBAccessor
+	Blockdb  db.DBAccessor
+	Objectdb mapobjectdb.DBAccessor
 
 	BlockAccessor    *mapblockaccessor.MapBlockAccessor
 	Colormapping     *colormapping.ColorMapping

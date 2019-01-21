@@ -4,8 +4,7 @@ import (
 	"mapserver/coords"
 )
 
-
-func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]MapObject, error){
+func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]MapObject, error) {
 	return nil, nil
 }
 

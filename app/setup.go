@@ -5,8 +5,8 @@ import (
 	"mapserver/db"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
-	"mapserver/params"
 	"mapserver/mapobjectdb"
+	"mapserver/params"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
 

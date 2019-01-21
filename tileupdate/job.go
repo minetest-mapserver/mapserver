@@ -64,8 +64,8 @@ func Job(ctx *app.App) {
 
 		if len(mblist) > 0 {
 			fields = logrus.Fields{
-				"count":      len(mblist),
-				"lastmtime":  rstate.LastMtime,
+				"count":     len(mblist),
+				"lastmtime": rstate.LastMtime,
 			}
 			logrus.WithFields(fields).Info("incremental update")
 		}

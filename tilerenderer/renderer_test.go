@@ -10,8 +10,8 @@ import (
 	"mapserver/layer"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
-	"mapserver/testutils"
 	"mapserver/mapobjectdb"
+	"mapserver/testutils"
 	"os"
 	"testing"
 )
