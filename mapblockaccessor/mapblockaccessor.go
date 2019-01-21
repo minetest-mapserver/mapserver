@@ -19,7 +19,7 @@ type MapBlockAccessor struct {
 }
 
 type MapBlockListener interface {
-	OnParsedMapBlock(block *mapblockparser.MapBlock, pos coords.MapBlockCoords)
+	OnParsedMapBlock(block *mapblockparser.MapBlock)
 }
 
 func getKey(pos coords.MapBlockCoords) string {
@@ -82,7 +82,7 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 		}
 
 		for _, listener := range a.listeners {
-			listener.OnParsedMapBlock(mapblock, block.Pos)
+			listener.OnParsedMapBlock(mapblock)
 		}
 
 		a.c.Set(key, mapblock, cache.DefaultExpiration)
@@ -130,7 +130,7 @@ func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int, layerfi
 		}
 
 		for _, listener := range a.listeners {
-			listener.OnParsedMapBlock(mapblock, block.Pos)
+			listener.OnParsedMapBlock(mapblock)
 		}
 
 		a.c.Set(key, mapblock, cache.DefaultExpiration)
@@ -163,7 +163,7 @@ func (a *MapBlockAccessor) GetMapBlock(pos coords.MapBlockCoords) (*mapblockpars
 	}
 
 	for _, listener := range a.listeners {
-		listener.OnParsedMapBlock(mapblock, pos)
+		listener.OnParsedMapBlock(mapblock)
 	}
 
 	a.c.Set(key, mapblock, cache.DefaultExpiration)
