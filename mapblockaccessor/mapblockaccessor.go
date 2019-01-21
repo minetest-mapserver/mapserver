@@ -72,7 +72,7 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 			"y": block.Pos.Y,
 			"z": block.Pos.Z,
 		}
-		logrus.WithFields(fields).Debug("legacy mapblock")
+		logrus.WithFields(fields).Trace("legacy mapblock")
 
 		key := getKey(block.Pos)
 
@@ -120,7 +120,7 @@ func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int, layerfi
 			"y": block.Pos.Y,
 			"z": block.Pos.Z,
 		}
-		logrus.WithFields(fields).Debug("updated mapblock")
+		logrus.WithFields(fields).Trace("updated mapblock")
 
 		key := getKey(block.Pos)
 

@@ -97,6 +97,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 	}
 
 	if cachedOnly {
+		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Skip image")
 		return nil, nil
 	}
 
@@ -131,6 +132,14 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 	quads := tc.GetZoomedQuadrantsFromTile()
 
 	recursiveCachedOnly := tc.Zoom < 12
+
+	fields := logrus.Fields{
+		"UpperLeft":  quads.UpperLeft,
+		"UpperRight": quads.UpperRight,
+		"LowerLeft":  quads.LowerLeft,
+		"LowerRight": quads.LowerRight,
+	}
+	log.WithFields(fields).Debug("Quad image stats")
 
 	upperLeft, err := tr.RenderImage(quads.UpperLeft, recursiveCachedOnly)
 	if err != nil {
@@ -184,9 +193,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 	}
 
 	buf := new(bytes.Buffer)
-	if img != nil {
-		png.Encode(buf, img)
-	}
+	png.Encode(buf, img)
 
 	tile := mapobjectdb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
 	tr.tdb.SetTile(&tile)

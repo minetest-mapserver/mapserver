@@ -1,10 +1,11 @@
 package initialrenderer
 
 import (
-	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 func Job(ctx *app.App) {
@@ -45,6 +46,15 @@ func Job(ctx *app.App) {
 
 			for tc.Zoom > 1 {
 				tc = tc.GetZoomedOutTile()
+
+				fields = logrus.Fields{
+					"X":       tc.X,
+					"Y":       tc.Y,
+					"Zoom":    tc.Zoom,
+					"LayerId": tc.LayerId,
+				}
+				logrus.WithFields(fields).Trace("Removing tile")
+
 				ctx.Objectdb.RemoveTile(tc)
 			}
 		}
