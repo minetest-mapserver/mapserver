@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
@@ -34,19 +33,15 @@ func main() {
 	}
 
 	//parse Config
-	cfg, err := app.ParseConfig("mapserver.json")
+	cfg, err := app.ParseConfig(app.ConfigFile)
 	if err != nil {
 		panic(err)
 	}
 
-	if p.Dumpconfig {
-		str, err := json.MarshalIndent(cfg, "", "	")
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Println(string(str))
-		return
+	//write back config with all values
+	err = cfg.Save()
+	if err != nil {
+		panic(err)
 	}
 
 	//setup app context
@@ -58,7 +53,7 @@ func main() {
 	}
 
 	//run initial rendering
-	if ctx.Config.EnableInitialRendering {
+	if ctx.Config.EnableInitialRendering && ctx.Config.RenderState.InitialRun {
 		go initialrenderer.Job(ctx)
 	}
 

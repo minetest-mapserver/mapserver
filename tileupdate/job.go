@@ -28,6 +28,10 @@ func Job(ctx *app.App) {
 			}
 		}
 
+		rstate := ctx.Config.RenderState
+		rstate.LastMtime = t
+		ctx.Config.Save()
+
 		fields = logrus.Fields{
 			"count": len(mblist),
 			"time":  t,

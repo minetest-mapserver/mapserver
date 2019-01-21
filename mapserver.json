@@ -1,9 +1,0 @@
-{
-	"port": 8080,
-	"enableinitialrendering": true,
-	"enableincrementalupdate": false,
-	"webdev": true,
-	"webapi": {
-		"enablemapblock": true
-	}
-}

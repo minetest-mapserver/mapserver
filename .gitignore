@@ -4,3 +4,4 @@ output
 map.sqlite
 tiles.sqlite
 tiles.sqlite-journal
+mapserver.json
