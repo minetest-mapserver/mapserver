@@ -32,8 +32,14 @@ func Job(ctx *app.App) {
 
 		lastcoords = *newlastcoords
 
-		//for _, mb := range mblist {
-		//}
+		for _, mb := range mblist {
+			tc := coords.GetTileCoordsFromMapBlock(mb.Pos)
+
+			_, err = ctx.Tilerenderer.Render(tc)
+			if err != nil {
+				panic(err)
+			}
+		}
 
 		//Save current positions of initial run
 		rstate.LastX = lastcoords.X

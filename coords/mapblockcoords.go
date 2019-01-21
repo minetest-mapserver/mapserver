@@ -1,7 +1,9 @@
 package coords
 
 type MapBlockCoords struct {
-	X, Y, Z int
+	X int `json:"x"`
+	Y int `json:"y"`
+	Z int `json:"z"`
 }
 
 func NewMapBlockCoords(x, y, z int) MapBlockCoords {

@@ -62,7 +62,7 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 
 		key := getKey(block.Pos)
 
-		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)
+		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
 		if err != nil {
 			return nil, nil, err
 		}
@@ -100,7 +100,7 @@ func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*map
 
 		key := getKey(block.Pos)
 
-		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)
+		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
 		if err != nil {
 			return nil, err
 		}
@@ -133,7 +133,7 @@ func (a *MapBlockAccessor) GetMapBlock(pos coords.MapBlockCoords) (*mapblockpars
 		return nil, nil
 	}
 
-	mapblock, err := mapblockparser.Parse(block.Data, block.Mtime)
+	mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, pos)
 	if err != nil {
 		return nil, err
 	}

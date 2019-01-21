@@ -3,15 +3,17 @@ package mapblockparser
 import (
 	"errors"
 	"strconv"
+	"mapserver/coords"
 )
 
-func Parse(data []byte, mtime int64) (*MapBlock, error) {
+func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, error) {
 	if len(data) == 0 {
 		return nil, errors.New("no data")
 	}
 
 	mapblock := NewMapblock()
 	mapblock.Mtime = mtime
+	mapblock.Pos  = pos
 	mapblock.Size = len(data)
 
 	offset := 0

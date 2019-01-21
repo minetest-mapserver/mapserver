@@ -1,6 +1,11 @@
 package mapblockparser
 
+import (
+	"mapserver/coords"
+)
+
 type MapBlock struct {
+	Pos coords.MapBlockCoords `json:"pos"`
 	Size         int            `json:"size"`
 	Version      byte           `json:"version"`
 	Underground  bool           `json:"underground"`

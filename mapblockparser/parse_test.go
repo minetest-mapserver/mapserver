@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"strconv"
 	"testing"
+	"mapserver/coords"
 )
 
 func TestReadU16(t *testing.T) {
@@ -38,7 +39,7 @@ func TestParse(t *testing.T) {
 		t.Error(err)
 	}
 
-	mapblock, err := Parse(data, 0)
+	mapblock, err := Parse(data, 0, coords.NewMapBlockCoords(0,0,0))
 
 	if err != nil {
 		t.Error(err)
@@ -69,7 +70,7 @@ func TestParse2(t *testing.T) {
 		t.Error(err)
 	}
 
-	mapblock, err := Parse(data, 0)
+	mapblock, err := Parse(data, 0, coords.NewMapBlockCoords(0,0,0))
 
 	if err != nil {
 		t.Error(err)
@@ -87,7 +88,7 @@ func TestParse3(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = Parse(data, 0)
+	_, err = Parse(data, 0, coords.NewMapBlockCoords(0,0,0))
 
 	if err != nil {
 		t.Error(err)
