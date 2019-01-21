@@ -5,6 +5,7 @@ import (
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/mapblockparser"
+	"mapserver/layer"
 	"time"
 
 	cache "github.com/patrickmn/go-cache"
@@ -40,18 +41,31 @@ func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.
 	a.c.Set(key, mb, cache.DefaultExpiration)
 }
 
-func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, limit int) (*coords.MapBlockCoords, []*mapblockparser.MapBlock, error) {
+func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (bool, *coords.MapBlockCoords, []*mapblockparser.MapBlock, error) {
 
 	blocks, err := a.accessor.FindLegacyBlocks(lastpos, limit)
 
 	if err != nil {
-		return nil, nil, err
+		return false, nil, nil, err
 	}
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
 	var newlastpos *coords.MapBlockCoords
+	hasMore := len(blocks) == limit
 
 	for _, block := range blocks {
+		newlastpos = &block.Pos
+
+		inLayer := false
+		for _, l := range layerfilter {
+			if (block.Pos.Y*16) >= l.From && (block.Pos.Y*16) <= l.To {
+				inLayer = true
+			}
+		}
+
+		if !inLayer {
+			continue
+		}
 
 		fields := logrus.Fields{
 			"x": block.Pos.X,
@@ -64,7 +78,7 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 
 		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
 		if err != nil {
-			return nil, nil, err
+			return false, nil, nil, err
 		}
 
 		for _, listener := range a.listeners {
@@ -74,13 +88,12 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 		a.c.Set(key, mapblock, cache.DefaultExpiration)
 		mblist = append(mblist, mapblock)
 
-		newlastpos = &block.Pos
 	}
 
-	return newlastpos, mblist, nil
+	return hasMore, newlastpos, mblist, nil
 }
 
-func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*mapblockparser.MapBlock, error) {
+func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int, layerfilter []layer.Layer) ([]*mapblockparser.MapBlock, error) {
 	blocks, err := a.accessor.FindLatestBlocks(mintime, limit)
 
 	if err != nil {
@@ -90,6 +103,17 @@ func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int) ([]*map
 	mblist := make([]*mapblockparser.MapBlock, 0)
 
 	for _, block := range blocks {
+
+		inLayer := false
+		for _, l := range layerfilter {
+			if (block.Pos.Y*16) >= l.From && (block.Pos.Y*16) <= l.To {
+				inLayer = true
+			}
+		}
+
+		if !inLayer {
+			continue
+		}
 
 		fields := logrus.Fields{
 			"x": block.Pos.X,

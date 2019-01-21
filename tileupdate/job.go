@@ -17,7 +17,7 @@ func Job(ctx *app.App) {
 	logrus.WithFields(fields).Info("Starting incremental update")
 
 	for true {
-		mblist, err := ctx.BlockAccessor.FindLatestMapBlocks(rstate.LastMtime, ctx.Config.UpdateRenderingFetchLimit)
+		mblist, err := ctx.BlockAccessor.FindLatestMapBlocks(rstate.LastMtime, ctx.Config.UpdateRenderingFetchLimit, ctx.Config.Layers)
 
 		if err != nil {
 			panic(err)

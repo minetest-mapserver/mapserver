@@ -4,7 +4,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
-	"mapserver/mapblockparser"
 )
 
 func Job(ctx *app.App) {
@@ -17,13 +16,13 @@ func Job(ctx *app.App) {
 	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
 
 	for true {
-		newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, ctx.Config.InitialRenderingFetchLimit)
+		hasMore, newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, ctx.Config.InitialRenderingFetchLimit, ctx.Config.Layers)
 
 		if err != nil {
 			panic(err)
 		}
 
-		if len(mblist) == 0 {
+		if len(mblist) == 0 && !hasMore {
 			logrus.Info("Initial rendering complete")
 			rstate.InitialRun = false
 			ctx.Config.Save()
@@ -33,18 +32,13 @@ func Job(ctx *app.App) {
 
 		lastcoords = *newlastcoords
 
-		//only mapblocks with valid layer
-		validmblist := make([]*mapblockparser.MapBlock, 0)
-
 		//Invalidate zoom 12-1
 		for _, mb := range mblist {
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
 			if tc == nil {
-				continue
+				panic("tile not in any layer")
 			}
-
-			validmblist = append(validmblist, mb)
 
 			for tc.Zoom > 1 {
 				tc = tc.GetZoomedOutTile()
@@ -53,7 +47,7 @@ func Job(ctx *app.App) {
 		}
 
 		//Render zoom 12-1
-		for _, mb := range validmblist {
+		for _, mb := range mblist {
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 			for tc.Zoom > 1 {
 				tc = tc.GetZoomedOutTile()
@@ -84,7 +78,6 @@ func Job(ctx *app.App) {
 			"X":          lastcoords.X,
 			"Y":          lastcoords.Y,
 			"Z":          lastcoords.Z,
-			"validcount": len(validmblist),
 		}
 		logrus.WithFields(fields).Info("Initial rendering")
 	}
