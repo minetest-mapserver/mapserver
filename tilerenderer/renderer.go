@@ -235,6 +235,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 		"Y":          tc.Y,
 		"Zoom":       tc.Zoom,
 		"LayerId":    tc.LayerId,
+		"size": len(tile.Data),
 		"quadrender": quadrender,
 		"quadresize": quadresize,
 		"encode":     encode,

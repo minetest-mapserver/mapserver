@@ -16,6 +16,7 @@ func GetTileCoordsFromMapBlock(mbc MapBlockCoords, layers []layer.Layer) *TileCo
 	for _, l := range layers {
 		if (mbc.Y*16) >= l.From && (mbc.Y*16) <= l.To {
 			layerid = &l.Id
+			break
 		}
 	}
 

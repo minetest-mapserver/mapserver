@@ -4,9 +4,14 @@ import (
 	"mapserver/app"
 	"mapserver/coords"
 	"time"
+	"strconv"
 
 	"github.com/sirupsen/logrus"
 )
+
+func getTileKey(tc *coords.TileCoords) string {
+	return strconv.Itoa(tc.X) + "/" + strconv.Itoa(tc.Y) + "/" + strconv.Itoa(tc.Zoom)
+}
 
 func Job(ctx *app.App) {
 
@@ -59,17 +64,23 @@ func Job(ctx *app.App) {
 			}
 		}
 
-		//Render zoom 11-1
-		for _, mb := range mblist {
-			//13
-			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
+		tileRenderedMap := make(map[string]bool)
 
-			//12
-			tc = tc.GetZoomedOutTile()
+		for i := 11; i<=1; i-- {
+			for _, mb := range mblist {
+				//13
+				tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
-			for tc.Zoom > 1 {
 				//11-1
-				tc = tc.GetZoomedOutTile()
+				tc = tc.ZoomOut(13 - i)
+
+				key := getTileKey(tc)
+
+				if tileRenderedMap[key] {
+					continue
+				}
+
+				tileRenderedMap[key] = true
 
 				fields = logrus.Fields{
 					"X":       tc.X,

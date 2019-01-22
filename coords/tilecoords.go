@@ -18,6 +18,15 @@ func NewTileCoords(x, y, zoom int, layerId int) *TileCoords {
 	return &TileCoords{X: x, Y: y, Zoom: zoom, LayerId: layerId}
 }
 
+func (tc *TileCoords) ZoomOut(n int) *TileCoords {
+	var nc *TileCoords = tc
+	for i := 1; i<n; i++ {
+		nc = nc.GetZoomedOutTile()
+	}
+
+	return nc
+}
+
 func (tc *TileCoords) GetZoomedOutTile() *TileCoords {
 	return &TileCoords{
 		X:       int(math.Floor(float64(tc.X) / 2.0)),
