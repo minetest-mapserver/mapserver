@@ -95,5 +95,4 @@ func TestTileRender(t *testing.T) {
 	f, _ = os.Create("../output/0_0_13.png")
 	bytes.NewReader(data).WriteTo(f)
 
-
 }

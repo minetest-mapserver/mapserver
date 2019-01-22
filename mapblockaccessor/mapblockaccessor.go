@@ -27,7 +27,7 @@ func getKey(pos coords.MapBlockCoords) string {
 }
 
 func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
-	c := cache.New(100*time.Millisecond, 200*time.Millisecond)
+	c := cache.New(500*time.Millisecond, 1000*time.Millisecond)
 
 	return &MapBlockAccessor{accessor: accessor, c: c}
 }
@@ -60,6 +60,7 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 		for _, l := range layerfilter {
 			if (block.Pos.Y*16) >= l.From && (block.Pos.Y*16) <= l.To {
 				inLayer = true
+				break
 			}
 		}
 

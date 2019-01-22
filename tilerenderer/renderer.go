@@ -156,29 +156,31 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 	}
 	log.WithFields(fields).Debug("Quad image stats")
 
+	start := time.Now()
+
 	upperLeft, _, err := tr.RenderImage(quads.UpperLeft, recursionDepth-1)
 	if err != nil {
-		panic(err)
-		//return nil, err
+		return nil, nil, err
 	}
 
 	upperRight, _, err := tr.RenderImage(quads.UpperRight, recursionDepth-1)
 	if err != nil {
-		panic(err)
-		//return nil, err
+		return nil, nil, err
 	}
 
 	lowerLeft, _, err := tr.RenderImage(quads.LowerLeft, recursionDepth-1)
 	if err != nil {
-		panic(err)
-		//return nil, err
+		return nil, nil, err
 	}
 
 	lowerRight, _, err := tr.RenderImage(quads.LowerRight, recursionDepth-1)
 	if err != nil {
-		panic(err)
-		//return nil, err
+		return nil, nil, err
 	}
+
+	t := time.Now()
+	quadrender := t.Sub(start)
+	start = t
 
 	img := image.NewNRGBA(
 		image.Rectangle{
@@ -211,11 +213,34 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 		draw.Draw(img, rect, resizedImg, image.ZP, draw.Src)
 	}
 
+	t = time.Now()
+	quadresize := t.Sub(start)
+	start = t
+
 	buf := new(bytes.Buffer)
 	png.Encode(buf, img)
 
+	t = time.Now()
+	encode := t.Sub(start)
+	start = t
+
 	tile := mapobjectdb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
 	tr.tdb.SetTile(&tile)
+
+	t = time.Now()
+	cache := t.Sub(start)
+
+	fields = logrus.Fields{
+		"X":          tc.X,
+		"Y":          tc.Y,
+		"Zoom":       tc.Zoom,
+		"LayerId":    tc.LayerId,
+		"quadrender": quadrender,
+		"quadresize": quadresize,
+		"encode":     encode,
+		"cache":      cache,
+	}
+	log.WithFields(fields).Debug("Cross stitch")
 
 	return img, buf.Bytes(), nil
 }

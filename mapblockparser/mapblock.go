@@ -41,11 +41,11 @@ func (mb *MapBlock) GetNodeName(x, y, z int) string {
 	return mb.BlockMapping[id]
 }
 
-func NewMapblock() MapBlock {
+func NewMapblock() *MapBlock {
 	mb := MapBlock{}
 	mb.Metadata = NewMetadata()
 	mb.BlockMapping = make(map[int]string)
-	return mb
+	return &mb
 }
 
 func NewMetadata() *Metadata {

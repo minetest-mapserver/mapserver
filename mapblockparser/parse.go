@@ -40,14 +40,14 @@ func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, erro
 	offset = 6
 
 	//metadata
-	count, err := parseMapdata(&mapblock, data[offset:])
+	count, err := parseMapdata(mapblock, data[offset:])
 	if err != nil {
 		return nil, err
 	}
 
 	offset += count
 
-	count, err = parseMetadata(&mapblock, data[offset:])
+	count, err = parseMetadata(mapblock, data[offset:])
 	if err != nil {
 		return nil, err
 	}
@@ -86,5 +86,5 @@ func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, erro
 		mapblock.BlockMapping[nodeId] = blockName
 	}
 
-	return &mapblock, nil
+	return mapblock, nil
 }
