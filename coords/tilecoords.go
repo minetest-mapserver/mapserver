@@ -5,9 +5,10 @@ import (
 )
 
 type TileCoords struct {
-	X, Y    int
-	Zoom    int
-	LayerId int
+	X       int `json:"x"`
+	Y       int `json:"y"`
+	Zoom    int `json:"zoom"`
+	LayerId int `json:"layerid"`
 }
 
 type TileQuadrants struct {

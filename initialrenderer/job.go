@@ -36,7 +36,7 @@ func Job(ctx *app.App) {
 		if len(mblist) == 0 && !hasMore {
 			fields = logrus.Fields{
 				"blocks": blockcount,
-				"tiles": tilecount,
+				"tiles":  tilecount,
 			}
 			logrus.WithFields(fields).Info("Initial rendering complete")
 			rstate.InitialRun = false

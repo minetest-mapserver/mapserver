@@ -20,9 +20,17 @@ func Serve(ctx *app.App) {
 	mux.Handle("/", http.FileServer(vfs.FS(ctx.Config.Webdev)))
 	mux.Handle("/api/tile/", &Tiles{ctx: ctx})
 	mux.Handle("/api/config", &ConfigHandler{ctx: ctx})
-	mux.Handle("/api/ws", &WS{ctx: ctx})
+
+	ws := NewWS(ctx)
+	mux.Handle("/api/ws", ws)
+
+	ctx.Tilerenderer.AddListener(ws)
 
 	if ctx.Config.WebApi.EnableMapblock {
+		//websocket listener
+		ctx.BlockAccessor.AddListener(ws)
+
+		//mapbloc endpoint
 		mux.Handle("/api/mapblock/", &MapblockHandler{ctx: ctx})
 	}
 

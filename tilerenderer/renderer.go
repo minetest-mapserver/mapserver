@@ -22,7 +22,7 @@ type TileRenderer struct {
 	layers           []layer.Layer
 	tdb              mapobjectdb.DBAccessor
 	dba              db.DBAccessor
-	listeners []TileListener
+	listeners        []TileListener
 }
 
 type TileListener interface {
@@ -252,11 +252,9 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 	}
 	log.WithFields(fields).Debug("Cross stitch")
 
-
 	for _, listener := range tr.listeners {
 		listener.OnRenderedTile(tc)
 	}
-
 
 	return img, buf.Bytes(), nil
 }
