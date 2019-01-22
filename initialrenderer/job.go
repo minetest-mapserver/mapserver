@@ -3,8 +3,8 @@ package initialrenderer
 import (
 	"mapserver/app"
 	"mapserver/coords"
-	"time"
 	"strconv"
+	"time"
 
 	"github.com/sirupsen/logrus"
 )
@@ -41,37 +41,14 @@ func Job(ctx *app.App) {
 
 		lastcoords = *newlastcoords
 
-		//Render zoom 12
-		for _, mb := range mblist {
-			//zoom 13
-			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
-
-			//zoom 12
-			tc = tc.GetZoomedOutTile()
-
-			fields = logrus.Fields{
-				"X":       tc.X,
-				"Y":       tc.Y,
-				"Zoom":    tc.Zoom,
-				"LayerId": tc.LayerId,
-			}
-			logrus.WithFields(fields).Debug("Dispatching tile rendering (z12)")
-
-			ctx.Objectdb.RemoveTile(tc)
-			_, err = ctx.Tilerenderer.Render(tc, 2)
-			if err != nil {
-				panic(err)
-			}
-		}
-
 		tileRenderedMap := make(map[string]bool)
 
-		for i := 11; i<=1; i-- {
+		for i := 12; i >= 1; i-- {
 			for _, mb := range mblist {
 				//13
 				tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
-				//11-1
+				//12-1
 				tc = tc.ZoomOut(13 - i)
 
 				key := getTileKey(tc)
