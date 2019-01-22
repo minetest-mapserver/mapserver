@@ -53,7 +53,7 @@ func Job(ctx *app.App) {
 				}
 				logrus.WithFields(fields).Debug("Dispatching tile rendering (update)")
 
-				_, err = ctx.Tilerenderer.Render(tc)
+				_, err = ctx.Tilerenderer.Render(tc, 2)
 				if err != nil {
 					panic(err)
 				}

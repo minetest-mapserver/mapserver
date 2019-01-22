@@ -41,7 +41,7 @@ const (
 	IMG_SIZE = 256
 )
 
-func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
+func (tr *TileRenderer) Render(tc *coords.TileCoords, recursionDepth int) ([]byte, error) {
 
 	//Check cache
 	tile, err := tr.tdb.GetTile(tc)
@@ -50,8 +50,14 @@ func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
 	}
 
 	if tile == nil {
+
+		if recursionDepth == 0 {
+			log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Skip image")
+			return nil, nil
+		}
+
 		//No tile in db
-		img, err := tr.RenderImage(tc, false)
+		img, data, err := tr.RenderImage(tc, recursionDepth)
 
 		if err != nil {
 			return nil, err
@@ -62,27 +68,24 @@ func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
 			return nil, nil
 		}
 
-		buf := new(bytes.Buffer)
-		png.Encode(buf, img)
-
-		return buf.Bytes(), nil
+		return data, nil
 	}
 
 	return tile.Data, nil
 }
 
-func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*image.NRGBA, error) {
+func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, []byte, error) {
 
 	cachedtile, err := tr.tdb.GetTile(tc)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	if cachedtile != nil {
 		reader := bytes.NewReader(cachedtile.Data)
 		cachedimg, err := png.Decode(reader)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 
 		rect := image.Rectangle{
@@ -93,12 +96,13 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 		img := image.NewNRGBA(rect)
 		draw.Draw(img, rect, cachedimg, image.ZP, draw.Src)
 
-		return img, nil
+		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Cached image")
+		return img, cachedtile.Data, nil
 	}
 
-	if cachedOnly {
+	if recursionDepth == 0 {
 		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Skip image")
-		return nil, nil
+		return nil, nil, nil
 	}
 
 	log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
@@ -112,11 +116,11 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 	}
 
 	if layer == nil {
-		return nil, errors.New("No layer found")
+		return nil, nil, errors.New("No layer found")
 	}
 
 	if tc.Zoom > 13 || tc.Zoom < 1 {
-		return nil, errors.New("Invalid zoom")
+		return nil, nil, errors.New("Invalid zoom")
 	}
 
 	if tc.Zoom == 13 {
@@ -125,13 +129,24 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 		mbr.Pos1.Y = layer.From
 		mbr.Pos2.Y = layer.To
 
-		return tr.mapblockrenderer.Render(mbr.Pos1, mbr.Pos2)
+		img, err := tr.mapblockrenderer.Render(mbr.Pos1, mbr.Pos2)
+
+		if err != nil {
+			return nil, nil, err
+		}
+
+		if img == nil {
+			return nil, nil, nil
+		}
+
+		buf := new(bytes.Buffer)
+		png.Encode(buf, img)
+
+		return img, buf.Bytes(), nil
 	}
 
 	//zoom 1-12
 	quads := tc.GetZoomedQuadrantsFromTile()
-
-	recursiveCachedOnly := tc.Zoom < 12
 
 	fields := logrus.Fields{
 		"UpperLeft":  quads.UpperLeft,
@@ -141,24 +156,28 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 	}
 	log.WithFields(fields).Debug("Quad image stats")
 
-	upperLeft, err := tr.RenderImage(quads.UpperLeft, recursiveCachedOnly)
+	upperLeft, _, err := tr.RenderImage(quads.UpperLeft, recursionDepth-1)
 	if err != nil {
-		return nil, err
+		panic(err)
+		//return nil, err
 	}
 
-	upperRight, err := tr.RenderImage(quads.UpperRight, recursiveCachedOnly)
+	upperRight, _, err := tr.RenderImage(quads.UpperRight, recursionDepth-1)
 	if err != nil {
-		return nil, err
+		panic(err)
+		//return nil, err
 	}
 
-	lowerLeft, err := tr.RenderImage(quads.LowerLeft, recursiveCachedOnly)
+	lowerLeft, _, err := tr.RenderImage(quads.LowerLeft, recursionDepth-1)
 	if err != nil {
-		return nil, err
+		panic(err)
+		//return nil, err
 	}
 
-	lowerRight, err := tr.RenderImage(quads.LowerRight, recursiveCachedOnly)
+	lowerRight, _, err := tr.RenderImage(quads.LowerRight, recursionDepth-1)
 	if err != nil {
-		return nil, err
+		panic(err)
+		//return nil, err
 	}
 
 	img := image.NewNRGBA(
@@ -198,5 +217,5 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, cachedOnly bool) (*im
 	tile := mapobjectdb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
 	tr.tdb.SetTile(&tile)
 
-	return img, nil
+	return img, buf.Bytes(), nil
 }

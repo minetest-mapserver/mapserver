@@ -69,9 +69,7 @@ func TestTileRender(t *testing.T) {
 	}
 
 	coord := coords.NewTileCoords(0, 0, 12, 0)
-
-	data, err := tr.Render(coord)
-
+	data, err := tr.Render(coord, 2)
 	if err != nil {
 		panic(err)
 	}
@@ -82,4 +80,20 @@ func TestTileRender(t *testing.T) {
 
 	f, _ := os.Create("../output/0_0_12.png")
 	bytes.NewReader(data).WriteTo(f)
+
+	coord1 := coord.GetZoomedOutTile()
+
+	data, err = tr.Render(coord1, 3)
+	if err != nil {
+		panic(err)
+	}
+
+	if data == nil {
+		panic("no data")
+	}
+
+	f, _ = os.Create("../output/0_0_13.png")
+	bytes.NewReader(data).WriteTo(f)
+
+
 }

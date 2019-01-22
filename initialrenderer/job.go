@@ -36,33 +36,39 @@ func Job(ctx *app.App) {
 
 		lastcoords = *newlastcoords
 
-		//Invalidate zoom 12-1
+		//Render zoom 12
 		for _, mb := range mblist {
+			//zoom 13
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
-			if tc == nil {
-				panic("tile not in any layer")
+			//zoom 12
+			tc = tc.GetZoomedOutTile()
+
+			fields = logrus.Fields{
+				"X":       tc.X,
+				"Y":       tc.Y,
+				"Zoom":    tc.Zoom,
+				"LayerId": tc.LayerId,
 			}
+			logrus.WithFields(fields).Debug("Dispatching tile rendering (z12)")
 
-			for tc.Zoom > 1 {
-				tc = tc.GetZoomedOutTile()
-
-				fields = logrus.Fields{
-					"X":       tc.X,
-					"Y":       tc.Y,
-					"Zoom":    tc.Zoom,
-					"LayerId": tc.LayerId,
-				}
-				logrus.WithFields(fields).Trace("Removing tile")
-
-				ctx.Objectdb.RemoveTile(tc)
+			ctx.Objectdb.RemoveTile(tc)
+			_, err = ctx.Tilerenderer.Render(tc, 2)
+			if err != nil {
+				panic(err)
 			}
 		}
 
-		//Render zoom 12-1
+		//Render zoom 11-1
 		for _, mb := range mblist {
+			//13
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
+
+			//12
+			tc = tc.GetZoomedOutTile()
+
 			for tc.Zoom > 1 {
+				//11-1
 				tc = tc.GetZoomedOutTile()
 
 				fields = logrus.Fields{
@@ -71,9 +77,10 @@ func Job(ctx *app.App) {
 					"Zoom":    tc.Zoom,
 					"LayerId": tc.LayerId,
 				}
-				logrus.WithFields(fields).Debug("Dispatching tile rendering")
+				logrus.WithFields(fields).Debug("Dispatching tile rendering (z11-1)")
 
-				_, err = ctx.Tilerenderer.Render(tc)
+				ctx.Objectdb.RemoveTile(tc)
+				_, err = ctx.Tilerenderer.Render(tc, 1)
 				if err != nil {
 					panic(err)
 				}
