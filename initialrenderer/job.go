@@ -17,6 +17,8 @@ func Job(ctx *app.App) {
 
 	fields := logrus.Fields{}
 	logrus.WithFields(fields).Info("Starting initial rendering")
+	blockcount := 0
+	tilecount := 0
 
 	rstate := ctx.Config.RenderState
 
@@ -32,13 +34,18 @@ func Job(ctx *app.App) {
 		}
 
 		if len(mblist) == 0 && !hasMore {
-			logrus.Info("Initial rendering complete")
+			fields = logrus.Fields{
+				"blocks": blockcount,
+				"tiles": tilecount,
+			}
+			logrus.WithFields(fields).Info("Initial rendering complete")
 			rstate.InitialRun = false
 			ctx.Config.Save()
 
 			break
 		}
 
+		blockcount += len(mblist)
 		lastcoords = *newlastcoords
 
 		tileRenderedMap := make(map[string]bool)
@@ -67,6 +74,7 @@ func Job(ctx *app.App) {
 				}
 				logrus.WithFields(fields).Debug("Dispatching tile rendering (z11-1)")
 
+				tilecount++
 				ctx.Objectdb.RemoveTile(tc)
 				_, err = ctx.Tilerenderer.Render(tc, 1)
 				if err != nil {
