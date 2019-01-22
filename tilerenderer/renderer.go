@@ -22,6 +22,11 @@ type TileRenderer struct {
 	layers           []layer.Layer
 	tdb              mapobjectdb.DBAccessor
 	dba              db.DBAccessor
+	listeners []TileListener
+}
+
+type TileListener interface {
+	OnRenderedTile(tc *coords.TileCoords)
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
@@ -40,6 +45,10 @@ func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 const (
 	IMG_SIZE = 256
 )
+
+func (tr *TileRenderer) AddListener(l TileListener) {
+	tr.listeners = append(tr.listeners, l)
+}
 
 func (tr *TileRenderer) Render(tc *coords.TileCoords, recursionDepth int) ([]byte, error) {
 
@@ -242,6 +251,12 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 		"cache":      cache,
 	}
 	log.WithFields(fields).Debug("Cross stitch")
+
+
+	for _, listener := range tr.listeners {
+		listener.OnRenderedTile(tc)
+	}
+
 
 	return img, buf.Bytes(), nil
 }
