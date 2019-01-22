@@ -1,10 +1,11 @@
 package tileupdate
 
 import (
-	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 func Job(ctx *app.App) {

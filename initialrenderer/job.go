@@ -76,7 +76,7 @@ func Job(ctx *app.App) {
 
 				tilecount++
 				ctx.Objectdb.RemoveTile(tc)
-				_, err = ctx.Tilerenderer.Render(tc, 1)
+				_, err = ctx.Tilerenderer.Render(tc, 2)
 				if err != nil {
 					panic(err)
 				}

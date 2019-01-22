@@ -98,7 +98,7 @@ func ParseConfig(filename string) (*Config, error) {
 		RenderState:                &rstate,
 		Layers:                     layers,
 		InitialRenderingFetchLimit: 1000,
-		UpdateRenderingFetchLimit:  10000,
+		UpdateRenderingFetchLimit:  1000,
 	}
 
 	info, err := os.Stat(filename)
