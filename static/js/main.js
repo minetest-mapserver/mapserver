@@ -20,7 +20,7 @@
     });
 
     function getTileSource(layerId, x,y,zoom,cacheBust){
-        return "api/tile/" + layerId + "/" + x + "/" + y + "/" + zoom + (cacheBust ? "?_=" + Date.now() : "");
+        return "api/tile/" + layerId + "/" + x + "/" + y + "/" + zoom + "?_=" + Date.now();
     }
 
     function getImageId(layerId, x, y, zoom){
@@ -39,13 +39,25 @@
     }
 
     function updateTile(data){
-        var id = getImageId(data.layerId, data.x, data.y, data.zoom);
+        var id = getImageId(data.layerid, data.x, data.y, data.zoom);
         var el = document.getElementById(id);
 
         if (el){
             //Update src attribute if img found
-            el.src = getTileSource(data.layerId, data.x, data.y, data.zoom, true);
+            el.src = getTileSource(data.layerid, data.x, data.y, data.zoom, true);
         }
+    }
+
+
+    var wsUrl = location.protocol.replace("http", "ws") + "//" + location.host + location.pathname.substring(0, location.pathname.lastIndexOf("/")) + "/api/ws";
+    var ws = new WebSocket(wsUrl);
+
+    ws.onmessage = function(e){
+      var event = JSON.parse(e.data);
+
+      if (event.type == "rendered-tile"){
+        updateTile(event.tilepos)
+      }
     }
 
     var layers = {};

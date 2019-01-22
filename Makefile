@@ -5,8 +5,8 @@ test: $(STATIC_VFS)
 	go test ./...
 
 clean:
-	rm $(STATIC_VFS)
-	rm mapserver
+	rm -rf $(STATIC_VFS)
+	rm -rf mapserver
 
 $(STATIC_VFS):
 	go get github.com/mjibson/esc

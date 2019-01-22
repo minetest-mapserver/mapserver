@@ -3,13 +3,14 @@ package web
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/websocket"
 	"mapserver/app"
 	"mapserver/coords"
 	"mapserver/mapblockparser"
 	"math/rand"
 	"net/http"
 	"sync"
+
+	"github.com/gorilla/websocket"
 )
 
 type WS struct {
