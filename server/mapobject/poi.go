@@ -5,22 +5,6 @@ import (
 	"mapserver/mapobjectdb"
 )
 
-type POI struct {
-	db mapobjectdb.DBAccessor
-}
-
-func (this *POI) OnParsedMapBlock(block *mapblockparser.MapBlock) {
-	var found bool
-	for _, v := range block.BlockMapping {
-		if v == "mapserver:poi" {
-			found = true
-			break
-		}
-	}
-
-	if !found {
-		return
-	}
-
+func onPoiBlock(id int, block *mapblockparser.MapBlock, odb mapobjectdb.DBAccessor) {
 	panic("OK") //XXX
 }
