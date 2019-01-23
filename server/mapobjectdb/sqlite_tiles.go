@@ -68,7 +68,7 @@ func (db *Sqlite3Accessor) RemoveTile(pos *coords.TileCoords) error {
 }
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite3", filename)
+	db, err := sql.Open("sqlite3", filename + "?_timeout=500")
 	if err != nil {
 		return nil, err
 	}
