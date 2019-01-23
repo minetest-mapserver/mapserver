@@ -3,6 +3,8 @@ package web
 import (
 	"mapserver/app"
 	"mapserver/coords"
+	"mapserver/tilerenderer"
+	"image/color"
 	"net/http"
 	"strconv"
 	"strings"
@@ -37,7 +39,8 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Header().Add("content-type", "image/png")
 
 		if tile == nil {
-			//TODO: blank tile
+			resp.Write(tilerenderer.CreateBlankTile(color.RGBA{0,0,0,0}))
+			//TODO: cache/layer color
 
 		} else {
 			resp.Write(tile.Data)
