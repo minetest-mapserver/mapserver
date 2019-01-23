@@ -21,6 +21,9 @@ create table if not exists objects(
   mtime bigint
 );
 
+create index if not exists objects_pos on objects(posx,posy,posz);
+create index if not exists objects_pos_type on objects(posx,posy,posz,type);
+
 create table if not exists tiles(
   data blob,
   mtime bigint,
