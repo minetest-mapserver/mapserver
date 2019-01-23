@@ -34,3 +34,7 @@ func testCoordConvert(t *testing.T, mb MapBlockCoords) {
 	}
 
 }
+
+func TestZeorCoord(t *testing.T) {
+	testCoordConvert(t, NewMapBlockCoords(0,0,0))
+}

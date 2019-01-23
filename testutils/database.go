@@ -42,6 +42,12 @@ func CreateTestDatabase(filename string) error {
 	return copy(filepath.Dir(currentfilename)+"/testdata/map.sqlite", filename)
 }
 
+//DB with metadata at 0,0,0
+func CreateTestDatabase2(filename string) error {
+	_, currentfilename, _, _ := runtime.Caller(0)
+	return copy(filepath.Dir(currentfilename)+"/testdata/map2.sqlite", filename)
+}
+
 func CreateEmptyDatabase(filename string) {
 	db, err := sql.Open("sqlite3", filename)
 	if err != nil {

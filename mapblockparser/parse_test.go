@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"mapserver/coords"
+	"encoding/json"
 	"strconv"
 	"testing"
 )
@@ -93,4 +94,21 @@ func TestParse3(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+}
+
+func TestParseMetadata(t *testing.T) {
+
+	data, err := ioutil.ReadFile("testdata/mb-with-metadata.bin")
+	if err != nil {
+		t.Error(err)
+	}
+
+	mb, err := Parse(data, 0, coords.NewMapBlockCoords(0, 0, 0))
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	str, err := json.MarshalIndent(mb, "", "	")
+	fmt.Println(string(str))
 }

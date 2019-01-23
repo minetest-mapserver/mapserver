@@ -103,6 +103,9 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 			txt := scanner.Text()
 			offset += len(txt) + 1
 
+			log.WithFields(logrus.Fields{"txt":txt, "position":position}).Info("Parsing inventory")
+
+
 			if strings.HasPrefix(txt, INVENTORY_START) {
 				pairs := strings.Split(txt, " ")
 				currentInventoryName = &pairs[1]
@@ -137,6 +140,8 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 						}
 						item.Count = int(val)
 					}
+
+					currentInventory.Items = append(currentInventory.Items, item)
 
 				}
 
