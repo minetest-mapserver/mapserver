@@ -56,7 +56,7 @@
       var event = JSON.parse(e.data);
 
       if (event.type == "rendered-tile"){
-        updateTile(event.tilepos)
+        updateTile(event.data)
       }
     }
 
