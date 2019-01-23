@@ -9,7 +9,7 @@ import (
 
 const migrateScript = `
 PRAGMA foreign_keys = ON;
--- PRAGMA journal_mode = MEMORY;
+PRAGMA journal_mode = MEMORY;
 -- PRAGMA synchronous = OFF;
 
 create table if not exists objects(
