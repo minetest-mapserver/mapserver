@@ -5,7 +5,7 @@ import (
 	"mapserver/coords"
 	"strconv"
 	"time"
-
+	"runtime"
 	"github.com/sirupsen/logrus"
 )
 
@@ -13,20 +13,38 @@ func getTileKey(tc *coords.TileCoords) string {
 	return strconv.Itoa(tc.X) + "/" + strconv.Itoa(tc.Y) + "/" + strconv.Itoa(tc.Zoom)
 }
 
-func Job(ctx *app.App) {
+func worker(ctx *app.App, coords <-chan *coords.TileCoords){
+	for tc := range coords {
+		ctx.Objectdb.RemoveTile(tc)
+		_, err := ctx.Tilerenderer.Render(tc, 2)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
 
-	fields := logrus.Fields{}
-	logrus.WithFields(fields).Info("Starting initial rendering")
-	tilecount := 0
+func Job(ctx *app.App) {
 
 	totalLegacyCount, err := ctx.Blockdb.CountLegacyBlocks()
 	if err != nil {
 		panic(err)
 	}
 
-	rstate := ctx.Config.RenderState
+	fields := logrus.Fields{
+		"jobs": runtime.NumCPU(),
+		"totalLegacyCount": totalLegacyCount,
+	}
+	logrus.WithFields(fields).Info("Starting initial rendering")
+	tilecount := 0
 
+	rstate := ctx.Config.RenderState
 	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
+
+	jobs := make(chan *coords.TileCoords, 10)
+
+	for i:=0; i<runtime.NumCPU(); i++ {
+		go worker(ctx, jobs)
+	}
 
 	for true {
 		start := time.Now()
@@ -43,6 +61,7 @@ func Job(ctx *app.App) {
 				"tiles":  tilecount,
 			}
 			logrus.WithFields(fields).Info("Initial rendering complete")
+			close(jobs)
 			rstate.InitialRun = false
 			ctx.Config.Save()
 
@@ -78,11 +97,7 @@ func Job(ctx *app.App) {
 				logrus.WithFields(fields).Debug("Dispatching tile rendering (z11-1)")
 
 				tilecount++
-				ctx.Objectdb.RemoveTile(tc)
-				_, err = ctx.Tilerenderer.Render(tc, 2)
-				if err != nil {
-					panic(err)
-				}
+				jobs <- tc
 			}
 		}
 
