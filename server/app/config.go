@@ -7,6 +7,7 @@ import (
 	"mapserver/layer"
 	"os"
 	"sync"
+	"runtime"
 )
 
 type Config struct {
@@ -101,8 +102,8 @@ func ParseConfig(filename string) (*Config, error) {
 		RenderState:                &rstate,
 		Layers:                     layers,
 		InitialRenderingFetchLimit: 1000,
-		InitialRenderingJobs:       1,
-		InitialRenderingQueue:      0,
+		InitialRenderingJobs:       runtime.NumCPU(),
+		InitialRenderingQueue:      100,
 		UpdateRenderingFetchLimit:  1000,
 	}
 
