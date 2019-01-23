@@ -75,7 +75,7 @@ func TestMigrateAndQuery(t *testing.T) {
 
 }
 
-func TestMigrateAndQueryStride(t *testing.T) {
+func TestMigrateAndQueryCount(t *testing.T) {
 	tmpfile, err := ioutil.TempFile("", "TestMigrateAndQueryStride.*.sqlite")
 	if err != nil {
 		panic(err)
@@ -93,14 +93,12 @@ func TestMigrateAndQueryStride(t *testing.T) {
 		panic(err)
 	}
 
-	count, err := a.CountBlocks(coords.NewMapBlockCoords(0, -1, 0), coords.NewMapBlockCoords(0, 10, 0))
-
+	count, err := a.CountLegacyBlocks()
 	if err != nil {
 		panic(err)
 	}
 
-	if count == 0 {
-		t.Fatal("no data")
+	if count <= 0 {
+		t.Fatal("zero count")
 	}
-
 }

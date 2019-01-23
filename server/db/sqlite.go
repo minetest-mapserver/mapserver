@@ -2,11 +2,9 @@ package db
 
 import (
 	"database/sql"
-	"errors"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
 	"mapserver/coords"
-	"strings"
 	"time"
 )
 /*
@@ -110,6 +108,32 @@ func (db *Sqlite3Accessor) FindLegacyBlocks(lastpos coords.MapBlockCoords, limit
 	return blocks, nil
 }
 
+const countLegacyBlocksQuery = `
+select count(*) from blocks b where b.mtime = 0
+`
+
+func (db *Sqlite3Accessor) CountLegacyBlocks() (int, error){
+	rows, err := db.db.Query(countLegacyBlocksQuery)
+	if err != nil {
+		return 0, err
+	}
+
+	defer rows.Close()
+
+	if rows.Next() {
+		var count int64
+
+		err = rows.Scan(&count)
+		if err != nil {
+			return 0, err
+		}
+
+		return int(count), nil
+	}
+
+	return 0, nil
+}
+
 const getLatestBlockQuery = `
 select pos,data,mtime
 from blocks b
@@ -174,59 +198,6 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 	}
 
 	return nil, nil
-}
-
-func sortAsc(a, b int) (int, int) {
-	if a > b {
-		return b, a
-	} else {
-		return a, b
-	}
-}
-
-func (db *Sqlite3Accessor) CountBlocks(pos1 coords.MapBlockCoords, pos2 coords.MapBlockCoords) (int, error) {
-
-	poslist := make([]interface{}, 0)
-
-	minX, maxX := sortAsc(pos1.X, pos2.X)
-	minY, maxY := sortAsc(pos1.Y, pos2.Y)
-	minZ, maxZ := sortAsc(pos1.Z, pos2.Z)
-
-	for x := minX; x <= maxX; x++ {
-		for y := minY; y <= maxY; y++ {
-			for z := minZ; z <= maxZ; z++ {
-				poslist = append(poslist, coords.CoordToPlain(coords.NewMapBlockCoords(x, y, z)))
-			}
-		}
-	}
-
-	if len(poslist) > 999 {
-		//https://stackoverflow.com/questions/7106016/too-many-sql-variables-error-in-django-witih-sqlite3
-		//TODO: return before nested for loops
-		return -1, nil
-	}
-
-	getBlocksQuery := "select count(*) from blocks b where b.pos in (?" + strings.Repeat(",?", len(poslist)-1) + ")"
-
-	rows, err := db.db.Query(getBlocksQuery, poslist...)
-	if err != nil {
-		return 0, err
-	}
-
-	defer rows.Close()
-
-	if rows.Next() {
-		var count int
-
-		err = rows.Scan(&count)
-		if err != nil {
-			return 0, err
-		}
-
-		return count, nil
-	}
-
-	return 0, errors.New("No rows returned")
 }
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {

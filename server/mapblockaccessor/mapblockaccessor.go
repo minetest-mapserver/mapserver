@@ -41,17 +41,27 @@ func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.
 	a.c.Set(key, mb, cache.DefaultExpiration)
 }
 
-func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (bool, *coords.MapBlockCoords, []*mapblockparser.MapBlock, error) {
+type LegacyMapBlocksResult struct {
+	HasMore bool
+	LastPos *coords.MapBlockCoords
+	List []*mapblockparser.MapBlock
+	UnfilteredCount int
+}
+
+func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*LegacyMapBlocksResult, error) {
 
 	blocks, err := a.accessor.FindLegacyBlocks(lastpos, limit)
 
 	if err != nil {
-		return false, nil, nil, err
+		return nil, err
 	}
+
+	result := LegacyMapBlocksResult{}
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
 	var newlastpos *coords.MapBlockCoords
-	hasMore := len(blocks) == limit
+	result.HasMore = len(blocks) == limit
+	result.UnfilteredCount = len(blocks)
 
 	for _, block := range blocks {
 		newlastpos = &block.Pos
@@ -79,7 +89,7 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 
 		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
 		if err != nil {
-			return false, nil, nil, err
+			return nil, err
 		}
 
 		for _, listener := range a.listeners {
@@ -91,7 +101,10 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 
 	}
 
-	return hasMore, newlastpos, mblist, nil
+	result.LastPos = newlastpos
+	result.List = mblist
+
+	return &result, nil
 }
 
 func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int, layerfilter []layer.Layer) ([]*mapblockparser.MapBlock, error) {

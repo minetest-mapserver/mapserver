@@ -17,8 +17,12 @@ func Job(ctx *app.App) {
 
 	fields := logrus.Fields{}
 	logrus.WithFields(fields).Info("Starting initial rendering")
-	blockcount := 0
 	tilecount := 0
+
+	totalLegacyCount, err := ctx.Blockdb.CountLegacyBlocks()
+	if err != nil {
+		panic(err)
+	}
 
 	rstate := ctx.Config.RenderState
 
@@ -27,15 +31,15 @@ func Job(ctx *app.App) {
 	for true {
 		start := time.Now()
 
-		hasMore, newlastcoords, mblist, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, ctx.Config.InitialRenderingFetchLimit, ctx.Config.Layers)
+		result, err := ctx.BlockAccessor.FindLegacyMapBlocks(lastcoords, ctx.Config.InitialRenderingFetchLimit, ctx.Config.Layers)
 
 		if err != nil {
 			panic(err)
 		}
 
-		if len(mblist) == 0 && !hasMore {
+		if len(result.List) == 0 && !result.HasMore {
 			fields = logrus.Fields{
-				"blocks": blockcount,
+				"blocks": rstate.LegacyProcessed,
 				"tiles":  tilecount,
 			}
 			logrus.WithFields(fields).Info("Initial rendering complete")
@@ -45,13 +49,12 @@ func Job(ctx *app.App) {
 			break
 		}
 
-		blockcount += len(mblist)
-		lastcoords = *newlastcoords
+		lastcoords = *result.LastPos
 
 		tileRenderedMap := make(map[string]bool)
 
 		for i := 12; i >= 1; i-- {
-			for _, mb := range mblist {
+			for _, mb := range result.List {
 				//13
 				tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
@@ -87,13 +90,18 @@ func Job(ctx *app.App) {
 		rstate.LastX = lastcoords.X
 		rstate.LastY = lastcoords.Y
 		rstate.LastZ = lastcoords.Z
+		rstate.LegacyProcessed += result.UnfilteredCount
 		ctx.Config.Save()
 
 		t := time.Now()
 		elapsed := t.Sub(start)
 
+		progress := int( float64(rstate.LegacyProcessed) / float64(totalLegacyCount) * 100 )
+
 		fields = logrus.Fields{
-			"count":   len(mblist),
+			"count":   len(result.List),
+			"processed": rstate.LegacyProcessed,
+			"progress%": progress,
 			"X":       lastcoords.X,
 			"Y":       lastcoords.Y,
 			"Z":       lastcoords.Z,
