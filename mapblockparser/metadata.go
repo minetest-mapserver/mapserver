@@ -11,6 +11,10 @@ import (
 	"strings"
 )
 
+/*
+lua vm: https://github.com/yuin/gopher-lua
+*/
+
 const (
 	INVENTORY_TERMINATOR = "EndInventory"
 	INVENTORY_END        = "EndInventoryList"
@@ -103,7 +107,7 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 			txt := scanner.Text()
 			offset += len(txt) + 1
 
-			log.WithFields(logrus.Fields{"txt":txt, "position":position}).Info("Parsing inventory")
+			log.WithFields(logrus.Fields{"txt":txt, "position":position}).Trace("Parsing inventory")
 
 
 			if strings.HasPrefix(txt, INVENTORY_START) {

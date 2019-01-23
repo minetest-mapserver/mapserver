@@ -9,6 +9,10 @@ import (
 	"strings"
 	"time"
 )
+/*
+sqlite extract: https://stackoverflow.com/questions/15448373/how-to-dump-a-file-stored-in-a-sqlite-database-as-a-blob
+sqlite3 my.db "SELECT writefile('object0.gz', MyBlob) FROM MyTable WHERE id = 1"
+*/
 
 const migrateScript = `
 alter table blocks add mtime integer default 0;

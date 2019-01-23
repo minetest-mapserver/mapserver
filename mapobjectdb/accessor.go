@@ -4,6 +4,12 @@ import (
 	"mapserver/coords"
 )
 
+/*
+sqlite perf: https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite?rq=1
+PRAGMA synchronous = OFF
+PRAGMA journal_mode = MEMORY
+*/
+
 type Tile struct {
 	Pos   *coords.TileCoords
 	Data  []byte

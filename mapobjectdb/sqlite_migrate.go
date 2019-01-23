@@ -30,6 +30,9 @@ create table if not exists tiles(
   zoom int,
   primary key(x,y,zoom,layerid)
 );
+
+-- PRAGMA synchronous = OFF;
+-- PRAGMA journal_mode = MEMORY;
 `
 
 type Sqlite3Accessor struct {
