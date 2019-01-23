@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"mapserver/coords"
+	"sync"
 )
 
 const getTileQuery = `
@@ -47,13 +48,17 @@ func (db *Sqlite3Accessor) GetTile(pos *coords.TileCoords) (*Tile, error) {
 	return nil, nil
 }
 
+var mutex = &sync.RWMutex{}
+
 const setTileQuery = `
 insert or replace into tiles(x,y,zoom,layerid,data,mtime)
 values(?, ?, ?, ?, ?, ?)
 `
 
 func (db *Sqlite3Accessor) SetTile(tile *Tile) error {
+	mutex.Lock()
 	_, err := db.db.Exec(setTileQuery, tile.Pos.X, tile.Pos.Y, tile.Pos.Zoom, tile.Pos.LayerId, tile.Data, tile.Mtime)
+	mutex.Unlock()
 	return err
 }
 
@@ -63,7 +68,9 @@ where x = ? and y = ? and zoom = ? and layerid = ?
 `
 
 func (db *Sqlite3Accessor) RemoveTile(pos *coords.TileCoords) error {
+	mutex.Lock()
 	_, err := db.db.Exec(removeTileQuery, pos.X, pos.Y, pos.Zoom, pos.LayerId)
+	mutex.Unlock()
 	return err
 }
 
