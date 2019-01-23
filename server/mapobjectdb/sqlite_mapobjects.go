@@ -13,6 +13,8 @@ delete from objects where posx = ? and posy = ? and posz = ?
 `
 
 func (db *Sqlite3Accessor) RemoveMapData(pos coords.MapBlockCoords) error {
+	mutex.Lock()
+	defer mutex.Unlock()
 	_, err := db.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
 	return err
 }
@@ -30,6 +32,8 @@ values(?, ?, ?)
 `
 
 func (db *Sqlite3Accessor) AddMapData(data MapObject) error {
+	mutex.Lock()
+	defer mutex.Unlock()
 
 	tx, err := db.db.Begin()
 
