@@ -21,7 +21,6 @@ const addMapDataQuery = `
 insert into
 objects(x,y,z,posx,posy,posz,type,mtime)
 values(?, ?, ?, ?, ?, ?, ?, ?)
-returning id
 `
 
 const addMapDataAttributeQuery = `
@@ -64,7 +63,7 @@ func (db *Sqlite3Accessor) AddMapData(data MapObject) error {
 				return err
 			}
 	}
-	
+
 	tx.Commit()
 	return nil
 }

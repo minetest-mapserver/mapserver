@@ -63,3 +63,43 @@ func TestMigrate(t *testing.T) {
 	}
 
 }
+
+
+func TestMapObjects(t *testing.T) {
+	tmpfile, err := ioutil.TempFile("", "TestMapObjects.*.sqlite")
+	if err != nil {
+		panic(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	db, err := NewSqliteAccessor(tmpfile.Name())
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.Migrate()
+	if err != nil {
+		panic(err)
+	}
+
+	attrs := make(map[string]string)
+	attrs["X"] = "y"
+
+	pos := coords.NewMapBlockCoords(0,0,0)
+
+	o := MapObject{
+		MBPos: &pos,
+		X: 1,
+		Y: 2,
+		Z: 3,
+		Type: "xy",
+		Mtime: 1234,
+		Attributes: attrs,
+	}
+
+	err = db.AddMapData(o)
+	if err != nil {
+		panic(err)
+	}
+
+}
