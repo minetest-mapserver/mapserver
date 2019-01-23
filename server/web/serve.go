@@ -31,7 +31,7 @@ func Serve(ctx *app.App) {
 		//websocket listener
 		ctx.BlockAccessor.AddListener(ws)
 
-		//mapbloc endpoint
+		//mapblock endpoint
 		mux.Handle("/api/mapblock/", &MapblockHandler{ctx: ctx})
 	}
 

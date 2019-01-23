@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/initialrenderer"
+	"mapserver/mapobject"
 	"mapserver/params"
 	"mapserver/tileupdate"
 	"mapserver/web"
@@ -57,6 +58,9 @@ func main() {
 		panic(err)
 	}
 
+	//Set up mapobject events
+	mapobject.Setup(ctx)
+
 	//run initial rendering
 	if ctx.Config.EnableInitialRendering && ctx.Config.RenderState.InitialRun {
 		go initialrenderer.Job(ctx)
@@ -68,6 +72,7 @@ func main() {
 	}
 
 	//Start http server
+	//TODO: defer, may cause race condition
 	web.Serve(ctx)
 
 }
