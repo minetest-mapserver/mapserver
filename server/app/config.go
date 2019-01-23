@@ -18,6 +18,8 @@ type Config struct {
 	RenderState                *RenderStateType `json:"renderstate"`
 	Layers                     []layer.Layer    `json:"layers"`
 	InitialRenderingFetchLimit int              `json:"initialrenderingfetchlimit"`
+	InitialRenderingJobs       int              `json:"initialrenderingjobs"`
+	InitialRenderingQueue      int              `json:"initialrenderingqueue"`
 	UpdateRenderingFetchLimit  int              `json:"updaterenderingfetchlimit"`
 }
 
@@ -99,6 +101,8 @@ func ParseConfig(filename string) (*Config, error) {
 		RenderState:                &rstate,
 		Layers:                     layers,
 		InitialRenderingFetchLimit: 1000,
+		InitialRenderingJobs:       1,
+		InitialRenderingQueue:      0,
 		UpdateRenderingFetchLimit:  1000,
 	}
 

@@ -37,9 +37,9 @@ func (db *Sqlite3Accessor) AddMapData(data MapObject) error {
 	}
 
 	res, err := db.db.Exec(addMapDataQuery,
-			data.X, data.Y, data.Z,
-			data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
-			data.Type, data.Mtime)
+		data.X, data.Y, data.Z,
+		data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
+		data.Type, data.Mtime)
 
 	if err != nil {
 		tx.Rollback()
@@ -57,10 +57,10 @@ func (db *Sqlite3Accessor) AddMapData(data MapObject) error {
 		//TODO: batch insert
 		_, err := db.db.Exec(addMapDataAttributeQuery, id, k, v)
 
-			if err != nil {
-				tx.Rollback()
-				return err
-			}
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
 	}
 
 	tx.Commit()

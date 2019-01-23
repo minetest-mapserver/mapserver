@@ -64,7 +64,6 @@ func TestMigrate(t *testing.T) {
 
 }
 
-
 func TestMapObjects(t *testing.T) {
 	tmpfile, err := ioutil.TempFile("", "TestMapObjects.*.sqlite")
 	if err != nil {
@@ -85,15 +84,15 @@ func TestMapObjects(t *testing.T) {
 	attrs := make(map[string]string)
 	attrs["X"] = "y"
 
-	pos := coords.NewMapBlockCoords(0,0,0)
+	pos := coords.NewMapBlockCoords(0, 0, 0)
 
 	o := MapObject{
-		MBPos: &pos,
-		X: 1,
-		Y: 2,
-		Z: 3,
-		Type: "xy",
-		Mtime: 1234,
+		MBPos:      &pos,
+		X:          1,
+		Y:          2,
+		Z:          3,
+		Type:       "xy",
+		Mtime:      1234,
 		Attributes: attrs,
 	}
 

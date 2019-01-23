@@ -1,18 +1,18 @@
 package initialrenderer
 
 import (
+	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
 	"strconv"
 	"time"
-	"github.com/sirupsen/logrus"
 )
 
 func getTileKey(tc *coords.TileCoords) string {
 	return strconv.Itoa(tc.X) + "/" + strconv.Itoa(tc.Y) + "/" + strconv.Itoa(tc.Zoom)
 }
 
-func worker(ctx *app.App, coords <-chan *coords.TileCoords){
+func worker(ctx *app.App, coords <-chan *coords.TileCoords) {
 	for tc := range coords {
 		ctx.Objectdb.RemoveTile(tc)
 		_, err := ctx.Tilerenderer.Render(tc, 2)
@@ -38,9 +38,11 @@ func Job(ctx *app.App) {
 	rstate := ctx.Config.RenderState
 	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
 
-	jobs := make(chan *coords.TileCoords, 0)
+	jobs := make(chan *coords.TileCoords, ctx.Config.InitialRenderingQueue)
 
-	go worker(ctx, jobs)
+	for i := 0; i < ctx.Config.InitialRenderingJobs; i++ {
+		go worker(ctx, jobs)
+	}
 
 	for true {
 		start := time.Now()

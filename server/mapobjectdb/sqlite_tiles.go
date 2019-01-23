@@ -47,7 +47,6 @@ func (db *Sqlite3Accessor) GetTile(pos *coords.TileCoords) (*Tile, error) {
 	return nil, nil
 }
 
-
 const setTileQuery = `
 insert or replace into tiles(x,y,zoom,layerid,data,mtime)
 values(?, ?, ?, ?, ?, ?)
@@ -69,7 +68,7 @@ func (db *Sqlite3Accessor) RemoveTile(pos *coords.TileCoords) error {
 }
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite3", filename + "?_timeout=500")
+	db, err := sql.Open("sqlite3", filename+"?_timeout=500")
 	if err != nil {
 		return nil, err
 	}
