@@ -18,7 +18,7 @@ type Tile struct {
 
 type MapObject struct {
 	//mapblock position
-	MBPos coords.MapBlockCoords
+	MBPos *coords.MapBlockCoords
 
 	//block position
 	X, Y, Z int
@@ -26,6 +26,7 @@ type MapObject struct {
 	Type  string
 	Data  string
 	Mtime int64
+	Attributes map[string]string
 }
 
 type SearchQuery struct {

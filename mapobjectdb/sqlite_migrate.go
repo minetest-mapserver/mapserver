@@ -8,6 +8,10 @@ import (
 )
 
 const migrateScript = `
+PRAGMA foreign_keys = ON;
+PRAGMA journal_mode = MEMORY;
+-- PRAGMA synchronous = OFF;
+
 create table if not exists objects(
 	id integer primary key autoincrement,
   x int,
@@ -24,6 +28,14 @@ create table if not exists objects(
 create index if not exists objects_pos on objects(posx,posy,posz);
 create index if not exists objects_pos_type on objects(posx,posy,posz,type);
 
+create table if not exists object_attributes(
+	id integer primary key autoincrement,
+	objectid integer not null,
+	key varchar not null,
+	value varchar not null,
+	FOREIGN KEY (objectid) references objects(id) ON DELETE CASCADE
+);
+
 create table if not exists tiles(
   data blob,
   mtime bigint,
@@ -33,9 +45,6 @@ create table if not exists tiles(
   zoom int,
   primary key(x,y,zoom,layerid)
 );
-
--- PRAGMA synchronous = OFF;
--- PRAGMA journal_mode = MEMORY;
 `
 
 type Sqlite3Accessor struct {
