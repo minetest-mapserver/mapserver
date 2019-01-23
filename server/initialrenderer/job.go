@@ -5,7 +5,6 @@ import (
 	"mapserver/coords"
 	"strconv"
 	"time"
-	"runtime"
 	"github.com/sirupsen/logrus"
 )
 
@@ -31,7 +30,6 @@ func Job(ctx *app.App) {
 	}
 
 	fields := logrus.Fields{
-		"jobs": runtime.NumCPU(),
 		"totalLegacyCount": totalLegacyCount,
 	}
 	logrus.WithFields(fields).Info("Starting initial rendering")
@@ -42,9 +40,7 @@ func Job(ctx *app.App) {
 
 	jobs := make(chan *coords.TileCoords, 10)
 
-	for i:=0; i<runtime.NumCPU(); i++ {
-		go worker(ctx, jobs)
-	}
+	go worker(ctx, jobs)
 
 	for true {
 		start := time.Now()
