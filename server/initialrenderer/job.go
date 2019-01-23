@@ -38,7 +38,7 @@ func Job(ctx *app.App) {
 	rstate := ctx.Config.RenderState
 	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
 
-	jobs := make(chan *coords.TileCoords, 10)
+	jobs := make(chan *coords.TileCoords, 0)
 
 	go worker(ctx, jobs)
 
