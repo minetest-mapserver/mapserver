@@ -2,13 +2,13 @@ package web
 
 import (
 	"encoding/json"
-	"fmt"
 	"mapserver/app"
 	"mapserver/coords"
 	"mapserver/mapblockparser"
 	"math/rand"
 	"net/http"
 	"sync"
+	"bytes"
 
 	"github.com/gorilla/websocket"
 )
@@ -43,37 +43,32 @@ var upgrader = websocket.Upgrader{
 }
 
 func (t *WS) OnParsedMapBlock(block *mapblockparser.MapBlock) {
-	e := &ParsedMapBlockEvent{"parsed-mapblock", block}
-	data, err := json.Marshal(e)
-	if err != nil {
-		panic(err)
-	}
-
-	t.mutex.RLock()
-	defer t.mutex.RUnlock()
-
-	for _, c := range t.channels {
-		select {
-		case c <- data:
-		default:
-		}
-	}
+	t.SendJSON("parsed-mapblock", block)
 }
 
 func (t *WS) OnRenderedTile(tc *coords.TileCoords) {
+	t.SendJSON("rendered-tile", tc)
+}
 
-	e := &RenderedTileEvent{"rendered-tile", tc}
-	data, err := json.Marshal(e)
+func (t *WS) SendJSON(eventtype string, o interface{}){
+	data, err := json.Marshal(o)
 	if err != nil {
 		panic(err)
 	}
+
+	buf := new(bytes.Buffer)
+	buf.Write([]byte("{\"type\":\""))
+	buf.Write([]byte(eventtype))
+	buf.Write([]byte("\",\"data\":"))
+	buf.Write(data)
+	buf.Write([]byte("}"))
 
 	t.mutex.RLock()
 	defer t.mutex.RUnlock()
 
 	for _, c := range t.channels {
 		select {
-		case c <- data:
+		case c <- buf.Bytes():
 		default:
 		}
 	}
@@ -95,9 +90,6 @@ func (t *WS) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		close(ch)
 		t.mutex.Unlock()
 	}()
-
-	fmt.Print("Socket opened: ")
-	fmt.Println(id)
 
 	for {
 
