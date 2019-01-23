@@ -31,25 +31,40 @@ values(?, ?, ?)
 `
 
 func (db *Sqlite3Accessor) AddMapData(data MapObject) error {
-	_, err := db.db.Exec(addMapDataQuery,
-			data.X, data.Y, data.Z,
-			data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
-			data.Type, data.Mtime)
+
+	tx, err := db.db.Begin()
 
 	if err != nil {
 		return err
 	}
 
-	//TODO
-	id := 1
+	res, err := db.db.Exec(addMapDataQuery,
+			data.X, data.Y, data.Z,
+			data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
+			data.Type, data.Mtime)
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	id, err := res.LastInsertId()
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
 
 	for k, v := range data.Attributes {
+		//TODO: batch insert
 		_, err := db.db.Exec(addMapDataAttributeQuery, id, k, v)
 
 			if err != nil {
+				tx.Rollback()
 				return err
 			}
 	}
-
+	
+	tx.Commit()
 	return nil
 }
