@@ -8,6 +8,7 @@ import (
 	"mapserver/params"
 	"mapserver/tileupdate"
 	"mapserver/web"
+	"runtime"
 )
 
 func main() {
@@ -28,7 +29,11 @@ func main() {
 
 	if p.Version {
 		fmt.Print("Mapserver version: ")
-		fmt.Println(app.Version)
+		fmt.Print(app.Version)
+		fmt.Print(" OS: ")
+		fmt.Print(runtime.GOOS)
+		fmt.Print(" Architecture: ")
+		fmt.Println(runtime.GOARCH)
 		return
 	}
 
