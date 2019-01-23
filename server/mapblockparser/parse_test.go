@@ -1,10 +1,10 @@
 package mapblockparser
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"mapserver/coords"
-	"encoding/json"
 	"strconv"
 	"testing"
 )

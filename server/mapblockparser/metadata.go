@@ -107,8 +107,7 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 			txt := scanner.Text()
 			offset += len(txt) + 1
 
-			log.WithFields(logrus.Fields{"txt":txt, "position":position}).Trace("Parsing inventory")
-
+			log.WithFields(logrus.Fields{"txt": txt, "position": position}).Trace("Parsing inventory")
 
 			if strings.HasPrefix(txt, INVENTORY_START) {
 				pairs := strings.Split(txt, " ")

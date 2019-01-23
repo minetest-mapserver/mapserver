@@ -23,9 +23,9 @@ type MapObject struct {
 	//block position
 	X, Y, Z int
 
-	Type  string
-	Data  string
-	Mtime int64
+	Type       string
+	Data       string
+	Mtime      int64
 	Attributes map[string]string
 }
 

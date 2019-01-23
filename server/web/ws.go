@@ -1,6 +1,7 @@
 package web
 
 import (
+	"bytes"
 	"encoding/json"
 	"mapserver/app"
 	"mapserver/coords"
@@ -8,7 +9,6 @@ import (
 	"math/rand"
 	"net/http"
 	"sync"
-	"bytes"
 
 	"github.com/gorilla/websocket"
 )
@@ -50,7 +50,7 @@ func (t *WS) OnRenderedTile(tc *coords.TileCoords) {
 	t.SendJSON("rendered-tile", tc)
 }
 
-func (t *WS) SendJSON(eventtype string, o interface{}){
+func (t *WS) SendJSON(eventtype string, o interface{}) {
 	data, err := json.Marshal(o)
 	if err != nil {
 		panic(err)

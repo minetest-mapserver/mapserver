@@ -96,16 +96,16 @@ func Job(ctx *app.App) {
 		t := time.Now()
 		elapsed := t.Sub(start)
 
-		progress := int( float64(rstate.LegacyProcessed) / float64(totalLegacyCount) * 100 )
+		progress := int(float64(rstate.LegacyProcessed) / float64(totalLegacyCount) * 100)
 
 		fields = logrus.Fields{
-			"count":   len(result.List),
+			"count":     len(result.List),
 			"processed": rstate.LegacyProcessed,
 			"progress%": progress,
-			"X":       lastcoords.X,
-			"Y":       lastcoords.Y,
-			"Z":       lastcoords.Z,
-			"elapsed": elapsed,
+			"X":         lastcoords.X,
+			"Y":         lastcoords.Y,
+			"Z":         lastcoords.Z,
+			"elapsed":   elapsed,
 		}
 		logrus.WithFields(fields).Info("Initial rendering")
 	}

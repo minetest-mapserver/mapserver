@@ -27,8 +27,8 @@ type WebApiConfig struct {
 
 type RenderStateType struct {
 	//Initial rendering flag (true=still active)
-	InitialRun bool `json:"initialrun"`
-	LegacyProcessed int `json:"legacyprocessed"`
+	InitialRun      bool `json:"initialrun"`
+	LegacyProcessed int  `json:"legacyprocessed"`
 
 	//Last initial rendering coords
 	LastX int `json:"lastx"`

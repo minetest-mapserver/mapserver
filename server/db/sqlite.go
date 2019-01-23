@@ -7,6 +7,7 @@ import (
 	"mapserver/coords"
 	"time"
 )
+
 /*
 sqlite extract: https://stackoverflow.com/questions/15448373/how-to-dump-a-file-stored-in-a-sqlite-database-as-a-blob
 sqlite3 my.db "SELECT writefile('object0.gz', MyBlob) FROM MyTable WHERE id = 1"
@@ -112,7 +113,7 @@ const countLegacyBlocksQuery = `
 select count(*) from blocks b where b.mtime = 0
 `
 
-func (db *Sqlite3Accessor) CountLegacyBlocks() (int, error){
+func (db *Sqlite3Accessor) CountLegacyBlocks() (int, error) {
 	rows, err := db.db.Query(countLegacyBlocksQuery)
 	if err != nil {
 		return 0, err

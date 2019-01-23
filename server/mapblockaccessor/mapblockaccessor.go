@@ -42,9 +42,9 @@ func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.
 }
 
 type LegacyMapBlocksResult struct {
-	HasMore bool
-	LastPos *coords.MapBlockCoords
-	List []*mapblockparser.MapBlock
+	HasMore         bool
+	LastPos         *coords.MapBlockCoords
+	List            []*mapblockparser.MapBlock
 	UnfilteredCount int
 }
 

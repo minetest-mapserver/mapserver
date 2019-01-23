@@ -24,6 +24,7 @@ func Serve(ctx *app.App) {
 	ws := NewWS(ctx)
 	mux.Handle("/api/ws", ws)
 
+	ctx.Events = ws
 	ctx.Tilerenderer.AddListener(ws)
 
 	if ctx.Config.WebApi.EnableMapblock {
