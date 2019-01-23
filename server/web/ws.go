@@ -27,16 +27,6 @@ func NewWS(ctx *app.App) *WS {
 	return &ws
 }
 
-type ParsedMapBlockEvent struct {
-	Eventtype string                   `json:"type"`
-	Block     *mapblockparser.MapBlock `json:"block"`
-}
-
-type RenderedTileEvent struct {
-	Eventtype string             `json:"type"`
-	Tc        *coords.TileCoords `json:"tilepos"`
-}
-
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
