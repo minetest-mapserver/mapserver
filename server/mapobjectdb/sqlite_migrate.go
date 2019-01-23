@@ -21,7 +21,6 @@ create table if not exists objects(
 	posy int,
 	posz int,
 	type varchar,
-	data blob,
   mtime bigint
 );
 
@@ -29,11 +28,11 @@ create index if not exists objects_pos on objects(posx,posy,posz);
 create index if not exists objects_pos_type on objects(posx,posy,posz,type);
 
 create table if not exists object_attributes(
-	id integer primary key autoincrement,
 	objectid integer not null,
 	key varchar not null,
 	value varchar not null,
 	FOREIGN KEY (objectid) references objects(id) ON DELETE CASCADE
+	primary key(objectid, key)
 );
 
 create table if not exists tiles(
