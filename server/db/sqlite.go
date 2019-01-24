@@ -72,20 +72,20 @@ func convertRows(pos int64, data []byte, mtime int64) Block {
 	return Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-const getLegacyBlockQuery = `
+const getLastBlockQuery = `
 select pos,data,mtime
 from blocks b
-where b.mtime == 0
+where b.mtime > ?
 and b.pos > ?
-order by b.pos asc
+order by b.pos asc, b.mtime asc
 limit ?
 `
 
-func (db *Sqlite3Accessor) FindLegacyBlocks(lastpos coords.MapBlockCoords, limit int) ([]Block, error) {
+func (db *Sqlite3Accessor) FindBlocks(lastpos coords.MapBlockCoords, lastmtime int64, limit int) ([]Block, error) {
 	blocks := make([]Block, 0)
 	pc := coords.CoordToPlain(lastpos)
 
-	rows, err := db.db.Query(getLegacyBlockQuery, pc, limit)
+	rows, err := db.db.Query(getLastBlockQuery, lastmtime, pc, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -109,12 +109,12 @@ func (db *Sqlite3Accessor) FindLegacyBlocks(lastpos coords.MapBlockCoords, limit
 	return blocks, nil
 }
 
-const countLegacyBlocksQuery = `
-select count(*) from blocks b where b.mtime = 0
+const countBlocksQuery = `
+select count(*) from blocks b where b.mtime >= ? and b.mtime <= ?
 `
 
-func (db *Sqlite3Accessor) CountLegacyBlocks() (int, error) {
-	rows, err := db.db.Query(countLegacyBlocksQuery)
+func (db *Sqlite3Accessor) CountBlocks(frommtime, tomtime int64) (int, error) {
+	rows, err := db.db.Query(countBlocksQuery, frommtime, tomtime)
 	if err != nil {
 		return 0, err
 	}
@@ -135,40 +135,6 @@ func (db *Sqlite3Accessor) CountLegacyBlocks() (int, error) {
 	return 0, nil
 }
 
-const getLatestBlockQuery = `
-select pos,data,mtime
-from blocks b
-where b.mtime > ?
-order by b.mtime asc
-limit ?
-`
-
-func (db *Sqlite3Accessor) FindLatestBlocks(mintime int64, limit int) ([]Block, error) {
-	blocks := make([]Block, 0)
-
-	rows, err := db.db.Query(getLatestBlockQuery, mintime, limit)
-	if err != nil {
-		return nil, err
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var pos int64
-		var data []byte
-		var mtime int64
-
-		err = rows.Scan(&pos, &data, &mtime)
-		if err != nil {
-			return nil, err
-		}
-
-		mb := convertRows(pos, data, mtime)
-		blocks = append(blocks, mb)
-	}
-
-	return blocks, nil
-}
 
 const getBlockQuery = `
 select pos,data,mtime from blocks b where b.pos = ?
