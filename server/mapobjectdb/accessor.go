@@ -31,12 +31,12 @@ type MapObject struct {
 
 func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type string) *MapObject {
 	o := MapObject{
-		MBPos: MBPos,
-		Type: _type,
-		X: MBPos.X + x,
-		Y: MBPos.Y + y,
-		Z: MBPos.Z + z,
-		Mtime: time.Now().Unix(),
+		MBPos:      MBPos,
+		Type:       _type,
+		X:          MBPos.X + x,
+		Y:          MBPos.Y + y,
+		Z:          MBPos.Z + z,
+		Mtime:      time.Now().Unix(),
 		Attributes: make(map[string]string),
 	}
 

@@ -55,6 +55,10 @@ func NewMetadata() *Metadata {
 	return &md
 }
 
+func (md *Metadata) GetMetadata(x, y, z int) map[string]string {
+	return md.GetPairsMap(getNodePos(x, y, z))
+}
+
 func (md *Metadata) GetPairsMap(pos int) map[string]string {
 	pairsMap := md.Pairs[pos]
 	if pairsMap == nil {
