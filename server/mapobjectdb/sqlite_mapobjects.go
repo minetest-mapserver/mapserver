@@ -12,7 +12,7 @@ const removeMapDataQuery = `
 delete from objects where posx = ? and posy = ? and posz = ?
 `
 
-func (db *Sqlite3Accessor) RemoveMapData(pos coords.MapBlockCoords) error {
+func (db *Sqlite3Accessor) RemoveMapData(pos *coords.MapBlockCoords) error {
 	_, err := db.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
 	return err
 }
@@ -29,7 +29,7 @@ object_attributes(objectid, key, value)
 values(?, ?, ?)
 `
 
-func (db *Sqlite3Accessor) AddMapData(data MapObject) error {
+func (db *Sqlite3Accessor) AddMapData(data *MapObject) error {
 	tx, err := db.db.Begin()
 
 	if err != nil {

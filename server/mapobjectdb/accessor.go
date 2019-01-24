@@ -2,6 +2,7 @@ package mapobjectdb
 
 import (
 	"mapserver/coords"
+	"time"
 )
 
 /*
@@ -28,6 +29,20 @@ type MapObject struct {
 	Attributes map[string]string
 }
 
+func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type string) *MapObject {
+	o := MapObject{
+		MBPos: MBPos,
+		Type: _type,
+		X: x,
+		Y: y,
+		Z: z,
+		Mtime: time.Now().Unix(),
+		Attributes: make(map[string]string),
+	}
+
+	return &o
+}
+
 type SearchQuery struct {
 	//block position (not mapblock)
 	Pos1, Pos2 coords.MapBlockCoords
@@ -39,8 +54,8 @@ type DBAccessor interface {
 
 	//Generic map objects (poi, etc)
 	GetMapData(q SearchQuery) ([]MapObject, error)
-	RemoveMapData(pos coords.MapBlockCoords) error
-	AddMapData(data MapObject) error
+	RemoveMapData(pos *coords.MapBlockCoords) error
+	AddMapData(data *MapObject) error
 
 	//tile data
 	GetTile(pos *coords.TileCoords) (*Tile, error)

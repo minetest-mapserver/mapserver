@@ -96,7 +96,7 @@ func TestMapObjects(t *testing.T) {
 		Attributes: attrs,
 	}
 
-	err = db.AddMapData(o)
+	err = db.AddMapData(&o)
 	if err != nil {
 		panic(err)
 	}
