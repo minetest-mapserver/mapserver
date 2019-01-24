@@ -72,20 +72,55 @@ func convertRows(pos int64, data []byte, mtime int64) Block {
 	return Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-const getLastBlockQuery = `
+const getBlocksByMtimeQuery = `
 select pos,data,mtime
 from blocks b
-where b.mtime >= ?
-and b.pos > ?
-order by b.mtime asc, b.pos asc
+where b.mtime > ?
+order by b.mtime asc
 limit ?
 `
 
-func (db *Sqlite3Accessor) FindBlocks(lastpos coords.MapBlockCoords, lastmtime int64, limit int) ([]Block, error) {
+func (db *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]Block, error) {
+	blocks := make([]Block, 0)
+
+	rows, err := db.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var pos int64
+		var data []byte
+		var mtime int64
+
+		err = rows.Scan(&pos, &data, &mtime)
+		if err != nil {
+			return nil, err
+		}
+
+		mb := convertRows(pos, data, mtime)
+		blocks = append(blocks, mb)
+	}
+
+	return blocks, nil
+}
+
+const getLastBlockQuery = `
+select pos,data,mtime
+from blocks b
+where b.mtime = 0
+and b.pos > ?
+order by b.pos asc, b.mtime asc
+limit ?
+`
+
+func (db *Sqlite3Accessor) FindLegacyBlocksByPos(lastpos coords.MapBlockCoords, limit int) ([]Block, error) {
 	blocks := make([]Block, 0)
 	pc := coords.CoordToPlain(lastpos)
 
-	rows, err := db.db.Query(getLastBlockQuery, lastmtime, pc, limit)
+	rows, err := db.db.Query(getLastBlockQuery, pc, limit)
 	if err != nil {
 		return nil, err
 	}

@@ -49,18 +49,15 @@ type FindMapBlocksResult struct {
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindMapBlocks(lastpos coords.MapBlockCoords, lastmtime int64, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
+func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
 
 	fields := logrus.Fields{
-		"x":         lastpos.X,
-		"y":         lastpos.Y,
-		"z":         lastpos.Z,
 		"lastmtime": lastmtime,
 		"limit":     limit,
 	}
-	logrus.WithFields(fields).Debug("FindMapBlocks")
+	logrus.WithFields(fields).Debug("FindMapBlocksByMtime")
 
-	blocks, err := a.accessor.FindBlocks(lastpos, lastmtime, limit)
+	blocks, err := a.accessor.FindBlocksByMtime(lastmtime, limit)
 
 	if err != nil {
 		return nil, err
@@ -96,7 +93,77 @@ func (a *MapBlockAccessor) FindMapBlocks(lastpos coords.MapBlockCoords, lastmtim
 			"y": block.Pos.Y,
 			"z": block.Pos.Z,
 		}
-		logrus.WithFields(fields).Trace("legacy mapblock")
+		logrus.WithFields(fields).Debug("mapblock")
+
+		key := getKey(block.Pos)
+
+		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, listener := range a.listeners {
+			listener.OnParsedMapBlock(mapblock)
+		}
+
+		a.c.Set(key, mapblock, cache.DefaultExpiration)
+		mblist = append(mblist, mapblock)
+
+	}
+
+	result.LastPos = newlastpos
+	result.List = mblist
+
+	return &result, nil
+}
+
+func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
+
+	fields := logrus.Fields{
+		"x":     lastpos.X,
+		"y":     lastpos.Y,
+		"z":     lastpos.Z,
+		"limit": limit,
+	}
+	logrus.WithFields(fields).Debug("FindMapBlocksByPos")
+
+	blocks, err := a.accessor.FindLegacyBlocksByPos(lastpos, limit)
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := FindMapBlocksResult{}
+
+	mblist := make([]*mapblockparser.MapBlock, 0)
+	var newlastpos *coords.MapBlockCoords
+	result.HasMore = len(blocks) == limit
+	result.UnfilteredCount = len(blocks)
+
+	for _, block := range blocks {
+		newlastpos = &block.Pos
+		if result.LastMtime < block.Mtime {
+			result.LastMtime = block.Mtime
+		}
+
+		inLayer := false
+		for _, l := range layerfilter {
+			if (block.Pos.Y*16) >= l.From && (block.Pos.Y*16) <= l.To {
+				inLayer = true
+				break
+			}
+		}
+
+		if !inLayer {
+			continue
+		}
+
+		fields := logrus.Fields{
+			"x": block.Pos.X,
+			"y": block.Pos.Y,
+			"z": block.Pos.Z,
+		}
+		logrus.WithFields(fields).Trace("mapblock")
 
 		key := getKey(block.Pos)
 

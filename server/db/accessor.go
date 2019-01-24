@@ -12,7 +12,10 @@ type Block struct {
 
 type DBAccessor interface {
 	Migrate() error
-	FindBlocks(lastpos coords.MapBlockCoords, lastmtime int64, limit int) ([]Block, error)
+
+	FindBlocksByMtime(gtmtime int64, limit int) ([]Block, error)
+	FindLegacyBlocksByPos(lastpos coords.MapBlockCoords, limit int) ([]Block, error)
+
 	CountBlocks(frommtime, tomtime int64) (int, error)
 	GetBlock(pos coords.MapBlockCoords) (*Block, error)
 }
