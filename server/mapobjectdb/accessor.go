@@ -33,9 +33,9 @@ func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type strin
 	o := MapObject{
 		MBPos: MBPos,
 		Type: _type,
-		X: x,
-		Y: y,
-		Z: z,
+		X: MBPos.X + x,
+		Y: MBPos.Y + y,
+		Z: MBPos.Z + z,
 		Mtime: time.Now().Unix(),
 		Attributes: make(map[string]string),
 	}
