@@ -6,22 +6,20 @@ import (
 	"mapserver/coords"
 	"mapserver/layer"
 	"os"
-	"sync"
 	"runtime"
+	"sync"
 )
 
 type Config struct {
-	Port                       int              `json:"port"`
-	EnableInitialRendering     bool             `json:"enableinitialrendering"`
-	EnableIncrementalUpdate    bool             `json:"enableincrementalupdate"`
-	Webdev                     bool             `json:"webdev"`
-	WebApi                     *WebApiConfig    `json:"webapi"`
-	RenderState                *RenderStateType `json:"renderstate"`
-	Layers                     []layer.Layer    `json:"layers"`
-	InitialRenderingFetchLimit int              `json:"initialrenderingfetchlimit"`
-	InitialRenderingJobs       int              `json:"initialrenderingjobs"`
-	InitialRenderingQueue      int              `json:"initialrenderingqueue"`
-	UpdateRenderingFetchLimit  int              `json:"updaterenderingfetchlimit"`
+	Port                int              `json:"port"`
+	EnableRendering     bool             `json:"enablerendering"`
+	Webdev              bool             `json:"webdev"`
+	WebApi              *WebApiConfig    `json:"webapi"`
+	RenderState         *RenderStateType `json:"renderstate"`
+	Layers              []layer.Layer    `json:"layers"`
+	RenderingFetchLimit int              `json:"renderingfetchlimit"`
+	RenderingJobs       int              `json:"renderingjobs"`
+	RenderingQueue      int              `json:"renderingqueue"`
 }
 
 type WebApiConfig struct {
@@ -81,7 +79,7 @@ func ParseConfig(filename string) (*Config, error) {
 		LastX:      coords.MinCoord - 1,
 		LastY:      coords.MinCoord - 1,
 		LastZ:      coords.MinCoord - 1,
-		LastMtime:  1,
+		LastMtime:  0,
 	}
 
 	layers := []layer.Layer{
@@ -94,17 +92,15 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	cfg := Config{
-		Port:                       8080,
-		EnableInitialRendering:     true,
-		EnableIncrementalUpdate:    true,
-		Webdev:                     false,
-		WebApi:                     &webapi,
-		RenderState:                &rstate,
-		Layers:                     layers,
-		InitialRenderingFetchLimit: 1000,
-		InitialRenderingJobs:       runtime.NumCPU(),
-		InitialRenderingQueue:      100,
-		UpdateRenderingFetchLimit:  1000,
+		Port:                8080,
+		EnableRendering:     true,
+		Webdev:              false,
+		WebApi:              &webapi,
+		RenderState:         &rstate,
+		Layers:              layers,
+		RenderingFetchLimit: 1000,
+		RenderingJobs:       runtime.NumCPU(),
+		RenderingQueue:      100,
 	}
 
 	info, err := os.Stat(filename)

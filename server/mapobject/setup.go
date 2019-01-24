@@ -10,7 +10,7 @@ type Listener struct {
 }
 
 func (this *Listener) OnParsedMapBlock(block *mapblockparser.MapBlock) {
-	err := this.ctx.Objectdb.RemoveMapData(block.Pos)
+	err := this.ctx.Objectdb.RemoveMapData(&block.Pos)
 	if err != nil {
 		panic(err)
 	}

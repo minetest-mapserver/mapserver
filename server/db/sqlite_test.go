@@ -93,7 +93,7 @@ func TestMigrateAndQueryCount(t *testing.T) {
 		panic(err)
 	}
 
-	count, err := a.CountLegacyBlocks()
+	count, err := a.CountBlocks(0, 0)
 	if err != nil {
 		panic(err)
 	}

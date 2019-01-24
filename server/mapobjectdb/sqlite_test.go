@@ -69,7 +69,7 @@ func TestMapObjects(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	defer os.Remove(tmpfile.Name())
+	//defer os.Remove(tmpfile.Name())
 
 	db, err := NewSqliteAccessor(tmpfile.Name())
 	if err != nil {
@@ -96,7 +96,7 @@ func TestMapObjects(t *testing.T) {
 		Attributes: attrs,
 	}
 
-	err = db.AddMapData(o)
+	err = db.AddMapData(&o)
 	if err != nil {
 		panic(err)
 	}

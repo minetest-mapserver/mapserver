@@ -39,7 +39,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Header().Add("content-type", "image/png")
 
 		if tile == nil {
-			resp.Write(tilerenderer.CreateBlankTile(color.RGBA{0, 0, 0, 0}))
+			resp.Write(tilerenderer.CreateBlankTile(color.RGBA{255, 255, 255, 255}))
 			//TODO: cache/layer color
 
 		} else {

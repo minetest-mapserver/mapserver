@@ -12,13 +12,10 @@ type Block struct {
 
 type DBAccessor interface {
 	Migrate() error
-	/**
-	 * find old (pre-mapserver) mapblocks by lastpos
-	 * used only on initial rendering
-	 */
-	FindLegacyBlocks(lastpos coords.MapBlockCoords, limit int) ([]Block, error)
-	CountLegacyBlocks() (int, error)
 
-	FindLatestBlocks(mintime int64, limit int) ([]Block, error)
+	FindBlocksByMtime(gtmtime int64, limit int) ([]Block, error)
+	FindLegacyBlocksByPos(lastpos coords.MapBlockCoords, limit int) ([]Block, error)
+
+	CountBlocks(frommtime, tomtime int64) (int, error)
 	GetBlock(pos coords.MapBlockCoords) (*Block, error)
 }
