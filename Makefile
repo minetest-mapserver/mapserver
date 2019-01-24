@@ -10,7 +10,7 @@ $(OUT_DIR):
 	mkdir $@
 
 $(MOD_ZIP): $(OUT_DIR)
-	cd mod && zip -r ../$(OUT_DIR)/mapserver-mod.zip mapserver
+	zip -r $(OUT_DIR)/mapserver-mod.zip mapserver_mod
 
 clean:
 	rm -rf $(OUT_DIR)
