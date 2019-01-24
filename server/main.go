@@ -29,10 +29,10 @@ func main() {
 
 	if p.Version {
 		fmt.Print("Mapserver version: ")
-		fmt.Print(app.Version)
-		fmt.Print(" OS: ")
-		fmt.Print(runtime.GOOS)
-		fmt.Print(" Architecture: ")
+		fmt.Println(app.Version)
+		fmt.Print("OS: ")
+		fmt.Println(runtime.GOOS)
+		fmt.Print("Architecture: ")
 		fmt.Println(runtime.GOARCH)
 		return
 	}
