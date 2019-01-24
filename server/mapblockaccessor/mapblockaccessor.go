@@ -41,22 +41,22 @@ func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.
 	a.c.Set(key, mb, cache.DefaultExpiration)
 }
 
-type LegacyMapBlocksResult struct {
+type FindMapBlocksResult struct {
 	HasMore         bool
 	LastPos         *coords.MapBlockCoords
 	List            []*mapblockparser.MapBlock
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*LegacyMapBlocksResult, error) {
+func (a *MapBlockAccessor) FindMapBlocks(lastpos coords.MapBlockCoords, lastmtime int64, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
 
-	blocks, err := a.accessor.FindLegacyBlocks(lastpos, limit)
+	blocks, err := a.accessor.FindBlocks(lastpos, lastmtime, limit)
 
 	if err != nil {
 		return nil, err
 	}
 
-	result := LegacyMapBlocksResult{}
+	result := FindMapBlocksResult{}
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
 	var newlastpos *coords.MapBlockCoords
@@ -107,52 +107,6 @@ func (a *MapBlockAccessor) FindLegacyMapBlocks(lastpos coords.MapBlockCoords, li
 	return &result, nil
 }
 
-func (a *MapBlockAccessor) FindLatestMapBlocks(mintime int64, limit int, layerfilter []layer.Layer) ([]*mapblockparser.MapBlock, error) {
-	blocks, err := a.accessor.FindLatestBlocks(mintime, limit)
-
-	if err != nil {
-		return nil, err
-	}
-
-	mblist := make([]*mapblockparser.MapBlock, 0)
-
-	for _, block := range blocks {
-
-		inLayer := false
-		for _, l := range layerfilter {
-			if (block.Pos.Y*16) >= l.From && (block.Pos.Y*16) <= l.To {
-				inLayer = true
-			}
-		}
-
-		if !inLayer {
-			continue
-		}
-
-		fields := logrus.Fields{
-			"x": block.Pos.X,
-			"y": block.Pos.Y,
-			"z": block.Pos.Z,
-		}
-		logrus.WithFields(fields).Trace("updated mapblock")
-
-		key := getKey(block.Pos)
-
-		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, listener := range a.listeners {
-			listener.OnParsedMapBlock(mapblock)
-		}
-
-		a.c.Set(key, mapblock, cache.DefaultExpiration)
-		mblist = append(mblist, mapblock)
-	}
-
-	return mblist, nil
-}
 
 func (a *MapBlockAccessor) GetMapBlock(pos coords.MapBlockCoords) (*mapblockparser.MapBlock, error) {
 	key := getKey(pos)
