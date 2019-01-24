@@ -69,9 +69,9 @@ func (db *Sqlite3Accessor) RemoveTile(pos *coords.TileCoords) error {
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
 	//TODO: flag/config for unsafe db access
-	db, err := sql.Open("sqlite3", filename+"?_timeout=500&_journal_mode=MEMORY&_synchronous=OFF")
+	db, err := sql.Open("sqlite3", filename+"?_timeout=500&_journal_mode=MEMORY")
 	db.SetMaxOpenConns(1)
-	
+
 	if err != nil {
 		return nil, err
 	}
