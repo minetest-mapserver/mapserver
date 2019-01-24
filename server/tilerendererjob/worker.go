@@ -7,8 +7,7 @@ import (
 
 func worker(ctx *app.App, coords <-chan *coords.TileCoords) {
 	for tc := range coords {
-		ctx.Objectdb.RemoveTile(tc)
-		_, err := ctx.Tilerenderer.Render(tc, 2)
+		_, err := ctx.Tilerenderer.Render(tc, 5)
 		if err != nil {
 			panic(err)
 		}

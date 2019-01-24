@@ -1,7 +1,7 @@
 Minetest mapserver
 =======
 
-Relatime mapserver for Minetest
+Realtime mapserver for Minetest
 
 # Development state
 

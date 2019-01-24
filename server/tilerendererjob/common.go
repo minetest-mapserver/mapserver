@@ -1,11 +1,12 @@
 package tilerendererjob
 
 import (
-	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
 	"mapserver/mapblockparser"
 	"strconv"
+
+	"github.com/sirupsen/logrus"
 )
 
 func getTileKey(tc *coords.TileCoords) string {
@@ -41,6 +42,11 @@ func renderMapblocks(ctx *app.App, jobs chan *coords.TileCoords, mblist []*mapbl
 			logrus.WithFields(fields).Debug("Dispatching tile rendering (z11-1)")
 
 			tilecount++
+
+			//remove tile
+			ctx.Objectdb.RemoveTile(tc)
+
+			//dispatch re-render
 			jobs <- tc
 		}
 	}
