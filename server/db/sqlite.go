@@ -75,9 +75,9 @@ func convertRows(pos int64, data []byte, mtime int64) Block {
 const getLastBlockQuery = `
 select pos,data,mtime
 from blocks b
-where b.mtime > ?
+where b.mtime >= ?
 and b.pos > ?
-order by b.pos asc, b.mtime asc
+order by b.mtime asc, b.pos asc
 limit ?
 `
 
@@ -134,7 +134,6 @@ func (db *Sqlite3Accessor) CountBlocks(frommtime, tomtime int64) (int, error) {
 
 	return 0, nil
 }
-
 
 const getBlockQuery = `
 select pos,data,mtime from blocks b where b.pos = ?

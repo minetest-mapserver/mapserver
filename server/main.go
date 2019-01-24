@@ -4,10 +4,9 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
-	"mapserver/initialrenderer"
 	"mapserver/mapobject"
 	"mapserver/params"
-	"mapserver/tileupdate"
+	"mapserver/tilerendererjob"
 	"mapserver/web"
 	"runtime"
 )
@@ -62,13 +61,8 @@ func main() {
 	mapobject.Setup(ctx)
 
 	//run initial rendering
-	if ctx.Config.EnableInitialRendering && ctx.Config.RenderState.InitialRun {
-		go initialrenderer.Job(ctx)
-	}
-
-	//Incremental update
-	if ctx.Config.EnableIncrementalUpdate {
-		go tileupdate.Job(ctx)
+	if ctx.Config.EnableRendering {
+		go tilerendererjob.Job(ctx)
 	}
 
 	//Start http server

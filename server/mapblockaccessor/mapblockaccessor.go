@@ -44,11 +44,21 @@ func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.
 type FindMapBlocksResult struct {
 	HasMore         bool
 	LastPos         *coords.MapBlockCoords
+	LastMtime       int64
 	List            []*mapblockparser.MapBlock
 	UnfilteredCount int
 }
 
 func (a *MapBlockAccessor) FindMapBlocks(lastpos coords.MapBlockCoords, lastmtime int64, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
+
+	fields := logrus.Fields{
+		"x":         lastpos.X,
+		"y":         lastpos.Y,
+		"z":         lastpos.Z,
+		"lastmtime": lastmtime,
+		"limit":     limit,
+	}
+	logrus.WithFields(fields).Debug("FindMapBlocks")
 
 	blocks, err := a.accessor.FindBlocks(lastpos, lastmtime, limit)
 
@@ -65,6 +75,9 @@ func (a *MapBlockAccessor) FindMapBlocks(lastpos coords.MapBlockCoords, lastmtim
 
 	for _, block := range blocks {
 		newlastpos = &block.Pos
+		if result.LastMtime < block.Mtime {
+			result.LastMtime = block.Mtime
+		}
 
 		inLayer := false
 		for _, l := range layerfilter {
@@ -106,7 +119,6 @@ func (a *MapBlockAccessor) FindMapBlocks(lastpos coords.MapBlockCoords, lastmtim
 
 	return &result, nil
 }
-
 
 func (a *MapBlockAccessor) GetMapBlock(pos coords.MapBlockCoords) (*mapblockparser.MapBlock, error) {
 	key := getKey(pos)
