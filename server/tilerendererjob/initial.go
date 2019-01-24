@@ -45,7 +45,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			return
 		}
 
-		renderMapblocks(ctx, jobs, result.List)
+		tiles := renderMapblocks(ctx, jobs, result.List)
 
 		lastcoords = *result.LastPos
 		rstate.LastMtime = result.LastMtime
@@ -63,7 +63,8 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		progress := int(float64(rstate.LegacyProcessed) / float64(totalLegacyCount) * 100)
 
 		fields := logrus.Fields{
-			"count":     len(result.List),
+			"mapblocks": len(result.List),
+			"tiles":     tiles,
 			"processed": rstate.LegacyProcessed,
 			"progress%": progress,
 			"X":         lastcoords.X,

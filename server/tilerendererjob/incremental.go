@@ -30,7 +30,7 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			continue
 		}
 
-		renderMapblocks(ctx, jobs, result.List)
+		tiles := renderMapblocks(ctx, jobs, result.List)
 
 		rstate.LastMtime = result.LastMtime
 		ctx.Config.Save()
@@ -39,8 +39,9 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		elapsed := t.Sub(start)
 
 		fields := logrus.Fields{
-			"count":   len(result.List),
-			"elapsed": elapsed,
+			"mapblocks": len(result.List),
+			"tiles":     tiles,
+			"elapsed":   elapsed,
 		}
 		logrus.WithFields(fields).Info("incremental rendering")
 	}
