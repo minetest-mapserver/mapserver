@@ -16,8 +16,8 @@ clean:
 	rm -rf $(OUT_DIR)
 
 $(STATIC_VFS):
-	test -f ${HOME}/go/bin/esc || $(ENV) go get github.com/mjibson/esc
-	${HOME}/go/bin/esc -o $@ -prefix="static/" -pkg vfs static
+	test -f esc || $(ENV) go get github.com/mjibson/esc
+	esc -o $@ -prefix="static/" -pkg vfs static
 
 build: $(STATIC_VFS) $(OUT_DIR)
 	$(ENV) GOOS=linux GOARCH=386 go build -o $(OUT_DIR)/mapserver-linux-x86
