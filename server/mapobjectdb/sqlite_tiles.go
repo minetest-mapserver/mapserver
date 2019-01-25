@@ -1,8 +1,6 @@
 package mapobjectdb
 
 import (
-	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"mapserver/coords"
 )
 
@@ -65,17 +63,4 @@ where x = ? and y = ? and zoom = ? and layerid = ?
 func (db *Sqlite3Accessor) RemoveTile(pos *coords.TileCoords) error {
 	_, err := db.db.Exec(removeTileQuery, pos.X, pos.Y, pos.Zoom, pos.LayerId)
 	return err
-}
-
-func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
-	//TODO: flag/config for unsafe db access
-	db, err := sql.Open("sqlite3", filename+"?_timeout=500&_journal_mode=MEMORY&_synchronous=OFF")
-	db.SetMaxOpenConns(1)
-
-	if err != nil {
-		return nil, err
-	}
-
-	sq := &Sqlite3Accessor{db: db, filename: filename}
-	return sq, nil
 }
