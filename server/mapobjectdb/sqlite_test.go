@@ -101,4 +101,18 @@ func TestMapObjects(t *testing.T) {
 		panic(err)
 	}
 
+	q := SearchQuery{
+		Pos1: pos,
+		Pos2: pos,
+		Type: "xy",
+	}
+
+	_, err = db.GetMapData(q)
+
+	if err != nil {
+		panic(err)
+	}
+
+
+
 }

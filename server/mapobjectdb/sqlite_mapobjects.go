@@ -4,8 +4,63 @@ import (
 	"mapserver/coords"
 )
 
-func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]MapObject, error) {
-	return nil, nil
+const getMapDataPosQuery = `
+select o.id, o.type, o.mtime,
+ o.x, o.y, o.z,
+ o.posx, o.posy, o.posz,
+ oa.key, oa.value
+from objects o
+left join object_attributes oa on o.id = oa.objectid
+where o.type = ?
+and o.posx >= ? and o.posy >= ? and o.posz >= ?
+and o.posx <= ? and o.posy <= ? and o.posz <= ?
+order by o.id
+`
+
+
+func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
+	rows, err := db.db.Query(getMapDataPosQuery,
+		q.Type,
+		q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
+		q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	result := make([]*MapObject, 0)
+	var currentObj *MapObject
+
+	for rows.Next() {
+		var id int64
+		var Type string
+		var mtime int64
+		var x, y, z int
+		var posx, posy, posz int
+		var key, value string
+
+
+		err = rows.Scan(&id, &Type, &mtime,
+			&x, &y, &z, &posx, &posy, &posz,
+			&key, &value,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if currentObj == nil {
+			//TODO
+		} else {
+			//TODO
+		}
+
+	}
+
+	return result, nil
 }
 
 const removeMapDataQuery = `

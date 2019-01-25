@@ -44,16 +44,17 @@ func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type strin
 }
 
 type SearchQuery struct {
-	//block position (not mapblock)
-	Pos1, Pos2 coords.MapBlockCoords
-	Type       string
+	//mapblock position
+	Pos1 coords.MapBlockCoords `json:"pos1"`
+	Pos2 coords.MapBlockCoords `json:"pos2"`
+	Type       string `json:"type"`
 }
 
 type DBAccessor interface {
 	Migrate() error
 
 	//Generic map objects (poi, etc)
-	GetMapData(q SearchQuery) ([]MapObject, error)
+	GetMapData(q SearchQuery) ([]*MapObject, error)
 	RemoveMapData(pos *coords.MapBlockCoords) error
 	AddMapData(data *MapObject) error
 
