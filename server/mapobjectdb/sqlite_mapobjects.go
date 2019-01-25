@@ -33,6 +33,7 @@ func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
 
 	result := make([]*MapObject, 0)
 	var currentObj *MapObject
+	var currentId *int64
 
 	for rows.Next() {
 		var id int64
@@ -52,12 +53,22 @@ func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
 			return nil, err
 		}
 
-		if currentObj == nil {
-			//TODO
-		} else {
-			//TODO
+		if currentId == nil || *currentId != id {
+			pos := coords.NewMapBlockCoords(posx, posy, posz)
+			mo := NewMapObject(
+				&pos,
+				x, y, z,
+				Type,
+			)
+
+			currentObj = mo
+			currentId = &id
+
+			result = append(result, currentObj)
+
 		}
 
+		currentObj.Attributes[key] = value
 	}
 
 	return result, nil

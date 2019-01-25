@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"mapserver/coords"
 	"os"
+	"fmt"
 	"testing"
 )
 
@@ -107,12 +108,14 @@ func TestMapObjects(t *testing.T) {
 		Type: "xy",
 	}
 
-	_, err = db.GetMapData(q)
+	objs, err := db.GetMapData(q)
 
 	if err != nil {
 		panic(err)
 	}
 
-
+	for _, mo := range objs {
+		fmt.Println(mo)
+	}
 
 }

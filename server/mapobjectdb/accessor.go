@@ -19,14 +19,16 @@ type Tile struct {
 
 type MapObject struct {
 	//mapblock position
-	MBPos *coords.MapBlockCoords
+	MBPos *coords.MapBlockCoords	`json:"mapblock"`
 
 	//block position
-	X, Y, Z int
+	X int `json:"x"`
+	Y int `json:"y"`
+	Z int `json:"z"`
 
-	Type       string
-	Mtime      int64
-	Attributes map[string]string
+	Type       string `json:"type"`
+	Mtime      int64 `json:"mtime"`
+	Attributes map[string]string `json:"attributes"`
 }
 
 func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type string) *MapObject {
