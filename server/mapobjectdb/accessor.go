@@ -19,15 +19,15 @@ type Tile struct {
 
 type MapObject struct {
 	//mapblock position
-	MBPos *coords.MapBlockCoords	`json:"mapblock"`
+	MBPos *coords.MapBlockCoords `json:"mapblock"`
 
 	//block position
 	X int `json:"x"`
 	Y int `json:"y"`
 	Z int `json:"z"`
 
-	Type       string `json:"type"`
-	Mtime      int64 `json:"mtime"`
+	Type       string            `json:"type"`
+	Mtime      int64             `json:"mtime"`
 	Attributes map[string]string `json:"attributes"`
 }
 
@@ -49,7 +49,7 @@ type SearchQuery struct {
 	//mapblock position
 	Pos1 coords.MapBlockCoords `json:"pos1"`
 	Pos2 coords.MapBlockCoords `json:"pos2"`
-	Type       string `json:"type"`
+	Type string                `json:"type"`
 }
 
 type DBAccessor interface {

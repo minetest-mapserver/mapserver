@@ -1,10 +1,10 @@
 package mapobjectdb
 
 import (
+	"fmt"
 	"io/ioutil"
 	"mapserver/coords"
 	"os"
-	"fmt"
 	"testing"
 )
 

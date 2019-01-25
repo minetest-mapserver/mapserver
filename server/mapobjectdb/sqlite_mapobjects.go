@@ -17,7 +17,6 @@ and o.posx <= ? and o.posy <= ? and o.posz <= ?
 order by o.id
 `
 
-
 func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
 	rows, err := db.db.Query(getMapDataPosQuery,
 		q.Type,
@@ -42,7 +41,6 @@ func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
 		var x, y, z int
 		var posx, posy, posz int
 		var key, value string
-
 
 		err = rows.Scan(&id, &Type, &mtime,
 			&x, &y, &z, &posx, &posy, &posz,
