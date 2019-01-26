@@ -21,7 +21,7 @@ func NewTileCoords(x, y, zoom int, layerId int) *TileCoords {
 
 func (tc *TileCoords) ZoomOut(n int) *TileCoords {
 	var nc *TileCoords = tc
-	for i := 1; i < n; i++ {
+	for i := 0; i < n; i++ {
 		nc = nc.GetZoomedOutTile()
 	}
 

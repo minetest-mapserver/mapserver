@@ -1,10 +1,11 @@
 package tilerendererjob
 
 import (
-	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
@@ -25,15 +26,15 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			panic(err)
 		}
 
+		rstate.LastMtime = result.LastMtime
+		ctx.Config.Save()
+
 		if len(result.List) == 0 {
 			time.Sleep(5 * time.Second)
 			continue
 		}
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
-
-		rstate.LastMtime = result.LastMtime
-		ctx.Config.Save()
 
 		t := time.Now()
 		elapsed := t.Sub(start)

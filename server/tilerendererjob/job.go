@@ -20,4 +20,6 @@ func Job(ctx *app.App) {
 
 	incrementalRender(ctx, jobs)
 
+	panic("render job interrupted!")
+
 }

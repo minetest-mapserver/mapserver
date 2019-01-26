@@ -119,3 +119,48 @@ func TestZoomedQuadrantsFromTile(t *testing.T) {
 	assert.Equal(t, q.LowerRight.Zoom, 13)
 
 }
+
+func TestZoomedOutTile(t *testing.T) {
+	tc := NewTileCoords(0, 0, 12, 0)
+	nt := tc.GetZoomedOutTile()
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.Zoom, 11)
+
+	tc = NewTileCoords(1, 0, 12, 0)
+	nt = tc.GetZoomedOutTile()
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.Zoom, 11)
+
+	tc = NewTileCoords(0, 1, 12, 0)
+	nt = tc.GetZoomedOutTile()
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.Zoom, 11)
+
+	tc = NewTileCoords(1, 1, 12, 0)
+	nt = tc.GetZoomedOutTile()
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.X, 0)
+	assert.Equal(t, nt.Zoom, 11)
+
+	tc = NewTileCoords(2, 2, 12, 0)
+	nt = tc.GetZoomedOutTile()
+	assert.Equal(t, nt.X, 1)
+	assert.Equal(t, nt.X, 1)
+	assert.Equal(t, nt.Zoom, 11)
+
+	tc = NewTileCoords(3, 3, 12, 0)
+	nt = tc.GetZoomedOutTile()
+	assert.Equal(t, nt.X, 1)
+	assert.Equal(t, nt.X, 1)
+	assert.Equal(t, nt.Zoom, 11)
+
+	tc = NewTileCoords(4, 4, 12, 0)
+	nt = tc.GetZoomedOutTile()
+	assert.Equal(t, nt.X, 2)
+	assert.Equal(t, nt.X, 2)
+	assert.Equal(t, nt.Zoom, 11)
+
+}

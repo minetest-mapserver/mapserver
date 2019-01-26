@@ -33,11 +33,11 @@ type WorldConfig struct {
 	Backend       string
 	PlayerBackend string
 
-	PsqlConnection       PsqlConfig
-	PsqlPlayerConnection PsqlConfig
+	PsqlConnection       *PsqlConfig
+	PsqlPlayerConnection *PsqlConfig
 }
 
-func parseConnectionString(str string) PsqlConfig {
+func parseConnectionString(str string) *PsqlConfig {
 	cfg := PsqlConfig{}
 
 	pairs := strings.Split(str, " ")
@@ -58,7 +58,7 @@ func parseConnectionString(str string) PsqlConfig {
 		}
 	}
 
-	return cfg
+	return &cfg
 }
 
 func Parse(filename string) WorldConfig {

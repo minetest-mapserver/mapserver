@@ -1,6 +1,7 @@
 package mapobjectdb
 
 import (
+	"fmt"
 	"io/ioutil"
 	"mapserver/coords"
 	"os"
@@ -99,6 +100,22 @@ func TestMapObjects(t *testing.T) {
 	err = db.AddMapData(&o)
 	if err != nil {
 		panic(err)
+	}
+
+	q := SearchQuery{
+		Pos1: pos,
+		Pos2: pos,
+		Type: "xy",
+	}
+
+	objs, err := db.GetMapData(q)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, mo := range objs {
+		fmt.Println(mo)
 	}
 
 }

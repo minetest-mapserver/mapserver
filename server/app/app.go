@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	Version = "0.0.1-DEV"
+	Version = "0.0.1-alpha"
 )
 
 type App struct {

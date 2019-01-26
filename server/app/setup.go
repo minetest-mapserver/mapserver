@@ -24,15 +24,16 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	a.Worldconfig = worldconfig.Parse("world.mt")
 	logrus.WithFields(logrus.Fields{"version": Version}).Info("Starting mapserver")
 
-	if a.Worldconfig.Backend != worldconfig.BACKEND_SQLITE3 {
-		return nil, errors.New("no supported backend found!")
-	}
-
-	//create db accessor
 	var err error
-	a.Blockdb, err = db.NewSqliteAccessor("map.sqlite")
-	if err != nil {
-		return nil, err
+
+	switch a.Worldconfig.Backend {
+	case worldconfig.BACKEND_SQLITE3:
+		a.Blockdb, err = db.NewSqliteAccessor("map.sqlite")
+		if err != nil {
+			return nil, err
+		}
+	default:
+		return nil, errors.New("map-backend not supported: " + a.Worldconfig.Backend)
 	}
 
 	//migrate block db
