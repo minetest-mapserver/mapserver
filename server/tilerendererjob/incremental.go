@@ -26,13 +26,13 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			panic(err)
 		}
 
-		rstate.LastMtime = result.LastMtime
-		ctx.Config.Save()
-
-		if len(result.List) == 0 {
+		if len(result.List) == 0 && !result.HasMore {
 			time.Sleep(5 * time.Second)
 			continue
 		}
+
+		rstate.LastMtime = result.LastMtime
+		ctx.Config.Save()
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
 
