@@ -25,5 +25,5 @@ build: $(STATIC_VFS) $(OUT_DIR)
 	GOOS=linux GOARCH=arm go build -o $(OUT_DIR)/mapserver-linux-arm
 	GOOS=darwin GOARCH=386 go build -o $(OUT_DIR)/mapserver-darwin-x86
 	GOOS=darwin GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-darwin-x86_64
-	GOOS=windows GOARCH=386 go build -o $(OUT_DIR)/mapserver-windows-x86
-	GOOS=windows GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-windows-x86_64
+	GOOS=windows GOARCH=386 go build -o $(OUT_DIR)/mapserver-windows-x86.exe
+	GOOS=windows GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-windows-x86_64.exe
