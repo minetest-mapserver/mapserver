@@ -24,5 +24,6 @@ build: $(STATIC_VFS) $(OUT_DIR)
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-linux-x86_64
 	# apt install gcc-mingw-w64
 	GOARCH=386 GOOS=windows CC=i686-w64-mingw32-gcc CGO_ENABLED=1 go build -o $(OUT_DIR)/mapserver-windows-x86.exe
+	GOARCH=amd64 GOOS=windows CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1 go build -o $(OUT_DIR)/mapserver-windows-x86-64.exe
 	# apt install gcc-5-arm-linux-gnueabihf, TODO: container
 	GOARCH=arm GOARM=7 CC=arm-linux-gnueabihf-gcc-5 CGO_ENABLED=1 go build -ldflags "-linkmode external -extldflags -static" -o $(OUT_DIR)/mapserver-linux-arm
