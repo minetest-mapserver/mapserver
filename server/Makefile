@@ -28,10 +28,10 @@ $(STATIC_VFS):
 	${HOME}/go/bin/esc -o $@ -prefix="static/" -pkg vfs static
 
 build: $(STATIC_VFS) $(OUT_DIR)
-	CGO=1 GOOS=linux GOARCH=386 go build -o $(OUT_DIR)/mapserver-linux-x86
-	CGO=1 GOOS=linux GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-linux-x86_64
-	CGO=1 GOOS=linux GOARCH=arm go build -o $(OUT_DIR)/mapserver-linux-arm
-	CGO=1 GOOS=darwin GOARCH=386 go build -o $(OUT_DIR)/mapserver-darwin-x86
-	CGO=1 GOOS=darwin GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-darwin-x86_64
-	CGO=1 GOOS=windows GOARCH=386 go build -o $(OUT_DIR)/mapserver-windows-x86.exe
-	CGO=1 GOOS=windows GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-windows-x86_64.exe
+	#CGO_ENABLED=1 GOOS=linux GOARCH=386 go build -o $(OUT_DIR)/mapserver-linux-x86
+	#CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-linux-x86_64
+	CC=arm-linux-gnueabi-gcc-5 CXX=arm-linux-gnueabi-g++-5 HOST=arm-linux-gnueabi PREFIX=/usr/arm-linux-gnueabi CFLAGS="-march=armv5" CXXFLAGS="-march=armv5" CGO_ENABLED=1 GOOS=linux GOARCH=arm go build -o $(OUT_DIR)/mapserver-linux-arm
+	CGO_ENABLED=1 GOOS=darwin GOARCH=386 go build -o $(OUT_DIR)/mapserver-darwin-x86
+	CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-darwin-x86_64
+	CGO_ENABLED=1 GOOS=windows GOARCH=386 go build -o $(OUT_DIR)/mapserver-windows-x86.exe
+	CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -o $(OUT_DIR)/mapserver-windows-x86_64.exe
