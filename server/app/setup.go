@@ -57,8 +57,14 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	//mapblock renderer
 	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
 
-	//tile database
-	a.Objectdb, err = mapobjectdb.NewSqliteAccessor("mapserver.sqlite")
+	//mapserver database
+	if a.Worldconfig.MapObjectConnection != nil {
+		//TODO: Psql connection
+
+	} else {
+		a.Objectdb, err = mapobjectdb.NewSqliteAccessor("mapserver.sqlite")
+
+	}
 
 	if err != nil {
 		return nil, err

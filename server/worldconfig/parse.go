@@ -19,6 +19,7 @@ const (
 	CONFIG_PLAYER_BACKEND         string = "player_backend"
 	CONFIG_PSQL_CONNECTION        string = "pgsql_connection"
 	CONFIG_PSQL_PLAYER_CONNECTION string = "pgsql_player_connection"
+	CONFIG_PSQL_MAPSERVER         string = "pgsql_mapserver_connection"
 )
 
 type PsqlConfig struct {
@@ -35,6 +36,7 @@ type WorldConfig struct {
 
 	PsqlConnection       *PsqlConfig
 	PsqlPlayerConnection *PsqlConfig
+	MapObjectConnection  *PsqlConfig
 }
 
 func parseConnectionString(str string) *PsqlConfig {
@@ -90,6 +92,8 @@ func Parse(filename string) WorldConfig {
 			cfg.PsqlConnection = parseConnectionString(valueStr)
 		case CONFIG_PSQL_PLAYER_CONNECTION:
 			cfg.PsqlPlayerConnection = parseConnectionString(valueStr)
+		case CONFIG_PSQL_MAPSERVER:
+			cfg.MapObjectConnection = parseConnectionString(valueStr)
 		}
 
 	}
