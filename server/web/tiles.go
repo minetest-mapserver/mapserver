@@ -16,6 +16,7 @@ type Tiles struct {
 
 func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	str := strings.TrimPrefix(req.URL.Path, "/api/tile/")
+	// {layerId}/x/y/zoom
 	parts := strings.Split(str, "/")
 	if len(parts) != 4 {
 		resp.WriteHeader(500)
