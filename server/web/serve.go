@@ -20,7 +20,7 @@ func Serve(ctx *app.App) {
 	mux.Handle("/", http.FileServer(vfs.FS(ctx.Config.Webdev)))
 	mux.Handle("/api/tile/", &Tiles{ctx: ctx})
 	mux.Handle("/api/config", &ConfigHandler{ctx: ctx})
-	mux.Handle("/api/mapobjects", &MapObjects{ctx: ctx})
+	mux.Handle("/api/mapobjects/", &MapObjects{ctx: ctx})
 
 	ws := NewWS(ctx)
 	mux.Handle("/api/ws", ws)
