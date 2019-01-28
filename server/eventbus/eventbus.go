@@ -5,6 +5,7 @@ import (
 )
 
 const (
+	//TODO: move to separate package
 	MAPBLOCK_RENDERED = "mapblock-rendered"
 	TILE_RENDERED     = "rendered-tile"
 )

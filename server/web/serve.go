@@ -26,6 +26,7 @@ func Serve(ctx *app.App) {
 	mux.Handle("/api/ws", ws)
 
 	ctx.Tilerenderer.Eventbus.AddListener(ws)
+	ctx.WebEventbus.AddListener(ws)
 
 	if ctx.Config.WebApi.EnableMapblock {
 		//mapblock endpoint

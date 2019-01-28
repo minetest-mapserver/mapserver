@@ -47,7 +47,7 @@ func (mb *MapBlock) GetNodeId(x, y, z int) int {
 }
 
 func (mb *MapBlock) GetNodeName(x, y, z int) string {
-	id := mb.GetNodeId(x,y,z)
+	id := mb.GetNodeId(x, y, z)
 	return mb.BlockMapping[id]
 }
 

@@ -5,9 +5,9 @@ import (
 	"mapserver/mapobjectdb"
 )
 
-type PoiBlock struct {}
+type PoiBlock struct{}
 
-func (this *PoiBlock) onMapObject(x,y,z int, block *mapblockparser.MapBlock, odb mapobjectdb.DBAccessor) {
+func (this *PoiBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	o := mapobjectdb.NewMapObject(&block.Pos, x, y, z, "poi")
@@ -17,5 +17,5 @@ func (this *PoiBlock) onMapObject(x,y,z int, block *mapblockparser.MapBlock, odb
 	o.Attributes["active"] = md["active"]
 	o.Attributes["owner"] = md["owner"]
 
-	odb.AddMapData(o)
+	return o
 }

@@ -5,13 +5,13 @@ import (
 	"mapserver/mapobjectdb"
 )
 
-type ProtectorBlock struct {}
+type ProtectorBlock struct{}
 
-func (this *ProtectorBlock) onMapObject(x,y,z int, block *mapblockparser.MapBlock, odb mapobjectdb.DBAccessor) {
+func (this *ProtectorBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	o := mapobjectdb.NewMapObject(&block.Pos, x, y, z, "protector")
 	o.Attributes["owner"] = md["owner"]
 
-	odb.AddMapData(o)
+	return o
 }

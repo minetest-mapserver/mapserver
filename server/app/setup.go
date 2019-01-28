@@ -3,6 +3,7 @@ package app
 import (
 	"mapserver/colormapping"
 	"mapserver/db"
+	"mapserver/eventbus"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/mapobjectdb"
@@ -19,6 +20,7 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	a := App{}
 	a.Params = p
 	a.Config = cfg
+	a.WebEventbus = eventbus.New()
 
 	//Parse world config
 	a.Worldconfig = worldconfig.Parse("world.mt")
@@ -37,7 +39,6 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	}
 
 	//migrate block db
-
 	err = a.Blockdb.Migrate()
 	if err != nil {
 		return nil, err
@@ -47,7 +48,6 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	a.BlockAccessor = mapblockaccessor.NewMapBlockAccessor(a.Blockdb)
 
 	//color mapping
-
 	a.Colormapping = colormapping.NewColorMapping()
 	err = a.Colormapping.LoadVFSColors(false, "/colors.txt")
 	if err != nil {
@@ -58,7 +58,6 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
 
 	//tile database
-
 	a.Objectdb, err = mapobjectdb.NewSqliteAccessor("mapserver.sqlite")
 
 	if err != nil {
@@ -66,7 +65,6 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	}
 
 	//migrate tile database
-
 	err = a.Objectdb.Migrate()
 
 	if err != nil {

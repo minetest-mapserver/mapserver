@@ -8,15 +8,15 @@ import (
 )
 
 type MapObjectListener interface {
-	onMapObject(x,y,z int, block *mapblockparser.MapBlock, odb mapobjectdb.DBAccessor)
+	onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject
 }
 
 type Listener struct {
-	ctx *app.App
+	ctx             *app.App
 	objectlisteners map[string]MapObjectListener
 }
 
-func (this *Listener) AddMapObject(blockname string, ol MapObjectListener){
+func (this *Listener) AddMapObject(blockname string, ol MapObjectListener) {
 	this.objectlisteners[blockname] = ol
 }
 
@@ -42,20 +42,25 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 						for z := 0; z < 16; z++ {
 							nodeid := block.GetNodeId(x, y, z)
 							if nodeid == id {
-								v.onMapObject(x, y, z, block, this.ctx.Objectdb)
+								obj := v.onMapObject(x, y, z, block)
+
+								if obj != nil {
+									this.ctx.Objectdb.AddMapData(obj)
+									this.ctx.WebEventbus.Emit("mapobject", obj)
+								}
 							}
-						}//z
-					}//y
-				}//x
+						} //z
+					} //y
+				} //x
 
 			}
-		}//for k,v
-	}//for id, name
+		} //for k,v
+	} //for id, name
 }
 
 func Setup(ctx *app.App) {
 	l := Listener{
-		ctx: ctx,
+		ctx:             ctx,
 		objectlisteners: make(map[string]MapObjectListener),
 	}
 
