@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"mapserver/coords"
 	"mapserver/db"
+	"mapserver/eventbus"
 	"mapserver/layer"
 	"mapserver/mapblockparser"
+
 	"time"
 
 	cache "github.com/patrickmn/go-cache"
@@ -13,13 +15,9 @@ import (
 )
 
 type MapBlockAccessor struct {
-	accessor  db.DBAccessor
-	c         *cache.Cache
-	listeners []MapBlockListener
-}
-
-type MapBlockListener interface {
-	OnParsedMapBlock(block *mapblockparser.MapBlock)
+	accessor db.DBAccessor
+	c        *cache.Cache
+	Eventbus *eventbus.Eventbus
 }
 
 func getKey(pos coords.MapBlockCoords) string {
@@ -29,13 +27,12 @@ func getKey(pos coords.MapBlockCoords) string {
 func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
 	c := cache.New(500*time.Millisecond, 1000*time.Millisecond)
 
-	return &MapBlockAccessor{accessor: accessor, c: c}
+	return &MapBlockAccessor{
+		accessor: accessor,
+		c:        c,
+		Eventbus: eventbus.New(),
+	}
 }
-
-func (a *MapBlockAccessor) AddListener(l MapBlockListener) {
-	a.listeners = append(a.listeners, l)
-}
-
 func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.MapBlock) {
 	key := getKey(pos)
 	a.c.Set(key, mb, cache.DefaultExpiration)
@@ -102,9 +99,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 			return nil, err
 		}
 
-		for _, listener := range a.listeners {
-			listener.OnParsedMapBlock(mapblock)
-		}
+		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
 
 		a.c.Set(key, mapblock, cache.DefaultExpiration)
 		mblist = append(mblist, mapblock)
@@ -172,9 +167,7 @@ func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos coords.MapBlockCoords, lim
 			return nil, err
 		}
 
-		for _, listener := range a.listeners {
-			listener.OnParsedMapBlock(mapblock)
-		}
+		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
 
 		a.c.Set(key, mapblock, cache.DefaultExpiration)
 		mblist = append(mblist, mapblock)
@@ -209,9 +202,7 @@ func (a *MapBlockAccessor) GetMapBlock(pos coords.MapBlockCoords) (*mapblockpars
 		return nil, err
 	}
 
-	for _, listener := range a.listeners {
-		listener.OnParsedMapBlock(mapblock)
-	}
+	a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
 
 	a.c.Set(key, mapblock, cache.DefaultExpiration)
 

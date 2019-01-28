@@ -4,6 +4,11 @@ import (
 	"sync"
 )
 
+const (
+	MAPBLOCK_RENDERED = "mapblock-rendered"
+	TILE_RENDERED     = "rendered-tile"
+)
+
 type Listener interface {
 	OnEvent(eventtype string, o interface{})
 }

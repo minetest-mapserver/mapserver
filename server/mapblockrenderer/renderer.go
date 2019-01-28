@@ -20,7 +20,11 @@ type MapBlockRenderer struct {
 }
 
 func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping) *MapBlockRenderer {
-	return &MapBlockRenderer{accessor: accessor, colors: colors, enableShadow: true}
+	return &MapBlockRenderer{
+		accessor:     accessor,
+		colors:       colors,
+		enableShadow: true,
+	}
 }
 
 const (

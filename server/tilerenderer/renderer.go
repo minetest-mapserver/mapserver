@@ -8,6 +8,7 @@ import (
 	"image/png"
 	"mapserver/coords"
 	"mapserver/db"
+	"mapserver/eventbus"
 	"mapserver/layer"
 	"mapserver/mapblockrenderer"
 	"mapserver/mapobjectdb"
@@ -22,11 +23,7 @@ type TileRenderer struct {
 	layers           []layer.Layer
 	tdb              mapobjectdb.DBAccessor
 	dba              db.DBAccessor
-	listeners        []TileListener
-}
-
-type TileListener interface {
-	OnRenderedTile(tc *coords.TileCoords)
+	Eventbus         *eventbus.Eventbus
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
@@ -39,16 +36,13 @@ func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 		layers:           layers,
 		tdb:              tdb,
 		dba:              dba,
+		Eventbus:         eventbus.New(),
 	}
 }
 
 const (
 	IMG_SIZE = 256
 )
-
-func (tr *TileRenderer) AddListener(l TileListener) {
-	tr.listeners = append(tr.listeners, l)
-}
 
 func (tr *TileRenderer) Render(tc *coords.TileCoords, recursionDepth int) ([]byte, error) {
 
@@ -252,9 +246,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 	}
 	log.WithFields(fields).Debug("Cross stitch")
 
-	for _, listener := range tr.listeners {
-		listener.OnRenderedTile(tc)
-	}
+	tr.Eventbus.Emit(eventbus.TILE_RENDERED, tc)
 
 	return img, buf.Bytes(), nil
 }

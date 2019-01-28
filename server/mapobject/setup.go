@@ -2,6 +2,7 @@ package mapobject
 
 import (
 	"mapserver/app"
+	"mapserver/eventbus"
 	"mapserver/mapblockparser"
 )
 
@@ -9,7 +10,13 @@ type Listener struct {
 	ctx *app.App
 }
 
-func (this *Listener) OnParsedMapBlock(block *mapblockparser.MapBlock) {
+func (this *Listener) OnEvent(eventtype string, o interface{}) {
+	if eventtype != eventbus.MAPBLOCK_RENDERED {
+		return
+	}
+
+	block := o.(*mapblockparser.MapBlock)
+
 	err := this.ctx.Objectdb.RemoveMapData(&block.Pos)
 	if err != nil {
 		panic(err)
@@ -23,5 +30,5 @@ func (this *Listener) OnParsedMapBlock(block *mapblockparser.MapBlock) {
 }
 
 func Setup(ctx *app.App) {
-	ctx.BlockAccessor.AddListener(&Listener{ctx: ctx})
+	ctx.BlockAccessor.Eventbus.AddListener(&Listener{ctx: ctx})
 }

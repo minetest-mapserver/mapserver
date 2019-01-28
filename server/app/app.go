@@ -3,7 +3,6 @@ package app
 import (
 	"mapserver/colormapping"
 	"mapserver/db"
-	"mapserver/event"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/mapobjectdb"
@@ -28,5 +27,4 @@ type App struct {
 	Colormapping     *colormapping.ColorMapping
 	Mapblockrenderer *mapblockrenderer.MapBlockRenderer
 	Tilerenderer     *tilerenderer.TileRenderer
-	Events           event.EventConsumer
 }

@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"mapserver/app"
-	"mapserver/coords"
-	"mapserver/mapblockparser"
 	"math/rand"
 	"net/http"
 	"sync"
@@ -32,15 +30,7 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func (t *WS) OnParsedMapBlock(block *mapblockparser.MapBlock) {
-	t.SendJSON("parsed-mapblock", block)
-}
-
-func (t *WS) OnRenderedTile(tc *coords.TileCoords) {
-	t.SendJSON("rendered-tile", tc)
-}
-
-func (t *WS) SendJSON(eventtype string, o interface{}) {
+func (t *WS) OnEvent(eventtype string, o interface{}) {
 	data, err := json.Marshal(o)
 	if err != nil {
 		panic(err)
