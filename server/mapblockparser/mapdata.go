@@ -30,7 +30,20 @@ func parseMapdata(mapblock *MapBlock, data []byte) (int, error) {
 		return 0, errors.New("Mapdata length invalid: " + strconv.Itoa(buf.Len()))
 	}
 
-	mapblock.Mapdata = buf.Bytes()
+	rawdata := buf.Bytes()
+
+	mapd := MapData{
+		ContentId: make([]int, 4096),
+		Param1:    make([]int, 4096),
+		Param2:    make([]int, 4096),
+	}
+	mapblock.Mapdata = &mapd
+
+	for i := 0; i < 4096; i++ {
+		mapd.ContentId[i] = readU16(rawdata, i*2)
+		mapd.Param1[i] = readU8(rawdata, (i*2)+2)
+		mapd.Param2[i] = readU8(rawdata, (i*2)+3) //TODO: last item has wrong value
+	}
 
 	return cr.Count, nil
 }

@@ -136,7 +136,9 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 						if x > 0 {
 							//same mapblock
 							left = mb.GetNodeName(x-1, y, z)
-							leftAbove = mb.GetNodeName(x-1, y+1, z)
+							if y < 15 {
+								leftAbove = mb.GetNodeName(x-1, y+1, z)
+							}
 
 						} else {
 							//neighbouring mapblock
@@ -145,14 +147,18 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 
 							if neighbourMapblock != nil && err == nil {
 								left = neighbourMapblock.GetNodeName(15, y, z)
-								leftAbove = neighbourMapblock.GetNodeName(15, y+1, z)
+								if y < 15 {
+									leftAbove = neighbourMapblock.GetNodeName(15, y+1, z)
+								}
 							}
 						}
 
 						if z < 14 {
 							//same mapblock
 							top = mb.GetNodeName(x, y, z+1)
-							topAbove = mb.GetNodeName(x, y+1, z+1)
+							if y < 15 {
+								topAbove = mb.GetNodeName(x, y+1, z+1)
+							}
 
 						} else {
 							//neighbouring mapblock
@@ -161,7 +167,9 @@ func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGB
 
 							if neighbourMapblock != nil && err == nil {
 								top = neighbourMapblock.GetNodeName(x, y, 0)
-								topAbove = neighbourMapblock.GetNodeName(x, y+1, z+0)
+								if y < 15 {
+									topAbove = neighbourMapblock.GetNodeName(x, y+1, z+0)
+								}
 							}
 						}
 

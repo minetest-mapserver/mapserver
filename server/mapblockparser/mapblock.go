@@ -9,10 +9,16 @@ type MapBlock struct {
 	Size         int                   `json:"size"`
 	Version      byte                  `json:"version"`
 	Underground  bool                  `json:"underground"`
-	Mapdata      []byte                `json:"mapdata"`
+	Mapdata      *MapData              `json:"mapdata"`
 	Metadata     *Metadata             `json:"metadata"`
 	BlockMapping map[int]string        `json:"blockmapping"`
 	Mtime        int64                 `json:"mtime"`
+}
+
+type MapData struct {
+	ContentId []int `json:"contentid"`
+	Param1    []int `json:"param1"`
+	Param2    []int `json:"param2"`
 }
 
 type Metadata struct {
@@ -37,7 +43,7 @@ func getNodePos(x, y, z int) int {
 
 func (mb *MapBlock) GetNodeName(x, y, z int) string {
 	pos := getNodePos(x, y, z)
-	id := readU16(mb.Mapdata, pos*2)
+	id := mb.Mapdata.ContentId[pos]
 	return mb.BlockMapping[id]
 }
 

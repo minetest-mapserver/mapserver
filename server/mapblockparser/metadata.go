@@ -25,6 +25,10 @@ func readU16(data []byte, offset int) int {
 	return (int(data[offset]) << 8) | int(data[offset+1])
 }
 
+func readU8(data []byte, offset int) int {
+	return int(data[offset])
+}
+
 func readU32(data []byte, offset int) int {
 	return int(data[offset])<<24 |
 		int(data[offset+1])<<16 |

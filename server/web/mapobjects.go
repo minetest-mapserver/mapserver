@@ -1,10 +1,10 @@
 package web
 
 import (
+	"encoding/json"
 	"mapserver/app"
 	"mapserver/coords"
 	"mapserver/mapobjectdb"
-	"encoding/json"
 	"net/http"
 	"strconv"
 	"strings"
