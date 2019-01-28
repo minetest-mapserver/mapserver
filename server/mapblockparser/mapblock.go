@@ -41,9 +41,13 @@ func getNodePos(x, y, z int) int {
 	return x + (y * 16) + (z * 256)
 }
 
-func (mb *MapBlock) GetNodeName(x, y, z int) string {
+func (mb *MapBlock) GetNodeId(x, y, z int) int {
 	pos := getNodePos(x, y, z)
-	id := mb.Mapdata.ContentId[pos]
+	return mb.Mapdata.ContentId[pos]
+}
+
+func (mb *MapBlock) GetNodeName(x, y, z int) string {
+	id := mb.GetNodeId(x,y,z)
 	return mb.BlockMapping[id]
 }
 
