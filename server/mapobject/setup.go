@@ -90,5 +90,8 @@ func Setup(ctx *app.App) {
 	//missions
 	l.AddMapObject("missions:mission", &MissionBlock{})
 
+	//jumpdrive
+	l.AddMapObject("jumpdrive:engine", &JumpdriveBlock{})
+
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }
