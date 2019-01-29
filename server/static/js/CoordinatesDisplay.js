@@ -1,7 +1,8 @@
-(function(){
-  // coord display
+var CoordinatesDisplay = (function(){
+  'use strict';
 
-  L.Control.CoordinatesDisplay = L.Control.extend({
+  // coord display
+  var CoordinatesDisplay = L.Control.extend({
       onAdd: function(map) {
         var div = L.DomUtil.create('div', 'leaflet-bar leaflet-custom-display');
         function update(ev){
@@ -20,8 +21,10 @@
       }
   });
 
-  L.control.coordinatesDisplay = function(opts) {
-      return new L.Control.CoordinatesDisplay(opts);
+  return {
+    create: function(opts){
+      return new CoordinatesDisplay(opts);
+    }
   }
 
-})()
+}())

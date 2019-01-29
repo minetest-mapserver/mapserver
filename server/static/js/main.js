@@ -19,27 +19,17 @@
       crs: crs
     });
 
-
-    var wsUrl = location.protocol.replace("http", "ws") + "//" + location.host + location.pathname.substring(0, location.pathname.lastIndexOf("/")) + "/api/ws";
-    var ws = new WebSocket(wsUrl);
-
-    ws.onmessage = function(e){
-      var event = JSON.parse(e.data);
-
-      if (event.type == "rendered-tile"){
-        realtimelayer.update(event.data)
-      }
-    }
+    WebSocketChannel.connect();
 
     var layers = {};
 
-    var Layer = realtimelayer.create(0);
+    var Layer = RealtimeTileLayer.create(0);
     var tileLayer = new Layer();
     tileLayer.addTo(map);
 
     L.control.layers(layers, {}).addTo(map);
 
-    var el = L.control.coordinatesDisplay({ position: 'bottomleft' });
+    var el = CoordinatesDisplay.create({ position: 'bottomleft' });
     el.addTo(map);
 
 

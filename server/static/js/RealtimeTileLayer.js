@@ -1,5 +1,5 @@
-(function(){
-
+var RealtimeTileLayer = (function(){
+  'use strict';
 
   function getTileSource(layerId, x,y,zoom,cacheBust){
       return "api/tile/" + layerId + "/" + x + "/" + y + "/" + zoom + "?_=" + Date.now();
@@ -9,7 +9,7 @@
       return "tile-" + layerId + "/" + x + "/" + y + "/" + zoom;
   }
 
-  window.realtimelayer = {
+  return {
     create: function(layerId){
         return L.TileLayer.extend({
           createTile: function(coords){
@@ -33,5 +33,4 @@
   };
 
 
-
-})()
+}())
