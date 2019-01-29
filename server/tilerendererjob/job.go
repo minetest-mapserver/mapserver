@@ -15,7 +15,20 @@ func Job(ctx *app.App) {
 	}
 
 	if rstate.InitialRun {
+		//fast, unsafe mode
+		err := ctx.Objectdb.EnableSpeedSafetyTradeoff(true)
+		if err != nil {
+			panic(err)
+		}
+
 		initialRender(ctx, jobs)
+
+		//normal, safe mode
+		err = ctx.Objectdb.EnableSpeedSafetyTradeoff(false)
+		if err != nil {
+			panic(err)
+		}
+
 	}
 
 	incrementalRender(ctx, jobs)

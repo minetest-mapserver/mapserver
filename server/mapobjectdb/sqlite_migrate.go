@@ -9,8 +9,6 @@ import (
 
 const migrateScript = `
 PRAGMA foreign_keys = ON;
--- PRAGMA journal_mode = MEMORY;
--- PRAGMA synchronous = OFF;
 
 create table if not exists objects(
 	id integer primary key autoincrement,
@@ -63,4 +61,16 @@ func (db *Sqlite3Accessor) Migrate() error {
 	log.WithFields(logrus.Fields{"elapsed": elapsed}).Info("Migration completed")
 
 	return nil
+}
+
+func (db *Sqlite3Accessor) EnableSpeedSafetyTradeoff(enableSpeed bool) error {
+	if enableSpeed {
+		_, err := db.db.Exec("PRAGMA journal_mode = MEMORY; PRAGMA synchronous = OFF;")
+		return err
+
+	} else {
+		_, err := db.db.Exec("PRAGMA journal_mode = TRUNCATE; PRAGMA synchronous = ON;")
+		return err
+
+	}
 }

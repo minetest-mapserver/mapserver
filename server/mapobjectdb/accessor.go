@@ -53,7 +53,11 @@ type SearchQuery struct {
 }
 
 type DBAccessor interface {
+	//migrates the database
 	Migrate() error
+
+	//true = speed,unsafe / false = safe
+	EnableSpeedSafetyTradeoff(enableSpeed bool) error
 
 	//Generic map objects (poi, etc)
 	GetMapData(q SearchQuery) ([]*MapObject, error)
