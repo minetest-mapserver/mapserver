@@ -32,6 +32,8 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 		panic(err)
 	}
 
+	this.ctx.WebEventbus.Emit("mapobjects-cleared", block.Pos)
+
 	for id, name := range block.BlockMapping {
 		for k, v := range this.objectlisteners {
 			if k == name {
@@ -46,7 +48,7 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 
 								if obj != nil {
 									this.ctx.Objectdb.AddMapData(obj)
-									this.ctx.WebEventbus.Emit("mapobject", obj)
+									this.ctx.WebEventbus.Emit("mapobject-created", obj)
 								}
 							}
 						} //z
