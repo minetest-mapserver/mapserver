@@ -64,15 +64,27 @@ func Setup(ctx *app.App) {
 		objectlisteners: make(map[string]MapObjectListener),
 	}
 
+	//mapserver stuff
 	l.AddMapObject("mapserver:poi", &PoiBlock{})
 	l.AddMapObject("mapserver:train", &TrainBlock{})
+
+	//travelnet
 	l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
+
+	//protections
 	l.AddMapObject("protector:protect", &ProtectorBlock{})
 	l.AddMapObject("protector:protect2", &ProtectorBlock{})
+
+	//builtin
 	l.AddMapObject("bones:bones", &BonesBlock{})
+
+	//technic
 	l.AddMapObject("technic:quarry", &QuarryBlock{})
 	l.AddMapObject("technic:hv_nuclear_reactor_core_active", &NuclearReactorBlock{})
 	l.AddMapObject("technic:admin_anchor", &TechnicAnchorBlock{})
+
+	//digilines
+	l.AddMapObject("digilines:lcd", &DigilineLcdBlock{})
 
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }
