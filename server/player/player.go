@@ -1,4 +1,4 @@
-package playerdb
+package player
 
 type Player struct {
 	X    int    `json:"x"`
@@ -6,9 +6,6 @@ type Player struct {
 	Z    int    `json:"z"`
 	Name string `json:"name"`
 	HP   int    `json:"hp"`
+	Breath int	`json:"breath"`
 	//TODO: stamina, skin, etc
-}
-
-type DBAccessor interface {
-	GetActivePlayers() ([]*Player, error)
 }
