@@ -69,6 +69,10 @@ func Setup(ctx *app.App) {
 	l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
 	l.AddMapObject("protector:protect", &ProtectorBlock{})
 	l.AddMapObject("protector:protect2", &ProtectorBlock{})
+	l.AddMapObject("bones:bones", &BonesBlock{})
+	l.AddMapObject("technic:quarry", &QuarryBlock{})
+	l.AddMapObject("technic:hv_nuclear_reactor_core_active", &NuclearReactorBlock{})
+	l.AddMapObject("technic:admin_anchor", &TechnicAnchorBlock{})
 
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }
