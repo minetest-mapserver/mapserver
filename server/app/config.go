@@ -23,7 +23,11 @@ type Config struct {
 }
 
 type WebApiConfig struct {
+	//mapblock debugging
 	EnableMapblock bool `json:"enablemapblock"`
+
+	//mod http bridge secret
+	SecretKey string `json:"secretkey"`
 }
 
 type RenderStateType struct {
@@ -72,6 +76,7 @@ func WriteConfig(filename string, cfg *Config) error {
 func ParseConfig(filename string) (*Config, error) {
 	webapi := WebApiConfig{
 		EnableMapblock: false,
+		SecretKey:      RandStringRunes(16),
 	}
 
 	rstate := RenderStateType{
