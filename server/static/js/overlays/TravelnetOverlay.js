@@ -11,7 +11,16 @@ var TravelnetOverlay = (function(){
 
   return L.LayerGroup.extend({
     onAdd: function(map) {
-      console.log("TravelnetOverlay.onAdd");
+      console.log("TravelnetOverlay.onAdd", map);
+
+      map.on('baselayerchange', function (e) {
+          console.log("baselayerchange", e.layer);
+      });
+
+      api.getMapObjects(-10,-10,-10,10,10,10,"travelnet")
+      .then(function(list){
+        console.log(list);
+      })
     },
 
     onRemove: function(map) {

@@ -2,6 +2,11 @@
 (function(){
     'use strict';
 
+    api.getConfig().then(function(cfg){
+      LayerManager.init(cfg.layers);
+      
+    });
+
     var crs = L.Util.extend({}, L.CRS.Simple, {
         //transformation: L.transformation(0.001, 0, -0.001, 0),
         scale: function (zoom) {
