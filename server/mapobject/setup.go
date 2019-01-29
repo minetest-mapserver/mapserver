@@ -90,8 +90,10 @@ func Setup(ctx *app.App) {
 	//missions
 	l.AddMapObject("missions:mission", &MissionBlock{})
 
-	//jumpdrive
+	//jumpdrive, TODO: fleet controller
 	l.AddMapObject("jumpdrive:engine", &JumpdriveBlock{})
+
+	//TODO: atm, digiterms, signs/banners, spacecannons, shops (smart, fancy)
 
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }
