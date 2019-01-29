@@ -87,5 +87,8 @@ func Setup(ctx *app.App) {
 	//digilines
 	l.AddMapObject("digilines:lcd", &DigilineLcdBlock{})
 
+	//missions
+	l.AddMapObject("missions:mission", &MissionBlock{})
+
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }
