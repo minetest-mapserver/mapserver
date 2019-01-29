@@ -21,6 +21,8 @@
 
     WebSocketChannel.connect();
 
+    map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Mapserver</a>');
+
     var layers = {};
 
     var Layer = RealtimeTileLayer.create(0);
