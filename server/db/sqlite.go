@@ -202,7 +202,7 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 }
 
 func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite3", filename+"?mode=ro")
+	db, err := sql.Open("sqlite3", filename+"?mode=ro&_timeout=2000")
 	if err != nil {
 		return nil, err
 	}
