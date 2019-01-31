@@ -21,11 +21,14 @@ $(STATIC_VFS):
 	test -f esc || $(ENV) go get github.com/mjibson/esc
 	${HOME}/go/bin/esc -o $@ -prefix="static/" -pkg vfs static
 
+build-docker:
+	docker run --rm -it -v /home/thomas/git/mapserver/server/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make
+
 build: $(STATIC_VFS) $(OUT_DIR)
 	# native
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc go build $(GO_LDFLAGS) -o $(OUT_DIR)/mapserver-linux-x86_64
 	# apt install gcc-8-i686-linux-gnu
-	CGO_ENABLED=1 GOOS=linux GOARCH=386 CC=i686-linux-gnu-gcc-8 go build $(GO_LDFLAGS) -o $(OUT_DIR)/mapserver-linux-x86
+	CGO_ENABLED=1 GOOS=linux GOARCH=386 CC=i686-linux-gnu-gcc-7 go build $(GO_LDFLAGS) -o $(OUT_DIR)/mapserver-linux-x86
 	# apt install gcc-mingw-w64
 	GOARCH=386 GOOS=windows CC=i686-w64-mingw32-gcc CGO_ENABLED=1 go build -o $(OUT_DIR)/mapserver-windows-x86.exe
 	GOARCH=amd64 GOOS=windows CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1 go build -o $(OUT_DIR)/mapserver-windows-x86-64.exe
