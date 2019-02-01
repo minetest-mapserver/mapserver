@@ -18,8 +18,7 @@ clean:
 	rm -rf $(OUT_DIR)
 
 $(STATIC_VFS):
-	test -f esc || $(ENV) go get github.com/mjibson/esc
-	${HOME}/go/bin/esc -o $@ -prefix="static/" -pkg vfs static
+	go generate
 
 build: $(STATIC_VFS) $(OUT_DIR)
 	# native

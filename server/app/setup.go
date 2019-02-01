@@ -16,7 +16,7 @@ import (
 	"errors"
 )
 
-func Setup(p params.ParamsType, cfg *Config) (*App, error) {
+func Setup(p params.ParamsType, cfg *Config) *App {
 	a := App{}
 	a.Params = p
 	a.Config = cfg
@@ -32,16 +32,16 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	case worldconfig.BACKEND_SQLITE3:
 		a.Blockdb, err = db.NewSqliteAccessor("map.sqlite")
 		if err != nil {
-			return nil, err
+			panic(err)
 		}
 	default:
-		return nil, errors.New("map-backend not supported: " + a.Worldconfig.Backend)
+		panic(errors.New("map-backend not supported: " + a.Worldconfig.Backend))
 	}
 
 	//migrate block db
 	err = a.Blockdb.Migrate()
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	//mapblock accessor
@@ -51,7 +51,7 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	a.Colormapping = colormapping.NewColorMapping()
 	err = a.Colormapping.LoadVFSColors(false, "/colors.txt")
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	//mapblock renderer
@@ -67,14 +67,14 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 	}
 
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	//migrate tile database
 	err = a.Objectdb.Migrate()
 
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	//setup tile renderer
@@ -85,5 +85,5 @@ func Setup(p params.ParamsType, cfg *Config) (*App, error) {
 		a.Config.Layers,
 	)
 
-	return &a, nil
+	return &a
 }

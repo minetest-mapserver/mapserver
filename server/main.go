@@ -11,6 +11,8 @@ import (
 	"runtime"
 )
 
+//go:generate -command go run github.com/mjibson/esc -o vfs/static.go -prefix="static/" -pkg vfs static
+
 func main() {
 	//Parse command line
 
@@ -50,12 +52,7 @@ func main() {
 	}
 
 	//setup app context
-	ctx, err := app.Setup(p, cfg)
-
-	if err != nil {
-		//error case
-		panic(err)
-	}
+	ctx := app.Setup(p, cfg)
 
 	//Set up mapobject events
 	mapobject.Setup(ctx)
