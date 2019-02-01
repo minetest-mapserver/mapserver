@@ -10,10 +10,19 @@ var TravelnetIcon = L.icon({
 
 var TravelnetOverlay = L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr) {
+    this.layerMgr = layerMgr;
+    this.wsChannel = wsChannel;
 
+    this.onLayerChange = this.onLayerChange.bind(this);
+  },
+
+  onLayerChange: function(layer){
+    //TODO
   },
 
   onAdd: function(map) {
+    this.layerMgr.addListener(this.onLayerChange);
+
     console.log("TravelnetOverlay.onAdd", map);
 
     map.on('baselayerchange', function (e) {
@@ -27,6 +36,8 @@ var TravelnetOverlay = L.LayerGroup.extend({
   },
 
   onRemove: function(map) {
+    this.layerMgr.removeListener(this.onLayerChange);
+
     console.log("TravelnetOverlay.onRemove");
   }
 });
