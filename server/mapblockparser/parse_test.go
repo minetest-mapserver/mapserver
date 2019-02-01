@@ -54,7 +54,15 @@ func TestParse(t *testing.T) {
 		t.Error("Underground flag")
 	}
 
-	if len(mapblock.Mapdata) != 16384 {
+	if len(mapblock.Mapdata.ContentId) != 4096 {
+		t.Error("Mapdata length wrong")
+	}
+
+	if len(mapblock.Mapdata.Param2) != 4096 {
+		t.Error("Mapdata length wrong")
+	}
+
+	if len(mapblock.Mapdata.Param1) != 4096 {
 		t.Error("Mapdata length wrong")
 	}
 

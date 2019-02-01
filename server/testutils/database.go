@@ -39,7 +39,7 @@ func copy(src, dst string) error {
 
 func CreateTestDatabase(filename string) error {
 	_, currentfilename, _, _ := runtime.Caller(0)
-	return copy(filepath.Dir(currentfilename)+"/testdata/map.sqlite", filename)
+	return copy(filepath.Dir(currentfilename)+"/testdata/map1.sqlite", filename)
 }
 
 //DB with metadata at 0,0,0
