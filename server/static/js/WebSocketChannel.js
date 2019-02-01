@@ -1,11 +1,10 @@
-var WebSocketChannel = (function(){
+var WebSocketChannel = function(){
   'use strict';
-
   var wsUrl = location.protocol.replace("http", "ws") + "//" + location.host + location.pathname.substring(0, location.pathname.lastIndexOf("/")) + "/api/ws";
 
   var listenerMap = {/* type -> [listeners] */};
 
-  function addListener(type, listener){
+  this.addListener = function(type, listener){
     var list = listenerMap[type];
     if (!list){
       list = [];
@@ -13,9 +12,9 @@ var WebSocketChannel = (function(){
     }
 
     list.push(listener);
-  }
+  };
 
-  function connect(){
+  this.connect = function(){
     var ws = new WebSocket(wsUrl);
 
     ws.onmessage = function(e){
@@ -34,11 +33,6 @@ var WebSocketChannel = (function(){
       //reconnect after some time
       setTimeout(connect, 1000);
     }
-  }
-
-  return {
-    connect: connect,
-    addListener: addListener
   };
 
-}());
+};

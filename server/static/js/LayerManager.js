@@ -1,11 +1,11 @@
-var LayerManager = (function(){
+var LayerManager = function(layers){
 
+    this.addListener = function(listener){
+    };
 
-
-  return {
-    init: function(layers){
-      
-    }
+    this.getCurrentLayer = function(){
+    };
+    
   };
 
-}());
+};
