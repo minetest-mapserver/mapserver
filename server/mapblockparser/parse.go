@@ -21,6 +21,10 @@ func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, erro
 	// version
 	mapblock.Version = data[0]
 
+	if mapblock.Version < 25 || mapblock.Version > 28 {
+		return nil, errors.New("mapblock-version not supported: "  + strconv.Itoa(int(mapblock.Version)))
+	}
+
 	//flags
 	flags := data[1]
 	mapblock.Underground = (flags & 0x01) == 0x01
@@ -37,7 +41,13 @@ func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, erro
 	}
 
 	//mapdata (blocks)
-	offset = 6
+	if mapblock.Version >= 27 {
+		offset = 6
+
+	} else {
+		offset = 4
+		
+	}
 
 	//metadata
 	count, err := parseMapdata(mapblock, data[offset:])
