@@ -9,7 +9,7 @@ var TravelnetIcon = L.icon({
 });
 
 var TravelnetOverlay = L.LayerGroup.extend({
-  initialize: function() {
+  initialize: function(wsChannel, layerMgr) {
 
   },
 

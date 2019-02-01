@@ -1,36 +1,39 @@
 'use strict';
 
-function RealtimeTileLayer(wsChannel){
-  var self = this;
+var RealtimeTileLayer = L.TileLayer.extend({
 
-  wsChannel.addListener("rendered-tile", function(tc){
-    var id = self.getImageId(tc.layerid, tc.x, tc.y, tc.zoom);
-    var el = document.getElementById(id);
+  initialize: function(wsChannel, layerId) {
+    var self = this;
+    this.layerId = layerId;
 
-    if (el){
-        //Update src attribute if img found
-        el.src = self.getTileSource(tc.layerid, tc.x, tc.y, tc.zoom, true);
-    }
-  });
-}
+    wsChannel.addListener("rendered-tile", function(tc){
+      if (tc.layerid != self.layerId){
+        //ignore other layers
+        return;
+      }
 
-RealtimeTileLayer.prototype.getTileSource = function(layerId, x,y,zoom,cacheBust){
-    return "api/tile/" + layerId + "/" + x + "/" + y + "/" + zoom + "?_=" + Date.now();
-};
+      var id = self.getImageId(tc.layerid, tc.x, tc.y, tc.zoom);
+      var el = document.getElementById(id);
 
-RealtimeTileLayer.prototype.getImageId = function(layerId, x, y, zoom){
-    return "tile-" + layerId + "/" + x + "/" + y + "/" + zoom;
-};
+      if (el){
+          //Update src attribute if img found
+          el.src = self.getTileSource(tc.layerid, tc.x, tc.y, tc.zoom, true);
+      }
+    });
+  },
 
-RealtimeTileLayer.prototype.createLayer = function(layerId){
-  var self = this;
+  getTileSource: function(x,y,zoom,cacheBust){
+      return "api/tile/" + this.layerId + "/" + x + "/" + y + "/" + zoom + "?_=" + Date.now();
+  },
 
-  return L.TileLayer.extend({
-    createTile: function(coords){
-      var tile = document.createElement('img');
-      tile.src = self.getTileSource(layerId, coords.x, coords.y, coords.z);
-      tile.id = self.getImageId(layerId, coords.x, coords.y, coords.z);
-      return tile;
-    }
-  });
-};
+  getImageId: function(x, y, zoom){
+      return "tile-" + this.layerId + "/" + x + "/" + y + "/" + zoom;
+  },
+
+  createTile: function(coords){
+    var tile = document.createElement('img');
+    tile.src = this.getTileSource(coords.x, coords.y, coords.z);
+    tile.id = this.getImageId(coords.x, coords.y, coords.z);
+    return tile;
+  }
+});
