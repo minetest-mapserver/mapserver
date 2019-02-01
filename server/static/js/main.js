@@ -41,7 +41,7 @@ api.getConfig().then(function(cfg){
 
   L.control.layers(layers, overlays).addTo(map);
 
-  var el = CoordinatesDisplay.create({ position: 'bottomleft' });
+  var el = new CoordinatesDisplay({ position: 'bottomleft' });
   el.addTo(map);
 
 });

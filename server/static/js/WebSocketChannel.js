@@ -1,38 +1,38 @@
-var WebSocketChannel = function(){
-  'use strict';
-  var wsUrl = location.protocol.replace("http", "ws") + "//" + location.host + location.pathname.substring(0, location.pathname.lastIndexOf("/")) + "/api/ws";
+'use strict';
 
-  var listenerMap = {/* type -> [listeners] */};
+function WebSocketChannel(){
+  this.wsUrl = location.protocol.replace("http", "ws") + "//" + location.host + location.pathname.substring(0, location.pathname.lastIndexOf("/")) + "/api/ws";
+  this.listenerMap = {/* type -> [listeners] */};
+}
 
-  this.addListener = function(type, listener){
-    var list = listenerMap[type];
-    if (!list){
-      list = [];
-      listenerMap[type] = list;
+WebSocketChannel.prototype.addListener = function(type, listener){
+  var list = this.listenerMap[type];
+  if (!list){
+    list = [];
+    this.listenerMap[type] = list;
+  }
+
+  list.push(listener);
+};
+
+WebSocketChannel.prototype.connect = function(){
+  var ws = new WebSocket(this.wsUrl);
+  var self = this;
+
+  ws.onmessage = function(e){
+    var event = JSON.parse(e.data);
+    //rendered-tile, mapobject-created, mapobjects-cleared
+
+    var listeners = self.listenerMap[event.type];
+    if (listeners){
+      self.listeners.forEach(function(listener){
+        listener(event.data);
+      });
     }
+  }
 
-    list.push(listener);
-  };
-
-  this.connect = function(){
-    var ws = new WebSocket(wsUrl);
-
-    ws.onmessage = function(e){
-      var event = JSON.parse(e.data);
-      //rendered-tile, mapobject-created, mapobjects-cleared
-
-      var listeners = listenerMap[event.type];
-      if (listeners){
-        listeners.forEach(function(listener){
-          listener(event.data);
-        });
-      }
-    }
-
-    ws.onerror = function(){
-      //reconnect after some time
-      setTimeout(connect, 1000);
-    }
-  };
-
+  ws.onerror = function(){
+    //reconnect after some time
+    setTimeout(connect, 1000);
+  }
 };

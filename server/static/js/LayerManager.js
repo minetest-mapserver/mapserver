@@ -1,11 +1,10 @@
-var LayerManager = function(layers){
+'use strict';
 
-    this.addListener = function(listener){
-    };
+function LayerManager(layers){
+}
 
-    this.getCurrentLayer = function(){
-    };
-    
-  };
+LayerManager.prototype.addListener = function(listener){
+};
 
+LayerManager.prototype.getCurrentLayer = function(){
 };
