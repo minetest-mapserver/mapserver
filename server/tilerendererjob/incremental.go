@@ -8,6 +8,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type IncrementalRenderEvent struct {
+	LastMtime int64 `json:"lastmtime"`
+}
+
 func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
 	rstate := ctx.Config.RenderState
@@ -38,6 +42,12 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
 		t := time.Now()
 		elapsed := t.Sub(start)
+
+		ev := IncrementalRenderEvent{
+			LastMtime: result.LastMtime,
+		}
+
+		ctx.WebEventbus.Emit("incremental-render-progress", &ev)
 
 		fields := logrus.Fields{
 			"mapblocks": len(result.List),

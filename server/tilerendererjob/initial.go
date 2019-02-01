@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+type InitialRenderEvent struct {
+	Progress int `json:"progress"`
+}
+
 func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
 	rstate := ctx.Config.RenderState
@@ -37,6 +41,12 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			rstate.InitialRun = false
 			ctx.Config.Save()
 
+			ev := InitialRenderEvent{
+				Progress: 100,
+			}
+
+			ctx.WebEventbus.Emit("initial-render-progress", &ev)
+
 			fields := logrus.Fields{
 				"legacyblocks": rstate.LegacyProcessed,
 			}
@@ -61,6 +71,12 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		elapsed := t.Sub(start)
 
 		progress := int(float64(rstate.LegacyProcessed) / float64(totalLegacyCount) * 100)
+
+		ev := InitialRenderEvent{
+			Progress: progress,
+		}
+
+		ctx.WebEventbus.Emit("initial-render-progress", &ev)
 
 		fields := logrus.Fields{
 			"mapblocks": len(result.List),

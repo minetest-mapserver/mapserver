@@ -22,7 +22,7 @@ func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, erro
 	mapblock.Version = data[0]
 
 	if mapblock.Version < 25 || mapblock.Version > 28 {
-		return nil, errors.New("mapblock-version not supported: "  + strconv.Itoa(int(mapblock.Version)))
+		return nil, errors.New("mapblock-version not supported: " + strconv.Itoa(int(mapblock.Version)))
 	}
 
 	//flags
@@ -46,7 +46,7 @@ func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, erro
 
 	} else {
 		offset = 4
-		
+
 	}
 
 	//metadata
