@@ -1,7 +1,7 @@
 mapserver
 world.mt
 output
-/server/map.sqlite
+map.sqlite
 mapserver.sqlite
 mapserver.sqlite-journal
 mapserver.json
