@@ -18,7 +18,7 @@ api.getConfig().then(function(cfg){
     crs: SimpleCRS
   });
 
-  map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Mapserver</a>');
+  map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Minetest Mapserver</a>');
 
   var layers = {};
   var overlays = {}

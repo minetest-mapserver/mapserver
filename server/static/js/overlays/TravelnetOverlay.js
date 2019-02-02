@@ -10,11 +10,13 @@ var TravelnetIcon = L.icon({
 
 var TravelnetOverlay = L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr) {
+    L.LayerGroup.prototype.initialize.call(this);
+
     this.layerMgr = layerMgr;
     this.wsChannel = wsChannel;
 
     this.onLayerChange = this.onLayerChange.bind(this);
-    this.onMapMove = this.onMapMove.bind(this);
+    this.onMapMove = debounce(this.onMapMove.bind(this), 50);
   },
 
   onLayerChange: function(layer){
@@ -36,21 +38,20 @@ var TravelnetOverlay = L.LayerGroup.extend({
     .then(function(travelnets){
       //TODO: remove non-existing markers, add new ones
       if (!full)
-        this.clearLayers();
-
-      console.log(travelnets);
-
-      //TODO: attributes, coords
-      var marker = L.marker([travelnet.z, travelnet.x], {icon: TravelnetIcon});
+        self.clearLayers();
 
       travelnets.forEach(function(travelnet){
-        var popup = "<h4>" + travelnet.name + "</h4><hr>" +
+
+        console.log(travelnet);
+
+        var popup = "<h4>" + travelnet.attributes.station_name + "</h4><hr>" +
           "<b>X: </b> " + travelnet.x + "<br>" +
           "<b>Y: </b> " + travelnet.y + "<br>" +
           "<b>Z: </b> " + travelnet.z + "<br>" +
-          "<b>Network: </b> " + travelnet.network + "<br>" +
-          "<b>Owner: </b> " + travelnet.owner + "<br>";
+          "<b>Network: </b> " + travelnet.attributes.station_network + "<br>" +
+          "<b>Owner: </b> " + travelnet.attributes.owner + "<br>";
 
+        var marker = L.marker([travelnet.z, travelnet.x], {icon: TravelnetIcon});
         marker.bindPopup(popup).addTo(self);
       });
     })
@@ -58,12 +59,15 @@ var TravelnetOverlay = L.LayerGroup.extend({
   },
 
   onAdd: function(map) {
+    map.on("zoomend", this.onMapMove);
+    map.on("moveend", this.onMapMove);
     this.layerMgr.addListener(this.onLayerChange);
-    console.log("TravelnetOverlay.onAdd", map);
+    this.reDraw(true)
   },
 
   onRemove: function(map) {
+    map.off("zoomend", this.onMapMove);
+    map.off("moveend", this.onMapMove);
     this.layerMgr.removeListener(this.onLayerChange);
-    console.log("TravelnetOverlay.onRemove");
   }
 });
