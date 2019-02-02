@@ -15,6 +15,8 @@ var TravelnetOverlay = L.LayerGroup.extend({
     this.layerMgr = layerMgr;
     this.wsChannel = wsChannel;
 
+    this.currentLayers = [];
+
     this.onLayerChange = this.onLayerChange.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
   },
@@ -30,15 +32,18 @@ var TravelnetOverlay = L.LayerGroup.extend({
   reDraw: function(full){
     var self = this;
 
-    if (full)
+    if (full){
       this.clearLayers();
+      this.currentLayers = [];
+    }
 
     //TODO: get coords
     api.getMapObjects(-10,-10,-10,10,10,10,"travelnet")
     .then(function(travelnets){
       //TODO: remove non-existing markers, add new ones
-      if (!full)
+      if (!full){
         self.clearLayers();
+      }
 
       travelnets.forEach(function(travelnet){
 
