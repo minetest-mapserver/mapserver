@@ -12,8 +12,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-//go:generate go run github.com/mjibson/esc -o vfs/static.go -prefix="static/" -pkg vfs static
-
 func main() {
 	//Parse command line
 
