@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/mapobject"
 	"mapserver/params"
 	"mapserver/tilerendererjob"
 	"mapserver/web"
 	"runtime"
+
+	"github.com/sirupsen/logrus"
 )
 
-//go:generate -command go run github.com/mjibson/esc -o vfs/static.go -prefix="static/" -pkg vfs static
+//go:generate go run github.com/mjibson/esc -o vfs/static.go -prefix="static/" -pkg vfs static
 
 func main() {
 	//Parse command line
