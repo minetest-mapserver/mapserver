@@ -15,7 +15,7 @@ var TravelnetOverlay = L.LayerGroup.extend({
     this.layerMgr = layerMgr;
     this.wsChannel = wsChannel;
 
-    this.currentLayers = [];
+    this.currentObjects = [];
 
     this.onLayerChange = this.onLayerChange.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
@@ -32,13 +32,33 @@ var TravelnetOverlay = L.LayerGroup.extend({
   reDraw: function(full){
     var self = this;
 
-    if (full){
+    if (this._map.getZoom() < 10) {
       this.clearLayers();
-      this.currentLayers = [];
+      this.currentObjects = [];
+      return;
     }
 
+    if (full){
+      this.clearLayers();
+      this.currentObjects = [];
+    }
+
+    var mapLayer = this.layerMgr.getCurrentLayer()
+    var min = this._map.getBounds().getSouthWest();
+    var max = this._map.getBounds().getNorthEast();
+
+    var y1 = parseInt(mapLayer.from/16);
+    var y2 = parseInt(mapLayer.to/16);
+    var x1 = parseInt(min.lng);
+    var x2 = parseInt(max.lng);
+    var z1 = parseInt(min.lat);
+    var z2 = parseInt(max.lat);
+
     //TODO: get coords
-    api.getMapObjects(-10,-10,-10,10,10,10,"travelnet")
+    api.getMapObjects(
+      x1, y1, y1,
+      x2, y2, z2,
+      "travelnet")
     .then(function(travelnets){
       //TODO: remove non-existing markers, add new ones
       if (!full){
@@ -46,9 +66,6 @@ var TravelnetOverlay = L.LayerGroup.extend({
       }
 
       travelnets.forEach(function(travelnet){
-
-        console.log(travelnet);
-
         var popup = "<h4>" + travelnet.attributes.station_name + "</h4><hr>" +
           "<b>X: </b> " + travelnet.x + "<br>" +
           "<b>Y: </b> " + travelnet.y + "<br>" +
@@ -71,6 +88,7 @@ var TravelnetOverlay = L.LayerGroup.extend({
   },
 
   onRemove: function(map) {
+    this.clearLayers();
     map.off("zoomend", this.onMapMove);
     map.off("moveend", this.onMapMove);
     this.layerMgr.removeListener(this.onLayerChange);
