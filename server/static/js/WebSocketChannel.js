@@ -15,6 +15,17 @@ WebSocketChannel.prototype.addListener = function(type, listener){
   list.push(listener);
 };
 
+WebSocketChannel.prototype.removeListener = function(type, listener){
+  var list = this.listenerMap[type];
+  if (!list){
+    return
+  }
+
+  this.listenerMap[type] = list.filter(function(l){
+    return l != listener;
+  });
+};
+
 WebSocketChannel.prototype.connect = function(){
   var ws = new WebSocket(this.wsUrl);
   var self = this;

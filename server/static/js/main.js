@@ -6,7 +6,7 @@ api.getConfig().then(function(cfg){
   wsChannel.connect();
 
   wsChannel.addListener("minetest-info", function(e){
-    console.log(e);
+    console.log(e); //XXX
   });
 
   var rtTiles = new RealtimeTileLayer(wsChannel);
@@ -33,6 +33,7 @@ api.getConfig().then(function(cfg){
   tileLayer.addTo(map);
 
   layers["Base"] = tileLayer;
+  overlays["Players"] = new PlayerOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
 
   L.control.layers(layers, overlays).addTo(map);
