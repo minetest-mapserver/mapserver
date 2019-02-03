@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"mapserver/app"
 	"net/http"
-
-	"github.com/sirupsen/logrus"
 )
 
 type PlayerPos struct {
@@ -33,19 +31,25 @@ type Minetest struct {
 	ctx *app.App
 }
 
-func (t *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+func (this *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+	if req.Header.Get("Authorization") != this.ctx.Config.WebApi.SecretKey {
+		resp.WriteHeader(403)
+		resp.Write([]byte("invalid key!"))
+		return
+	}
+
 	resp.Header().Add("content-type", "application/json")
 	data := &MinetestInfo{}
 
 	err := json.NewDecoder(req.Body).Decode(data)
-	logrus.Info(data)
 
 	if err != nil {
 		resp.WriteHeader(500)
 		resp.Write([]byte(err.Error()))
-		logrus.Warn(err)
 		return
 	}
+
+	this.ctx.WebEventbus.Emit("minetest-info", data)
 
 	json.NewEncoder(resp).Encode("stub")
 }

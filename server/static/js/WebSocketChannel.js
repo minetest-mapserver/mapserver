@@ -25,7 +25,7 @@ WebSocketChannel.prototype.connect = function(){
 
     var listeners = self.listenerMap[event.type];
     if (listeners){
-      self.listeners.forEach(function(listener){
+      listeners.forEach(function(listener){
         listener(event.data);
       });
     }

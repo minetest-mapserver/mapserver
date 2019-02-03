@@ -5,6 +5,10 @@ api.getConfig().then(function(cfg){
   var wsChannel = new WebSocketChannel();
   wsChannel.connect();
 
+  wsChannel.addListener("minetest-info", function(e){
+    console.log(e);
+  });
+
   var rtTiles = new RealtimeTileLayer(wsChannel);
 
   var initialZoom = 11;

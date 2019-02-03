@@ -39,8 +39,6 @@ function send_stats()
     table.insert(data.players, info)
   end
 
-  print(minetest.write_json(data)) --XXX
-
   http.fetch({
     url = url .. "/api/minetest",
     extra_headers = { "Content-Type: application/json", "Authorization: " .. key },
