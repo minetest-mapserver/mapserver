@@ -19,13 +19,19 @@ var PlayerOverlay = L.LayerGroup.extend({
     this.players = [];
 
     this.reDraw = this.reDraw.bind(this);
-    this.onMapMove = debounce(this.onMapMove.bind(this), 50);
     this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
 
     //update players all the time
     this.wsChannel.addListener("minetest-info", function(info){
       this.players = info.players || [];
     }.bind(this));
+  },
+
+  createMarker: function(player){
+    var marker = L.marker([player.pos.z, player.pos.x], {icon: PlayerIcon});
+    marker.bindPopup(player.name);
+
+    return marker;
   },
 
   onMinetestUpdate: function(info){
@@ -35,18 +41,27 @@ var PlayerOverlay = L.LayerGroup.extend({
     this.players.forEach(function(player){
       if (self.currentObjects[player.name]){
         //marker exists
+        self.currentObjects[player.name].setLatLng([player.pos.z, player.pos.x]);
+        //setPopupContent
+
       } else {
         //marker does not exist
+        var marker = self.createMarker(player);
+        marker.addTo(self);
+
+        self.currentObjects[player.name] = marker;
       }
     });
 
     Object.keys(self.currentObjects).forEach(function(existingName){
-      var playerIsActive = this.players.find(function(p){
+      var playerIsActive = self.players.find(function(p){
         return p.name == existingName;
       });
 
       if (!playerIsActive){
         //player
+        self.currentObjects[existingName].remove();
+        delete self.currentObjects[existingName];
       }
     });
   },
@@ -61,9 +76,8 @@ var PlayerOverlay = L.LayerGroup.extend({
     this.players.forEach(function(player){
       //TODO: filter layer
 
-      var marker = L.marker([travelnet.z, travelnet.x], {icon: TravelnetIcon});
-      marker.bindPopup(player.name).addTo(self);
-
+      var marker = self.createMarker(player);
+      marker.addTo(self);
       self.currentObjects[player.name] = marker;
     });
 

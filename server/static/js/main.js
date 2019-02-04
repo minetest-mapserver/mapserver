@@ -41,4 +41,6 @@ api.getConfig().then(function(cfg){
   var el = new CoordinatesDisplay({ position: 'bottomleft' });
   el.addTo(map);
 
+}).catch(function(e){
+  console.error(e);
 });
