@@ -15,26 +15,20 @@ var PlayerOverlay = L.LayerGroup.extend({
     this.layerMgr = layerMgr;
     this.wsChannel = wsChannel;
 
-    this.currentObjects = [];
+    this.currentObjects = []; //{obj:{}, marker: {}}
 
-    this.onLayerChange = this.onLayerChange.bind(this);
     this.reDraw = this.reDraw.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
-
-    this.wsChannel.addListener("minetest-info", this.onMinetestUpdate.bind(this));
-  },
-
-  onLayerChange: function(layer){
-    this.reDraw();
+    this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
   },
 
   onMinetestUpdate: function(info){
-    //TODO
+    //TODO incremental update
   },
 
   reDraw: function(){
+    //TODO full update
     var self = this;
-
     this.clearLayers();
 
     var mapLayer = this.layerMgr.getCurrentLayer()
@@ -43,11 +37,13 @@ var PlayerOverlay = L.LayerGroup.extend({
 
   onAdd: function(map) {
     this.layerMgr.addListener(this.reDraw);
-    this.reDraw(true)
+    this.wsChannel.addListener("minetest-info", this.onMinetestUpdate);
+    this.reDraw();
   },
 
   onRemove: function(map) {
     this.clearLayers();
     this.layerMgr.removeListener(this.reDraw);
+    this.wsChannel.removeListener("minetest-info", this.onMinetestUpdate);
   }
 });
