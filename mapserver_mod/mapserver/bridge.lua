@@ -23,7 +23,7 @@ function send_stats()
   local data = {
     time = minetest.get_timeofday() * 24000,
     uptime = minetest.get_server_uptime(),
-    max_lag = get_max_lag(),
+    max_lag = tonumber(get_max_lag()),
     players = {}
   }
 
@@ -36,11 +36,11 @@ function send_stats()
       velocity = player:get_player_velocity()
     }
 
-    table.insert(data.players, player)
+    table.insert(data.players, info)
   end
 
   http.fetch({
-    url = url,
+    url = url .. "/api/minetest",
     extra_headers = { "Content-Type: application/json", "Authorization: " .. key },
     timeout = 1,
     post_data = minetest.write_json(data)

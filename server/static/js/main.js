@@ -5,6 +5,10 @@ api.getConfig().then(function(cfg){
   var wsChannel = new WebSocketChannel();
   wsChannel.connect();
 
+  wsChannel.addListener("minetest-info", function(e){
+    console.log(e); //XXX
+  });
+
   var rtTiles = new RealtimeTileLayer(wsChannel);
 
   var initialZoom = 11;
@@ -18,7 +22,7 @@ api.getConfig().then(function(cfg){
     crs: SimpleCRS
   });
 
-  map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Mapserver</a>');
+  map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Minetest Mapserver</a>');
 
   var layers = {};
   var overlays = {}
@@ -29,6 +33,7 @@ api.getConfig().then(function(cfg){
   tileLayer.addTo(map);
 
   layers["Base"] = tileLayer;
+  overlays["Players"] = new PlayerOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
 
   L.control.layers(layers, overlays).addTo(map);

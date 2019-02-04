@@ -18,7 +18,7 @@ clean:
 	rm -rf $(OUT_DIR)
 
 $(STATIC_VFS):
-	go generate
+	go run github.com/mjibson/esc -o vfs/static.go -prefix="static/" -pkg vfs static
 
 build: $(STATIC_VFS) $(OUT_DIR)
 	# native
