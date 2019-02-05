@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
+	_ "https://github.com/lib/pq"
 	"mapserver/coords"
 	"mapserver/db"
 )
