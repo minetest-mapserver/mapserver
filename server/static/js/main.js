@@ -32,6 +32,8 @@ api.getConfig().then(function(cfg){
   overlays["Players"] = new PlayerOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
 
+  map.addLayer(overlays["Players"]);
+
   L.control.layers(layers, overlays).addTo(map);
 
   var el = new CoordinatesDisplay({ position: 'bottomleft' });

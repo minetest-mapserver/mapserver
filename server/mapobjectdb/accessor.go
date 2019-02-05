@@ -32,12 +32,17 @@ type MapObject struct {
 }
 
 func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type string) *MapObject {
+
+	if x > 16 || y > 16 || z > 16 {
+		panic("Out of range3!") //XXX
+	}
+
 	o := MapObject{
 		MBPos:      MBPos,
 		Type:       _type,
-		X:          MBPos.X + x,
-		Y:          MBPos.Y + y,
-		Z:          MBPos.Z + z,
+		X:          (MBPos.X * 16) + x,
+		Y:          (MBPos.Y * 16) + y,
+		Z:          (MBPos.Z * 16) + z,
 		Mtime:      time.Now().Unix(),
 		Attributes: make(map[string]string),
 	}

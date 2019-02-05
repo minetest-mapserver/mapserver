@@ -16,7 +16,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
   },
 
   hashPos: function(x,y,z){
-    return x + "/" + y "/" + z;
+    return x + "/" + y + "/" + z;
   },
 
   onLayerChange: function(layer){
@@ -69,7 +69,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
         } else {
           //marker does not exist
           var marker = L.marker([obj.z, obj.x], {icon: self.icon});
-          marker.bindPopup(self.getPopup(obj));
+          marker.bindPopup(self.createPopup(obj));
           marker.addTo(self);
 
           self.currentObjects[hash] = marker;
