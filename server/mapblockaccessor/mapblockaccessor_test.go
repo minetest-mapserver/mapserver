@@ -4,7 +4,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/coords"
-	"mapserver/db"
+	"mapserver/db/sqlite"
 	"mapserver/testutils"
 	"os"
 	"testing"
@@ -20,7 +20,7 @@ func TestSimpleAccess(t *testing.T) {
 	defer os.Remove(tmpfile.Name())
 	testutils.CreateTestDatabase(tmpfile.Name())
 
-	a, err := db.NewSqliteAccessor(tmpfile.Name())
+	a, err := sqlite.New(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}

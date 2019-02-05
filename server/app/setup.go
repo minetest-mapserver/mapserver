@@ -2,7 +2,7 @@ package app
 
 import (
 	"mapserver/colormapping"
-	"mapserver/db"
+	"mapserver/db/sqlite"
 	"mapserver/eventbus"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
@@ -30,7 +30,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	switch a.Worldconfig.Backend {
 	case worldconfig.BACKEND_SQLITE3:
-		a.Blockdb, err = db.NewSqliteAccessor("map.sqlite")
+		a.Blockdb, err = sqlite.New("map.sqlite")
 		if err != nil {
 			panic(err)
 		}

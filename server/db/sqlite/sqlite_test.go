@@ -1,4 +1,4 @@
-package db
+package sqlite
 
 import (
 	_ "github.com/mattn/go-sqlite3"
@@ -17,7 +17,7 @@ func TestMigrateEmpty(t *testing.T) {
 	defer os.Remove(tmpfile.Name())
 
 	testutils.CreateEmptyDatabase(tmpfile.Name())
-	a, err := NewSqliteAccessor(tmpfile.Name())
+	a, err := New(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}
@@ -35,7 +35,7 @@ func TestMigrate(t *testing.T) {
 	defer os.Remove(tmpfile.Name())
 
 	testutils.CreateEmptyDatabase(tmpfile.Name())
-	a, err := NewSqliteAccessor(tmpfile.Name())
+	a, err := New(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}
@@ -53,7 +53,7 @@ func TestMigrateAndQuery(t *testing.T) {
 	defer os.Remove(tmpfile.Name())
 
 	testutils.CreateTestDatabase(tmpfile.Name())
-	a, err := NewSqliteAccessor(tmpfile.Name())
+	a, err := New(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}
@@ -83,7 +83,7 @@ func TestMigrateAndQueryCount(t *testing.T) {
 	defer os.Remove(tmpfile.Name())
 
 	testutils.CreateTestDatabase(tmpfile.Name())
-	a, err := NewSqliteAccessor(tmpfile.Name())
+	a, err := New(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}

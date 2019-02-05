@@ -1,10 +1,11 @@
-package db
+package sqlite
 
 import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
 	"mapserver/coords"
+	"mapserver/db"
 	"time"
 )
 
@@ -12,24 +13,6 @@ import (
 sqlite extract: https://stackoverflow.com/questions/15448373/how-to-dump-a-file-stored-in-a-sqlite-database-as-a-blob
 sqlite3 my.db "SELECT writefile('object0.gz', MyBlob) FROM MyTable WHERE id = 1"
 */
-
-const migrateScript = `
-alter table blocks add mtime integer default 0;
-create index blocks_mtime on blocks(mtime);
-
-CREATE TRIGGER update_blocks_mtime_insert after insert on blocks for each row
-begin
-update blocks set mtime = strftime('%s', 'now') where pos = new.pos;
-end;
-
-CREATE TRIGGER update_blocks_mtime_update after update on blocks for each row
-begin
-update blocks set mtime = strftime('%s', 'now') where pos = old.pos;
-end;
-`
-
-//TODO: initial run: https://stackoverflow.com/questions/14468586/efficient-paging-in-sqlite-with-millions-of-records
-//TODO: postgres test
 
 type Sqlite3Accessor struct {
 	db       *sql.DB
@@ -67,23 +50,16 @@ func (db *Sqlite3Accessor) Migrate() error {
 	return nil
 }
 
-func convertRows(pos int64, data []byte, mtime int64) Block {
+func convertRows(pos int64, data []byte, mtime int64) db.Block {
 	c := coords.PlainToCoord(pos)
-	return Block{Pos: c, Data: data, Mtime: mtime}
+	return db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-const getBlocksByMtimeQuery = `
-select pos,data,mtime
-from blocks b
-where b.mtime > ?
-order by b.mtime asc
-limit ?
-`
 
-func (db *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]Block, error) {
-	blocks := make([]Block, 0)
+func (this *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]db.Block, error) {
+	blocks := make([]db.Block, 0)
 
-	rows, err := db.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
+	rows, err := this.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -107,20 +83,12 @@ func (db *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]Block,
 	return blocks, nil
 }
 
-const getLastBlockQuery = `
-select pos,data,mtime
-from blocks b
-where b.mtime = 0
-and b.pos > ?
-order by b.pos asc, b.mtime asc
-limit ?
-`
 
-func (db *Sqlite3Accessor) FindLegacyBlocksByPos(lastpos coords.MapBlockCoords, limit int) ([]Block, error) {
-	blocks := make([]Block, 0)
+func (this *Sqlite3Accessor) FindLegacyBlocksByPos(lastpos coords.MapBlockCoords, limit int) ([]db.Block, error) {
+	blocks := make([]db.Block, 0)
 	pc := coords.CoordToPlain(lastpos)
 
-	rows, err := db.db.Query(getLastBlockQuery, pc, limit)
+	rows, err := this.db.Query(getLastBlockQuery, pc, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -144,9 +112,7 @@ func (db *Sqlite3Accessor) FindLegacyBlocksByPos(lastpos coords.MapBlockCoords, 
 	return blocks, nil
 }
 
-const countBlocksQuery = `
-select count(*) from blocks b where b.mtime >= ? and b.mtime <= ?
-`
+
 
 func (db *Sqlite3Accessor) CountBlocks(frommtime, tomtime int64) (int, error) {
 	rows, err := db.db.Query(countBlocksQuery, frommtime, tomtime)
@@ -170,11 +136,7 @@ func (db *Sqlite3Accessor) CountBlocks(frommtime, tomtime int64) (int, error) {
 	return 0, nil
 }
 
-const getBlockQuery = `
-select pos,data,mtime from blocks b where b.pos = ?
-`
-
-func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
+func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*db.Block, error) {
 	ppos := coords.CoordToPlain(pos)
 
 	rows, err := db.db.Query(getBlockQuery, ppos)
@@ -201,7 +163,7 @@ func (db *Sqlite3Accessor) GetBlock(pos coords.MapBlockCoords) (*Block, error) {
 	return nil, nil
 }
 
-func NewSqliteAccessor(filename string) (*Sqlite3Accessor, error) {
+func New(filename string) (*Sqlite3Accessor, error) {
 	db, err := sql.Open("sqlite3", filename+"?mode=ro&_timeout=2000")
 	if err != nil {
 		return nil, err
