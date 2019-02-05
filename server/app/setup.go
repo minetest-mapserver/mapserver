@@ -6,7 +6,7 @@ import (
 	"mapserver/eventbus"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
-	"mapserver/mapobjectdb"
+	sqliteobjdb "mapserver/mapobjectdb/sqlite"
 	"mapserver/params"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
@@ -62,7 +62,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		//TODO: Psql connection
 
 	} else {
-		a.Objectdb, err = mapobjectdb.NewSqliteAccessor("mapserver.sqlite")
+		a.Objectdb, err = sqliteobjdb.New("mapserver.sqlite")
 
 	}
 

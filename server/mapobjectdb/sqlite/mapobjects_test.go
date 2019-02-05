@@ -1,8 +1,9 @@
-package mapobjectdb
+package sqlite
 
 import (
 	"fmt"
 	"io/ioutil"
+	"mapserver/mapobjectdb"
 	"mapserver/coords"
 	"os"
 	"testing"
@@ -15,7 +16,7 @@ func TestMigrate(t *testing.T) {
 	}
 	defer os.Remove(tmpfile.Name())
 
-	db, err := NewSqliteAccessor(tmpfile.Name())
+	db, err := New(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}
@@ -36,7 +37,7 @@ func TestMigrate(t *testing.T) {
 	}
 
 	data := []byte{0x01, 0x02}
-	tile2 := Tile{Pos: pos, Data: data}
+	tile2 := mapobjectdb.Tile{Pos: pos, Data: data}
 	err = db.SetTile(&tile2)
 
 	if err != nil {
@@ -72,7 +73,7 @@ func TestMapObjects(t *testing.T) {
 	}
 	//defer os.Remove(tmpfile.Name())
 
-	db, err := NewSqliteAccessor(tmpfile.Name())
+	db, err := New(tmpfile.Name())
 	if err != nil {
 		panic(err)
 	}
@@ -87,7 +88,7 @@ func TestMapObjects(t *testing.T) {
 
 	pos := coords.NewMapBlockCoords(0, 0, 0)
 
-	o := MapObject{
+	o := mapobjectdb.MapObject{
 		MBPos:      &pos,
 		X:          1,
 		Y:          2,
@@ -102,7 +103,7 @@ func TestMapObjects(t *testing.T) {
 		panic(err)
 	}
 
-	q := SearchQuery{
+	q := mapobjectdb.SearchQuery{
 		Pos1: pos,
 		Pos2: pos,
 		Type: "xy",

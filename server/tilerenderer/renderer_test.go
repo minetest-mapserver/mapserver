@@ -9,7 +9,7 @@ import (
 	"mapserver/layer"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
-	"mapserver/mapobjectdb"
+	sqliteobjdb "mapserver/mapobjectdb/sqlite"
 	"mapserver/testutils"
 	"os"
 	"testing"
@@ -50,7 +50,7 @@ func TestTileRender(t *testing.T) {
 	tiletmpfile, err := ioutil.TempFile("", "TestTileRenderTiles.*.sqlite")
 	defer os.Remove(tiletmpfile.Name())
 
-	tdb, _ := mapobjectdb.NewSqliteAccessor(tiletmpfile.Name())
+	tdb, _ := sqliteobjdb.New(tiletmpfile.Name())
 	tdb.Migrate()
 
 	layers := []layer.Layer{

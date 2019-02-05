@@ -1,23 +1,12 @@
-package mapobjectdb
+package sqlite
 
 import (
 	"mapserver/coords"
+	"mapserver/mapobjectdb"
 )
 
-const getMapDataPosQuery = `
-select o.id, o.type, o.mtime,
- o.x, o.y, o.z,
- o.posx, o.posy, o.posz,
- oa.key, oa.value
-from objects o
-left join object_attributes oa on o.id = oa.objectid
-where o.type = ?
-and o.posx >= ? and o.posy >= ? and o.posz >= ?
-and o.posx <= ? and o.posy <= ? and o.posz <= ?
-order by o.id
-`
 
-func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
+func (db *Sqlite3Accessor) GetMapData(q mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
 	rows, err := db.db.Query(getMapDataPosQuery,
 		q.Type,
 		q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
@@ -30,8 +19,8 @@ func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
 
 	defer rows.Close()
 
-	result := make([]*MapObject, 0)
-	var currentObj *MapObject
+	result := make([]*mapobjectdb.MapObject, 0)
+	var currentObj *mapobjectdb.MapObject
 	var currentId *int64
 
 	for rows.Next() {
@@ -53,7 +42,7 @@ func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
 
 		if currentId == nil || *currentId != id {
 			pos := coords.NewMapBlockCoords(posx, posy, posz)
-			mo := NewMapObject(
+			mo := mapobjectdb.NewMapObject(
 				&pos,
 				x, y, z,
 				Type,
@@ -72,28 +61,13 @@ func (db *Sqlite3Accessor) GetMapData(q SearchQuery) ([]*MapObject, error) {
 	return result, nil
 }
 
-const removeMapDataQuery = `
-delete from objects where posx = ? and posy = ? and posz = ?
-`
-
 func (db *Sqlite3Accessor) RemoveMapData(pos *coords.MapBlockCoords) error {
 	_, err := db.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
 	return err
 }
 
-const addMapDataQuery = `
-insert into
-objects(x,y,z,posx,posy,posz,type,mtime)
-values(?, ?, ?, ?, ?, ?, ?, ?)
-`
 
-const addMapDataAttributeQuery = `
-insert into
-object_attributes(objectid, key, value)
-values(?, ?, ?)
-`
-
-func (db *Sqlite3Accessor) AddMapData(data *MapObject) error {
+func (db *Sqlite3Accessor) AddMapData(data *mapobjectdb.MapObject) error {
 	res, err := db.db.Exec(addMapDataQuery,
 		data.X, data.Y, data.Z,
 		data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
