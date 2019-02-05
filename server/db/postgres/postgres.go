@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"database/sql"
-	_ "https://github.com/lib/pq"
+	_ "github.com/lib/pq"
 	"mapserver/coords"
 	"mapserver/db"
 )

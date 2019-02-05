@@ -27,6 +27,8 @@ create table if not exists object_attributes(
 	primary key(objectid, key)
 );
 
+create index if not exists object_attributes_key_value on object_attributes(key, value);
+
 create table if not exists tiles(
   data blob,
   mtime bigint,
