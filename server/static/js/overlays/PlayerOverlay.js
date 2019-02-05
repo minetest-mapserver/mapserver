@@ -35,7 +35,6 @@ var PlayerOverlay = L.LayerGroup.extend({
   },
 
   onMinetestUpdate: function(info){
-    //TODO incremental update
     var self = this;
 
     this.players.forEach(function(player){
