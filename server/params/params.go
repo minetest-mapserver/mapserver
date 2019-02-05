@@ -8,7 +8,6 @@ type ParamsType struct {
 	Help       bool
 	Version    bool
 	Debug      bool
-	Dumpconfig bool
 }
 
 func Parse() ParamsType {
