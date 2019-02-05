@@ -57,18 +57,24 @@ var AbstractIconOverlay = L.LayerGroup.extend({
       x2, y2, z2,
       this.type)
     .then(function(objects){
-      //TODO: remove non-existing markers, add new ones
-      if (!full){
-        self.clearLayers();
-      }
+      //TODO: remove non-existing markers
 
       objects.forEach(function(obj){
-        var marker = L.marker([obj.z, obj.x], {icon: self.icon});
-        marker.bindPopup(self.getPopup(obj));
-        marker.addTo(self);
-
         var hash = self.hashPos(obj.x, obj.y, obj.z);
-        self.currentObjects[hash] = marker;
+
+        if (self.currentObjects[hash]) {
+          //marker exists
+          //TODO: update popup
+
+        } else {
+          //marker does not exist
+          var marker = L.marker([obj.z, obj.x], {icon: self.icon});
+          marker.bindPopup(self.getPopup(obj));
+          marker.addTo(self);
+
+          self.currentObjects[hash] = marker;
+
+        }
       });
     })
 
