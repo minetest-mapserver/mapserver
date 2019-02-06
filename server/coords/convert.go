@@ -9,7 +9,7 @@ const (
 	maxValue            = 1<<(numBitsPerComponent-1) - 1
 )
 
-func CoordToPlain(c MapBlockCoords) int64 {
+func CoordToPlain(c *MapBlockCoords) int64 {
 	return int64(c.Z)<<(2*numBitsPerComponent) +
 		int64(c.Y)<<numBitsPerComponent +
 		int64(c.X)
@@ -31,12 +31,12 @@ func pythonModulo(i int16) int16 {
 	return modulo - -i&mask
 }
 
-func PlainToCoord(i int64) MapBlockCoords {
+func PlainToCoord(i int64) *MapBlockCoords {
 	c := MapBlockCoords{}
 	c.X = unsignedToSigned(pythonModulo(int16(i)))
 	i = (i - int64(c.X)) >> numBitsPerComponent
 	c.Y = unsignedToSigned(pythonModulo(int16(i)))
 	i = (i - int64(c.Y)) >> numBitsPerComponent
 	c.Z = unsignedToSigned(pythonModulo(int16(i)))
-	return c
+	return &c
 }

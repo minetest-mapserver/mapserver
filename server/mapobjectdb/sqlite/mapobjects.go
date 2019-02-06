@@ -43,7 +43,7 @@ func (db *Sqlite3Accessor) GetMapData(q mapobjectdb.SearchQuery) ([]*mapobjectdb
 		if currentId == nil || *currentId != id {
 			pos := coords.NewMapBlockCoords(posx, posy, posz)
 			mo := mapobjectdb.NewMapObject(
-				&pos,
+				pos,
 				x, y, z,
 				Type,
 			)

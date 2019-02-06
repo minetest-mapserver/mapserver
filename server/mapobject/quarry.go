@@ -14,7 +14,7 @@ func (this *QuarryBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock
 		return nil
 	}
 
-	o := mapobjectdb.NewMapObject(&block.Pos, x, y, z, "technicquarry")
+	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "technicquarry")
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["dug"] = md["dug"]
 	o.Attributes["enabled"] = md["enabled"]

@@ -20,7 +20,7 @@ type MapBlockAccessor struct {
 	Eventbus *eventbus.Eventbus
 }
 
-func getKey(pos coords.MapBlockCoords) string {
+func getKey(pos *coords.MapBlockCoords) string {
 	return fmt.Sprintf("Coord %d/%d/%d", pos.X, pos.Y, pos.Z)
 }
 
@@ -33,7 +33,7 @@ func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
 		Eventbus: eventbus.New(),
 	}
 }
-func (a *MapBlockAccessor) Update(pos coords.MapBlockCoords, mb *mapblockparser.MapBlock) {
+func (a *MapBlockAccessor) Update(pos *coords.MapBlockCoords, mb *mapblockparser.MapBlock) {
 	key := getKey(pos)
 	a.c.Set(key, mb, cache.DefaultExpiration)
 }
@@ -68,7 +68,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 	result.UnfilteredCount = len(blocks)
 
 	for _, block := range blocks {
-		newlastpos = &block.Pos
+		newlastpos = block.Pos
 		if result.LastMtime < block.Mtime {
 			result.LastMtime = block.Mtime
 		}
@@ -112,7 +112,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 	return &result, nil
 }
 
-func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
+func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos *coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
 
 	fields := logrus.Fields{
 		"x":     lastpos.X,
@@ -136,7 +136,7 @@ func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos coords.MapBlockCoords, lim
 	result.UnfilteredCount = len(blocks)
 
 	for _, block := range blocks {
-		newlastpos = &block.Pos
+		newlastpos = block.Pos
 		if result.LastMtime < block.Mtime {
 			result.LastMtime = block.Mtime
 		}
@@ -180,7 +180,7 @@ func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos coords.MapBlockCoords, lim
 	return &result, nil
 }
 
-func (a *MapBlockAccessor) GetMapBlock(pos coords.MapBlockCoords) (*mapblockparser.MapBlock, error) {
+func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockparser.MapBlock, error) {
 	key := getKey(pos)
 
 	cachedblock, found := a.c.Get(key)

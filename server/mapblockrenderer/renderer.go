@@ -70,7 +70,7 @@ func addColorComponent(c *color.RGBA, value int) *color.RGBA {
 	}
 }
 
-func (r *MapBlockRenderer) Render(pos1, pos2 coords.MapBlockCoords) (*image.NRGBA, error) {
+func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRGBA, error) {
 	if pos1.X != pos2.X {
 		return nil, errors.New("X does not line up")
 	}

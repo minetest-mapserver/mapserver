@@ -16,14 +16,14 @@ func (db *PostgresAccessor) Migrate() error {
 	return nil
 }
 
-func convertRows(pos int64, data []byte, mtime int64) db.Block {
+func convertRows(pos int64, data []byte, mtime int64) *db.Block {
 	c := coords.PlainToCoord(pos)
-	return db.Block{Pos: c, Data: data, Mtime: mtime}
+	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
 
-func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]db.Block, error) {
-	blocks := make([]db.Block, 0)
+func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
+	blocks := make([]*db.Block, 0)
 
 	rows, err := this.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
 	if err != nil {
@@ -49,8 +49,8 @@ func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]db.
 	return blocks, nil
 }
 
-func (this *PostgresAccessor) FindLegacyBlocksByPos(lastpos coords.MapBlockCoords, limit int) ([]db.Block, error) {
-	blocks := make([]db.Block, 0)
+func (this *PostgresAccessor) FindLegacyBlocksByPos(lastpos *coords.MapBlockCoords, limit int) ([]*db.Block, error) {
+	blocks := make([]*db.Block, 0)
 	pc := coords.CoordToPlain(lastpos)
 
 	rows, err := this.db.Query(getLastBlockQuery, pc, limit)
@@ -101,7 +101,7 @@ func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error)
 }
 
 
-func (this *PostgresAccessor) GetBlock(pos coords.MapBlockCoords) (*db.Block, error) {
+func (this *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
 	ppos := coords.CoordToPlain(pos)
 
 	rows, err := this.db.Query(getBlockQuery, ppos)
@@ -122,7 +122,7 @@ func (this *PostgresAccessor) GetBlock(pos coords.MapBlockCoords) (*db.Block, er
 		}
 
 		mb := convertRows(pos, data, mtime)
-		return &mb, nil
+		return mb, nil
 	}
 
 	return nil, nil

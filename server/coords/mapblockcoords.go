@@ -6,12 +6,12 @@ type MapBlockCoords struct {
 	Z int `json:"z"`
 }
 
-func NewMapBlockCoords(x, y, z int) MapBlockCoords {
-	return MapBlockCoords{X: x, Y: y, Z: z}
+func NewMapBlockCoords(x, y, z int) *MapBlockCoords {
+	return &MapBlockCoords{X: x, Y: y, Z: z}
 }
 
 type MapBlockRange struct {
-	Pos1, Pos2 MapBlockCoords
+	Pos1, Pos2 *MapBlockCoords
 }
 
 const (

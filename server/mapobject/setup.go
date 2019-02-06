@@ -27,7 +27,7 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 
 	block := o.(*mapblockparser.MapBlock)
 
-	err := this.ctx.Objectdb.RemoveMapData(&block.Pos)
+	err := this.ctx.Objectdb.RemoveMapData(block.Pos)
 	if err != nil {
 		panic(err)
 	}

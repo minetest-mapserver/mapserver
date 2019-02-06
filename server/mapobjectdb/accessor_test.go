@@ -14,7 +14,7 @@ func TestNewMapBlockCoords(t *testing.T) {
 	pos := coords.NewMapBlockCoords(1, 2, 3)
   fmt.Println(pos)
 
-  obj := NewMapObject(&pos, 10, 12, 14, "xy")
+  obj := NewMapObject(pos, 10, 12, 14, "xy")
   fmt.Println(obj)
 
   if obj.X != 26 {

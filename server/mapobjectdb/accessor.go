@@ -52,8 +52,8 @@ func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type strin
 
 type SearchQuery struct {
 	//mapblock position
-	Pos1 coords.MapBlockCoords `json:"pos1"`
-	Pos2 coords.MapBlockCoords `json:"pos2"`
+	Pos1 *coords.MapBlockCoords `json:"pos1"`
+	Pos2 *coords.MapBlockCoords `json:"pos2"`
 	Type string                `json:"type"`
 }
 

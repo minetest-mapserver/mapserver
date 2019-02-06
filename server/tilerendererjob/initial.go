@@ -57,7 +57,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
 
-		lastcoords = *result.LastPos
+		lastcoords = result.LastPos
 		rstate.LastMtime = result.LastMtime
 
 		//Save current positions of initial run

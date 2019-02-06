@@ -14,7 +14,7 @@ func (this *BonesBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock)
 		return nil
 	}
 
-	o := mapobjectdb.NewMapObject(&block.Pos, x, y, z, "bones")
+	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "bones")
 	o.Attributes["time"] = md["time"]
 	o.Attributes["owner"] = md["owner"]
 

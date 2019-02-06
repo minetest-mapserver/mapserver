@@ -12,7 +12,7 @@ func init() {
 	log = logrus.WithFields(logrus.Fields{"prefix": "coords/convert_test"})
 }
 
-func testCoordConvert(t *testing.T, mb MapBlockCoords) {
+func testCoordConvert(t *testing.T, mb *MapBlockCoords) {
 	log.WithFields(logrus.Fields{"coords": mb}).Info("MapblockCoords")
 
 	p := CoordToPlain(mb)

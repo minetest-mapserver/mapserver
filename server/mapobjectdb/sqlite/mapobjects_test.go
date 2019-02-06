@@ -89,7 +89,7 @@ func TestMapObjects(t *testing.T) {
 	pos := coords.NewMapBlockCoords(0, 0, 0)
 
 	o := mapobjectdb.MapObject{
-		MBPos:      &pos,
+		MBPos:      pos,
 		X:          15,
 		Y:          15,
 		Z:          15,

@@ -8,7 +8,7 @@ import (
 )
 
 type JobData struct {
-	Pos1, Pos2 coords.MapBlockCoords
+	Pos1, Pos2 *coords.MapBlockCoords
 }
 
 type JobResult struct {

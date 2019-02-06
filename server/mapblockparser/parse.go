@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func Parse(data []byte, mtime int64, pos coords.MapBlockCoords) (*MapBlock, error) {
+func Parse(data []byte, mtime int64, pos *coords.MapBlockCoords) (*MapBlock, error) {
 	if len(data) == 0 {
 		return nil, errors.New("no data")
 	}
