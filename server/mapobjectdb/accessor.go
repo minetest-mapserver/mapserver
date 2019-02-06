@@ -3,6 +3,8 @@ package mapobjectdb
 import (
 	"mapserver/coords"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 /*
@@ -33,9 +35,14 @@ type MapObject struct {
 
 func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type string) *MapObject {
 
-	if x > 16 || y > 16 || z > 16 {
-		panic("Out of range3!") //XXX
+	fields := logrus.Fields{
+		"mbpos": MBPos,
+		"x":     x,
+		"y":     y,
+		"z":     z,
+		"type":  _type,
 	}
+	log.WithFields(fields).Debug("NewMapObject")
 
 	o := MapObject{
 		MBPos:      MBPos,
@@ -54,7 +61,7 @@ type SearchQuery struct {
 	//mapblock position
 	Pos1 *coords.MapBlockCoords `json:"pos1"`
 	Pos2 *coords.MapBlockCoords `json:"pos2"`
-	Type string                `json:"type"`
+	Type string                 `json:"type"`
 }
 
 type DBAccessor interface {

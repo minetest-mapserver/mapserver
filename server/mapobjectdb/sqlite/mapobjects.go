@@ -5,7 +5,6 @@ import (
 	"mapserver/mapobjectdb"
 )
 
-
 func (db *Sqlite3Accessor) GetMapData(q mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
 	rows, err := db.db.Query(getMapDataPosQuery,
 		q.Type,
@@ -42,11 +41,15 @@ func (db *Sqlite3Accessor) GetMapData(q mapobjectdb.SearchQuery) ([]*mapobjectdb
 
 		if currentId == nil || *currentId != id {
 			pos := coords.NewMapBlockCoords(posx, posy, posz)
-			mo := mapobjectdb.NewMapObject(
-				pos,
-				x, y, z,
-				Type,
-			)
+			mo := &mapobjectdb.MapObject{
+				MBPos:      pos,
+				Type:       Type,
+				X:          x,
+				Y:          y,
+				Z:          z,
+				Mtime:      mtime,
+				Attributes: make(map[string]string),
+			}
 
 			currentObj = mo
 			currentId = &id
@@ -65,7 +68,6 @@ func (db *Sqlite3Accessor) RemoveMapData(pos *coords.MapBlockCoords) error {
 	_, err := db.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
 	return err
 }
-
 
 func (db *Sqlite3Accessor) AddMapData(data *mapobjectdb.MapObject) error {
 	res, err := db.db.Exec(addMapDataQuery,

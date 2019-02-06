@@ -5,6 +5,8 @@ import (
 	"mapserver/eventbus"
 	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
+
+	"github.com/sirupsen/logrus"
 )
 
 type MapObjectListener interface {
@@ -44,6 +46,16 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 						for z := 0; z < 16; z++ {
 							nodeid := block.GetNodeId(x, y, z)
 							if nodeid == id {
+								fields := logrus.Fields{
+									"mbpos":  block.Pos,
+									"x":      x,
+									"y":      y,
+									"z":      z,
+									"type":   name,
+									"nodeid": nodeid,
+								}
+								log.WithFields(fields).Debug("OnEvent()")
+
 								obj := v.onMapObject(x, y, z, block)
 
 								if obj != nil {
