@@ -90,9 +90,9 @@ func TestMapObjects(t *testing.T) {
 
 	o := mapobjectdb.MapObject{
 		MBPos:      &pos,
-		X:          1,
-		Y:          2,
-		Z:          3,
+		X:          15,
+		Y:          15,
+		Z:          15,
 		Type:       "xy",
 		Mtime:      1234,
 		Attributes: attrs,
