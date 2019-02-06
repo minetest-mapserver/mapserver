@@ -58,7 +58,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
 
 	//mapserver database
-	if a.Worldconfig.MapObjectConnection != nil {
+	if a.Worldconfig.MapObjectConnection != "" {
 		//TODO: Psql connection
 
 	} else {

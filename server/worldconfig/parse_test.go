@@ -10,9 +10,6 @@ func TestParseSqlite(t *testing.T) {
 	if cfg.Backend != BACKEND_SQLITE3 {
 		t.Fatal("not sqlite3")
 	}
-	if cfg.PlayerBackend != BACKEND_FILES {
-		t.Fatal("not files")
-	}
 }
 
 func TestParsePostgres(t *testing.T) {
@@ -22,15 +19,7 @@ func TestParsePostgres(t *testing.T) {
 		t.Fatal("not postgres")
 	}
 
-	if cfg.PlayerBackend != BACKEND_POSTGRES {
-		t.Fatal("not postgres")
-	}
-
-	if cfg.PsqlConnection.Host != "postgres" {
+	if cfg.PsqlConnection != "host=postgres port=5432 user=postgres password=enter dbname=postgres" {
 		t.Fatal("param err")
-	}
-
-	if cfg.PsqlConnection.Port != 5432 {
-		t.Fatal("param err: ", cfg.PsqlConnection.Port)
 	}
 }
