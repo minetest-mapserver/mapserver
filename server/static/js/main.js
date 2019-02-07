@@ -5,8 +5,6 @@ api.getConfig().then(function(cfg){
   var wsChannel = new WebSocketChannel();
   wsChannel.connect();
 
-  var rtTiles = new RealtimeTileLayer(wsChannel);
-
   var initialZoom = 11;
   var initialCenter = [0, 0];
 
@@ -28,19 +26,20 @@ api.getConfig().then(function(cfg){
   var tileLayer = new RealtimeTileLayer(wsChannel, 0);
   tileLayer.addTo(map);
 
+  //TODO: all layers
   layers["Base"] = tileLayer;
-  overlays["Players"] = new PlayerOverlay(wsChannel, layerMgr);
+
+  overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
+  overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
+  overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
 
   map.addLayer(overlays["Players"]);
 
   L.control.layers(layers, overlays).addTo(map);
 
-  var el = new CoordinatesDisplay({ position: 'bottomleft' });
-  el.addTo(map);
-
-  el = new WorldInfoDisplay(wsChannel, { position: 'bottomright' });
-  el.addTo(map);
+  new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
+  new WorldInfoDisplay(wsChannel, { position: 'bottomright' }).addTo(map);
 
 }).catch(function(e){
   console.error(e);
