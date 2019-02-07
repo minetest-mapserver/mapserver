@@ -10,6 +10,7 @@ import (
 	"mapserver/params"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
+	"mapserver/settings"
 
 	"github.com/sirupsen/logrus"
 
@@ -63,7 +64,6 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	} else {
 		a.Objectdb, err = sqliteobjdb.New("mapserver.sqlite")
-
 	}
 
 	if err != nil {
@@ -76,6 +76,9 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	if err != nil {
 		panic(err)
 	}
+
+	//settings
+	a.Settings = settings.New(a.Objectdb)
 
 	//setup tile renderer
 	a.Tilerenderer = tilerenderer.NewTileRenderer(

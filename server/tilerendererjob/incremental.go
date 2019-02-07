@@ -3,10 +3,8 @@ package tilerendererjob
 import (
 	"mapserver/app"
 	"mapserver/coords"
-	"mapserver/mapobjectdb"
+	"mapserver/settings"
 	"time"
-	"strconv"
-
 	"github.com/sirupsen/logrus"
 )
 
@@ -16,15 +14,7 @@ type IncrementalRenderEvent struct {
 
 func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
-	str, err := ctx.Objectdb.GetSetting(mapobjectdb.SETTING_LAST_MTIME, "0")
-	if err != nil {
-		panic(err)
-	}
-
-	lastMtime, err := strconv.ParseInt(str, 10, 64)
-	if err != nil {
-		panic(err)
-	}
+	lastMtime := ctx.Settings.GetInt64(settings.SETTING_LAST_MTIME, 0)
 
 	fields := logrus.Fields{
 		"LastMtime": lastMtime,
@@ -46,7 +36,7 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		}
 
 		lastMtime = result.LastMtime
-		ctx.Objectdb.SetSetting(mapobjectdb.SETTING_LAST_MTIME, strconv.FormatInt(lastMtime, 10))
+		ctx.Settings.GetInt64(settings.SETTING_LAST_MTIME, lastMtime)
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
 

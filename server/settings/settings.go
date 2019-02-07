@@ -80,3 +80,30 @@ func (this *Settings) SetInt64(key string, value int64) {
 		panic(err)
 	}
 }
+
+
+func (this *Settings) GetBool(key string, defaultValue bool) bool {
+  defStr := "false"
+  if defaultValue {
+    defStr = "true"
+  }
+
+  str, err := this.db.GetSetting(key, defStr)
+  if err != nil {
+    panic(err)
+  }
+
+  return str == "true"
+}
+
+func (this *Settings) SetBool(key string, value bool) {
+  defStr := "false"
+  if value {
+    defStr = "true"
+  }
+
+  err := this.db.SetSetting(key, defStr)
+  if err != nil {
+		panic(err)
+	}
+}
