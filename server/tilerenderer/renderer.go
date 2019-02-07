@@ -44,63 +44,48 @@ const (
 	IMG_SIZE = 256
 )
 
-func (tr *TileRenderer) Render(tc *coords.TileCoords, recursionDepth int) ([]byte, error) {
+func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
+	//No tile in db
+	img, data, err := tr.RenderImage(tc, 2)
 
-	//Check cache
-	tile, err := tr.tdb.GetTile(tc)
 	if err != nil {
 		return nil, err
 	}
 
-	if tile == nil {
-
-		if recursionDepth == 0 {
-			log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Skip image")
-			return nil, nil
-		}
-
-		//No tile in db
-		img, data, err := tr.RenderImage(tc, recursionDepth)
-
-		if err != nil {
-			return nil, err
-		}
-
-		if img == nil {
-			//empty tile
-			return nil, nil
-		}
-
-		return data, nil
+	if img == nil {
+		//empty tile
+		return nil, nil
 	}
 
-	return tile.Data, nil
+	return data, nil
 }
 
 func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, []byte, error) {
 
-	cachedtile, err := tr.tdb.GetTile(tc)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	if cachedtile != nil {
-		reader := bytes.NewReader(cachedtile.Data)
-		cachedimg, err := png.Decode(reader)
+	if recursionDepth < 2 {
+		cachedtile, err := tr.tdb.GetTile(tc)
 		if err != nil {
 			return nil, nil, err
 		}
 
-		rect := image.Rectangle{
-			image.Point{0, 0},
-			image.Point{IMG_SIZE, IMG_SIZE},
+		if cachedtile != nil {
+			reader := bytes.NewReader(cachedtile.Data)
+			cachedimg, err := png.Decode(reader)
+			if err != nil {
+				return nil, nil, err
+			}
+
+			rect := image.Rectangle{
+				image.Point{0, 0},
+				image.Point{IMG_SIZE, IMG_SIZE},
+			}
+
+			img := image.NewNRGBA(rect)
+			draw.Draw(img, rect, cachedimg, image.ZP, draw.Src)
+
+			log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Cached image")
+			return img, cachedtile.Data, nil
 		}
-
-		img := image.NewNRGBA(rect)
-		draw.Draw(img, rect, cachedimg, image.ZP, draw.Src)
-
-		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Cached image")
-		return img, cachedtile.Data, nil
 	}
 
 	if recursionDepth == 0 {

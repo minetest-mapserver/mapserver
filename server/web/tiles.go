@@ -11,7 +11,12 @@ import (
 )
 
 type Tiles struct {
-	ctx *app.App
+	ctx   *app.App
+	blank []byte
+}
+
+func (t *Tiles) Init() {
+	t.blank = tilerenderer.CreateBlankTile(color.RGBA{255, 255, 255, 255})
 }
 
 func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
@@ -40,7 +45,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Header().Add("content-type", "image/png")
 
 		if tile == nil {
-			resp.Write(tilerenderer.CreateBlankTile(color.RGBA{255, 255, 255, 255}))
+			resp.Write(t.blank)
 			//TODO: cache/layer color
 
 		} else {
