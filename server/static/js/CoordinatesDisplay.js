@@ -9,6 +9,7 @@ var CoordinatesDisplay = L.Control.extend({
         div.innerHTML = "X:" + parseInt(latlng.lng) + " Z:" + parseInt(latlng.lat);
       }
 
+      //TODO: x: 1 z: 2 (selected: x:1 z:3)
       map.on('mousemove', update);
       map.on('click', update);
       map.on('touch', update);
