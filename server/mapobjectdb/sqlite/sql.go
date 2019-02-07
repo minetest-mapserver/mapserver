@@ -96,5 +96,6 @@ select value from settings where key = ?
 `
 
 const setSettingQuery = `
-update settings set value = ? where key = ?
+insert or replace into settings(key, value)
+values(?, ?)
 `

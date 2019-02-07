@@ -25,6 +25,6 @@ func (db *Sqlite3Accessor) GetSetting(key string, defaultvalue string) (string, 
 }
 
 func (db *Sqlite3Accessor) SetSetting(key string, value string) error {
-  _, err := db.db.Exec(setSettingQuery, value, key)
+  _, err := db.db.Exec(setSettingQuery, key, value)
 	return err
 }
