@@ -12,18 +12,23 @@ var RealtimeTileLayer = L.TileLayer.extend({
         return;
       }
 
-      var id = self.getImageId(tc.layerid, tc.x, tc.y, tc.zoom);
+      if (tc.zoom != self._map.getZoom()){
+        //ignore other zoom levels
+        return;
+      }
+
+      var id = self.getImageId(tc.x, tc.y, tc.zoom);
       var el = document.getElementById(id);
 
       if (el){
           //Update src attribute if img found
-          el.src = self.getTileSource(tc.layerid, tc.x, tc.y, tc.zoom, true);
+          el.src = self.getTileSource(tc.x, tc.y, tc.zoom, true);
       }
     });
   },
 
   getTileSource: function(x,y,zoom,cacheBust){
-      return "api/tile/" + this.layerId + "/" + x + "/" + y + "/" + zoom + "?_=" + Date.now();
+      return "api/tile/" + this.layerId + "/" + x + "/" + y + "/" + zoom + (cacheBust ? "?_=" + Date.now() : "");
   },
 
   getImageId: function(x, y, zoom){
