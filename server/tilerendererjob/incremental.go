@@ -3,7 +3,9 @@ package tilerendererjob
 import (
 	"mapserver/app"
 	"mapserver/coords"
+	"mapserver/mapobjectdb"
 	"time"
+	"strconv"
 
 	"github.com/sirupsen/logrus"
 )
@@ -14,17 +16,25 @@ type IncrementalRenderEvent struct {
 
 func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
-	rstate := ctx.Config.RenderState
+	str, err := ctx.Objectdb.GetSetting(mapobjectdb.SETTING_LAST_MTIME, "0")
+	if err != nil {
+		panic(err)
+	}
+
+	lastMtime, err := strconv.ParseInt(str, 10, 64)
+	if err != nil {
+		panic(err)
+	}
 
 	fields := logrus.Fields{
-		"LastMtime": rstate.LastMtime,
+		"LastMtime": lastMtime,
 	}
 	logrus.WithFields(fields).Info("Starting incremental rendering job")
 
 	for true {
 		start := time.Now()
 
-		result, err := ctx.BlockAccessor.FindMapBlocksByMtime(rstate.LastMtime, ctx.Config.RenderingFetchLimit, ctx.Config.Layers)
+		result, err := ctx.BlockAccessor.FindMapBlocksByMtime(lastMtime, ctx.Config.RenderingFetchLimit, ctx.Config.Layers)
 
 		if err != nil {
 			panic(err)
@@ -35,8 +45,8 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			continue
 		}
 
-		rstate.LastMtime = result.LastMtime
-		ctx.Config.Save()
+		lastMtime = result.LastMtime
+		ctx.Objectdb.SetSetting(mapobjectdb.SETTING_LAST_MTIME, strconv.FormatInt(lastMtime, 10))
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
 

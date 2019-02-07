@@ -7,6 +7,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+const (
+	SETTING_LAST_MTIME = "last_mtime"
+	SETTING_LASTX = "last_x"
+	SETTING_LASTY = "last_y"
+	SETTING_LASTZ = "last_z"
+	SETTING_INITIAL_RUN = "initial_run"
+)
+
 /*
 sqlite perf: https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite?rq=1
 PRAGMA synchronous = OFF
