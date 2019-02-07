@@ -32,7 +32,7 @@ api.getConfig().then(function(cfg){
   overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
   overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
-  overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
+  //overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
 
   map.addLayer(overlays["Player"]);
 
