@@ -10,6 +10,7 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * [Parameters](doc/params.md)
 * [Configuration](doc/config.md)
 * [Contribution](doc/contrib.md)
+* [Development](doc/dev.md)
 
 # Features
 
@@ -26,6 +27,10 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * LCD Displays as markers
 * Street names / Train stuff
 * City borders
+
+# Supported databases
+
+* Sqlite3 (for map and mapobjects)
 
 # Development state
 
