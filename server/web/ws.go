@@ -64,17 +64,16 @@ func (t *WS) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	t.channels[id] = ch
 	t.mutex.Unlock()
 
-	defer func() {
-		t.mutex.Lock()
-		delete(t.channels, id)
-		close(ch)
-		t.mutex.Unlock()
-	}()
-
 	for {
-
 		data := <-ch
-		conn.WriteMessage(websocket.TextMessage, data)
+		err := conn.WriteMessage(websocket.TextMessage, data)
+		if err != nil {
+			break
+		}
 	}
 
+	t.mutex.Lock()
+	delete(t.channels, id)
+	close(ch)
+	t.mutex.Unlock()
 }
