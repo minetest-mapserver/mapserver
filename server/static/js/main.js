@@ -34,7 +34,7 @@ api.getConfig().then(function(cfg){
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
   overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
 
-  map.addLayer(overlays["Players"]);
+  map.addLayer(overlays["Player"]);
 
   L.control.layers(layers, overlays).addTo(map);
 
