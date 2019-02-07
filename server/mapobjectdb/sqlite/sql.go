@@ -37,6 +37,11 @@ create table if not exists tiles(
   zoom int,
   primary key(x,y,zoom,layerid)
 );
+
+create table if not exists settings(
+	key varchar primary key not null,
+	value varchar not null
+);
 `
 
 const getMapDataPosQuery = `
@@ -84,4 +89,12 @@ values(?, ?, ?, ?, ?, ?)
 const removeTileQuery = `
 delete from tiles
 where x = ? and y = ? and zoom = ? and layerid = ?
+`
+
+const getSettingQuery = `
+select value from settings where key = ?
+`
+
+const setSettingQuery = `
+update settings set value = ? where key = ?
 `

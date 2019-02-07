@@ -80,4 +80,8 @@ type DBAccessor interface {
 	GetTile(pos *coords.TileCoords) (*Tile, error)
 	SetTile(tile *Tile) error
 	RemoveTile(pos *coords.TileCoords) error
+
+	//Settings
+	GetSetting(key string, defaultvalue string) (string, error)
+	SetSetting(key string, value string) error
 }
