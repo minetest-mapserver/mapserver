@@ -3,6 +3,7 @@ package tilerendererjob
 import (
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
+	"mapserver/settings"
 	"mapserver/coords"
 	"time"
 )
@@ -13,7 +14,6 @@ type InitialRenderEvent struct {
 
 func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
-	rstate := ctx.Config.RenderState
 	totalLegacyCount, err := ctx.Blockdb.CountBlocks(0, 0)
 
 	if err != nil {
@@ -21,12 +21,15 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 	}
 
 	fields := logrus.Fields{
-		"totalLegacyCount": totalLegacyCount,
-		"LastMtime":        rstate.LastMtime,
+		"totalLegacyCount": totalLegacyCount
 	}
 	logrus.WithFields(fields).Info("Starting initial rendering job")
 
-	lastcoords := coords.NewMapBlockCoords(rstate.LastX, rstate.LastY, rstate.LastZ)
+	lastx := ctx.Settings.GetInt(settings.SETTING_LASTX, -1)
+	lasty := ctx.Settings.GetInt(settings.SETTING_LASTY, -1)
+	lastz := ctx.Settings.GetInt(settings.SETTING_LASTZ, -1)
+
+	lastcoords := coords.NewMapBlockCoords(lastx, lasty, lastz)
 
 	for true {
 		start := time.Now()
@@ -38,8 +41,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		}
 
 		if len(result.List) == 0 && !result.HasMore {
-			rstate.InitialRun = false
-			ctx.Config.Save()
+			ctx.Settings.SetBool(settings.SETTING_INITIAL_RUN, false)
 
 			ev := InitialRenderEvent{
 				Progress: 100,
