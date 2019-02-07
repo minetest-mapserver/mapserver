@@ -3,18 +3,18 @@ package tilerendererjob
 import (
 	"mapserver/app"
 	"mapserver/coords"
+	"mapserver/settings"
 )
 
 func Job(ctx *app.App) {
 
-	rstate := ctx.Config.RenderState
 	jobs := make(chan *coords.TileCoords, ctx.Config.RenderingQueue)
 
 	for i := 0; i < ctx.Config.RenderingJobs; i++ {
 		go worker(ctx, jobs)
 	}
 
-	if rstate.InitialRun {
+	if ctx.Settings.GetBool(settings.SETTING_INITIAL_RUN, true) {
 		//fast, unsafe mode
 		err := ctx.Objectdb.EnableSpeedSafetyTradeoff(true)
 		if err != nil {

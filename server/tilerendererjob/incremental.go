@@ -5,6 +5,7 @@ import (
 	"mapserver/coords"
 	"mapserver/settings"
 	"time"
+
 	"github.com/sirupsen/logrus"
 )
 
@@ -36,7 +37,7 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		}
 
 		lastMtime = result.LastMtime
-		ctx.Settings.GetInt64(settings.SETTING_LAST_MTIME, lastMtime)
+		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, lastMtime)
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
 

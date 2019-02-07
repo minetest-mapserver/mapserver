@@ -3,7 +3,6 @@ package app
 import (
 	"encoding/json"
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/layer"
 	"os"
 	"runtime"
@@ -11,15 +10,14 @@ import (
 )
 
 type Config struct {
-	Port                int              `json:"port"`
-	EnableRendering     bool             `json:"enablerendering"`
-	Webdev              bool             `json:"webdev"`
-	WebApi              *WebApiConfig    `json:"webapi"`
-	RenderState         *RenderStateType `json:"renderstate"`
-	Layers              []layer.Layer    `json:"layers"`
-	RenderingFetchLimit int              `json:"renderingfetchlimit"`
-	RenderingJobs       int              `json:"renderingjobs"`
-	RenderingQueue      int              `json:"renderingqueue"`
+	Port                int           `json:"port"`
+	EnableRendering     bool          `json:"enablerendering"`
+	Webdev              bool          `json:"webdev"`
+	WebApi              *WebApiConfig `json:"webapi"`
+	Layers              []layer.Layer `json:"layers"`
+	RenderingFetchLimit int           `json:"renderingfetchlimit"`
+	RenderingJobs       int           `json:"renderingjobs"`
+	RenderingQueue      int           `json:"renderingqueue"`
 }
 
 type WebApiConfig struct {
@@ -28,20 +26,6 @@ type WebApiConfig struct {
 
 	//mod http bridge secret
 	SecretKey string `json:"secretkey"`
-}
-
-type RenderStateType struct {
-	//Initial rendering flag (true=still active)
-	InitialRun      bool `json:"initialrun"`
-	LegacyProcessed int  `json:"legacyprocessed"`
-
-	//Last initial rendering coords
-	LastX int `json:"lastx"`
-	LastY int `json:"lasty"`
-	LastZ int `json:"lastz"`
-
-	//Last mtime of incremental rendering
-	LastMtime int64 `json:"lastmtime"`
 }
 
 var lock sync.Mutex
@@ -79,14 +63,6 @@ func ParseConfig(filename string) (*Config, error) {
 		SecretKey:      RandStringRunes(16),
 	}
 
-	rstate := RenderStateType{
-		InitialRun: true,
-		LastX:      coords.MinCoord - 1,
-		LastY:      coords.MinCoord - 1,
-		LastZ:      coords.MinCoord - 1,
-		LastMtime:  0,
-	}
-
 	layers := []layer.Layer{
 		layer.Layer{
 			Id:   0,
@@ -101,7 +77,6 @@ func ParseConfig(filename string) (*Config, error) {
 		EnableRendering:     true,
 		Webdev:              false,
 		WebApi:              &webapi,
-		RenderState:         &rstate,
 		Layers:              layers,
 		RenderingFetchLimit: 1000,
 		RenderingJobs:       runtime.NumCPU(),

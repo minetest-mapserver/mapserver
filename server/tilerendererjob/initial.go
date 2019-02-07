@@ -1,11 +1,12 @@
 package tilerendererjob
 
 import (
-	"github.com/sirupsen/logrus"
 	"mapserver/app"
-	"mapserver/settings"
 	"mapserver/coords"
+	"mapserver/settings"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 type InitialRenderEvent struct {
@@ -21,7 +22,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 	}
 
 	fields := logrus.Fields{
-		"totalLegacyCount": totalLegacyCount
+		"totalLegacyCount": totalLegacyCount,
 	}
 	logrus.WithFields(fields).Info("Starting initial rendering job")
 
@@ -40,6 +41,8 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			panic(err)
 		}
 
+		legacyProcessed := ctx.Settings.GetInt(settings.SETTING_LEGACY_PROCESSED, 0)
+
 		if len(result.List) == 0 && !result.HasMore {
 			ctx.Settings.SetBool(settings.SETTING_INITIAL_RUN, false)
 
@@ -50,7 +53,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			ctx.WebEventbus.Emit("initial-render-progress", &ev)
 
 			fields := logrus.Fields{
-				"legacyblocks": rstate.LegacyProcessed,
+				"legacyblocks": legacyProcessed,
 			}
 			logrus.WithFields(fields).Info("initial rendering complete")
 
@@ -60,19 +63,20 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		tiles := renderMapblocks(ctx, jobs, result.List)
 
 		lastcoords = result.LastPos
-		rstate.LastMtime = result.LastMtime
+		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, result.LastMtime)
 
 		//Save current positions of initial run
-		rstate.LastX = lastcoords.X
-		rstate.LastY = lastcoords.Y
-		rstate.LastZ = lastcoords.Z
-		rstate.LegacyProcessed += result.UnfilteredCount
-		ctx.Config.Save()
+		ctx.Settings.SetInt(settings.SETTING_LASTX, lastcoords.X)
+		ctx.Settings.SetInt(settings.SETTING_LASTY, lastcoords.Y)
+		ctx.Settings.SetInt(settings.SETTING_LASTZ, lastcoords.Z)
+		legacyProcessed += result.UnfilteredCount
+
+		ctx.Settings.SetInt(settings.SETTING_LEGACY_PROCESSED, legacyProcessed)
 
 		t := time.Now()
 		elapsed := t.Sub(start)
 
-		progress := int(float64(rstate.LegacyProcessed) / float64(totalLegacyCount) * 100)
+		progress := int(float64(legacyProcessed) / float64(totalLegacyCount) * 100)
 
 		ev := InitialRenderEvent{
 			Progress: progress,
@@ -83,7 +87,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		fields := logrus.Fields{
 			"mapblocks": len(result.List),
 			"tiles":     tiles,
-			"processed": rstate.LegacyProcessed,
+			"processed": legacyProcessed,
 			"progress%": progress,
 			"X":         lastcoords.X,
 			"Y":         lastcoords.Y,
