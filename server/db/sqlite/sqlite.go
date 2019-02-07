@@ -55,7 +55,6 @@ func convertRows(pos int64, data []byte, mtime int64) *db.Block {
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-
 func (this *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
 
@@ -82,7 +81,6 @@ func (this *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.
 
 	return blocks, nil
 }
-
 
 func (this *Sqlite3Accessor) FindLegacyBlocksByPos(lastpos *coords.MapBlockCoords, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
@@ -111,8 +109,6 @@ func (this *Sqlite3Accessor) FindLegacyBlocksByPos(lastpos *coords.MapBlockCoord
 
 	return blocks, nil
 }
-
-
 
 func (db *Sqlite3Accessor) CountBlocks(frommtime, tomtime int64) (int, error) {
 	rows, err := db.db.Query(countBlocksQuery, frommtime, tomtime)

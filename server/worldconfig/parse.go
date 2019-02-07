@@ -13,10 +13,10 @@ const (
 )
 
 const (
-	CONFIG_BACKEND                string = "backend"
-	CONFIG_PLAYER_BACKEND         string = "player_backend"
-	CONFIG_PSQL_CONNECTION        string = "pgsql_connection"
-	CONFIG_PSQL_MAPSERVER         string = "pgsql_mapserver_connection"
+	CONFIG_BACKEND         string = "backend"
+	CONFIG_PLAYER_BACKEND  string = "player_backend"
+	CONFIG_PSQL_CONNECTION string = "pgsql_connection"
+	CONFIG_PSQL_MAPSERVER  string = "pgsql_mapserver_connection"
 )
 
 type PsqlConfig struct {
@@ -31,10 +31,9 @@ type WorldConfig struct {
 	Backend       string
 	PlayerBackend string
 
-	PsqlConnection       string
-	MapObjectConnection  string
+	PsqlConnection      string
+	MapObjectConnection string
 }
-
 
 func Parse(filename string) WorldConfig {
 	file, err := os.Open(filename)

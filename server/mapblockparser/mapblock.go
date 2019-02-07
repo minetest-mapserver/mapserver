@@ -6,13 +6,13 @@ import (
 
 type MapBlock struct {
 	Pos          *coords.MapBlockCoords `json:"pos"`
-	Size         int                   `json:"size"`
-	Version      byte                  `json:"version"`
-	Underground  bool                  `json:"underground"`
-	Mapdata      *MapData              `json:"mapdata"`
-	Metadata     *Metadata             `json:"metadata"`
-	BlockMapping map[int]string        `json:"blockmapping"`
-	Mtime        int64                 `json:"mtime"`
+	Size         int                    `json:"size"`
+	Version      byte                   `json:"version"`
+	Underground  bool                   `json:"underground"`
+	Mapdata      *MapData               `json:"mapdata"`
+	Metadata     *Metadata              `json:"metadata"`
+	BlockMapping map[int]string         `json:"blockmapping"`
+	Mtime        int64                  `json:"mtime"`
 }
 
 type MapData struct {

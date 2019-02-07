@@ -7,9 +7,8 @@ import (
 	"mapserver/db"
 )
 
-
 type PostgresAccessor struct {
-	db       *sql.DB
+	db *sql.DB
 }
 
 func (db *PostgresAccessor) Migrate() error {
@@ -20,7 +19,6 @@ func convertRows(pos int64, data []byte, mtime int64) *db.Block {
 	c := coords.PlainToCoord(pos)
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
-
 
 func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
@@ -76,7 +74,6 @@ func (this *PostgresAccessor) FindLegacyBlocksByPos(lastpos *coords.MapBlockCoor
 	return blocks, nil
 }
 
-
 func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error) {
 	rows, err := this.db.Query(countBlocksQuery, frommtime, tomtime)
 	if err != nil {
@@ -98,7 +95,6 @@ func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error)
 
 	return 0, nil
 }
-
 
 func (this *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
 	rows, err := this.db.Query(getBlockQuery, pos.X, pos.Y, pos.Z)

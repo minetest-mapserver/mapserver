@@ -5,9 +5,9 @@ import (
 )
 
 type ParamsType struct {
-	Help       bool
-	Version    bool
-	Debug      bool
+	Help    bool
+	Version bool
+	Debug   bool
 }
 
 func Parse() ParamsType {

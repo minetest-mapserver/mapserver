@@ -1,6 +1,5 @@
 package sqlite
 
-
 const migrateScript = `
 PRAGMA foreign_keys = ON;
 
@@ -40,7 +39,6 @@ create table if not exists tiles(
 );
 `
 
-
 const getMapDataPosQuery = `
 select o.id, o.type, o.mtime,
  o.x, o.y, o.z,
@@ -54,12 +52,9 @@ and o.posx <= ? and o.posy <= ? and o.posz <= ?
 order by o.id
 `
 
-
 const removeMapDataQuery = `
 delete from objects where posx = ? and posy = ? and posz = ?
 `
-
-
 
 const addMapDataQuery = `
 insert into

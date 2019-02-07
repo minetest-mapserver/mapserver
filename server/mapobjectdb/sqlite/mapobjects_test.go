@@ -3,8 +3,8 @@ package sqlite
 import (
 	"fmt"
 	"io/ioutil"
-	"mapserver/mapobjectdb"
 	"mapserver/coords"
+	"mapserver/mapobjectdb"
 	"os"
 	"testing"
 )
