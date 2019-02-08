@@ -20,6 +20,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
   onMapObjectUpdated: function(obj){
     var hash = this.hashPos(obj.x, obj.y, obj.z);
     var marker = this.currentObjects[hash];
+    console.log(this.type, obj);//XXX
 
     if (marker) {
       //marker exists

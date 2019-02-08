@@ -2,7 +2,8 @@ package sqlite
 
 const migrateScript = `
 PRAGMA foreign_keys = ON;
-PRAGMA journal_mode = TRUNCATE;
+PRAGMA journal_mode = MEMORY;
+PRAGMA synchronous = OFF; --TODO: this is just ridiculously slow otherwise...
 
 create table if not exists objects(
 	id integer primary key autoincrement,
