@@ -1,37 +1,36 @@
 
+local last_index = 0
+local last_name = ""
+
 local update_formspec = function(meta)
 	local inv = meta:get_inventory()
 
 	local name = meta:get_string("name")
-	local category = meta:get_string("category")
-	local url = meta:get_string("url") or ""
+	local index = meta:get_string("index")
 
-	meta:set_string("infotext", "POI: " .. name .. ", " .. category)
+	meta:set_string("infotext", "Border: Name=" .. name .. ", Index=" .. index)
 
-	meta:set_string("formspec", "size[8,5;]" ..
+	meta:set_string("formspec", "size[8,3;]" ..
 		-- col 1
 		"field[0,1;4,1;name;Name;" .. name .. "]" ..
 		"button_exit[4,1;4,1;save;Save]" ..
 
 		-- col 2
-		"field[0,2.5;4,1;category;Category;" .. category .. "]" ..
-
-		-- col 3
-		"field[0,3.5;8,1;url;URL;" .. url .. "]" ..
+		"field[4,2.5;4,1;index;Index;" .. index .. "]"
 		"")
 
 end
 
 
-minetest.register_node("mapserver:poi", {
-	description = "Mapserver POI",
+minetest.register_node("mapserver:border", {
+	description = "Mapserver Border",
 	tiles = {
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png"
+		"mapserver_border.png",
+		"mapserver_border.png",
+		"mapserver_border.png",
+		"mapserver_border.png",
+		"mapserver_border.png",
+		"mapserver_border.png"
 	},
 	groups = {cracky=3,oddly_breakable_by_hand=3},
 	sounds = default.node_sound_glass_defaults(),
@@ -51,9 +50,10 @@ minetest.register_node("mapserver:poi", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 
-		meta:set_string("name", "<unconfigured>")
-		meta:set_string("category", "main")
-		meta:set_string("url", "")
+		last_index = last_index + 5
+
+		meta:set_string("name", last_name)
+		meta:set_int("index", last_index)
 
 		update_formspec(meta)
 	end,
@@ -65,9 +65,13 @@ minetest.register_node("mapserver:poi", {
 		if playername == meta:get_string("owner") then
 			-- owner
 			if fields.save then
+				last_name = fields.name
 				meta:set_string("name", fields.name)
-				meta:set_string("url", fields.url)
-				meta:set_string("category", fields.category)
+				local index = tonumber(fields.index)
+				if index ~= nil then
+					last_index = index
+					meta:set_int("index", index)
+				end
 			end
 		else
 			-- non-owner

@@ -2,36 +2,36 @@
 local update_formspec = function(meta)
 	local inv = meta:get_inventory()
 
-	local name = meta:get_string("name")
-	local category = meta:get_string("category")
-	local url = meta:get_string("url") or ""
+	local text = meta:get_string("text")
+	local size = meta:get_string("size")
+	local direction = meta:get_string("direction")
 
-	meta:set_string("infotext", "POI: " .. name .. ", " .. category)
+	meta:set_string("infotext", "Label, Text:" .. text .. ", Size:" .. size .. ", Direction:" .. direction)
 
 	meta:set_string("formspec", "size[8,5;]" ..
 		-- col 1
-		"field[0,1;4,1;name;Name;" .. name .. "]" ..
+		"field[0,1;4,1;text;Text;" .. text .. "]" ..
 		"button_exit[4,1;4,1;save;Save]" ..
 
 		-- col 2
-		"field[0,2.5;4,1;category;Category;" .. category .. "]" ..
+		"field[0,2.5;4,1;size;Size (1-10);" .. size .. "]" ..
 
 		-- col 3
-		"field[0,3.5;8,1;url;URL;" .. url .. "]" ..
+		"field[0,3.5;8,1;direction;Direction (0-360);" .. direction .. "]" ..
 		"")
 
 end
 
 
-minetest.register_node("mapserver:poi", {
-	description = "Mapserver POI",
+minetest.register_node("mapserver:label", {
+	description = "Mapserver Label",
 	tiles = {
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png"
+		"mapserver_label.png",
+		"mapserver_label.png",
+		"mapserver_label.png",
+		"mapserver_label.png",
+		"mapserver_label.png",
+		"mapserver_label.png"
 	},
 	groups = {cracky=3,oddly_breakable_by_hand=3},
 	sounds = default.node_sound_glass_defaults(),
@@ -51,9 +51,9 @@ minetest.register_node("mapserver:poi", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 
-		meta:set_string("name", "<unconfigured>")
-		meta:set_string("category", "main")
-		meta:set_string("url", "")
+		meta:set_string("text", "")
+		meta:set_string("direction", "0")
+		meta:set_string("size", "1")
 
 		update_formspec(meta)
 	end,
@@ -65,9 +65,9 @@ minetest.register_node("mapserver:poi", {
 		if playername == meta:get_string("owner") then
 			-- owner
 			if fields.save then
-				meta:set_string("name", fields.name)
-				meta:set_string("url", fields.url)
-				meta:set_string("category", fields.category)
+				meta:set_string("text", fields.text)
+				meta:set_string("direction", fields.direction)
+				meta:set_string("size", fields.size)
 			end
 		else
 			-- non-owner

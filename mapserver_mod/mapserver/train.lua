@@ -5,18 +5,11 @@ local last_line = ""
 local update_formspec = function(meta)
 	local inv = meta:get_inventory()
 
-	local active = meta:get_int("active") == 1
-	local state = "Inactive"
-
-	if active then
-		state = "Active"
-	end
-
 	local line = meta:get_string("line")
 	local station = meta:get_string("station")
 	local index = meta:get_string("index")
 
-	meta:set_string("infotext", "Train: Line=" .. line .. ", Station=" .. station .. " (" .. state .. ")")
+	meta:set_string("infotext", "Train: Line=" .. line .. ", Station=" .. station)
 
 	meta:set_string("formspec", "size[8,3;]" ..
 		-- col 1
@@ -25,10 +18,7 @@ local update_formspec = function(meta)
 
 		-- col 2
 		"field[0,2.5;4,1;station;Station;" .. station .. "]" ..
-		"field[4,2.5;4,1;index;Index;" .. index .. "]" ..
-
-		-- col 3
-		"button_exit[4,3;4,1;toggle;Toggle]" ..
+		"field[4,2.5;4,1;index;Index;" .. index .. "]"
 		"")
 
 end
@@ -37,12 +27,12 @@ end
 minetest.register_node("mapserver:train", {
 	description = "Mapserver Train",
 	tiles = {
-		"tileserver_train.png",
-		"tileserver_train.png",
-		"tileserver_train.png",
-		"tileserver_train.png",
-		"tileserver_train.png",
-		"tileserver_train.png"
+		"mapserver_train.png",
+		"mapserver_train.png",
+		"mapserver_train.png",
+		"mapserver_train.png",
+		"mapserver_train.png",
+		"mapserver_train.png"
 	},
 	groups = {cracky=3,oddly_breakable_by_hand=3},
 	sounds = default.node_sound_glass_defaults(),
@@ -66,7 +56,6 @@ minetest.register_node("mapserver:train", {
 
 		meta:set_string("station", "")
 		meta:set_string("line", last_line)
-		meta:set_int("active", 1)
 		meta:set_int("index", last_index)
 
 		update_formspec(meta)
@@ -89,13 +78,6 @@ minetest.register_node("mapserver:train", {
 				end
 			end
 
-			if fields.toggle then
-				if meta:get_int("active") == 1 then
-					meta:set_int("active", 0)
-				else
-					meta:set_int("active", 1)
-				end
-			end
 		else
 			-- non-owner
 		end

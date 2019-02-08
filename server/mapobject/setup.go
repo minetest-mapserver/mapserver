@@ -81,6 +81,8 @@ func Setup(ctx *app.App) {
 	//mapserver stuff
 	l.AddMapObject("mapserver:poi", &PoiBlock{})
 	l.AddMapObject("mapserver:train", &TrainBlock{})
+	l.AddMapObject("mapserver:border", &BorderBlock{})
+	l.AddMapObject("mapserver:label", &LabelBlock{})
 
 	//travelnet
 	l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
