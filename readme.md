@@ -20,23 +20,18 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * Initial and incremental map rendering
 * Realtime player and world stats
 * Configurable layers (default: "Base" from y -16 to 160)
+* POI markers / mod integration
+* LCD Displays as markers
 
 ## Planned Features
 
-* POI markers / mod integration
 * Player infos (HP, breath, etc)
-* LCD Displays as markers
 * Street names / Train stuff
 * City borders
 
 # Supported databases
 
 * Sqlite3 (for map and mapobjects)
-
-# Development state
-
-* Working basic features (map rendering)
-* Successor of http://github.com/thomasrudin-mt/minetest-tile-server
 
 # Screenshots
 

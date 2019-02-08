@@ -126,14 +126,14 @@ func Setup(ctx *app.App) {
 
 	//digiterms
 	digiterms := &DigitermsBlock{}
-	l.AddMapObject("'digiterms:lcd_monitor", digiterms)
-	l.AddMapObject("'digiterms:cathodic_beige_monitor", digiterms)
-	l.AddMapObject("'digiterms:cathodic_white_monitor", digiterms)
-	l.AddMapObject("'digiterms:cathodic_black_monitor", digiterms)
-	l.AddMapObject("'digiterms:scifi_glassscreen", digiterms)
-	l.AddMapObject("'digiterms:scifi_widescreen", digiterms)
-	l.AddMapObject("'digiterms:scifi_tallscreen", digiterms)
-	l.AddMapObject("'digiterms:scifi_keysmonitor", digiterms)
+	l.AddMapObject("digiterms:lcd_monitor", digiterms)
+	l.AddMapObject("digiterms:cathodic_beige_monitor", digiterms)
+	l.AddMapObject("digiterms:cathodic_white_monitor", digiterms)
+	l.AddMapObject("digiterms:cathodic_black_monitor", digiterms)
+	l.AddMapObject("digiterms:scifi_glassscreen", digiterms)
+	l.AddMapObject("digiterms:scifi_widescreen", digiterms)
+	l.AddMapObject("digiterms:scifi_tallscreen", digiterms)
+	l.AddMapObject("digiterms:scifi_keysmonitor", digiterms)
 
 	//missions
 	l.AddMapObject("missions:mission", &MissionBlock{})

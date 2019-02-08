@@ -19,11 +19,9 @@ Default colors, see: [colors.txt](../server/static/colors.txt)
 ## Configuration json
 
 All config options reside in the `mapserver.json` file with the default values
-Please stop the server if you make any changes there.
-
 The mapserver will generate a fresh `mapserver.json` if there is none at startup.
 
-### Example json
+### Example mapserver.json
 ```json
 {
 	"port": 8080,
@@ -53,7 +51,7 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 The port on which the server listens to
 
 #### webapi.secretkey
-The generated secret for the [mod bridge](./install)
+The generated secret for the [mod bridge](./mod)
 
 #### layers
 The layers as a list

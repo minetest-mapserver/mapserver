@@ -8,13 +8,23 @@ you get more realtime-data from within your minetest-world:
 * Current time and max lag
 
 You can use the `mapserver-mod` either passive or active:
-* *Passive* Makes some additional markers available (POI, etc)
+* *Passive* Makes some additional markers available (POI, Labels, etc)
 * *Active* Communicates with the mapserver and sends realtime data (players, lag, time)
 
 ## Installing and configuring the bridge-mod
 
 The mod itself is available in the git [repo](./mapserver_mod)
 or as a zip package in the [releases](./releases)
+
+## Passive mode
+
+You don't have to set up anything, passive mode is the default.
+There are some additional map objects you can use in this mode:
+
+* **POI** Point of interest
+* **Label** A street or city label
+* **Border** A border for cities or regions
+* **Train** To display train lines on the map, with stations and line-info
 
 ## Active mode
 
