@@ -36,10 +36,10 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			continue
 		}
 
+		tiles := renderMapblocks(ctx, jobs, result.List)
+
 		lastMtime = result.LastMtime
 		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, lastMtime)
-
-		tiles := renderMapblocks(ctx, jobs, result.List)
 
 		t := time.Now()
 		elapsed := t.Sub(start)

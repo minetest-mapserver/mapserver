@@ -2,6 +2,7 @@ package sqlite
 
 const migrateScript = `
 PRAGMA foreign_keys = ON;
+PRAGMA journal_mode = TRUNCATE;
 
 create table if not exists objects(
 	id integer primary key autoincrement,

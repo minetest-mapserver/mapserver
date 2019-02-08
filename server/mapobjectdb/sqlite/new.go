@@ -6,7 +6,6 @@ import (
 )
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	//TODO: flag/config for unsafe db access
 	db, err := sql.Open("sqlite3", filename+"?_timeout=500")
 	db.SetMaxOpenConns(1)
 
