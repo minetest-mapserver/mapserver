@@ -27,6 +27,10 @@ var AbstractIconOverlay = L.LayerGroup.extend({
     this.reDraw(false);
   },
 
+  getIcon: function(obj){
+    return this.icon;
+  },
+
   reDraw: function(full){
     var self = this;
 
@@ -68,7 +72,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
         } else {
           //marker does not exist
-          var marker = L.marker([obj.z, obj.x], {icon: self.icon});
+          var marker = L.marker([obj.z, obj.x], {icon: self.getIcon(obj)});
           marker.bindPopup(self.createPopup(obj));
           marker.addTo(self);
 
