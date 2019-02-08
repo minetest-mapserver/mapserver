@@ -1,5 +1,5 @@
 -- mapserver http bridge
-
+local has_advtrains = minetest.get_modpath("advtrains")
 
 local function explode(sep, input)
         local t={}
@@ -20,14 +20,17 @@ local http, url, key
 
 function send_stats()
 
-  -- send trains if 'advtrains' mod installed: advtrains.trains
-
   local data = {
     time = minetest.get_timeofday() * 24000,
     uptime = minetest.get_server_uptime(),
     max_lag = tonumber(get_max_lag()),
     players = {}
   }
+
+  if has_advtrains then
+    -- send trains if 'advtrains' mod installed
+    data.trains = advtrains.trains
+  end
 
   for _, player in ipairs(minetest.get_connected_players()) do
     local info = {
