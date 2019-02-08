@@ -10,7 +10,6 @@ import (
 	"mapserver/settings"
 	"mapserver/params"
 	"mapserver/tilerenderer"
-	"mapserver/worldconfig"
 )
 
 const (
@@ -20,7 +19,7 @@ const (
 type App struct {
 	Params      params.ParamsType
 	Config      *Config
-	Worldconfig worldconfig.WorldConfig
+	Worldconfig map[string]string
 
 	Blockdb  db.DBAccessor
 	Objectdb mapobjectdb.DBAccessor

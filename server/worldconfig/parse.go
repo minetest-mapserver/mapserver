@@ -19,30 +19,14 @@ const (
 	CONFIG_PSQL_MAPSERVER  string = "pgsql_mapserver_connection"
 )
 
-type PsqlConfig struct {
-	Host     string
-	Port     int
-	Username string
-	Password string
-	DbName   string
-}
-
-type WorldConfig struct {
-	Backend       string
-	PlayerBackend string
-
-	PsqlConnection      string
-	MapObjectConnection string
-}
-
-func Parse(filename string) WorldConfig {
+func Parse(filename string) map[string]string {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
 
-	cfg := WorldConfig{}
+	cfg := make(map[string]string)
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -55,17 +39,7 @@ func Parse(filename string) WorldConfig {
 		valueStr := strings.Trim(line[sepIndex+1:], " ")
 		keyStr := strings.Trim(line[:sepIndex], " ")
 
-		switch keyStr {
-		case CONFIG_BACKEND:
-			cfg.Backend = valueStr
-		case CONFIG_PLAYER_BACKEND:
-			cfg.PlayerBackend = valueStr
-		case CONFIG_PSQL_CONNECTION:
-			cfg.PsqlConnection = valueStr
-		case CONFIG_PSQL_MAPSERVER:
-			cfg.MapObjectConnection = valueStr
-		}
-
+		cfg[keyStr] = valueStr
 	}
 
 	return cfg

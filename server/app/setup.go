@@ -32,14 +32,14 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	var err error
 
-	switch a.Worldconfig.Backend {
+	switch a.Worldconfig[worldconfig.CONFIG_BACKEND] {
 	case worldconfig.BACKEND_SQLITE3:
 		a.Blockdb, err = sqlite.New("map.sqlite")
 		if err != nil {
 			panic(err)
 		}
 	default:
-		panic(errors.New("map-backend not supported: " + a.Worldconfig.Backend))
+		panic(errors.New("map-backend not supported: " + a.Worldconfig[worldconfig.CONFIG_BACKEND]))
 	}
 
 	//migrate block db
@@ -85,7 +85,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
 
 	//mapserver database
-	if a.Worldconfig.MapObjectConnection != "" {
+	if a.Worldconfig[worldconfig.CONFIG_PSQL_MAPSERVER] != "" {
 		//TODO: Psql connection
 
 	} else {
