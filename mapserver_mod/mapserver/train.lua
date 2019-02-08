@@ -19,7 +19,7 @@ local update_formspec = function(meta)
 		-- col 2
 		"field[0,2.5;4,1;station;Station;" .. station .. "]" ..
 		"field[4,2.5;4,1;index;Index;" .. index .. "]"
-		"")
+	)
 
 end
 
