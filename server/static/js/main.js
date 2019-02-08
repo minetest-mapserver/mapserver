@@ -32,9 +32,12 @@ api.getConfig().then(function(cfg){
   overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
   overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
+  overlays["Bones"] = new BonesOverlay(wsChannel, layerMgr);
   //overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
 
+  //Default enabled overlays
   map.addLayer(overlays["Player"]);
+  map.addLayer(overlays["POI"]);
 
   L.control.layers(layers, overlays).addTo(map);
 
