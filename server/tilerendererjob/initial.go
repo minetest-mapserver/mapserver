@@ -26,9 +26,9 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 	}
 	logrus.WithFields(fields).Info("Starting initial rendering job")
 
-	lastx := ctx.Settings.GetInt(settings.SETTING_LASTX, -1)
-	lasty := ctx.Settings.GetInt(settings.SETTING_LASTY, -1)
-	lastz := ctx.Settings.GetInt(settings.SETTING_LASTZ, -1)
+	lastx := ctx.Settings.GetInt(settings.SETTING_LASTX, coords.MinCoord-1)
+	lasty := ctx.Settings.GetInt(settings.SETTING_LASTY, coords.MinCoord-1)
+	lastz := ctx.Settings.GetInt(settings.SETTING_LASTZ, coords.MinCoord-1)
 
 	lastcoords := coords.NewMapBlockCoords(lastx, lasty, lastz)
 

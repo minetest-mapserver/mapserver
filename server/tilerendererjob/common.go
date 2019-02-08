@@ -10,7 +10,8 @@ import (
 )
 
 func getTileKey(tc *coords.TileCoords) string {
-	return strconv.Itoa(tc.X) + "/" + strconv.Itoa(tc.Y) + "/" + strconv.Itoa(tc.Zoom)
+	return strconv.Itoa(tc.X) + "/" + strconv.Itoa(tc.Y) + "/" +
+		strconv.Itoa(tc.Zoom) + "/" + strconv.Itoa(tc.LayerId)
 }
 
 func renderMapblocks(ctx *app.App, jobs chan *coords.TileCoords, mblist []*mapblockparser.MapBlock) int {

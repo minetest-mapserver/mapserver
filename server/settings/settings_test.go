@@ -46,6 +46,12 @@ func TestStrings(t *testing.T){
     t.Fatal("getint failed")
   }
 
+  s.SetInt("i3", -123)
+  i = s.GetInt("i3", 456)
+  if i != -123 {
+    t.Fatal("getint negative failed")
+  }
+
   if s.GetInt("i2", 111) != 111 {
     t.Fatal("getint with default failed")
   }
