@@ -39,6 +39,7 @@ api.getConfig().then(function(cfg){
   overlays["Lua Controller"] = new LuacontrollerOverlay(wsChannel, layerMgr);
   overlays["Technic Anchor"] = new TechnicAnchorOverlay(wsChannel, layerMgr);
   overlays["Technic Quarry"] = new TechnicQuarryOverlay(wsChannel, layerMgr);
+  overlays["Technic Switching station"] = new TechnicSwitchOverlay(wsChannel, layerMgr);
   overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
   overlays["Missions"] = new MissionOverlay(wsChannel, layerMgr);
 

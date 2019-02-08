@@ -134,6 +134,7 @@ func Setup(ctx *app.App) {
 	l.AddMapObject("technic:quarry", &QuarryBlock{})
 	l.AddMapObject("technic:hv_nuclear_reactor_core_active", &NuclearReactorBlock{})
 	l.AddMapObject("technic:admin_anchor", &TechnicAnchorBlock{})
+	l.AddMapObject("technic:switching_station", &TechnicSwitchBlock{})
 
 	//digilines
 	l.AddMapObject("digilines:lcd", &DigilineLcdBlock{})
