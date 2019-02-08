@@ -51,7 +51,7 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 The port on which the server listens to
 
 #### webapi.secretkey
-The generated secret for the [mod bridge](./mod)
+The generated secret for the [mod bridge](./mod.md)
 
 #### layers
 The layers as a list

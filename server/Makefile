@@ -21,7 +21,7 @@ $(STATIC_VFS):
 	go run github.com/mjibson/esc -o vfs/static.go -prefix="static/" -pkg vfs static
 
 build-docker:
-	docker run --rm -it -v /home/thomas/git/mapserver/server/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make
+	sudo docker run --rm -it -v $(shell pwd)/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make
 
 build: $(STATIC_VFS) $(OUT_DIR)
 	# native
