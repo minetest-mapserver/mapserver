@@ -89,6 +89,10 @@ func (md *Metadata) GetInventoryMap(pos int) map[string]*Inventory {
 	return invMap
 }
 
+func (md *Metadata) GetInventoryMapAtPos(x, y, z int) map[string]*Inventory {
+	return md.GetInventoryMap(getNodePos(x, y, z))
+}
+
 func (md *Metadata) GetInventory(pos int, name string) *Inventory {
 	m := md.GetInventoryMap(pos)
 	inv := m[name]

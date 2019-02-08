@@ -40,34 +40,28 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 		for k, v := range this.objectlisteners {
 			if k == name {
 				//block matches
+				mapblockparser.IterateMapblock(func(x,y,z int){
+					nodeid := block.GetNodeId(x, y, z)
+					if nodeid == id {
+						fields := logrus.Fields{
+							"mbpos":  block.Pos,
+							"x":      x,
+							"y":      y,
+							"z":      z,
+							"type":   name,
+							"nodeid": nodeid,
+						}
+						log.WithFields(fields).Debug("OnEvent()")
 
-				for x := 0; x < 16; x++ {
-					for y := 0; y < 16; y++ {
-						for z := 0; z < 16; z++ {
-							nodeid := block.GetNodeId(x, y, z)
-							if nodeid == id {
-								fields := logrus.Fields{
-									"mbpos":  block.Pos,
-									"x":      x,
-									"y":      y,
-									"z":      z,
-									"type":   name,
-									"nodeid": nodeid,
-								}
-								log.WithFields(fields).Debug("OnEvent()")
+						obj := v.onMapObject(x, y, z, block)
 
-								obj := v.onMapObject(x, y, z, block)
-
-								if obj != nil {
-									this.ctx.Objectdb.AddMapData(obj)
-									this.ctx.WebEventbus.Emit("mapobject-created", obj)
-								}
-							}
-						} //z
-					} //y
-				} //x
-
-			}
+						if obj != nil {
+							this.ctx.Objectdb.AddMapData(obj)
+							this.ctx.WebEventbus.Emit("mapobject-created", obj)
+						}
+					}
+				})
+			} // k==name
 		} //for k,v
 	} //for id, name
 }
