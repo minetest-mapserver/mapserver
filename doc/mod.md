@@ -13,8 +13,8 @@ You can use the `mapserver-mod` either passive or active:
 
 ## Installing and configuring the bridge-mod
 
-The mod itself is available in the git [repo](./mapserver_mod)
-or as a zip package in the [releases](./releases)
+The mod itself is available in the git [repo](../mapserver_mod)
+or as a zip package in the [releases](../releases)
 
 ## Passive mode
 
