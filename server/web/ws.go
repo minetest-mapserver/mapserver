@@ -9,18 +9,28 @@ import (
 	"sync"
 
 	"github.com/gorilla/websocket"
+	"github.com/prometheus/client_golang/prometheus"
+)
+
+var (
+	wsClients = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "ws_client_count",
+		Help: "Websocket client count",
+	})
 )
 
 type WS struct {
 	ctx      *app.App
 	channels map[int]chan []byte
 	mutex    *sync.RWMutex
+	clients	int
 }
 
 func NewWS(ctx *app.App) *WS {
 	ws := WS{}
 	ws.mutex = &sync.RWMutex{}
 	ws.channels = make(map[int]chan []byte)
+	prometheus.MustRegister(wsClients)
 
 	return &ws
 }
@@ -62,6 +72,8 @@ func (t *WS) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 	t.mutex.Lock()
 	t.channels[id] = ch
+	t.clients++
+	wsClients.Set(float64(t.clients))
 	t.mutex.Unlock()
 
 	for {
@@ -73,6 +85,8 @@ func (t *WS) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	t.mutex.Lock()
+	t.clients--
+	wsClients.Set(float64(t.clients))
 	delete(t.channels, id)
 	close(ch)
 	t.mutex.Unlock()

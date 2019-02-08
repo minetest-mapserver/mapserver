@@ -17,6 +17,7 @@ func getTileKey(tc *coords.TileCoords) string {
 func renderMapblocks(ctx *app.App, jobs chan *coords.TileCoords, mblist []*mapblockparser.MapBlock) int {
 	tileRenderedMap := make(map[string]bool)
 	tilecount := 0
+	totalRenderedMapblocks.Add(float64(len(mblist)))
 
 	for i := 12; i >= 1; i-- {
 		for _, mb := range mblist {
