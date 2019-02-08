@@ -13,7 +13,7 @@ var LcdOverlay = AbstractIconOverlay.extend({
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "digilinelcd", LcdIcon);
   },
 
-  createPopup: function(bones){
-    return "<pre>" + bones.attributes.text + "</pre>";
+  createPopup: function(lcd){
+    return "<pre>" + lcd.attributes.text + "</pre>";
   }
 });

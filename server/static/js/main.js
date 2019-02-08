@@ -34,6 +34,8 @@ api.getConfig().then(function(cfg){
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
   overlays["Bones"] = new BonesOverlay(wsChannel, layerMgr);
   overlays["Digilines LCD"] = new LcdOverlay(wsChannel, layerMgr);
+  overlays["Digiterms"] = new DigitermOverlay(wsChannel, layerMgr);
+  overlays["Lua Controller"] = new LuacontrollerOverlay(wsChannel, layerMgr);
   //overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
 
   //Default enabled overlays
