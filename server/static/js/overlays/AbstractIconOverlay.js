@@ -18,12 +18,12 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
   //websocket update
   onMapObjectUpdated: function(obj){
-    var hash = self.hashPos(obj.x, obj.y, obj.z);
-    var marker = self.currentObjects[hash];
+    var hash = this.hashPos(obj.x, obj.y, obj.z);
+    var marker = this.currentObjects[hash];
 
     if (marker) {
       //marker exists
-      var popup = self.createPopup(obj);
+      var popup = this.createPopup(obj);
       if (popup)
         marker.setPopupContent(popup);
 
