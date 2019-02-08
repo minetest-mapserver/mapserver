@@ -7,10 +7,9 @@
 ## Textures/Sources
 
 * bones_top.png
-** License: CC BY-SA 3.0
-** Source: [minetest_game](https://github.com/minetest/minetest_game)
-
+* bubble.png
 * sam.png
+* heart.png
 ** License: CC BY-SA 3.0
 ** Source: [minetest_game](https://github.com/minetest/minetest_game)
 
