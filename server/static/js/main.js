@@ -40,6 +40,7 @@ api.getConfig().then(function(cfg){
   overlays["Technic Anchor"] = new TechnicAnchorOverlay(wsChannel, layerMgr);
   overlays["Technic Quarry"] = new TechnicQuarryOverlay(wsChannel, layerMgr);
   overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
+  overlays["Missions"] = new MissionOverlay(wsChannel, layerMgr);
 
   //Default enabled overlays
   map.addLayer(overlays["Player"]);

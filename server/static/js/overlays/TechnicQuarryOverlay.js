@@ -13,9 +13,9 @@ var TechnicQuarryOverlay = AbstractIconOverlay.extend({
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicquarry", TechnicQuarryIcon);
   },
 
-  createPopup: function(lcd){
-    return "<p>Owner: " + lcd.attributes.owner + "</p>" +
-      "<p>Dug: " + lcd.attributes.dug + "</p>" +
-      "<p>Enabled: " + lcd.attributes.enabled + "</p>";
+  createPopup: function(quarry){
+    return "<p>Owner: " + quarry.attributes.owner + "</p>" +
+      "<p>Dug: " + quarry.attributes.dug + "</p>" +
+      "<p>Enabled: " + quarry.attributes.enabled + "</p>";
   }
 });
