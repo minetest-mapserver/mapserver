@@ -14,6 +14,9 @@ import (
 
 	"github.com/sirupsen/logrus"
 
+	"os"
+	"io/ioutil"
+
 	"errors"
 )
 
@@ -50,9 +53,32 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	//color mapping
 	a.Colormapping = colormapping.NewColorMapping()
-	err = a.Colormapping.LoadVFSColors(false, "/colors.txt")
+
+	//load default colors
+	count, err := a.Colormapping.LoadVFSColors(false, "/colors.txt")
 	if err != nil {
 		panic(err)
+	}
+	logrus.WithFields(logrus.Fields{"count": count}).Info("Loaded default colors")
+
+
+	//load provided colors, if available
+	info, err := os.Stat("colors.txt")
+	if info != nil && err == nil {
+		logrus.WithFields(logrus.Fields{"filename": "colors.txt"}).Info("Loading colors from filesystem")
+
+		data, err := ioutil.ReadFile("colors.txt")
+		if err != nil {
+			panic(err)
+		}
+
+		count, err = a.Colormapping.LoadBytes(data)
+		if err != nil {
+			panic(err)
+		}
+
+		logrus.WithFields(logrus.Fields{"count": count}).Info("Loaded custom colors")
+
 	}
 
 	//mapblock renderer
