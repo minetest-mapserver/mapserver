@@ -64,7 +64,7 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
     .then(function(objects){
       self.clearLayers();
 
-      var geoJsonLayer = createGeoJson(objects);
+      var geoJsonLayer = self.createGeoJson(objects);
       geoJsonLayer.addTo(self);
     })
 

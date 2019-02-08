@@ -10,7 +10,7 @@ var TechnicAnchorIcon = L.icon({
 
 var TechnicAnchorOverlay = AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "luacontroller", TechnicAnchorIcon);
+    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicanchor", TechnicAnchorIcon);
   },
 
   createPopup: function(lcd){
