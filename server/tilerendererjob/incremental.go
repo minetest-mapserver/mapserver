@@ -50,10 +50,14 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
 		ctx.WebEventbus.Emit("incremental-render-progress", &ev)
 
+		millisDiff := time.Now().Unix() - result.LastMtime
+
 		fields := logrus.Fields{
-			"mapblocks": len(result.List),
-			"tiles":     tiles,
-			"elapsed":   elapsed,
+			"mapblocks":   len(result.List),
+			"tiles":       tiles,
+			"elapsed":     elapsed,
+			"lastMtime":   result.LastMtime,
+			"secondsDiff": millisDiff / 1000,
 		}
 		logrus.WithFields(fields).Info("incremental rendering")
 	}
