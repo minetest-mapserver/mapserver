@@ -11,9 +11,8 @@ func (this *LuaControllerBlock) onMapObject(x, y, z int, block *mapblockparser.M
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "luacontroller")
-
-	//TODO: is this private?
 	o.Attributes["code"] = md["code"]
+	o.Attributes["lc_memory"] = md["lc_memory"]
 
 	return o
 }

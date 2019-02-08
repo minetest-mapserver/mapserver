@@ -101,6 +101,27 @@ func Setup(ctx *app.App) {
 	//digilines
 	l.AddMapObject("digilines:lcd", &DigilineLcdBlock{})
 
+	//mesecons
+	luac := &LuaControllerBlock{}
+	// mesecons_luacontroller:luacontroller0000 2^4=16
+	l.AddMapObject("mesecons_luacontroller:luacontroller1111", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller1110", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller1100", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller1010", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller1000", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller1101", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller1001", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller1011", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0111", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0110", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0100", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0010", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0000", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0101", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0001", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller0011", luac)
+	l.AddMapObject("mesecons_luacontroller:luacontroller_burnt", luac)
+
 	//missions
 	l.AddMapObject("missions:mission", &MissionBlock{})
 
