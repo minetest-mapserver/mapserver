@@ -12,7 +12,19 @@ var AbstractIconOverlay = L.LayerGroup.extend({
     this.currentObjects = {};
 
     this.onLayerChange = this.onLayerChange.bind(this);
+    this.onMapObjectUpdated = this.onMapObjectUpdated.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
+  },
+
+  //websocket update
+  onMapObjectUpdated: function(obj){
+    var hash = self.hashPos(obj.x, obj.y, obj.z);
+    var marker = self.currentObjects[hash];
+
+    if (marker) {
+      //marker exists
+      marker.setPopupContent(self.createPopup(obj));
+    }
   },
 
   hashPos: function(x,y,z){
@@ -65,14 +77,15 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
       objects.forEach(function(obj){
         var hash = self.hashPos(obj.x, obj.y, obj.z);
+        var marker = self.currentObjects[hash];
 
-        if (self.currentObjects[hash]) {
+        if (marker) {
           //marker exists
-          //TODO: update popup
+          marker.setPopupContent(self.createPopup(obj));
 
         } else {
           //marker does not exist
-          var marker = L.marker([obj.z, obj.x], {icon: self.getIcon(obj)});
+          marker = L.marker([obj.z, obj.x], {icon: self.getIcon(obj)});
           marker.bindPopup(self.createPopup(obj));
           marker.addTo(self);
 
@@ -88,6 +101,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
     this.layerMgr.addListener(this.onLayerChange);
+    this.wsChannel.addListener("mapobject-created", this.onMapObjectUpdated);
     this.reDraw(true)
   },
 
@@ -96,6 +110,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
     map.off("zoomend", this.onMapMove);
     map.off("moveend", this.onMapMove);
     this.layerMgr.removeListener(this.onLayerChange);
+    this.wsChannel.removeListener("mapobject-created", this.onMapObjectUpdated);
   }
 
 });
