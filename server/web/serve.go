@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/sirupsen/logrus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func Serve(ctx *app.App) {
@@ -26,6 +27,10 @@ func Serve(ctx *app.App) {
 	mux.Handle("/api/config", &ConfigHandler{ctx: ctx})
 	mux.Handle("/api/minetest", &Minetest{ctx: ctx})
 	mux.Handle("/api/mapobjects/", &MapObjects{ctx: ctx})
+
+	if ctx.Config.EnablePrometheus {
+		mux.Handle("/metrics", promhttp.Handler())
+	}
 
 	ws := NewWS(ctx)
 	mux.Handle("/api/ws", ws)
