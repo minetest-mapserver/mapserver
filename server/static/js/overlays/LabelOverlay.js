@@ -2,7 +2,7 @@
 
 var LabelOverlay = AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "digiterm");
+    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "label");
   },
 
   getIcon: function(lbl){
