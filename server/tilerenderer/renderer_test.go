@@ -40,7 +40,7 @@ func TestTileRender(t *testing.T) {
 
 	cache := mapblockaccessor.NewMapBlockAccessor(a)
 	c := colormapping.NewColorMapping()
-	err = c.LoadVFSColors(false, "/colors.txt")
+	_, err = c.LoadVFSColors(false, "/colors.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -69,7 +69,7 @@ func TestTileRender(t *testing.T) {
 	}
 
 	coord := coords.NewTileCoords(0, 0, 12, 0)
-	data, err := tr.Render(coord, 2)
+	data, err := tr.Render(coord)
 	if err != nil {
 		panic(err)
 	}
@@ -83,7 +83,7 @@ func TestTileRender(t *testing.T) {
 
 	coord1 := coord.GetZoomedOutTile()
 
-	data, err = tr.Render(coord1, 3)
+	data, err = tr.Render(coord1)
 	if err != nil {
 		panic(err)
 	}

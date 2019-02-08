@@ -45,7 +45,7 @@ func TestSimpleRender(t *testing.T) {
 
 	cache := mapblockaccessor.NewMapBlockAccessor(a)
 	c := colormapping.NewColorMapping()
-	err = c.LoadVFSColors(false, "/colors.txt")
+	_, err = c.LoadVFSColors(false, "/colors.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
