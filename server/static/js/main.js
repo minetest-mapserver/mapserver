@@ -37,6 +37,7 @@ api.getConfig().then(function(cfg){
   overlays["Digiterms"] = new DigitermOverlay(wsChannel, layerMgr);
   overlays["Lua Controller"] = new LuacontrollerOverlay(wsChannel, layerMgr);
   overlays["Technic Anchor"] = new TechnicAnchorOverlay(wsChannel, layerMgr);
+  overlays["Technic Quarry"] = new TechnicQuarryOverlay(wsChannel, layerMgr);
   //overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
 
   //Default enabled overlays

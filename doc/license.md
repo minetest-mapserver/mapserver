@@ -10,6 +10,7 @@
 * bubble.png
 * sam.png
 * heart.png
+* default_tool_mesepick.png
 ** License: CC BY-SA 3.0
 ** Source: [minetest_game](https://github.com/minetest/minetest_game)
 
