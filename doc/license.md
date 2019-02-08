@@ -6,14 +6,28 @@
 
 ## Textures/Sources
 
-* [bones_top.png](../server/static/pics/bones_top.png)
+* bones_top.png
 ** License: CC BY-SA 3.0
 ** Source: [minetest_game](https://github.com/minetest/minetest_game)
 
-* [sam.png](../server/static/pics/sam.png)
+* sam.png
 ** License: CC BY-SA 3.0
 ** Source: [minetest_game](https://github.com/minetest/minetest_game)
 
-* [travelnet_inv.png](../server/static/pics/travelnet_inv.png)
+* travelnet_inv.png
 ** License: CC BY-SA 3.0
 ** Source: [travelnet](https://github.com/Sokomine/travelnet)
+
+* technic_admin_anchor.png
+* technic_hv_nuclear_reactor_core.png
+* technic_water_mill_top_active.png
+** LGPL, V2
+** Source: [technic](https://github.com/minetest-mods/technic)
+
+* lcd_lcd.png
+** WTFPL
+** Source: [digilines](https://github.com/minetest-mods/digilines)
+
+* jeija_luacontroller_top.png
+** CC-BY-SA-3.0
+** Source [mesecons](https://github.com/minetest-mods/mesecons)
