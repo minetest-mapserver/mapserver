@@ -11,6 +11,7 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * [Configuration](doc/config.md)
 * [Contribution](doc/contrib.md)
 * [Development](doc/dev.md)
+* [License](doc/license.md)
 
 # Features
 
