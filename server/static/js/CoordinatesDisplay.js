@@ -4,15 +4,33 @@
 var CoordinatesDisplay = L.Control.extend({
     onAdd: function(map) {
       var div = L.DomUtil.create('div', 'leaflet-bar leaflet-custom-display');
-      function update(ev){
-        var latlng = ev.latlng;
-        div.innerHTML = "X:" + parseInt(latlng.lng) + " Z:" + parseInt(latlng.lat);
+
+      var hoverCoord, clickCoord
+
+      function updateHover(ev){
+        hoverCoord = ev.latlng;
+        update();
       }
 
-      //TODO: x: 1 z: 2 (selected: x:1 z:3)
-      map.on('mousemove', update);
-      map.on('click', update);
-      map.on('touch', update);
+      function updateClick(ev){
+        clickCoord = ev.latlng;
+        update();
+      }
+
+      function update(){
+        var html = "";
+        if (hoverCoord)
+          html += = "X=" + parseInt(hoverCoord.lng) + " Z=" + parseInt(hoverCoord.lat);
+
+        if (clickCoord)
+          html += = " (marked: X=" + parseInt(clickCoord.lng) + " Z=" + parseInt(clickCoord.lat) + ")";
+
+        div.innerHTML = html;
+      }
+
+      map.on('mousemove', updateHover);
+      map.on('click', updateClick);
+      map.on('touch', updateClick);
 
       return div;
     },

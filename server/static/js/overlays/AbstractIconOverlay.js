@@ -46,7 +46,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
   reDraw: function(full){
     var self = this;
 
-    if (this._map.getZoom() < 10) {
+    if (this.map.getZoom() < 10) {
       this.clearLayers();
       this.currentObjects = {};
       return;
@@ -58,8 +58,8 @@ var AbstractIconOverlay = L.LayerGroup.extend({
     }
 
     var mapLayer = this.layerMgr.getCurrentLayer()
-    var min = this._map.getBounds().getSouthWest();
-    var max = this._map.getBounds().getNorthEast();
+    var min = this.map.getBounds().getSouthWest();
+    var max = this.map.getBounds().getNorthEast();
 
     var y1 = parseInt(mapLayer.from/16);
     var y2 = parseInt(mapLayer.to/16);
@@ -98,6 +98,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
   },
 
   onAdd: function(map) {
+    this.map = map;
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
     this.layerMgr.addListener(this.onLayerChange);
