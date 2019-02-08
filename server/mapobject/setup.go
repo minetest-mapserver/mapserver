@@ -13,13 +13,22 @@ type MapObjectListener interface {
 	onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject
 }
 
+type MapMultiObjectListener interface {
+	onMapObject(x, y, z int, block *mapblockparser.MapBlock) []*mapobjectdb.MapObject
+}
+
 type Listener struct {
 	ctx             *app.App
 	objectlisteners map[string]MapObjectListener
+	multiobjectlisteners map[string]MapMultiObjectListener
 }
 
 func (this *Listener) AddMapObject(blockname string, ol MapObjectListener) {
 	this.objectlisteners[blockname] = ol
+}
+
+func (this *Listener) AddMapMultiObject(blockname string, ol MapMultiObjectListener) {
+	this.multiobjectlisteners[blockname] = ol
 }
 
 func (this *Listener) OnEvent(eventtype string, o interface{}) {
@@ -37,6 +46,36 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 	this.ctx.WebEventbus.Emit("mapobjects-cleared", block.Pos)
 
 	for id, name := range block.BlockMapping {
+
+		for k, v := range this.multiobjectlisteners {
+			if k == name {
+				//block matches
+				mapblockparser.IterateMapblock(func(x,y,z int){
+					nodeid := block.GetNodeId(x, y, z)
+					if nodeid == id {
+						fields := logrus.Fields{
+							"mbpos":  block.Pos,
+							"x":      x,
+							"y":      y,
+							"z":      z,
+							"type":   name,
+							"nodeid": nodeid,
+						}
+						log.WithFields(fields).Debug("OnEvent()")
+
+						objs := v.onMapObject(x, y, z, block)
+
+						if len(objs) > 0 {
+							for _, obj := range objs {
+								this.ctx.Objectdb.AddMapData(obj)
+								this.ctx.WebEventbus.Emit("mapobject-created", obj)
+							}
+						}
+					}
+				})
+			} // k==name
+		} //for k,v
+
 		for k, v := range this.objectlisteners {
 			if k == name {
 				//block matches
@@ -63,6 +102,7 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 				})
 			} // k==name
 		} //for k,v
+
 	} //for id, name
 }
 
@@ -70,6 +110,7 @@ func Setup(ctx *app.App) {
 	l := Listener{
 		ctx:             ctx,
 		objectlisteners: make(map[string]MapObjectListener),
+		multiobjectlisteners: make(map[string]MapMultiObjectListener),
 	}
 
 	//mapserver stuff
@@ -135,7 +176,10 @@ func Setup(ctx *app.App) {
 	//jumpdrive, TODO: fleet controller
 	l.AddMapObject("jumpdrive:engine", &JumpdriveBlock{})
 
-	//TODO: atm, digiterms, signs/banners, spacecannons, shops (smart, fancy)
+	//smartshop
+	l.AddMapMultiObject("smartshop:shop", &SmartShopBlock{})
+
+	//TODO: atm, shops (smart, fancy)
 
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }

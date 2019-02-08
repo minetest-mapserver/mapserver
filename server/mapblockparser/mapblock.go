@@ -41,6 +41,20 @@ func getNodePos(x, y, z int) int {
 	return x + (y * 16) + (z * 256)
 }
 
+func (inv *Inventory) IsEmpty() bool {
+	if inv.Size == 0 || len(inv.Items) == 0 {
+		return true
+	}
+
+	for _, item := range inv.Items {
+		if item.Name != "" && item.Count > 0 {
+			return false
+		}
+	}
+
+	return true
+}
+
 func (mb *MapBlock) GetNodeId(x, y, z int) int {
 	pos := getNodePos(x, y, z)
 	return mb.Mapdata.ContentId[pos]
