@@ -23,7 +23,11 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
     if (marker) {
       //marker exists
-      marker.setPopupContent(self.createPopup(obj));
+      var popup = self.createPopup(obj);
+      if (popup)
+        marker.setPopupContent(popup);
+
+      marker.setIcon(this.getIcon(obj));
     }
   },
 
@@ -81,12 +85,21 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
         if (marker) {
           //marker exists
-          marker.setPopupContent(self.createPopup(obj));
+
+          //set popup, if changed
+          var popup = self.createPopup(obj);
+          if (popup)
+            marker.setPopupContent(popup);
+
+          //redraw icon, if changed
+          marker.setIcon(self.getIcon(obj));
 
         } else {
           //marker does not exist
           marker = L.marker([obj.z, obj.x], {icon: self.getIcon(obj)});
-          marker.bindPopup(self.createPopup(obj));
+          var popup = self.createPopup(obj);
+          if (popup)
+            marker.bindPopup(popup);
           marker.addTo(self);
 
           self.currentObjects[hash] = marker;

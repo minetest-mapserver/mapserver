@@ -31,6 +31,7 @@ api.getConfig().then(function(cfg){
 
   overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
   overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
+  overlays["Labels"] = new LabelOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
   overlays["Bones"] = new BonesOverlay(wsChannel, layerMgr);
   overlays["Digilines LCD"] = new LcdOverlay(wsChannel, layerMgr);
@@ -43,6 +44,7 @@ api.getConfig().then(function(cfg){
   //Default enabled overlays
   map.addLayer(overlays["Player"]);
   map.addLayer(overlays["POI"]);
+  map.addLayer(overlays["Labels"]);
 
   L.control.layers(layers, overlays).addTo(map);
 
