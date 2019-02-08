@@ -178,13 +178,12 @@ func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos *coords.MapBlockCoords, li
 	result.List = mblist
 
 	fields = logrus.Fields{
-		"len(List)": len(result.List),
+		"len(List)":       len(result.List),
 		"unfilteredCount": result.UnfilteredCount,
-		"hasMore": result.HasMore,
-		"limit": limit,
+		"hasMore":         result.HasMore,
+		"limit":           limit,
 	}
 	logrus.WithFields(fields).Debug("FindMapBlocksByPos:Result")
-
 
 	return &result, nil
 }

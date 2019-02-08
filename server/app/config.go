@@ -11,7 +11,7 @@ import (
 
 type Config struct {
 	Port                int           `json:"port"`
-	EnablePrometheus     bool          `json:"enableprometheus"`
+	EnablePrometheus    bool          `json:"enableprometheus"`
 	EnableRendering     bool          `json:"enablerendering"`
 	Webdev              bool          `json:"webdev"`
 	WebApi              *WebApiConfig `json:"webapi"`
@@ -76,7 +76,7 @@ func ParseConfig(filename string) (*Config, error) {
 	cfg := Config{
 		Port:                8080,
 		EnableRendering:     true,
-		EnablePrometheus: true,
+		EnablePrometheus:    true,
 		Webdev:              false,
 		WebApi:              &webapi,
 		Layers:              layers,

@@ -18,8 +18,8 @@ type MapMultiObjectListener interface {
 }
 
 type Listener struct {
-	ctx             *app.App
-	objectlisteners map[string]MapObjectListener
+	ctx                  *app.App
+	objectlisteners      map[string]MapObjectListener
 	multiobjectlisteners map[string]MapMultiObjectListener
 }
 
@@ -50,7 +50,7 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 		for k, v := range this.multiobjectlisteners {
 			if k == name {
 				//block matches
-				mapblockparser.IterateMapblock(func(x,y,z int){
+				mapblockparser.IterateMapblock(func(x, y, z int) {
 					nodeid := block.GetNodeId(x, y, z)
 					if nodeid == id {
 						fields := logrus.Fields{
@@ -79,7 +79,7 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 		for k, v := range this.objectlisteners {
 			if k == name {
 				//block matches
-				mapblockparser.IterateMapblock(func(x,y,z int){
+				mapblockparser.IterateMapblock(func(x, y, z int) {
 					nodeid := block.GetNodeId(x, y, z)
 					if nodeid == id {
 						fields := logrus.Fields{
@@ -108,8 +108,8 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 
 func Setup(ctx *app.App) {
 	l := Listener{
-		ctx:             ctx,
-		objectlisteners: make(map[string]MapObjectListener),
+		ctx:                  ctx,
+		objectlisteners:      make(map[string]MapObjectListener),
 		multiobjectlisteners: make(map[string]MapMultiObjectListener),
 	}
 

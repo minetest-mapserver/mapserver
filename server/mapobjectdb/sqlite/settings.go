@@ -1,16 +1,14 @@
 package sqlite
 
-
-
 func (db *Sqlite3Accessor) GetSetting(key string, defaultvalue string) (string, error) {
-  rows, err := db.db.Query(getSettingQuery, key)
+	rows, err := db.db.Query(getSettingQuery, key)
 	if err != nil {
 		return "", err
 	}
 
 	defer rows.Close()
 
-  value := defaultvalue
+	value := defaultvalue
 
 	if rows.Next() {
 
@@ -25,6 +23,6 @@ func (db *Sqlite3Accessor) GetSetting(key string, defaultvalue string) (string, 
 }
 
 func (db *Sqlite3Accessor) SetSetting(key string, value string) error {
-  _, err := db.db.Exec(setSettingQuery, key, value)
+	_, err := db.db.Exec(setSettingQuery, key, value)
 	return err
 }

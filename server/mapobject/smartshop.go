@@ -3,8 +3,8 @@ package mapobject
 import (
 	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
-	"strconv"
 	"math"
+	"strconv"
 )
 
 type SmartShopBlock struct{}
@@ -44,13 +44,13 @@ func (this *SmartShopBlock) onMapObject(x, y, z int, block *mapblockparser.MapBl
 		stock := 0
 
 		for _, item := range mainInv.Items {
-				if item.Name == out_item {
-						stock += item.Count
-				}
+			if item.Name == out_item {
+				stock += item.Count
+			}
 		}
 
 		//multiples of out_count
-		stock_factor := math.Floor( float64(stock) / float64(out_count) )
+		stock_factor := math.Floor(float64(stock) / float64(out_count))
 
 		o.Attributes["in_item"] = in_item
 		o.Attributes["in_count"] = strconv.Itoa(int(in_count))

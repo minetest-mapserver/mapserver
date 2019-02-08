@@ -7,7 +7,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-
 /*
 sqlite perf: https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite?rq=1
 PRAGMA synchronous = OFF

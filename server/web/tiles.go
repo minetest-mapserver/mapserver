@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/prometheus/client_golang/prometheus"
 	"image/color"
 	"mapserver/app"
 	"mapserver/coords"
@@ -8,7 +9,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"github.com/prometheus/client_golang/prometheus"
 )
 
 var (

@@ -7,8 +7,8 @@ import (
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/mapobjectdb"
-	"mapserver/settings"
 	"mapserver/params"
+	"mapserver/settings"
 	"mapserver/tilerenderer"
 )
 

@@ -8,14 +8,14 @@ import (
 	"mapserver/mapblockrenderer"
 	sqliteobjdb "mapserver/mapobjectdb/sqlite"
 	"mapserver/params"
+	"mapserver/settings"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
-	"mapserver/settings"
 
 	"github.com/sirupsen/logrus"
 
-	"os"
 	"io/ioutil"
+	"os"
 
 	"errors"
 )
@@ -60,7 +60,6 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		panic(err)
 	}
 	logrus.WithFields(logrus.Fields{"count": count}).Info("Loaded default colors")
-
 
 	//load provided colors, if available
 	info, err := os.Stat("colors.txt")

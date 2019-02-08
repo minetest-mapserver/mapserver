@@ -23,7 +23,7 @@ type WS struct {
 	ctx      *app.App
 	channels map[int]chan []byte
 	mutex    *sync.RWMutex
-	clients	int
+	clients  int
 }
 
 func NewWS(ctx *app.App) *WS {

@@ -8,7 +8,7 @@ import (
 
 func Job(ctx *app.App) {
 	initMetrics()
-	
+
 	jobs := make(chan *coords.TileCoords, ctx.Config.RenderingQueue)
 
 	for i := 0; i < ctx.Config.RenderingJobs; i++ {

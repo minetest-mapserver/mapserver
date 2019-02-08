@@ -4,7 +4,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-
 var (
 	totalRenderedMapblocks = prometheus.NewCounter(
 		prometheus.CounterOpts{
@@ -14,6 +13,6 @@ var (
 	)
 )
 
-func initMetrics(){
-  prometheus.MustRegister(totalRenderedMapblocks)
+func initMetrics() {
+	prometheus.MustRegister(totalRenderedMapblocks)
 }
