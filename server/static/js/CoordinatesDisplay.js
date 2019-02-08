@@ -20,10 +20,10 @@ var CoordinatesDisplay = L.Control.extend({
       function update(){
         var html = "";
         if (hoverCoord)
-          html += = "X=" + parseInt(hoverCoord.lng) + " Z=" + parseInt(hoverCoord.lat);
+          html = html + "X=" + parseInt(hoverCoord.lng) + " Z=" + parseInt(hoverCoord.lat);
 
         if (clickCoord)
-          html += = " (marked: X=" + parseInt(clickCoord.lng) + " Z=" + parseInt(clickCoord.lat) + ")";
+          html = html + " (marked: X=" + parseInt(clickCoord.lng) + " Z=" + parseInt(clickCoord.lat) + ")";
 
         div.innerHTML = html;
       }
