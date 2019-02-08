@@ -26,8 +26,8 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
     var geoJsonLayer = L.geoJSON([], {
         onEachFeature: function(feature, layer){
             if (feature.properties && feature.properties.popupContent) {
-                      layer.bindPopup(feature.properties.popupContent);
-                  }
+                layer.bindPopup(feature.properties.popupContent);
+            }
         }
     });
 
@@ -41,12 +41,12 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
   reDraw: function(){
     var self = this;
 
-    if (this._map.getZoom() < 10) {
+    if (this.map.getZoom() < 10) {
       this.clearLayers();
       return;
     }
 
-    var mapLayer = this.layerMgr.getCurrentLayer()
+    var mapLayer = this.layerMgr.getCurrentLayer();
     var min = this._map.getBounds().getSouthWest();
     var max = this._map.getBounds().getNorthEast();
 
@@ -71,6 +71,7 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
   },
 
   onAdd: function(map) {
+    this.map = map;
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
     this.layerMgr.addListener(this.onLayerChange);
