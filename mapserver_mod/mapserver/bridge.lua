@@ -20,6 +20,8 @@ local http, url, key
 
 function send_stats()
 
+  -- send trains if 'advtrains' mod installed: advtrains.trains
+
   local data = {
     time = minetest.get_timeofday() * 24000,
     uptime = minetest.get_server_uptime(),
