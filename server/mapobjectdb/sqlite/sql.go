@@ -30,16 +30,6 @@ create table if not exists object_attributes(
 
 create index if not exists object_attributes_key_value on object_attributes(key, value);
 
-create table if not exists tiles(
-  data blob,
-  mtime bigint,
-  layerid int,
-  x int,
-  y int,
-  zoom int,
-  primary key(x,y,zoom,layerid)
-);
-
 create table if not exists settings(
 	key varchar primary key not null,
 	value varchar not null
@@ -73,24 +63,6 @@ const addMapDataAttributeQuery = `
 insert into
 object_attributes(objectid, key, value)
 values(?, ?, ?)
-`
-
-const getTileQuery = `
-select data,mtime from tiles t
-where t.layerid = ?
-and t.x = ?
-and t.y = ?
-and t.zoom = ?
-`
-
-const setTileQuery = `
-insert or replace into tiles(x,y,zoom,layerid,data,mtime)
-values(?, ?, ?, ?, ?, ?)
-`
-
-const removeTileQuery = `
-delete from tiles
-where x = ? and y = ? and zoom = ? and layerid = ?
 `
 
 const getSettingQuery = `

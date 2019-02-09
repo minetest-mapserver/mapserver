@@ -9,6 +9,7 @@ import (
 	sqliteobjdb "mapserver/mapobjectdb/sqlite"
 	"mapserver/params"
 	"mapserver/settings"
+	"mapserver/tiledb"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
 
@@ -95,8 +96,15 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		panic(err)
 	}
 
-	//migrate tile database
+	//migrate object database
 	err = a.Objectdb.Migrate()
+
+	if err != nil {
+		panic(err)
+	}
+
+	//create tiledb
+	a.TileDB, err = tiledb.New("./mapserver.tiles")
 
 	if err != nil {
 		panic(err)
@@ -108,7 +116,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	//setup tile renderer
 	a.Tilerenderer = tilerenderer.NewTileRenderer(
 		a.Mapblockrenderer,
-		a.Objectdb,
+		a.TileDB,
 		a.Blockdb,
 		a.Config.Layers,
 	)

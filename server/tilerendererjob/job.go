@@ -16,20 +16,7 @@ func Job(ctx *app.App) {
 	}
 
 	if ctx.Settings.GetBool(settings.SETTING_INITIAL_RUN, true) {
-		//fast, unsafe mode
-		err := ctx.Objectdb.EnableSpeedSafetyTradeoff(true)
-		if err != nil {
-			panic(err)
-		}
-
 		initialRender(ctx, jobs)
-
-		//normal, safe mode
-		err = ctx.Objectdb.EnableSpeedSafetyTradeoff(false)
-		if err != nil {
-			panic(err)
-		}
-
 	}
 
 	incrementalRender(ctx, jobs)

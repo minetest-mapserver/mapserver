@@ -1,7 +1,6 @@
 package web
 
 import (
-	"github.com/prometheus/client_golang/prometheus"
 	"image/color"
 	"mapserver/app"
 	"mapserver/coords"
@@ -9,6 +8,8 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 var (
@@ -46,7 +47,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	zoom, _ := strconv.Atoi(parts[3])
 
 	c := coords.NewTileCoords(x, y, zoom, layerid)
-	tile, err := t.ctx.Objectdb.GetTile(c)
+	tile, err := t.ctx.TileDB.GetTile(c)
 
 	if err != nil {
 		resp.WriteHeader(500)
@@ -60,8 +61,8 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 			//TODO: cache/layer color
 
 		} else {
-			tilesCumulativeSize.Add(float64(len(tile.Data)))
-			resp.Write(tile.Data)
+			tilesCumulativeSize.Add(float64(len(tile)))
+			resp.Write(tile)
 
 		}
 	}

@@ -68,18 +68,10 @@ type DBAccessor interface {
 	//migrates the database
 	Migrate() error
 
-	//true = speed,unsafe / false = safe
-	EnableSpeedSafetyTradeoff(enableSpeed bool) error
-
 	//Generic map objects (poi, etc)
 	GetMapData(q SearchQuery) ([]*MapObject, error)
 	RemoveMapData(pos *coords.MapBlockCoords) error
 	AddMapData(data *MapObject) error
-
-	//tile data
-	GetTile(pos *coords.TileCoords) (*Tile, error)
-	SetTile(tile *Tile) error
-	RemoveTile(pos *coords.TileCoords) error
 
 	//Settings
 	GetSetting(key string, defaultvalue string) (string, error)

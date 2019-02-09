@@ -9,6 +9,7 @@ import (
 	"mapserver/mapobjectdb"
 	"mapserver/params"
 	"mapserver/settings"
+	"mapserver/tiledb"
 	"mapserver/tilerenderer"
 )
 
@@ -23,6 +24,7 @@ type App struct {
 
 	Blockdb  db.DBAccessor
 	Objectdb mapobjectdb.DBAccessor
+	TileDB   *tiledb.TileDB
 	Settings *settings.Settings
 
 	BlockAccessor    *mapblockaccessor.MapBlockAccessor

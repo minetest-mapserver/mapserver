@@ -26,44 +26,6 @@ func TestMigrate(t *testing.T) {
 		panic(err)
 	}
 
-	pos := coords.NewTileCoords(0, 0, 13, 0)
-	tile, err := db.GetTile(pos)
-	if err != nil {
-		panic(err)
-	}
-
-	if tile != nil {
-		t.Fatal("non-empty tile found")
-	}
-
-	data := []byte{0x01, 0x02}
-	tile2 := mapobjectdb.Tile{Pos: pos, Data: data}
-	err = db.SetTile(&tile2)
-
-	if err != nil {
-		panic(err)
-	}
-
-	tile3, err := db.GetTile(pos)
-
-	if err != nil {
-		panic(err)
-	}
-
-	if tile3 == nil {
-		t.Fatal("no data returned")
-	}
-
-	if len(tile2.Data) != len(tile3.Data) {
-		t.Fatal("inserted data does not match")
-	}
-
-	err = db.SetTile(&tile2)
-
-	if err != nil {
-		panic(err)
-	}
-
 }
 
 func TestMapObjects(t *testing.T) {

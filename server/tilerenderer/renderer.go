@@ -11,7 +11,7 @@ import (
 	"mapserver/eventbus"
 	"mapserver/layer"
 	"mapserver/mapblockrenderer"
-	"mapserver/mapobjectdb"
+	"mapserver/tiledb"
 	"time"
 
 	"github.com/disintegration/imaging"
@@ -21,13 +21,13 @@ import (
 type TileRenderer struct {
 	mapblockrenderer *mapblockrenderer.MapBlockRenderer
 	layers           []layer.Layer
-	tdb              mapobjectdb.DBAccessor
+	tdb              *tiledb.TileDB
 	dba              db.DBAccessor
 	Eventbus         *eventbus.Eventbus
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
-	tdb mapobjectdb.DBAccessor,
+	tdb *tiledb.TileDB,
 	dba db.DBAccessor,
 	layers []layer.Layer) *TileRenderer {
 
@@ -69,7 +69,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 		}
 
 		if cachedtile != nil {
-			reader := bytes.NewReader(cachedtile.Data)
+			reader := bytes.NewReader(cachedtile)
 			cachedimg, err := png.Decode(reader)
 			if err != nil {
 				return nil, nil, err
@@ -84,7 +84,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 			draw.Draw(img, rect, cachedimg, image.ZP, draw.Src)
 
 			log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Cached image")
-			return img, cachedtile.Data, nil
+			return img, cachedtile, nil
 		}
 	}
 
@@ -212,8 +212,8 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 	encode := t.Sub(start)
 	start = t
 
-	tile := mapobjectdb.Tile{Pos: tc, Data: buf.Bytes(), Mtime: time.Now().Unix()}
-	tr.tdb.SetTile(&tile)
+	tile := buf.Bytes()
+	tr.tdb.SetTile(tc, tile)
 
 	t = time.Now()
 	cache := t.Sub(start)
@@ -223,7 +223,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 		"Y":          tc.Y,
 		"Zoom":       tc.Zoom,
 		"LayerId":    tc.LayerId,
-		"size":       len(tile.Data),
+		"size":       len(tile),
 		"quadrender": quadrender,
 		"quadresize": quadresize,
 		"encode":     encode,
