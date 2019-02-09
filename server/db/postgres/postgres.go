@@ -2,9 +2,12 @@ package postgres
 
 import (
 	"database/sql"
-	_ "github.com/lib/pq"
 	"mapserver/coords"
 	"mapserver/db"
+	"time"
+
+	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
 )
 
 type PostgresAccessor struct {
@@ -12,6 +15,24 @@ type PostgresAccessor struct {
 }
 
 func (db *PostgresAccessor) Migrate() error {
+	hasMtime := true
+	_, err := db.db.Query("select max(mtime) from blocks")
+	if err != nil {
+		hasMtime = false
+	}
+
+	if !hasMtime {
+		log.Info("Migrating database")
+		start := time.Now()
+		_, err = db.db.Exec(migrateScript)
+		if err != nil {
+			return err
+		}
+		t := time.Now()
+		elapsed := t.Sub(start)
+		log.WithFields(logrus.Fields{"elapsed": elapsed}).Info("Migration completed")
+	}
+
 	return nil
 }
 
@@ -121,6 +142,12 @@ func (this *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, e
 	return nil, nil
 }
 
-func NewPostgresAccessor(connStr string) (*PostgresAccessor, error) {
-	return nil, nil
+func New(connStr string) (*PostgresAccessor, error) {
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		return nil, err
+	}
+
+	sq := &PostgresAccessor{db: db}
+	return sq, nil
 }

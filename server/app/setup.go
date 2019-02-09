@@ -2,6 +2,7 @@ package app
 
 import (
 	"mapserver/colormapping"
+	"mapserver/db/postgres"
 	"mapserver/db/sqlite"
 	"mapserver/eventbus"
 	"mapserver/mapblockaccessor"
@@ -39,6 +40,13 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		if err != nil {
 			panic(err)
 		}
+
+	case worldconfig.BACKEND_POSTGRES:
+		a.Blockdb, err = postgres.New(a.Worldconfig[worldconfig.CONFIG_PSQL_CONNECTION])
+		if err != nil {
+			panic(err)
+		}
+
 	default:
 		panic(errors.New("map-backend not supported: " + a.Worldconfig[worldconfig.CONFIG_BACKEND]))
 	}
