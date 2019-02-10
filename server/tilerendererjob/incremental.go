@@ -60,5 +60,9 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			"secondsDiff": millisDiff / 1000,
 		}
 		logrus.WithFields(fields).Info("incremental rendering")
+
+		//tile gc
+		ctx.TileDB.GC()
+
 	}
 }

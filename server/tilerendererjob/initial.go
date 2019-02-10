@@ -96,5 +96,8 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		}
 		logrus.WithFields(fields).Info("Initial rendering")
 
+		//tile gc
+		ctx.TileDB.GC()
+
 	}
 }

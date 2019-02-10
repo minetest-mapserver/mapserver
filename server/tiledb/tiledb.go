@@ -30,6 +30,10 @@ func getKey(pos *coords.TileCoords) []byte {
 	return []byte(fmt.Sprintf("%d/%d/%d/%d", pos.X, pos.Y, pos.Zoom, pos.LayerId))
 }
 
+func (this *TileDB) GC() {
+	this.db.RunValueLogGC(0.7)
+}
+
 func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 	var tile []byte
 	err := this.db.View(func(txn *badger.Txn) error {
