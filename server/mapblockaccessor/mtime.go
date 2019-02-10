@@ -10,7 +10,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
+type FindMapBlocksByMtimeResult struct {
+	HasMore         bool
+	LastPos         *coords.MapBlockCoords
+	LastMtime       int64
+	List            []*mapblockparser.MapBlock
+	UnfilteredCount int
+}
+
+func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []layer.Layer) (*FindMapBlocksByMtimeResult, error) {
 
 	fields := logrus.Fields{
 		"lastmtime": lastmtime,
@@ -24,7 +32,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 		return nil, err
 	}
 
-	result := FindMapBlocksResult{}
+	result := FindMapBlocksByMtimeResult{}
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
 	var newlastpos *coords.MapBlockCoords

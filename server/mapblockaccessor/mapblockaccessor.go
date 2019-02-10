@@ -5,7 +5,6 @@ import (
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/eventbus"
-	"mapserver/mapblockparser"
 
 	"time"
 
@@ -30,12 +29,4 @@ func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
 		c:        c,
 		Eventbus: eventbus.New(),
 	}
-}
-
-type FindMapBlocksResult struct {
-	HasMore         bool
-	LastPos         *coords.MapBlockCoords
-	LastMtime       int64
-	List            []*mapblockparser.MapBlock
-	UnfilteredCount int
 }

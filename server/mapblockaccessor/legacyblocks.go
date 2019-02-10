@@ -10,7 +10,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (a *MapBlockAccessor) FindNextLegacyBlocks(lastpos *coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
+type FindNextLegacyBlocksResult struct {
+	HasMore         bool
+	LastPos         *coords.MapBlockCoords
+	LastMtime       int64
+	List            []*mapblockparser.MapBlock
+	UnfilteredCount int
+}
+
+func (a *MapBlockAccessor) FindNextLegacyBlocks(lastpos *coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindNextLegacyBlocksResult, error) {
 
 	fields := logrus.Fields{
 		"x":     lastpos.X,
@@ -26,7 +34,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(lastpos *coords.MapBlockCoords, 
 		return nil, err
 	}
 
-	result := FindMapBlocksResult{}
+	result := FindNextLegacyBlocksResult{}
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
 	var newlastpos *coords.MapBlockCoords
