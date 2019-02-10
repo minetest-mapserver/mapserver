@@ -10,7 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (a *MapBlockAccessor) FindMapBlocksByPos(lastpos *coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
+func (a *MapBlockAccessor) FindNextLegacyBlocks(lastpos *coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindMapBlocksResult, error) {
 
 	fields := logrus.Fields{
 		"x":     lastpos.X,

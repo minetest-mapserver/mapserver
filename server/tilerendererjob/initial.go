@@ -35,7 +35,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 	for true {
 		start := time.Now()
 
-		result, err := ctx.BlockAccessor.FindMapBlocksByPos(lastcoords, ctx.Config.RenderingFetchLimit, ctx.Config.Layers)
+		result, err := ctx.BlockAccessor.FindNextLegacyBlocks(lastcoords, ctx.Config.RenderingFetchLimit, ctx.Config.Layers)
 
 		if err != nil {
 			panic(err)
