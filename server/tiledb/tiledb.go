@@ -31,7 +31,12 @@ func getKey(pos *coords.TileCoords) []byte {
 }
 
 func (this *TileDB) GC() {
-	this.db.RunValueLogGC(0.7)
+	for {
+		err := this.db.RunValueLogGC(0.25)
+		if err != nil {
+			return
+		}
+	}
 }
 
 func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
