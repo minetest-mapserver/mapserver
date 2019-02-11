@@ -82,34 +82,6 @@ func (this *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.
 	return blocks, nil
 }
 
-func (this *Sqlite3Accessor) FindLegacyBlocksByPos(lastpos *coords.MapBlockCoords, limit int) ([]*db.Block, error) {
-	blocks := make([]*db.Block, 0)
-	pc := coords.CoordToPlain(lastpos)
-
-	rows, err := this.db.Query(getLastBlockQuery, pc, limit)
-	if err != nil {
-		return nil, err
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var pos int64
-		var data []byte
-		var mtime int64
-
-		err = rows.Scan(&pos, &data, &mtime)
-		if err != nil {
-			return nil, err
-		}
-
-		mb := convertRows(pos, data, mtime)
-		blocks = append(blocks, mb)
-	}
-
-	return blocks, nil
-}
-
 func (db *Sqlite3Accessor) CountBlocks(frommtime, tomtime int64) (int, error) {
 	rows, err := db.db.Query(countBlocksQuery, frommtime, tomtime)
 	if err != nil {

@@ -68,31 +68,8 @@ func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db
 	return blocks, nil
 }
 
-func (this *PostgresAccessor) FindLegacyBlocksByPos(lastpos *coords.MapBlockCoords, limit int) ([]*db.Block, error) {
-	blocks := make([]*db.Block, 0)
-
-	rows, err := this.db.Query(getLastBlockQuery, lastpos.X, lastpos.Y, lastpos.Z, limit)
-	if err != nil {
-		return nil, err
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var pos int64
-		var data []byte
-		var mtime int64
-
-		err = rows.Scan(&pos, &data, &mtime)
-		if err != nil {
-			return nil, err
-		}
-
-		mb := convertRows(pos, data, mtime)
-		blocks = append(blocks, mb)
-	}
-
-	return blocks, nil
+func (this *PostgresAccessor) FindNextInitialBlocks(lastpos *coords.MapBlockCoords, limit int) (*db.InitialBlocksResult, error) {
+	return nil, nil
 }
 
 func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error) {

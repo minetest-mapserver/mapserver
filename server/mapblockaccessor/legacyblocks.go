@@ -28,7 +28,8 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(lastpos *coords.MapBlockCoords, 
 	}
 	logrus.WithFields(fields).Debug("FindMapBlocksByPos")
 
-	blocks, err := a.accessor.FindLegacyBlocksByPos(lastpos, limit)
+	nextResult, err := a.accessor.FindNextInitialBlocks(lastpos, limit)
+	blocks := nextResult.List
 
 	if err != nil {
 		return nil, err
