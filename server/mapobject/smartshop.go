@@ -10,7 +10,7 @@ import (
 type SmartShopBlock struct{}
 
 func (this *SmartShopBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) []*mapobjectdb.MapObject {
-	list := make([]*mapobjectdb.MapObject, 4)
+	list := make([]*mapobjectdb.MapObject, 0)
 
 	md := block.Metadata.GetMetadata(x, y, z)
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
