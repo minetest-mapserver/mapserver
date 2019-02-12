@@ -25,7 +25,7 @@ type App struct {
 	Blockdb  db.DBAccessor
 	Objectdb mapobjectdb.DBAccessor
 	TileDB   *tiledb.TileDB
-	Settings *settings.Settings
+	Settings settings.Settings
 
 	BlockAccessor    *mapblockaccessor.MapBlockAccessor
 	Colormapping     *colormapping.ColorMapping
