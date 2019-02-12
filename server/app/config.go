@@ -10,15 +10,20 @@ import (
 )
 
 type Config struct {
-	Port                int           `json:"port"`
-	EnablePrometheus    bool          `json:"enableprometheus"`
-	EnableRendering     bool          `json:"enablerendering"`
-	Webdev              bool          `json:"webdev"`
-	WebApi              *WebApiConfig `json:"webapi"`
-	Layers              []layer.Layer `json:"layers"`
-	RenderingFetchLimit int           `json:"renderingfetchlimit"`
-	RenderingJobs       int           `json:"renderingjobs"`
-	RenderingQueue      int           `json:"renderingqueue"`
+	Port                int              `json:"port"`
+	EnablePrometheus    bool             `json:"enableprometheus"`
+	EnableRendering     bool             `json:"enablerendering"`
+	Webdev              bool             `json:"webdev"`
+	WebApi              *WebApiConfig    `json:"webapi"`
+	Layers              []layer.Layer    `json:"layers"`
+	RenderingFetchLimit int              `json:"renderingfetchlimit"`
+	RenderingJobs       int              `json:"renderingjobs"`
+	RenderingQueue      int              `json:"renderingqueue"`
+	MapObjects          *MapObjectConfig `json:"mapobjects"`
+}
+
+type MapObjectConfig struct {
+	Bones bool `json:"bones"`
 }
 
 type WebApiConfig struct {
@@ -73,6 +78,10 @@ func ParseConfig(filename string) (*Config, error) {
 		},
 	}
 
+	mapobjs := MapObjectConfig{
+		Bones: true,
+	}
+
 	cfg := Config{
 		Port:                8080,
 		EnableRendering:     true,
@@ -83,6 +92,7 @@ func ParseConfig(filename string) (*Config, error) {
 		RenderingFetchLimit: 1000,
 		RenderingJobs:       runtime.NumCPU(),
 		RenderingQueue:      100,
+		MapObjects:          &mapobjs,
 	}
 
 	info, err := os.Stat(filename)

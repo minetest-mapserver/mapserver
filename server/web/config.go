@@ -9,7 +9,8 @@ import (
 
 //Public facing config
 type PublicConfig struct {
-	Layers []layer.Layer `json:"layers"`
+	Layers     []layer.Layer        `json:"layers"`
+	MapObjects *app.MapObjectConfig `json:"mapobjects"`
 }
 
 type ConfigHandler struct {
@@ -21,6 +22,7 @@ func (h *ConfigHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 	webcfg := PublicConfig{}
 	webcfg.Layers = h.ctx.Config.Layers
+	webcfg.MapObjects = h.ctx.Config.MapObjects
 
 	json.NewEncoder(resp).Encode(webcfg)
 }

@@ -33,7 +33,11 @@ api.getConfig().then(function(cfg){
   overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
   overlays["Labels"] = new LabelOverlay(wsChannel, layerMgr);
   overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
-  overlays["Bones"] = new BonesOverlay(wsChannel, layerMgr);
+
+  if (cfg.mapobjects.bones) {
+    overlays["Bones"] = new BonesOverlay(wsChannel, layerMgr);
+  }
+
   overlays["Digilines LCD"] = new LcdOverlay(wsChannel, layerMgr);
   overlays["Digiterms"] = new DigitermOverlay(wsChannel, layerMgr);
   overlays["Lua Controller"] = new LuacontrollerOverlay(wsChannel, layerMgr);
