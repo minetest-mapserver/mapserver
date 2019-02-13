@@ -10,20 +10,20 @@ all: build
 $(OUT_DIR):
 	mkdir $@
 
-test: $(STATIC_VFS) $(OUT_DIR)
+test: $(OUT_DIR)
+	go generate
+	go build
 	$(ENV) go test ./...
 
 clean:
 	rm -rf $(STATIC_VFS)
 	rm -rf $(OUT_DIR)
 
-$(STATIC_VFS):
-	go run github.com/mjibson/esc -o vfs/static.go -prefix="static/" -pkg vfs static
-
 build-docker:
 	sudo docker run --rm -it -v $(shell pwd)/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make
 
-build: $(STATIC_VFS) $(OUT_DIR)
+build: $(OUT_DIR)
+	go generate
 	# native
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc go build $(GO_LDFLAGS) -o $(OUT_DIR)/mapserver-linux-x86_64
 	# apt install gcc-8-i686-linux-gnu
