@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
+	"mapserver/vfs"
 	"time"
 )
 
@@ -15,7 +16,7 @@ type Sqlite3Accessor struct {
 func (db *Sqlite3Accessor) Migrate() error {
 	log.WithFields(logrus.Fields{"filename": db.filename}).Info("Migrating database")
 	start := time.Now()
-	_, err := db.db.Exec(migrateScript)
+	_, err := db.db.Exec(vfs.FSMustString(false, "/sql/sqlite_mapobjectdb_migrate.sql"))
 	if err != nil {
 		return err
 	}
