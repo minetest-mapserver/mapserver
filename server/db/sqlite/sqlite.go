@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"mapserver/coords"
 	"mapserver/db"
+	"mapserver/vfs"
 	"time"
 )
 
@@ -38,7 +39,7 @@ func (db *Sqlite3Accessor) Migrate() error {
 	if !hasMtime {
 		log.WithFields(logrus.Fields{"filename": db.filename}).Info("Migrating database")
 		start := time.Now()
-		_, err = rwdb.Exec(migrateScript)
+		_, err = rwdb.Exec(vfs.FSMustString(false, "/sql/sqlite_mapdb_migrate.sql"))
 		if err != nil {
 			return err
 		}
