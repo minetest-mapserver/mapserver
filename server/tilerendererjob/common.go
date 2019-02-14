@@ -22,7 +22,25 @@ func renderMapblocks(ctx *app.App, jobs chan *coords.TileCoords, mblist []*mapbl
 	for i := 12; i >= 1; i-- {
 		for _, mb := range mblist {
 			//13
+
+			fields := logrus.Fields{
+				"pos": mb.Pos,
+			}
+			logrus.WithFields(fields).Debug("Tile render job part")
+
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
+
+			if tc == nil {
+				panic("mapblock outside of layer!")
+			}
+
+			fields = logrus.Fields{
+				"X":       tc.X,
+				"Y":       tc.Y,
+				"Zoom":    tc.Zoom,
+				"LayerId": tc.LayerId,
+			}
+			logrus.WithFields(fields).Debug("Tile render job part")
 
 			//12-1
 			tc = tc.ZoomOut(13 - i)
@@ -34,14 +52,6 @@ func renderMapblocks(ctx *app.App, jobs chan *coords.TileCoords, mblist []*mapbl
 			}
 
 			tileRenderedMap[key] = true
-
-			fields := logrus.Fields{
-				"X":       tc.X,
-				"Y":       tc.Y,
-				"Zoom":    tc.Zoom,
-				"LayerId": tc.LayerId,
-			}
-			logrus.WithFields(fields).Debug("Dispatching tile rendering (z12-1)")
 
 			tilecount++
 

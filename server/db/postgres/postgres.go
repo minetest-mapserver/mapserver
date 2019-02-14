@@ -72,7 +72,7 @@ func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db
 func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error) {
 	rows, err := this.db.Query(countBlocksQuery, frommtime, tomtime)
 	if err != nil {
-		return 0, err
+		panic(err)
 	}
 
 	defer rows.Close()
@@ -117,7 +117,7 @@ func (this *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, e
 }
 
 func New(connStr string) (*PostgresAccessor, error) {
-	db, err := sql.Open("postgres", connStr)
+	db, err := sql.Open("postgres", connStr+" sslmode=disable")
 	if err != nil {
 		return nil, err
 	}

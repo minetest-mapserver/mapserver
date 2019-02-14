@@ -1,11 +1,13 @@
 package postgres
 
 import (
-	"github.com/sirupsen/logrus"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/layer"
 	"mapserver/settings"
+	"math"
+
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -53,18 +55,30 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	tc := coords.NewTileCoords(lastxblock, lastyblock, 9, lastlayer)
 	currentlayer := layer.FindLayerById(layers, lastlayer)
 
-	tcr := coords.GetMapBlockRangeFromTile(tc, currentlayer.From)
+	fromY := int(currentlayer.From / 16)
+	toY := int(currentlayer.To / 16)
+
+	tcr := coords.GetMapBlockRangeFromTile(tc, fromY)
+	tcr.Pos1.Y = toY
 
 	fields := logrus.Fields{
-		"layerId": lastlayer,
-		"pos1":    tcr.Pos1,
-		"pos2":    tcr.Pos2,
+		"layerId":    lastlayer,
+		"pos1":       tcr.Pos1,
+		"pos2":       tcr.Pos2,
+		"lastxblock": lastxblock,
+		"lastyblock": lastyblock,
 	}
 	log.WithFields(fields).Info("Initial-Query")
 
+	minX := math.Min(float64(tcr.Pos1.X), float64(tcr.Pos2.X))
+	maxX := math.Max(float64(tcr.Pos1.X), float64(tcr.Pos2.X))
+	minY := math.Min(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y))
+	maxY := math.Max(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y))
+	minZ := math.Min(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z))
+	maxZ := math.Max(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z))
+
 	rows, err := this.db.Query(getBlocksByInitialTileQuery,
-		tcr.Pos1.X, tcr.Pos1.X, tcr.Pos1.X,
-		tcr.Pos2.X, tcr.Pos2.X, tcr.Pos2.X,
+		minX, minY, minZ, maxX, maxY, maxZ,
 	)
 
 	if err != nil {
@@ -87,6 +101,10 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 		mb := convertRows(posx, posy, posz, data, mtime)
 		blocks = append(blocks, mb)
 	}
+
+	s.SetInt(SETTING_LAST_LAYER, lastlayer)
+	s.SetInt(SETTING_LAST_X_BLOCK, lastxblock)
+	s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock)
 
 	result := &db.InitialBlocksResult{}
 	result.List = blocks
