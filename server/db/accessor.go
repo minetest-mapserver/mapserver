@@ -2,8 +2,8 @@ package db
 
 import (
 	"mapserver/coords"
-	"mapserver/settings"
 	"mapserver/layer"
+	"mapserver/settings"
 )
 
 type Block struct {
@@ -13,9 +13,9 @@ type Block struct {
 }
 
 type InitialBlocksResult struct {
-	List    []*Block
+	List            []*Block
 	UnfilteredCount int
-	HasMore bool
+	HasMore         bool
 }
 
 type DBAccessor interface {

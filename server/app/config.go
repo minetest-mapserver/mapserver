@@ -15,7 +15,7 @@ type Config struct {
 	EnableRendering     bool             `json:"enablerendering"`
 	Webdev              bool             `json:"webdev"`
 	WebApi              *WebApiConfig    `json:"webapi"`
-	Layers              []*layer.Layer    `json:"layers"`
+	Layers              []*layer.Layer   `json:"layers"`
 	RenderingFetchLimit int              `json:"renderingfetchlimit"`
 	RenderingJobs       int              `json:"renderingjobs"`
 	RenderingQueue      int              `json:"renderingqueue"`

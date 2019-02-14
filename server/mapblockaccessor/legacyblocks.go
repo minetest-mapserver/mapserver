@@ -3,8 +3,8 @@ package mapblockaccessor
 import (
 	"mapserver/eventbus"
 	"mapserver/layer"
-	"mapserver/settings"
 	"mapserver/mapblockparser"
+	"mapserver/settings"
 
 	cache "github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"

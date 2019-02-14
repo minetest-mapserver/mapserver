@@ -4,12 +4,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/settings"
 	"mapserver/layer"
+	"mapserver/settings"
 )
 
 const (
-	SETTING_LAST_POS            = "last_pos"
+	SETTING_LAST_POS = "last_pos"
 )
 
 const getLastBlockQuery = `

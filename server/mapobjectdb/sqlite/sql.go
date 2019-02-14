@@ -1,6 +1,5 @@
 package sqlite
 
-
 const getMapDataPosQuery = `
 select o.id, o.type, o.mtime,
  o.x, o.y, o.z,
