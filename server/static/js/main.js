@@ -29,22 +29,42 @@ api.getConfig().then(function(cfg){
   //TODO: all layers
   layers["Base"] = tileLayer;
 
-  overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
-  overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
-  overlays["Labels"] = new LabelOverlay(wsChannel, layerMgr);
-  overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
+  if (cfg.mapobjects.mapserver) {
+    overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
+    overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
+    overlays["Labels"] = new LabelOverlay(wsChannel, layerMgr);
+  }
+
+  if (cfg.mapobjects.travelnet) {
+    overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
+  }
 
   if (cfg.mapobjects.bones) {
     overlays["Bones"] = new BonesOverlay(wsChannel, layerMgr);
   }
 
-  overlays["Digilines LCD"] = new LcdOverlay(wsChannel, layerMgr);
-  overlays["Digiterms"] = new DigitermOverlay(wsChannel, layerMgr);
-  overlays["Lua Controller"] = new LuacontrollerOverlay(wsChannel, layerMgr);
-  overlays["Technic Anchor"] = new TechnicAnchorOverlay(wsChannel, layerMgr);
-  overlays["Technic Quarry"] = new TechnicQuarryOverlay(wsChannel, layerMgr);
-  overlays["Technic Switching station"] = new TechnicSwitchOverlay(wsChannel, layerMgr);
-  overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
+  if (cfg.mapobjects.digilines) {
+    overlays["Digilines LCD"] = new LcdOverlay(wsChannel, layerMgr);
+  }
+
+  if (cfg.mapobjects.digiterms) {
+    overlays["Digiterms"] = new DigitermOverlay(wsChannel, layerMgr);
+  }
+
+  if (cfg.mapobjects.luacontroller) {
+    overlays["Lua Controller"] = new LuacontrollerOverlay(wsChannel, layerMgr);
+  }
+
+  if (cfg.mapobjects.technic) {
+    overlays["Technic Anchor"] = new TechnicAnchorOverlay(wsChannel, layerMgr);
+    overlays["Technic Quarry"] = new TechnicQuarryOverlay(wsChannel, layerMgr);
+    overlays["Technic Switching station"] = new TechnicSwitchOverlay(wsChannel, layerMgr);
+  }
+
+  if (cfg.mapobjects.protector) {
+    overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
+  }
+
   overlays["Missions"] = new MissionOverlay(wsChannel, layerMgr);
 
   //Default enabled overlays

@@ -1,19 +1,18 @@
 package postgres
 
 import (
+	"github.com/sirupsen/logrus"
+	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/layer"
-	"mapserver/coords"
 	"mapserver/settings"
-	"github.com/sirupsen/logrus"
 )
 
 const (
-	SETTING_LAST_LAYER = "last_layer"
+	SETTING_LAST_LAYER   = "last_layer"
 	SETTING_LAST_X_BLOCK = "last_x_block"
 	SETTING_LAST_Y_BLOCK = "last_y_block"
 )
-
 
 // x -> 0 ... 256
 
@@ -26,7 +25,6 @@ const (
 
 //Zoom 9:
 //10 mapblocks height * 16 * 16 == 2560
-
 
 func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
 
@@ -59,8 +57,8 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 
 	fields := logrus.Fields{
 		"layerId": lastlayer,
-		"pos1": tcr.Pos1,
-		"pos2": tcr.Pos2,
+		"pos1":    tcr.Pos1,
+		"pos2":    tcr.Pos2,
 	}
 	log.WithFields(fields).Info("Initial-Query")
 

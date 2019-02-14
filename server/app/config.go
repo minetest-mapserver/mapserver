@@ -23,7 +23,14 @@ type Config struct {
 }
 
 type MapObjectConfig struct {
-	Bones bool `json:"bones"`
+	Bones         bool `json:"bones"`
+	Protector     bool `json:"protector"`
+	Technic       bool `json:"technic"`
+	LuaController bool `json:"luacontroller"`
+	Digiterms     bool `json:"digiterms"`
+	Digilines     bool `json:"digilines"`
+	Travelnet     bool `json:"travelnet"`
+	Mapserver     bool `json:"mapserver"`
 }
 
 type WebApiConfig struct {
@@ -79,7 +86,14 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	mapobjs := MapObjectConfig{
-		Bones: true,
+		Bones:         true,
+		Protector:     true,
+		Technic:       true,
+		LuaController: true,
+		Digiterms:     true,
+		Digilines:     true,
+		Travelnet:     true,
+		Mapserver:     true,
 	}
 
 	cfg := Config{

@@ -114,62 +114,78 @@ func Setup(ctx *app.App) {
 	}
 
 	//mapserver stuff
-	l.AddMapObject("mapserver:poi", &PoiBlock{})
-	l.AddMapObject("mapserver:train", &TrainBlock{})
-	l.AddMapObject("mapserver:border", &BorderBlock{})
-	l.AddMapObject("mapserver:label", &LabelBlock{})
+	if ctx.Config.MapObjects.Mapserver {
+		l.AddMapObject("mapserver:poi", &PoiBlock{})
+		l.AddMapObject("mapserver:train", &TrainBlock{})
+		l.AddMapObject("mapserver:border", &BorderBlock{})
+		l.AddMapObject("mapserver:label", &LabelBlock{})
+	}
 
 	//travelnet
-	l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
+	if ctx.Config.MapObjects.Travelnet {
+		l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
+	}
 
 	//protections
-	l.AddMapObject("protector:protect", &ProtectorBlock{})
-	l.AddMapObject("protector:protect2", &ProtectorBlock{})
-	l.AddMapObject("xp_redo:protector", &XPProtectorBlock{})
+	if ctx.Config.MapObjects.Protector {
+		l.AddMapObject("protector:protect", &ProtectorBlock{})
+		l.AddMapObject("protector:protect2", &ProtectorBlock{})
+		l.AddMapObject("xp_redo:protector", &XPProtectorBlock{})
+	}
 
 	//builtin
-	l.AddMapObject("bones:bones", &BonesBlock{})
+	if ctx.Config.MapObjects.Bones {
+		l.AddMapObject("bones:bones", &BonesBlock{})
+	}
 
 	//technic
-	l.AddMapObject("technic:quarry", &QuarryBlock{})
-	l.AddMapObject("technic:hv_nuclear_reactor_core_active", &NuclearReactorBlock{})
-	l.AddMapObject("technic:admin_anchor", &TechnicAnchorBlock{})
-	l.AddMapObject("technic:switching_station", &TechnicSwitchBlock{})
+	if ctx.Config.MapObjects.Technic {
+		l.AddMapObject("technic:quarry", &QuarryBlock{})
+		l.AddMapObject("technic:hv_nuclear_reactor_core_active", &NuclearReactorBlock{})
+		l.AddMapObject("technic:admin_anchor", &TechnicAnchorBlock{})
+		l.AddMapObject("technic:switching_station", &TechnicSwitchBlock{})
+	}
 
 	//digilines
-	l.AddMapObject("digilines:lcd", &DigilineLcdBlock{})
+	if ctx.Config.MapObjects.Digilines {
+		l.AddMapObject("digilines:lcd", &DigilineLcdBlock{})
+	}
 
 	//mesecons
-	luac := &LuaControllerBlock{}
-	// mesecons_luacontroller:luacontroller0000 2^4=16
-	l.AddMapObject("mesecons_luacontroller:luacontroller1111", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller1110", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller1100", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller1010", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller1000", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller1101", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller1001", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller1011", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0111", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0110", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0100", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0010", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0000", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0101", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0001", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller0011", luac)
-	l.AddMapObject("mesecons_luacontroller:luacontroller_burnt", luac)
+	if ctx.Config.MapObjects.LuaController {
+		luac := &LuaControllerBlock{}
+		// mesecons_luacontroller:luacontroller0000 2^4=16
+		l.AddMapObject("mesecons_luacontroller:luacontroller1111", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller1110", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller1100", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller1010", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller1000", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller1101", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller1001", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller1011", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0111", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0110", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0100", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0010", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0000", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0101", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0001", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller0011", luac)
+		l.AddMapObject("mesecons_luacontroller:luacontroller_burnt", luac)
+	}
 
 	//digiterms
-	digiterms := &DigitermsBlock{}
-	l.AddMapObject("digiterms:lcd_monitor", digiterms)
-	l.AddMapObject("digiterms:cathodic_beige_monitor", digiterms)
-	l.AddMapObject("digiterms:cathodic_white_monitor", digiterms)
-	l.AddMapObject("digiterms:cathodic_black_monitor", digiterms)
-	l.AddMapObject("digiterms:scifi_glassscreen", digiterms)
-	l.AddMapObject("digiterms:scifi_widescreen", digiterms)
-	l.AddMapObject("digiterms:scifi_tallscreen", digiterms)
-	l.AddMapObject("digiterms:scifi_keysmonitor", digiterms)
+	if ctx.Config.MapObjects.Digiterms {
+		digiterms := &DigitermsBlock{}
+		l.AddMapObject("digiterms:lcd_monitor", digiterms)
+		l.AddMapObject("digiterms:cathodic_beige_monitor", digiterms)
+		l.AddMapObject("digiterms:cathodic_white_monitor", digiterms)
+		l.AddMapObject("digiterms:cathodic_black_monitor", digiterms)
+		l.AddMapObject("digiterms:scifi_glassscreen", digiterms)
+		l.AddMapObject("digiterms:scifi_widescreen", digiterms)
+		l.AddMapObject("digiterms:scifi_tallscreen", digiterms)
+		l.AddMapObject("digiterms:scifi_keysmonitor", digiterms)
+	}
 
 	//missions
 	l.AddMapObject("missions:mission", &MissionBlock{})
