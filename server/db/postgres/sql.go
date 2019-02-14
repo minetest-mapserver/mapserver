@@ -1,5 +1,17 @@
 package postgres
 
+const getBlocksByInitialTileQuery = `
+select posx,posy,posz,data,mtime
+from blocks b
+where b.mtime = 0
+and b.posx >= ?
+and b.posy >= ?
+and b.posz >= ?
+and b.posx <= ?
+and b.posy <= ?
+and b.posz <= ?
+`
+
 const getBlocksByMtimeQuery = `
 select posx,posy,posz,data,mtime
 from blocks b

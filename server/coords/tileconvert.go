@@ -29,7 +29,7 @@ func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []*layer.Layer) *Tile
 	return &tc
 }
 
-func GetMapBlockRangeFromTile(tc *TileCoords, y int) MapBlockRange {
+func GetMapBlockRangeFromTile(tc *TileCoords, y int) *MapBlockRange {
 	scaleDiff := float64(MAX_ZOOM - tc.Zoom)
 	scale := int(math.Pow(2, scaleDiff))
 
@@ -39,7 +39,7 @@ func GetMapBlockRangeFromTile(tc *TileCoords, y int) MapBlockRange {
 	mapBlockX2 := mapBlockX1 + scale - 1
 	mapBlockZ2 := (mapBlockZ1 + ((scale - 1) * -1))
 
-	return MapBlockRange{
+	return &MapBlockRange{
 		Pos1: NewMapBlockCoords(mapBlockX1, y, mapBlockZ1),
 		Pos2: NewMapBlockCoords(mapBlockX2, y, mapBlockZ2),
 	}
