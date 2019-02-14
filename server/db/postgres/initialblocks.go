@@ -68,7 +68,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 		"lastxblock": lastxblock,
 		"lastyblock": lastyblock,
 	}
-	log.WithFields(fields).Info("Initial-Query")
+	log.WithFields(fields).Debug("Initial-Query")
 
 	minX := math.Min(float64(tcr.Pos1.X), float64(tcr.Pos2.X))
 	maxX := math.Max(float64(tcr.Pos1.X), float64(tcr.Pos2.X))
@@ -76,6 +76,33 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	maxY := math.Max(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y))
 	minZ := math.Min(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z))
 	maxZ := math.Max(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z))
+
+	stridecount := this.intQuery(`
+		select count(*) from blocks
+		where posx >= $1 and posx <= $2
+		and posy >= $3 and posy <= $4
+		and mtime = 0`,
+		minX, maxX,
+		minY, maxY,
+	)
+
+	if stridecount == 0 {
+		fields = logrus.Fields{
+			"minX": minX,
+			"maxX": maxX,
+			"minY": minY,
+			"maxY": maxY,
+		}
+		log.WithFields(fields).Info("Skipping stride")
+
+		s.SetInt(SETTING_LAST_LAYER, lastlayer)
+		s.SetInt(SETTING_LAST_X_BLOCK, lastxblock)
+		s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock)
+
+		result := &db.InitialBlocksResult{}
+		result.HasMore = true
+		return result, nil
+	}
 
 	rows, err := this.db.Query(getBlocksByInitialTileQuery,
 		minX, minY, minZ, maxX, maxY, maxZ,
@@ -88,18 +115,23 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	defer rows.Close()
 	blocks := make([]*db.Block, 0)
 
-	for rows.Next() {
-		var posx, posy, posz int
-		var data []byte
-		var mtime int64
+	for {
+		for rows.Next() {
+			var posx, posy, posz int
+			var data []byte
+			var mtime int64
 
-		err = rows.Scan(&posx, &posy, &posz, &data, &mtime)
-		if err != nil {
-			return nil, err
+			err = rows.Scan(&posx, &posy, &posz, &data, &mtime)
+			if err != nil {
+				return nil, err
+			}
+
+			mb := convertRows(posx, posy, posz, data, mtime)
+			blocks = append(blocks, mb)
 		}
-
-		mb := convertRows(posx, posy, posz, data, mtime)
-		blocks = append(blocks, mb)
+		if !rows.NextResultSet() {
+			break
+		}
 	}
 
 	s.SetInt(SETTING_LAST_LAYER, lastlayer)
