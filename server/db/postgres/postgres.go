@@ -37,8 +37,8 @@ func (db *PostgresAccessor) Migrate() error {
 	return nil
 }
 
-func convertRows(pos int64, data []byte, mtime int64) *db.Block {
-	c := coords.PlainToCoord(pos)
+func convertRows(posx, posy, posz int, data []byte, mtime int64) *db.Block {
+	c := coords.NewMapBlockCoords(posx, posy, posz)
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
@@ -53,16 +53,16 @@ func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db
 	defer rows.Close()
 
 	for rows.Next() {
-		var pos int64
+		var posx, posy, posz int
 		var data []byte
 		var mtime int64
 
-		err = rows.Scan(&pos, &data, &mtime)
+		err = rows.Scan(&posx, &posy, &posz, &data, &mtime)
 		if err != nil {
 			return nil, err
 		}
 
-		mb := convertRows(pos, data, mtime)
+		mb := convertRows(posx, posy, posz, data, mtime)
 		blocks = append(blocks, mb)
 	}
 
@@ -100,16 +100,16 @@ func (this *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, e
 	defer rows.Close()
 
 	if rows.Next() {
-		var pos int64
+		var posx, posy, posz int
 		var data []byte
 		var mtime int64
 
-		err = rows.Scan(&pos, &data, &mtime)
+		err = rows.Scan(&posx, &posy, &posz, &data, &mtime)
 		if err != nil {
 			return nil, err
 		}
 
-		mb := convertRows(pos, data, mtime)
+		mb := convertRows(posx, posy, posz, data, mtime)
 		return mb, nil
 	}
 

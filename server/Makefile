@@ -10,6 +10,9 @@ all: build
 $(OUT_DIR):
 	mkdir $@
 
+fmt:
+	go fmt ./...
+
 test: $(OUT_DIR)
 	go generate
 	go build
