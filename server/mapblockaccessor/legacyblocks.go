@@ -32,6 +32,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*l
 	result.UnfilteredCount = nextResult.UnfilteredCount
 
 	for _, block := range blocks {
+
 		fields := logrus.Fields{
 			"x": block.Pos.X,
 			"y": block.Pos.Y,
