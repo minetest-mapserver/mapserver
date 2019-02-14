@@ -52,6 +52,11 @@ func main() {
 		panic(err)
 	}
 
+	//exit after creating the config
+	if p.CreateConfig {
+		return
+	}
+
 	//setup app context
 	ctx := app.Setup(p, cfg)
 
