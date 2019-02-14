@@ -9,7 +9,7 @@ import (
 
 //Public facing config
 type PublicConfig struct {
-	Layers     []layer.Layer        `json:"layers"`
+	Layers     []*layer.Layer        `json:"layers"`
 	MapObjects *app.MapObjectConfig `json:"mapobjects"`
 }
 

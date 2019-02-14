@@ -8,8 +8,8 @@ import (
 
 func TestConvertMapblockToTile1(t *testing.T) {
 	mbc := NewMapBlockCoords(0, 0, 0)
-	layers := []layer.Layer{
-		layer.Layer{
+	layers := []*layer.Layer{
+		&layer.Layer{
 			Id:   0,
 			Name: "Base",
 			From: -16,
@@ -48,8 +48,8 @@ func TestGetMapBlockRangeFromTile(t *testing.T) {
 
 func TestConvertMapblockToTile2(t *testing.T) {
 	mbc := NewMapBlockCoords(1, 0, 1)
-	layers := []layer.Layer{
-		layer.Layer{
+	layers := []*layer.Layer{
+		&layer.Layer{
 			Id:   0,
 			Name: "Base",
 			From: -16,
@@ -74,8 +74,8 @@ func TestConvertMapblockToTile2(t *testing.T) {
 
 func TestConvertMapblockToTile3(t *testing.T) {
 	mbc := NewMapBlockCoords(-1, 0, -1)
-	layers := []layer.Layer{
-		layer.Layer{
+	layers := []*layer.Layer{
+		&layer.Layer{
 			Id:   0,
 			Name: "Base",
 			From: -16,

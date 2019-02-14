@@ -18,7 +18,7 @@ type FindMapBlocksByMtimeResult struct {
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []layer.Layer) (*FindMapBlocksByMtimeResult, error) {
+func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []*layer.Layer) (*FindMapBlocksByMtimeResult, error) {
 
 	fields := logrus.Fields{
 		"lastmtime": lastmtime,

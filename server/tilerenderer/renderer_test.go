@@ -52,8 +52,8 @@ func TestTileRender(t *testing.T) {
 
 	tdb, _ := tiledb.New(tiletmpdir)
 
-	layers := []layer.Layer{
-		layer.Layer{
+	layers := []*layer.Layer{
+		&layer.Layer{
 			Id:   0,
 			Name: "Base",
 			From: -16,

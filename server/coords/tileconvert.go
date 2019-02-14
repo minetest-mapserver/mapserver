@@ -9,7 +9,7 @@ const (
 	MAX_ZOOM = 13
 )
 
-func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []layer.Layer) *TileCoords {
+func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []*layer.Layer) *TileCoords {
 	tc := TileCoords{X: mbc.X, Y: (mbc.Z + 1) * -1, Zoom: MAX_ZOOM}
 
 	var layerid *int

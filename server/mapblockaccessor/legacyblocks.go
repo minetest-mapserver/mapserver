@@ -1,7 +1,6 @@
 package mapblockaccessor
 
 import (
-	"mapserver/coords"
 	"mapserver/eventbus"
 	"mapserver/layer"
 	"mapserver/settings"
@@ -17,17 +16,9 @@ type FindNextLegacyBlocksResult struct {
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []layer.Layer, limit int) (*FindNextLegacyBlocksResult, error) {
+func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*FindNextLegacyBlocksResult, error) {
 
-	fields := logrus.Fields{
-		"x":     lastpos.X,
-		"y":     lastpos.Y,
-		"z":     lastpos.Z,
-		"limit": limit,
-	}
-	logrus.WithFields(fields).Debug("FindMapBlocksByPos")
-
-	nextResult, err := a.accessor.FindNextInitialBlocks(lastpos, limit)
+	nextResult, err := a.accessor.FindNextInitialBlocks(s, layers, limit)
 	blocks := nextResult.List
 
 	if err != nil {
@@ -37,28 +28,10 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []la
 	result := FindNextLegacyBlocksResult{}
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
-	var newlastpos *coords.MapBlockCoords
-	result.HasMore = len(blocks) == limit
-	result.UnfilteredCount = len(blocks)
+	result.HasMore = nextResult.HasMore
+	result.UnfilteredCount = nextResult.UnfilteredCount
 
 	for _, block := range blocks {
-		newlastpos = block.Pos
-		if result.LastMtime < block.Mtime {
-			result.LastMtime = block.Mtime
-		}
-
-		inLayer := false
-		for _, l := range layerfilter {
-			if (block.Pos.Y*16) >= l.From && (block.Pos.Y*16) <= l.To {
-				inLayer = true
-				break
-			}
-		}
-
-		if !inLayer {
-			continue
-		}
-
 		fields := logrus.Fields{
 			"x": block.Pos.X,
 			"y": block.Pos.Y,
@@ -80,10 +53,9 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []la
 
 	}
 
-	result.LastPos = newlastpos
 	result.List = mblist
 
-	fields = logrus.Fields{
+	fields := logrus.Fields{
 		"len(List)":       len(result.List),
 		"unfilteredCount": result.UnfilteredCount,
 		"hasMore":         result.HasMore,

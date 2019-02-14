@@ -17,8 +17,8 @@ import (
 func TestSimpleRender(t *testing.T) {
 	logrus.SetLevel(logrus.InfoLevel)
 
-	layers := []layer.Layer{
-		layer.Layer{
+	layers := []*layer.Layer{
+		&layer.Layer{
 			Id:   0,
 			Name: "Base",
 			From: -16,

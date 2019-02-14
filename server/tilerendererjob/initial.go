@@ -26,16 +26,10 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 	}
 	logrus.WithFields(fields).Info("Starting initial rendering job")
 
-	lastx := ctx.Settings.GetInt(settings.SETTING_LASTX, coords.MinCoord-1)
-	lasty := ctx.Settings.GetInt(settings.SETTING_LASTY, coords.MinCoord-1)
-	lastz := ctx.Settings.GetInt(settings.SETTING_LASTZ, coords.MinCoord-1)
-
-	lastcoords := coords.NewMapBlockCoords(lastx, lasty, lastz)
-
 	for true {
 		start := time.Now()
 
-		result, err := ctx.BlockAccessor.FindNextLegacyBlocks(lastcoords, ctx.Config.RenderingFetchLimit, ctx.Config.Layers)
+		result, err := ctx.BlockAccessor.FindNextLegacyBlocks(ctx.Settings, ctx.Config.Layers, ctx.Config.RenderingFetchLimit)
 
 		if err != nil {
 			panic(err)
@@ -62,13 +56,6 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
 
-		lastcoords = result.LastPos
-		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, result.LastMtime)
-
-		//Save current positions of initial run
-		ctx.Settings.SetInt(settings.SETTING_LASTX, lastcoords.X)
-		ctx.Settings.SetInt(settings.SETTING_LASTY, lastcoords.Y)
-		ctx.Settings.SetInt(settings.SETTING_LASTZ, lastcoords.Z)
 		legacyProcessed += result.UnfilteredCount
 
 		ctx.Settings.SetInt(settings.SETTING_LEGACY_PROCESSED, legacyProcessed)
@@ -89,9 +76,6 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			"tiles":     tiles,
 			"processed": legacyProcessed,
 			"progress%": progress,
-			"X":         lastcoords.X,
-			"Y":         lastcoords.Y,
-			"Z":         lastcoords.Z,
 			"elapsed":   elapsed,
 		}
 		logrus.WithFields(fields).Info("Initial rendering")

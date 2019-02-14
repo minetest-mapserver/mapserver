@@ -20,7 +20,7 @@ import (
 
 type TileRenderer struct {
 	mapblockrenderer *mapblockrenderer.MapBlockRenderer
-	layers           []layer.Layer
+	layers           []*layer.Layer
 	tdb              *tiledb.TileDB
 	dba              db.DBAccessor
 	Eventbus         *eventbus.Eventbus
@@ -29,7 +29,7 @@ type TileRenderer struct {
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 	tdb *tiledb.TileDB,
 	dba db.DBAccessor,
-	layers []layer.Layer) *TileRenderer {
+	layers []*layer.Layer) *TileRenderer {
 
 	return &TileRenderer{
 		mapblockrenderer: mapblockrenderer,
@@ -99,7 +99,7 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 
 	for _, l := range tr.layers {
 		if l.Id == tc.LayerId {
-			layer = &l
+			layer = l
 		}
 	}
 

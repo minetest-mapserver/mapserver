@@ -16,7 +16,7 @@ func TestMinCoord(t *testing.T){
 	c := NewMapBlockCoords(MinCoord, MinCoord, MinCoord)
 	pc := CoordToPlain(c)
 
-	log.WithFields(logrus.Fields{"coords": c, "plain": pc}).Info("TestMinCoord")
+	log.WithFields(logrus.Fields{"coords": c, "plain": pc,"plain-1": pc-1}).Info("TestMinCoord")
 	if pc != MinPlainCoord {
 		t.Fatal("no min match")
 	}

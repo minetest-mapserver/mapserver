@@ -2,9 +2,6 @@ package settings
 
 const (
 	SETTING_LAST_MTIME       = "last_mtime"
-	SETTING_LASTX            = "last_x"
-	SETTING_LASTY            = "last_y"
-	SETTING_LASTZ            = "last_z"
 	SETTING_INITIAL_RUN      = "initial_run"
 	SETTING_LEGACY_PROCESSED = "legacy_processed"
 )
