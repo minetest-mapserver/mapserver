@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+ postgres:
+  image: postgres:10
+  restart: always
+  environment:
+   POSTGRES_PASSWORD: enter
+  ports:
+   - "5432:5432"
+  volumes:
+   - "./data/postgres:/var/lib/postgresql/data"
+   - "./data/backup:/backup"
+   - "./data/restore:/restore"
