@@ -3,9 +3,8 @@ package postgres
 import (
 	"database/sql"
 	"mapserver/coords"
-	"mapserver/settings"
-	"mapserver/layer"
 	"mapserver/db"
+	"mapserver/vfs"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -26,7 +25,7 @@ func (db *PostgresAccessor) Migrate() error {
 	if !hasMtime {
 		log.Info("Migrating database")
 		start := time.Now()
-		_, err = db.db.Exec(migrateScript)
+		_, err = db.db.Exec(vfs.FSMustString(false, "/sql/postgres_mapdb_migrate.sql"))
 		if err != nil {
 			return err
 		}
@@ -68,10 +67,6 @@ func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db
 	}
 
 	return blocks, nil
-}
-
-func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
-	return nil, nil
 }
 
 func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error) {
