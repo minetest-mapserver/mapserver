@@ -27,9 +27,51 @@ function send_stats()
     players = {}
   }
 
+  --[[
+  "trains":[
+      {"id":"690096","off_track":false,"pos":{"x":-125,"y":6,"z":-46},"velocity":0},
+      {"id":"973462","off_track":false,"pos":{"x":-125,"y":5,"z":-64},"velocity":0}
+    ],
+  "uptime":2.0000000298023224,
+  "wagons":[
+    {"id":"980189","pos_in_train":2,"train_id":"690096","type":"advtrains:subway_wagon"},
+    {"id":"243215","pos_in_train":2.5,"train_id":"973462","type":"advtrains:engine_japan"}
+  ]}
+
+  --]]
+
   if has_advtrains then
     -- send trains if 'advtrains' mod installed
-    data.trains = advtrains.trains
+    --print(dump(advtrains))--XXX
+
+    data.trains = {}
+    for _, train in pairs(advtrains.trains) do
+      --print(dump(train))--XXX
+
+      local t = {
+        pos = train.last_pos,
+        velocity = train.velocity,
+        off_track = train.off_track,
+        id = train.id
+      }
+
+      table.insert(data.trains, t)
+    end
+
+
+    data.wagons = {}
+    for _, wagon in pairs(advtrains.wagons) do
+      --print(dump(wagon))--XXX
+
+      local w = {
+        train_id = wagon.train_id,
+        id = wagon.id,
+        type = wagon.type,
+        pos_in_train = wagon.pos_in_train,
+      }
+
+      table.insert(data.wagons, w)
+    end
   end
 
   for _, player in ipairs(minetest.get_connected_players()) do
@@ -44,11 +86,14 @@ function send_stats()
     table.insert(data.players, info)
   end
 
+  local json = minetest.write_json(data)
+  --print(json)--XXX
+
   http.fetch({
     url = url .. "/api/minetest",
     extra_headers = { "Content-Type: application/json", "Authorization: " .. key },
     timeout = 1,
-    post_data = minetest.write_json(data)
+    post_data = json
   }, function(res)
     -- TODO: error-handling
     minetest.after(2, send_stats)
