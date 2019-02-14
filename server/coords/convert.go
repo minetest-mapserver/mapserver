@@ -7,6 +7,8 @@ const (
 	maxPositive         = modulo / 2
 	minValue            = -1 << (numBitsPerComponent - 1)
 	maxValue            = 1<<(numBitsPerComponent-1) - 1
+
+	MinPlainCoord	= -34351347711
 )
 
 func CoordToPlain(c *MapBlockCoords) int64 {

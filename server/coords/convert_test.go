@@ -12,6 +12,16 @@ func init() {
 	log = logrus.WithFields(logrus.Fields{"prefix": "coords/convert_test"})
 }
 
+func TestMinCoord(t *testing.T){
+	c := NewMapBlockCoords(MinCoord, MinCoord, MinCoord)
+	pc := CoordToPlain(c)
+
+	log.WithFields(logrus.Fields{"coords": c, "plain": pc}).Info("TestMinCoord")
+	if pc != MinPlainCoord {
+		t.Fatal("no min match")
+	}
+}
+
 func testCoordConvert(t *testing.T, mb *MapBlockCoords) {
 	log.WithFields(logrus.Fields{"coords": mb}).Info("MapblockCoords")
 

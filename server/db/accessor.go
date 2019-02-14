@@ -14,6 +14,7 @@ type Block struct {
 
 type InitialBlocksResult struct {
 	List    []*Block
+	UnfilteredCount int
 	HasMore bool
 }
 

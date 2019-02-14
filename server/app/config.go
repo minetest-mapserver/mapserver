@@ -15,7 +15,7 @@ type Config struct {
 	EnableRendering     bool             `json:"enablerendering"`
 	Webdev              bool             `json:"webdev"`
 	WebApi              *WebApiConfig    `json:"webapi"`
-	Layers              []layer.Layer    `json:"layers"`
+	Layers              []*layer.Layer    `json:"layers"`
 	RenderingFetchLimit int              `json:"renderingfetchlimit"`
 	RenderingJobs       int              `json:"renderingjobs"`
 	RenderingQueue      int              `json:"renderingqueue"`
@@ -69,8 +69,8 @@ func ParseConfig(filename string) (*Config, error) {
 		SecretKey:      RandStringRunes(16),
 	}
 
-	layers := []layer.Layer{
-		layer.Layer{
+	layers := []*layer.Layer{
+		&layer.Layer{
 			Id:   0,
 			Name: "Base",
 			From: -16,

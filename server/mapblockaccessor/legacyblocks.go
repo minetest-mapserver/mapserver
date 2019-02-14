@@ -4,6 +4,7 @@ import (
 	"mapserver/coords"
 	"mapserver/eventbus"
 	"mapserver/layer"
+	"mapserver/settings"
 	"mapserver/mapblockparser"
 
 	cache "github.com/patrickmn/go-cache"
@@ -12,13 +13,11 @@ import (
 
 type FindNextLegacyBlocksResult struct {
 	HasMore         bool
-	LastPos         *coords.MapBlockCoords
-	LastMtime       int64
 	List            []*mapblockparser.MapBlock
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindNextLegacyBlocks(lastpos *coords.MapBlockCoords, limit int, layerfilter []layer.Layer) (*FindNextLegacyBlocksResult, error) {
+func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []layer.Layer, limit int) (*FindNextLegacyBlocksResult, error) {
 
 	fields := logrus.Fields{
 		"x":     lastpos.X,
