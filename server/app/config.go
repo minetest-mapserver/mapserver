@@ -31,6 +31,11 @@ type MapObjectConfig struct {
 	Digilines     bool `json:"digilines"`
 	Travelnet     bool `json:"travelnet"`
 	Mapserver     bool `json:"mapserver"`
+	Mission       bool `json:"mission"`
+	Jumpdrive     bool `json:"jumpdrive"`
+	Smartshop     bool `json:"smartshop"`
+	Fancyvend     bool `json:"fancyvend"`
+	ATM           bool `json:"atm"`
 }
 
 type WebApiConfig struct {
@@ -94,6 +99,11 @@ func ParseConfig(filename string) (*Config, error) {
 		Digilines:     true,
 		Travelnet:     true,
 		Mapserver:     true,
+		Mission:       true,
+		Jumpdrive:     true,
+		Smartshop:     true,
+		Fancyvend:     true,
+		ATM:           true,
 	}
 
 	cfg := Config{

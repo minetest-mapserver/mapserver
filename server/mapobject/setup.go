@@ -188,15 +188,27 @@ func Setup(ctx *app.App) {
 	}
 
 	//missions
-	l.AddMapObject("missions:mission", &MissionBlock{})
+	if ctx.Config.MapObjects.Mission {
+		l.AddMapObject("missions:mission", &MissionBlock{})
+	}
 
 	//jumpdrive, TODO: fleet controller
-	l.AddMapObject("jumpdrive:engine", &JumpdriveBlock{})
+	if ctx.Config.MapObjects.Jumpdrive {
+		l.AddMapObject("jumpdrive:engine", &JumpdriveBlock{})
+	}
 
 	//smartshop
-	l.AddMapMultiObject("smartshop:shop", &SmartShopBlock{})
+	if ctx.Config.MapObjects.Smartshop {
+		l.AddMapMultiObject("smartshop:shop", &SmartShopBlock{})
+	}
 
-	//TODO: atm, shops (smart, fancy)
+	if ctx.Config.MapObjects.Fancyvend {
+		//TODO
+	}
+
+	if ctx.Config.MapObjects.ATM {
+		//TODO
+	}
 
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }

@@ -33,6 +33,10 @@ api.getConfig().then(function(cfg){
     overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
     overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
     overlays["Labels"] = new LabelOverlay(wsChannel, layerMgr);
+
+    map.addLayer(overlays["Player"]);
+    map.addLayer(overlays["POI"]);
+    map.addLayer(overlays["Labels"]);
   }
 
   if (cfg.mapobjects.travelnet) {
@@ -65,12 +69,9 @@ api.getConfig().then(function(cfg){
     overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
   }
 
-  overlays["Missions"] = new MissionOverlay(wsChannel, layerMgr);
-
-  //Default enabled overlays
-  map.addLayer(overlays["Player"]);
-  map.addLayer(overlays["POI"]);
-  map.addLayer(overlays["Labels"]);
+  if (cfg.mapobjects.mission) {
+    overlays["Missions"] = new MissionOverlay(wsChannel, layerMgr);
+  }
 
   L.control.layers(layers, overlays).addTo(map);
 
