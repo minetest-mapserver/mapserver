@@ -23,9 +23,9 @@ var LuacontrollerOverlay = AbstractIconOverlay.extend({
 
   getIcon: function(ctrl){
     if (ctrl.burnt)
-      return LuacontrollerIcon;
-    else
       return LuacontrollerBurntIcon;
+    else
+      return LuacontrollerIcon;
   },
 
   createPopup: function(ctrl){

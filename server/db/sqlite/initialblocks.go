@@ -1,11 +1,12 @@
 package sqlite
 
 import (
-	_ "github.com/mattn/go-sqlite3"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/layer"
 	"mapserver/settings"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 const (
@@ -17,8 +18,7 @@ const (
 const getLastBlockQuery = `
 select pos,data,mtime
 from blocks b
-where b.mtime = 0
-and b.pos > ?
+where b.pos > ?
 order by b.pos asc, b.mtime asc
 limit ?
 `
@@ -33,7 +33,7 @@ func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers [
 	totallegacycount := s.GetInt64(SETTING_TOTAL_LEGACY_COUNT, -1)
 	if totallegacycount == -1 {
 		//Query from db
-		totallegacycount, err := this.CountBlocks(0, 0)
+		totallegacycount, err := this.CountBlocks()
 
 		if err != nil {
 			panic(err)

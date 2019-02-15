@@ -1,12 +1,13 @@
 package sqlite
 
 import (
-	_ "github.com/mattn/go-sqlite3"
 	"io/ioutil"
 	"mapserver/coords"
 	"mapserver/testutils"
 	"os"
 	"testing"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func TestMigrateEmpty(t *testing.T) {
@@ -93,7 +94,7 @@ func TestMigrateAndQueryCount(t *testing.T) {
 		panic(err)
 	}
 
-	count, err := a.CountBlocks(0, 0)
+	count, err := a.CountBlocks()
 	if err != nil {
 		panic(err)
 	}

@@ -2,12 +2,13 @@ package sqlite
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
-	"github.com/sirupsen/logrus"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/vfs"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/sirupsen/logrus"
 )
 
 /*
@@ -83,8 +84,8 @@ func (this *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.
 	return blocks, nil
 }
 
-func (db *Sqlite3Accessor) CountBlocks(frommtime, tomtime int64) (int, error) {
-	rows, err := db.db.Query(countBlocksQuery, frommtime, tomtime)
+func (db *Sqlite3Accessor) CountBlocks() (int, error) {
+	rows, err := db.db.Query(countBlocksQuery)
 	if err != nil {
 		return 0, err
 	}

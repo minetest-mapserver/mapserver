@@ -9,7 +9,7 @@ limit ?
 `
 
 const countBlocksQuery = `
-select count(*) from blocks b where b.mtime >= ? and b.mtime <= ?
+select count(*) from blocks b
 `
 
 const getBlockQuery = `
