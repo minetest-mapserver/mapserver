@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"mapserver/app"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 type GenericPos struct {
@@ -13,17 +15,17 @@ type GenericPos struct {
 }
 
 type Wagon struct {
-	Id         int    `json:"id"`
-	PosInTrain int    `json:"pos_in_train"`
-	Type       string `json:"type"`
+	Id         string  `json:"id"`
+	PosInTrain float64 `json:"pos_in_train"`
+	Type       string  `json:"type"`
 }
 
 type Train struct {
 	Pos      GenericPos `json:"pos"`
-	Id       int        `json:"id"`
+	Id       string     `json:"id"`
 	Wagons   []*Wagon   `json:"wagons"`
 	OffTrack bool       `json:"off_track"`
-	Velocity int        `json:"velocity"`
+	Velocity float64    `json:"velocity"`
 }
 
 type Player struct {
@@ -62,6 +64,8 @@ func (this *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		resp.WriteHeader(500)
 		resp.Write([]byte(err.Error()))
+		log.WithFields(logrus.Fields{"error": err}).Error("Json unmarshal")
+
 		return
 	}
 
