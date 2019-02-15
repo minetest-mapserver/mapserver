@@ -29,6 +29,7 @@
 ** Source: [digilines](https://github.com/minetest-mods/digilines)
 
 * jeija_luacontroller_top.png
+* jeija_luacontroller_burnt_top.png
 ** CC-BY-SA-3.0
 ** Source [mesecons](https://github.com/minetest-mods/mesecons)
 
