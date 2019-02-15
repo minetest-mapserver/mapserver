@@ -68,7 +68,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 		"pos2":       tcr.Pos2,
 		"tile": tc,
 	}
-	log.WithFields(fields).Info("Initial-Query")
+	log.WithFields(fields).Debug("Initial-Query")
 
 	minX := int(math.Min(float64(tcr.Pos1.X), float64(tcr.Pos2.X)))
 	maxX := int(math.Max(float64(tcr.Pos1.X), float64(tcr.Pos2.X)))
@@ -102,6 +102,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 			s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock+1)
 
 			result := &db.InitialBlocksResult{}
+			result.Progress = float64(((lastyblock+128) * 256) + (lastxblock+128)) / float64(256*256)
 			result.HasMore = true
 			return result, nil
 		}
@@ -142,6 +143,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock)
 
 	result := &db.InitialBlocksResult{}
+	result.Progress = float64(((lastyblock+128) * 256) + (lastxblock+128)) / float64(256*256)
 	result.List = blocks
 	result.HasMore = true
 

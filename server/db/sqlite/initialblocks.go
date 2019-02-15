@@ -10,6 +10,8 @@ import (
 
 const (
 	SETTING_LAST_POS = "last_pos"
+	SETTING_TOTAL_LEGACY_COUNT = "total_legacy_count"
+	SETTING_PROCESSED_LEGACY_COUNT = "total_processed_legacy_count"
 )
 
 const getLastBlockQuery = `
@@ -22,12 +24,23 @@ limit ?
 `
 
 func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
-
 	result := &db.InitialBlocksResult{}
 
 	blocks := make([]*db.Block, 0)
-
 	lastpos := s.GetInt64(SETTING_LAST_POS, coords.MinPlainCoord-1)
+
+	processedcount := s.GetInt64(SETTING_PROCESSED_LEGACY_COUNT, 0)
+	totallegacycount := s.GetInt64(SETTING_TOTAL_LEGACY_COUNT, -1)
+	if totallegacycount == -1 {
+		//Query from db
+		totallegacycount, err := this.CountBlocks(0, 0)
+
+		if err != nil {
+			panic(err)
+		}
+
+		s.SetInt64(SETTING_TOTAL_LEGACY_COUNT, int64(totallegacycount))
+	}
 
 	rows, err := this.db.Query(getLastBlockQuery, lastpos, limit)
 	if err != nil {
@@ -62,6 +75,9 @@ func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers [
 		}
 	}
 
+	s.SetInt64(SETTING_PROCESSED_LEGACY_COUNT, int64(result.UnfilteredCount) + processedcount)
+
+	result.Progress = float64(processedcount) / float64(totallegacycount)
 	result.List = blocks
 
 	//Save current positions of initial run

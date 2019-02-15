@@ -10,21 +10,11 @@ import (
 )
 
 type InitialRenderEvent struct {
-	Progress int `json:"progress"`
+	Progress float64 `json:"progress"`
 }
 
 func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
-
-	totalLegacyCount, err := ctx.Blockdb.CountBlocks(0, 0)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fields := logrus.Fields{
-		"totalLegacyCount": totalLegacyCount,
-	}
-	logrus.WithFields(fields).Info("Starting initial rendering job")
+	logrus.Info("Starting initial rendering job")
 
 	for true {
 		start := time.Now()
@@ -35,38 +25,27 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			panic(err)
 		}
 
-		legacyProcessed := ctx.Settings.GetInt(settings.SETTING_LEGACY_PROCESSED, 0)
-
 		if len(result.List) == 0 && !result.HasMore {
 			ctx.Settings.SetBool(settings.SETTING_INITIAL_RUN, false)
 
 			ev := InitialRenderEvent{
-				Progress: 100,
+				Progress: 1,
 			}
 
 			ctx.WebEventbus.Emit("initial-render-progress", &ev)
 
-			fields := logrus.Fields{
-				"legacyblocks": legacyProcessed,
-			}
-			logrus.WithFields(fields).Info("initial rendering complete")
+			logrus.Info("initial rendering complete")
 
 			return
 		}
 
 		tiles := renderMapblocks(ctx, jobs, result.List)
 
-		legacyProcessed += result.UnfilteredCount
-
-		ctx.Settings.SetInt(settings.SETTING_LEGACY_PROCESSED, legacyProcessed)
-
 		t := time.Now()
 		elapsed := t.Sub(start)
 
-		progress := int(float64(legacyProcessed) / float64(totalLegacyCount) * 100)
-
 		ev := InitialRenderEvent{
-			Progress: progress,
+			Progress: result.Progress,
 		}
 
 		ctx.WebEventbus.Emit("initial-render-progress", &ev)
@@ -74,8 +53,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 		fields := logrus.Fields{
 			"mapblocks": len(result.List),
 			"tiles":     tiles,
-			"processed": legacyProcessed,
-			"progress%": progress,
+			"progress%": int(result.Progress * 100),
 			"elapsed":   elapsed,
 		}
 		logrus.WithFields(fields).Info("Initial rendering")
