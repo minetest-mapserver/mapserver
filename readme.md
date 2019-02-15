@@ -12,6 +12,7 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * [Contribution](doc/contrib.md)
 * [Development](doc/dev.md)
 * [License](doc/license.md)
+* [Changelog](doc/changelog.md)
 
 # Features
 
@@ -45,6 +46,7 @@ Realtime mapserver for [Minetest](https://minetest.net)
 
 ## Map objects (as markers)
 Enable/Disable those in the [Configuration](doc/config.md)
+See:  [mapobjects](doc/mapobjects.md)
 
 <img src="./pics/bones.png">
 <img src="./pics/digiterms.png">
