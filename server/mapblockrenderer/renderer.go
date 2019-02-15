@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type MapBlockRenderer struct {
@@ -78,6 +79,10 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 	if pos1.Z != pos2.Z {
 		return nil, errors.New("Z does not line up")
 	}
+
+	renderedMapblocks.Inc()
+	timer := prometheus.NewTimer(renderDuration)
+  defer timer.ObserveDuration()
 
 	start := time.Now()
 	defer func() {

@@ -49,6 +49,9 @@ func (this *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	mintestPlayers.Set(float64(len(data.Players)))
+	mintestMaxLag.Set(data.MaxLag)
+
 	this.ctx.WebEventbus.Emit("minetest-info", data)
 
 	json.NewEncoder(resp).Encode("stub")

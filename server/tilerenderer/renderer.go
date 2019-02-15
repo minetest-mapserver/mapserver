@@ -13,9 +13,12 @@ import (
 	"mapserver/mapblockrenderer"
 	"mapserver/tiledb"
 	"time"
+	"strconv"
 
 	"github.com/disintegration/imaging"
 	"github.com/sirupsen/logrus"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type TileRenderer struct {
@@ -94,6 +97,10 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 	}
 
 	log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
+
+	renderedTiles.With(prometheus.Labels{"zoom":strconv.Itoa(tc.Zoom)}).Inc()
+	timer := prometheus.NewTimer(renderDuration)
+	defer timer.ObserveDuration()
 
 	var layer *layer.Layer
 

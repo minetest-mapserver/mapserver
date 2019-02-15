@@ -5,6 +5,8 @@ import (
 	"mapserver/coords"
 
 	"github.com/dgraph-io/badger"
+	"github.com/prometheus/client_golang/prometheus"
+
 )
 
 func New(path string) (*TileDB, error) {
@@ -40,6 +42,9 @@ func (this *TileDB) GC() {
 }
 
 func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
+	timer := prometheus.NewTimer(getDuration)
+	defer timer.ObserveDuration()
+
 	var tile []byte
 	err := this.db.View(func(txn *badger.Txn) error {
 		item, err := txn.Get(getKey(pos))
@@ -56,6 +61,9 @@ func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 }
 
 func (this *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
+	timer := prometheus.NewTimer(setDuration)
+	defer timer.ObserveDuration()
+
 	err := this.db.Update(func(txn *badger.Txn) error {
 		err := txn.Set(getKey(pos), tile)
 		return err
@@ -65,6 +73,9 @@ func (this *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
 }
 
 func (this *TileDB) RemoveTile(pos *coords.TileCoords) error {
+	timer := prometheus.NewTimer(removeDuration)
+	defer timer.ObserveDuration()
+
 	err := this.db.Update(func(txn *badger.Txn) error {
 		err := txn.Delete(getKey(pos))
 		return err

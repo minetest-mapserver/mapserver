@@ -8,6 +8,7 @@ import (
 
 	cache "github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type FindMapBlocksByMtimeResult struct {
@@ -26,7 +27,9 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 	}
 	logrus.WithFields(fields).Debug("FindMapBlocksByMtime")
 
+	timer := prometheus.NewTimer(dbGetMtimeDuration)
 	blocks, err := a.accessor.FindBlocksByMtime(lastmtime, limit)
+	timer.ObserveDuration()
 
 	if err != nil {
 		return nil, err

@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type MapObjects struct {
@@ -23,6 +24,9 @@ func (t *MapObjects) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Write([]byte("wrong number of arguments"))
 		return
 	}
+
+	timer := prometheus.NewTimer(mapobjectServeDuration)
+	defer timer.ObserveDuration()
 
 	x1, _ := strconv.Atoi(parts[0])
 	y1, _ := strconv.Atoi(parts[1])

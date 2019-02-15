@@ -8,18 +8,10 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-var (
-	tilesCumulativeSize = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "tiles_cumulative_size_served",
-			Help: "Overall sent bytes of tiles",
-		},
-	)
-)
+
 
 type Tiles struct {
 	ctx   *app.App
@@ -28,7 +20,6 @@ type Tiles struct {
 
 func (t *Tiles) Init() {
 	t.blank = tilerenderer.CreateBlankTile(color.RGBA{255, 255, 255, 255})
-	prometheus.MustRegister(tilesCumulativeSize)
 }
 
 func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
@@ -40,6 +31,10 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Write([]byte("wrong number of arguments"))
 		return
 	}
+
+	timer := prometheus.NewTimer(tileServeDuration)
+	defer timer.ObserveDuration()
+
 
 	layerid, _ := strconv.Atoi(parts[0])
 	x, _ := strconv.Atoi(parts[1])
