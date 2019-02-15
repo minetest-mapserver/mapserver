@@ -3,8 +3,7 @@ package postgres
 const getBlocksByInitialTileQuery = `
 select posx,posy,posz,data,mtime
 from blocks b
-where b.mtime = 0
-and b.posx >= $1
+where b.posx >= $1
 and b.posy >= $2
 and b.posz >= $3
 and b.posx <= $4

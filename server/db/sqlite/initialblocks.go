@@ -62,6 +62,10 @@ func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers [
 			return nil, err
 		}
 
+		if mtime > result.LastMtime {
+			result.LastMtime = mtime
+		}
+
 		mb := convertRows(pos, data, mtime)
 
 		// new position

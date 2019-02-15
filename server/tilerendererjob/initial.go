@@ -15,6 +15,7 @@ type InitialRenderEvent struct {
 
 func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 	logrus.Info("Starting initial rendering job")
+	lastMtime := ctx.Settings.GetInt64(settings.SETTING_LAST_MTIME, 0)
 
 	for true {
 		start := time.Now()
@@ -23,6 +24,10 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 
 		if err != nil {
 			panic(err)
+		}
+
+		if result.LastMtime > lastMtime {
+			lastMtime = result.LastMtime
 		}
 
 		if len(result.List) == 0 && !result.HasMore {
@@ -57,6 +62,8 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			"elapsed":   elapsed,
 		}
 		logrus.WithFields(fields).Info("Initial rendering")
+
+		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, lastMtime)
 
 		//tile gc
 		ctx.TileDB.GC()

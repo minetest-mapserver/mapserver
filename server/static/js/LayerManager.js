@@ -3,7 +3,7 @@
 function LayerManager(layers, map){
   this.listeners = [];
   this.currentLayer = layers[0];
-  this.layers = layer;
+  this.layers = layers;
 
   map.on('baselayerchange', function (e) {
       console.log("baselayerchange", e.layer);

@@ -17,6 +17,7 @@ type InitialBlocksResult struct {
 	UnfilteredCount int
 	HasMore         bool
 	Progress        float64
+	LastMtime       int64
 }
 
 type DBAccessor interface {

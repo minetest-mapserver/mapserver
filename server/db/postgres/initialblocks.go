@@ -92,8 +92,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 		stridecount := this.intQuery(`
 			select count(*) from blocks
 			where posz >= $1 and posz <= $2
-			and posy >= $3 and posy <= $4
-			and mtime = 0`,
+			and posy >= $3 and posy <= $4`,
 			minZ, maxZ,
 			minY, maxY,
 		)
@@ -128,6 +127,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 
 	defer rows.Close()
 	blocks := make([]*db.Block, 0)
+	var lastmtime int64
 
 	for {
 		for rows.Next() {
@@ -138,6 +138,10 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 			err = rows.Scan(&posx, &posy, &posz, &data, &mtime)
 			if err != nil {
 				return nil, err
+			}
+
+			if mtime > lastmtime {
+				lastmtime = mtime
 			}
 
 			mb := convertRows(posx, posy, posz, data, mtime)
@@ -153,6 +157,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock)
 
 	result := &db.InitialBlocksResult{}
+	result.LastMtime = lastmtime
 	result.Progress = float64(((lastyblock+128)*256)+(lastxblock+128)) / float64(256*256)
 	result.List = blocks
 	result.HasMore = true

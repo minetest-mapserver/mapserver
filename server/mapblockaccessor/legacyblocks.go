@@ -15,23 +15,25 @@ type FindNextLegacyBlocksResult struct {
 	List            []*mapblockparser.MapBlock
 	UnfilteredCount int
 	Progress        float64
+	LastMtime       int64
 }
 
 func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*FindNextLegacyBlocksResult, error) {
 
 	nextResult, err := a.accessor.FindNextInitialBlocks(s, layers, limit)
-	blocks := nextResult.List
 
 	if err != nil {
 		return nil, err
 	}
 
+	blocks := nextResult.List
 	result := FindNextLegacyBlocksResult{}
 
 	mblist := make([]*mapblockparser.MapBlock, 0)
 	result.HasMore = nextResult.HasMore
 	result.UnfilteredCount = nextResult.UnfilteredCount
 	result.Progress = nextResult.Progress
+	result.LastMtime = nextResult.LastMtime
 
 	for _, block := range blocks {
 
