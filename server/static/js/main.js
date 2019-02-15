@@ -5,14 +5,11 @@ api.getConfig().then(function(cfg){
   var wsChannel = new WebSocketChannel();
   wsChannel.connect();
 
-  var initialZoom = 11;
-  var initialCenter = [0, 0];
-
   var map = L.map('image-map', {
     minZoom: 2,
     maxZoom: 12,
-    center: initialCenter,
-    zoom: initialZoom,
+    center: Hashroute.getCenter(),
+    zoom: Hashroute.getZoom(),
     crs: SimpleCRS
   });
 
@@ -22,6 +19,7 @@ api.getConfig().then(function(cfg){
   var overlays = {}
 
   var layerMgr = new LayerManager(cfg.layers, map);
+  layerMgr.setLayerId( Hashroute.getLayerId() );
 
   //All layers
   cfg.layers.forEach(function(layer){
@@ -38,6 +36,8 @@ api.getConfig().then(function(cfg){
 
   new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
   new WorldInfoDisplay(wsChannel, { position: 'bottomright' }).addTo(map);
+
+  Hashroute.setup(map, layerMgr);
 
 }).catch(function(e){
   console.error(e);
