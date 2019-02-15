@@ -35,3 +35,17 @@
 * digiterms_beige_front.png
 ** License: CC BY-SA 3.0
 ** Source [digiterms](https://github.com/Pyrollo/digiterms)
+
+
+* advtrains_detailed_engine_steam_inv.png
+* advtrains_engine_industrial_inv.png
+* advtrains_engine_japan_inv.png
+* advtrains_engine_steam_inv.png
+* advtrains_subway_wagon_inv.png
+* advtrains_wagon_box_inv.png
+* advtrains_wagon_inv.png
+* advtrains_wagon_japan_inv.png
+* advtrains_wagon_tank_inv.png
+* advtrains_wagon_wood_inv.png
+** License: CC BY-SA 3.0
+** Source [advtrains](http://advtrains.bleipb.de/)
