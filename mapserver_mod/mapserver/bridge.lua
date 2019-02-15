@@ -42,36 +42,31 @@ function send_stats()
 
   if has_advtrains then
     -- send trains if 'advtrains' mod installed
-    --print(dump(advtrains))--XXX
 
     data.trains = {}
     for _, train in pairs(advtrains.trains) do
-      --print(dump(train))--XXX
 
       local t = {
         pos = train.last_pos,
         velocity = train.velocity,
         off_track = train.off_track,
-        id = train.id
+        id = train.id,
+        wagons = {}
       }
+
+      for _, wagon in pairs(advtrains.wagons) do
+        if wagon.train_id == train.id then
+          table.insert(t.wagons, {
+            id = wagon.id,
+            type = wagon.type,
+            pos_in_train = wagon.pos_in_train,
+          })
+        end
+      end
 
       table.insert(data.trains, t)
     end
 
-
-    data.wagons = {}
-    for _, wagon in pairs(advtrains.wagons) do
-      --print(dump(wagon))--XXX
-
-      local w = {
-        train_id = wagon.train_id,
-        id = wagon.id,
-        type = wagon.type,
-        pos_in_train = wagon.pos_in_train,
-      }
-
-      table.insert(data.wagons, w)
-    end
   end
 
   for _, player in ipairs(minetest.get_connected_players()) do
