@@ -48,7 +48,7 @@ function send_stats()
 
     data.trains = {}
     for _, train in pairs(advtrains.trains) do
-      print(dump(train))--XXX
+      --print(dump(train))--XXX
 
       local t = {
         pos = train.last_pos,
