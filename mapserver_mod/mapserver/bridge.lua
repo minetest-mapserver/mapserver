@@ -58,8 +58,9 @@ function send_stats()
         wagons = {}
       }
 
-      for _, wagon in pairs(advtrains.wagons) do
-        if wagon.train_id == train.id then
+      for _, part in pairs(train.trainparts) do
+        local wagon = advtrains.wagons[part]
+        if wagon ~= nil then
           table.insert(t.wagons, {
             id = wagon.id,
             type = wagon.type,
