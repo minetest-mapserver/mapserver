@@ -2,9 +2,9 @@ package mapblockparser
 
 import (
 	"errors"
+	"github.com/prometheus/client_golang/prometheus"
 	"mapserver/coords"
 	"strconv"
-	"github.com/prometheus/client_golang/prometheus"
 )
 
 func Parse(data []byte, mtime int64, pos *coords.MapBlockCoords) (*MapBlock, error) {
@@ -13,7 +13,7 @@ func Parse(data []byte, mtime int64, pos *coords.MapBlockCoords) (*MapBlock, err
 	}
 
 	timer := prometheus.NewTimer(parseDuration)
-  defer timer.ObserveDuration()
+	defer timer.ObserveDuration()
 
 	mapblock := NewMapblock()
 	mapblock.Mtime = mtime

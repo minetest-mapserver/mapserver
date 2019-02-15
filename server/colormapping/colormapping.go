@@ -75,8 +75,6 @@ func (m *ColorMapping) LoadBytes(buffer []byte) (int, error) {
 	return count, nil
 }
 
-//TODO: colors from fs
-
 func (m *ColorMapping) LoadVFSColors(useLocal bool, filename string) (int, error) {
 	buffer, err := vfs.FSByte(useLocal, "/colors.txt")
 	if err != nil {

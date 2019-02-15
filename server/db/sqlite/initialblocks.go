@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	SETTING_LAST_POS = "last_pos"
-	SETTING_TOTAL_LEGACY_COUNT = "total_legacy_count"
+	SETTING_LAST_POS               = "last_pos"
+	SETTING_TOTAL_LEGACY_COUNT     = "total_legacy_count"
 	SETTING_PROCESSED_LEGACY_COUNT = "total_processed_legacy_count"
 )
 
@@ -75,7 +75,7 @@ func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers [
 		}
 	}
 
-	s.SetInt64(SETTING_PROCESSED_LEGACY_COUNT, int64(result.UnfilteredCount) + processedcount)
+	s.SetInt64(SETTING_PROCESSED_LEGACY_COUNT, int64(result.UnfilteredCount)+processedcount)
 
 	result.Progress = float64(processedcount) / float64(totallegacycount)
 	result.List = blocks

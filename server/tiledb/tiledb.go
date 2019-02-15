@@ -6,7 +6,6 @@ import (
 
 	"github.com/dgraph-io/badger"
 	"github.com/prometheus/client_golang/prometheus"
-
 )
 
 func New(path string) (*TileDB, error) {

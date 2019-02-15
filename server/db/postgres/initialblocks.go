@@ -73,10 +73,10 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	tcr.Pos2.Y = toY
 
 	fields := logrus.Fields{
-		"layerId":    lastlayer,
-		"pos1":       tcr.Pos1,
-		"pos2":       tcr.Pos2,
-		"tile": tc,
+		"layerId": lastlayer,
+		"pos1":    tcr.Pos1,
+		"pos2":    tcr.Pos2,
+		"tile":    tc,
 	}
 	log.WithFields(fields).Debug("Initial-Query")
 
@@ -112,7 +112,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 			s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock+1)
 
 			result := &db.InitialBlocksResult{}
-			result.Progress = float64(((lastyblock+128) * 256) + (lastxblock+128)) / float64(256*256)
+			result.Progress = float64(((lastyblock+128)*256)+(lastxblock+128)) / float64(256*256)
 			result.HasMore = true
 			return result, nil
 		}
@@ -153,7 +153,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock)
 
 	result := &db.InitialBlocksResult{}
-	result.Progress = float64(((lastyblock+128) * 256) + (lastxblock+128)) / float64(256*256)
+	result.Progress = float64(((lastyblock+128)*256)+(lastxblock+128)) / float64(256*256)
 	result.List = blocks
 	result.HasMore = true
 

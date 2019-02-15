@@ -8,8 +8,6 @@ import (
 	"strconv"
 )
 
-//TODO: mapdata struct with accessors
-
 func parseMapdata(mapblock *MapBlock, data []byte) (int, error) {
 	r := bytes.NewReader(data)
 

@@ -10,8 +10,8 @@ import (
 	"mapserver/mapblockaccessor"
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/sirupsen/logrus"
 )
 
 type MapBlockRenderer struct {
@@ -82,7 +82,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 
 	renderedMapblocks.Inc()
 	timer := prometheus.NewTimer(renderDuration)
-  defer timer.ObserveDuration()
+	defer timer.ObserveDuration()
 
 	start := time.Now()
 	defer func() {

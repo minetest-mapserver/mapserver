@@ -16,7 +16,7 @@ type InitialBlocksResult struct {
 	List            []*Block
 	UnfilteredCount int
 	HasMore         bool
-	Progress float64
+	Progress        float64
 }
 
 type DBAccessor interface {

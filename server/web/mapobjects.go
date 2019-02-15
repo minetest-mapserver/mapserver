@@ -2,13 +2,13 @@ package web
 
 import (
 	"encoding/json"
+	"github.com/prometheus/client_golang/prometheus"
 	"mapserver/app"
 	"mapserver/coords"
 	"mapserver/mapobjectdb"
 	"net/http"
 	"strconv"
 	"strings"
-	"github.com/prometheus/client_golang/prometheus"
 )
 
 type MapObjects struct {

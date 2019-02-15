@@ -14,7 +14,7 @@ type FindNextLegacyBlocksResult struct {
 	HasMore         bool
 	List            []*mapblockparser.MapBlock
 	UnfilteredCount int
-	Progress float64
+	Progress        float64
 }
 
 func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*FindNextLegacyBlocksResult, error) {

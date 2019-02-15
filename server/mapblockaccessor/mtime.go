@@ -7,8 +7,8 @@ import (
 	"mapserver/mapblockparser"
 
 	cache "github.com/patrickmn/go-cache"
-	"github.com/sirupsen/logrus"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/sirupsen/logrus"
 )
 
 type FindMapBlocksByMtimeResult struct {

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/prometheus/client_golang/prometheus"
 	"image/color"
 	"mapserver/app"
 	"mapserver/coords"
@@ -8,10 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"github.com/prometheus/client_golang/prometheus"
 )
-
-
 
 type Tiles struct {
 	ctx   *app.App
@@ -34,7 +32,6 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 	timer := prometheus.NewTimer(tileServeDuration)
 	defer timer.ObserveDuration()
-
 
 	layerid, _ := strconv.Atoi(parts[0])
 	x, _ := strconv.Atoi(parts[1])

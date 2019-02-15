@@ -69,7 +69,6 @@ func main() {
 	}
 
 	//Start http server
-	//TODO: defer, may cause race condition
 	web.Serve(ctx)
 
 }
