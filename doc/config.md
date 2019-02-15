@@ -25,11 +25,12 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 ```json
 {
 	"port": 8080,
+	"enableprometheus": true,
 	"enablerendering": true,
 	"webdev": false,
 	"webapi": {
 		"enablemapblock": false,
-		"secretkey": "ZJoSpysiKGlYexof"
+		"secretkey": "OYHuTRbhSQXkHcwu"
 	},
 	"layers": [
 		{
@@ -41,7 +42,22 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 	],
 	"renderingfetchlimit": 1000,
 	"renderingjobs": 2,
-	"renderingqueue": 100
+	"renderingqueue": 100,
+	"mapobjects": {
+		"bones": true,
+		"protector": true,
+		"technic": true,
+		"luacontroller": true,
+		"digiterms": true,
+		"digilines": true,
+		"travelnet": true,
+		"mapserver": true,
+		"mission": true,
+		"jumpdrive": true,
+		"smartshop": true,
+		"fancyvend": true,
+		"atm": true
+	}
 }
 ```
 
@@ -79,3 +95,6 @@ existing tiles and start rendering from scratch.
 
 #### renderingjobs
 Number of cores to use for rendering, defaults to all available cores
+
+#### enableprometheus
+Enables the [Prometheus](./prometheus.md) metrics endpoint

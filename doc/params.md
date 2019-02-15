@@ -27,3 +27,7 @@ It is advisable to pipe the debug output to a file for later inspection:
 ```
 ./mapserver -debug > debug.txt
 ```
+
+## Config
+`./mapserver -createconfig`
+Creates a config and exits

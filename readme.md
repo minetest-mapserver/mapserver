@@ -21,7 +21,9 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * Realtime player and world stats
 * Configurable layers (default: "Base" from y -16 to 160)
 * POI markers / mod integration
+* Protector display
 * LCD Displays as markers
+* Monitoring with [Prometheus](doc/prometheus.md)
 
 ## Planned Features
 
@@ -40,6 +42,17 @@ Realtime mapserver for [Minetest](https://minetest.net)
 
 ## Terminal
 <img src="./pics/terminal.png">
+
+## Map objects (as markers)
+Enable/Disable those in the [Configuration](doc/config.md)
+
+<img src="./pics/bones.png">
+<img src="./pics/digiterms.png">
+<img src="./pics/lcd_display.png">
+<img src="./pics/poi.png">
+<img src="./pics/protectors.png">
+<img src="./pics/travelnet.png">
+
 
 # Bugs
 
