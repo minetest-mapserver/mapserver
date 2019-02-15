@@ -45,10 +45,20 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 
 	if lastyblock > 128 {
 		//done
-		//TODO: next layer
+		var nextlayer = lastlayer
+		for _, l := range layers {
+			if l.Id > nextlayer {
+				nextlayer = l.Id
+				break
+			}
+		}
+
+		s.SetInt(SETTING_LAST_LAYER, nextlayer)
+		s.SetInt(SETTING_LAST_X_BLOCK, -129)
+		s.SetInt(SETTING_LAST_Y_BLOCK, -128)
 
 		result := &db.InitialBlocksResult{}
-		result.HasMore = false
+		result.HasMore = nextlayer != lastlayer
 		return result, nil
 	}
 
