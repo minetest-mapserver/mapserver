@@ -31,7 +31,7 @@ const (
 func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
 
 	lastlayer := s.GetInt(SETTING_LAST_LAYER, 0)
-	lastxblock := s.GetInt(SETTING_LAST_X_BLOCK, -128)
+	lastxblock := s.GetInt(SETTING_LAST_X_BLOCK, -129)
 	lastyblock := s.GetInt(SETTING_LAST_Y_BLOCK, -128)
 
 	if lastxblock >= 128 {
@@ -58,50 +58,53 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	fromY := int(currentlayer.From / 16)
 	toY := int(currentlayer.To / 16)
 
-	tcr := coords.GetMapBlockRangeFromTile(tc, fromY)
-	tcr.Pos1.Y = toY
+	tcr := coords.GetMapBlockRangeFromTile(tc, 0)
+	tcr.Pos1.Y = fromY
+	tcr.Pos2.Y = toY
 
 	fields := logrus.Fields{
 		"layerId":    lastlayer,
 		"pos1":       tcr.Pos1,
 		"pos2":       tcr.Pos2,
-		"lastxblock": lastxblock,
-		"lastyblock": lastyblock,
+		"tile": tc,
 	}
-	log.WithFields(fields).Debug("Initial-Query")
+	log.WithFields(fields).Info("Initial-Query")
 
-	minX := math.Min(float64(tcr.Pos1.X), float64(tcr.Pos2.X))
-	maxX := math.Max(float64(tcr.Pos1.X), float64(tcr.Pos2.X))
-	minY := math.Min(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y))
-	maxY := math.Max(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y))
-	minZ := math.Min(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z))
-	maxZ := math.Max(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z))
+	minX := int(math.Min(float64(tcr.Pos1.X), float64(tcr.Pos2.X)))
+	maxX := int(math.Max(float64(tcr.Pos1.X), float64(tcr.Pos2.X)))
+	minY := int(math.Min(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y)))
+	maxY := int(math.Max(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y)))
+	minZ := int(math.Min(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z)))
+	maxZ := int(math.Max(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z)))
 
-	stridecount := this.intQuery(`
-		select count(*) from blocks
-		where posx >= $1 and posx <= $2
-		and posy >= $3 and posy <= $4
-		and mtime = 0`,
-		minX, maxX,
-		minY, maxY,
-	)
+	if lastxblock <= -128 {
+		//first x entry, check z stride
+		stridecount := this.intQuery(`
+			select count(*) from blocks
+			where posz >= $1 and posz <= $2
+			and posy >= $3 and posy <= $4
+			and mtime = 0`,
+			minZ, maxZ,
+			minY, maxY,
+		)
 
-	if stridecount == 0 {
-		fields = logrus.Fields{
-			"minX": minX,
-			"maxX": maxX,
-			"minY": minY,
-			"maxY": maxY,
+		if stridecount == 0 {
+			fields = logrus.Fields{
+				"minX": minX,
+				"maxX": maxX,
+				"minY": minY,
+				"maxY": maxY,
+			}
+			log.WithFields(fields).Debug("Skipping stride")
+
+			s.SetInt(SETTING_LAST_LAYER, lastlayer)
+			s.SetInt(SETTING_LAST_X_BLOCK, -129)
+			s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock+1)
+
+			result := &db.InitialBlocksResult{}
+			result.HasMore = true
+			return result, nil
 		}
-		log.WithFields(fields).Info("Skipping stride")
-
-		s.SetInt(SETTING_LAST_LAYER, lastlayer)
-		s.SetInt(SETTING_LAST_X_BLOCK, lastxblock)
-		s.SetInt(SETTING_LAST_Y_BLOCK, lastyblock)
-
-		result := &db.InitialBlocksResult{}
-		result.HasMore = true
-		return result, nil
 	}
 
 	rows, err := this.db.Query(getBlocksByInitialTileQuery,

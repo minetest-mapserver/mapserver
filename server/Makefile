@@ -22,6 +22,11 @@ clean:
 	rm -rf $(STATIC_VFS)
 	rm -rf $(OUT_DIR)
 
+clean-all: clean
+	rm -rf mapserver.sqlite*
+	rm -rf mapserver.tiles
+	rm -rf mapserver.json
+
 build-docker:
 	sudo docker run --rm -it -v $(shell pwd)/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make
 
