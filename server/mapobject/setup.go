@@ -101,11 +101,15 @@ func Setup(ctx *app.App) {
 	}
 
 	if ctx.Config.MapObjects.Fancyvend {
-		//TODO
+		v := &FancyVend{}
+		l.AddMapObject("fancy_vend:admin_vendor", v)
+		l.AddMapObject("fancy_vend:admin_depo", v)
+		l.AddMapObject("fancy_vend:player_vendor", v)
+		l.AddMapObject("fancy_vend:player_depo", v)
 	}
 
 	if ctx.Config.MapObjects.ATM {
-		//TODO
+		l.AddMapObject("atm:atm", &ATM{})
 	}
 
 	ctx.BlockAccessor.Eventbus.AddListener(&l)

@@ -1,0 +1,78 @@
+package mapobject
+
+import (
+	"mapserver/mapblockparser"
+	"mapserver/mapobjectdb"
+	"mapserver/luaparser"
+	"strconv"
+)
+
+type FancyVend struct{}
+
+func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+	md := block.Metadata.GetMetadata(x, y, z)
+	nodename := block.GetNodeName(x, y, z)
+	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
+	parser := luaparser.New()
+
+	isAdmin := false
+
+	if nodename == "fancy_vend:admin_vendor" || nodename == "fancy_vend:admin_depo" {
+		isAdmin = true
+	}
+
+	payInv := invMap["wanted_item"]
+	giveInv := invMap["given_item"]
+	mainInv := invMap["main"]
+
+	if payInv.Items[0].IsEmpty() || giveInv.Items[0].IsEmpty() {
+		return nil
+	}
+
+	settings, err := parser.ParseMap(md["settings"])
+	if err != nil {
+		panic(err)//TODO
+	}
+
+	if settings["input_item_qty"] == nil || settings["output_item_qty"] == nil {
+		return nil
+	}
+
+	in_count := settings["input_item_qty"].(int)
+	if in_count < 1 {
+		in_count = 1
+	}
+	out_count := settings["output_item_qty"].(int)
+	if out_count < 1 {
+		out_count = 1
+	}
+
+	in_item := payInv.Items[0].Name
+	out_item := giveInv.Items[0].Name
+
+	stock := 0
+
+	if isAdmin {
+		stock = 999
+
+	} else {
+		for _, item := range mainInv.Items {
+			if item.Name == out_item {
+				stock += item.Count
+			}
+		}
+	}
+
+	stock_factor := int(float64(stock) / float64(out_count))
+
+	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "shop")
+	o.Attributes["owner"] = md["owner"]
+
+	o.Attributes["in_item"] = in_item
+	o.Attributes["in_count"] = strconv.Itoa(in_count)
+	o.Attributes["out_item"] = out_item
+	o.Attributes["out_count"] = strconv.Itoa(out_count)
+	o.Attributes["stock"] = strconv.Itoa(stock_factor)
+
+	return o
+}

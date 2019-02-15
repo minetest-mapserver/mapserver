@@ -148,7 +148,7 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 						item.Count = int(val)
 					}
 
-					currentInventory.Items = append(currentInventory.Items, item)
+					currentInventory.Items = append(currentInventory.Items, &item)
 
 				}
 
