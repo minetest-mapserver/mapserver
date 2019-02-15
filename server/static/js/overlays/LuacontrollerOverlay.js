@@ -3,7 +3,7 @@
 var LuacontrollerIcon = L.icon({
   iconUrl: 'pics/jeija_luacontroller_top.png',
 
-  iconSize:     [16, 16], //TODO: 512px :O ...
+  iconSize:     [16, 16],
   iconAnchor:   [8, 8],
   popupAnchor:  [0, -16]
 });
@@ -11,7 +11,7 @@ var LuacontrollerIcon = L.icon({
 var LuacontrollerBurntIcon = L.icon({
   iconUrl: 'pics/jeija_luacontroller_burnt_top.png',
 
-  iconSize:     [16, 16], //TODO: 512px :O ...
+  iconSize:     [16, 16],
   iconAnchor:   [8, 8],
   popupAnchor:  [0, -16]
 });
