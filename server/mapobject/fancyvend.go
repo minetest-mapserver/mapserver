@@ -1,9 +1,9 @@
 package mapobject
 
 import (
+	"mapserver/luaparser"
 	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
-	"mapserver/luaparser"
 	"strconv"
 )
 
@@ -31,7 +31,7 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 
 	settings, err := parser.ParseMap(md["settings"])
 	if err != nil {
-		panic(err)//TODO
+		panic(err) //TODO
 	}
 
 	if settings["input_item_qty"] == nil || settings["output_item_qty"] == nil {

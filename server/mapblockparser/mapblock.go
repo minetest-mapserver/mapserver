@@ -38,7 +38,7 @@ func (this *Item) IsEmpty() bool {
 }
 
 type Inventory struct {
-	Size  int    `json:"size"`
+	Size  int     `json:"size"`
 	Items []*Item `json:"items"`
 }
 
