@@ -91,7 +91,8 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 		}
 	}
 
-	if recursionDepth == 0 {
+	if recursionDepth <= 1 && tc.Zoom < 13 {
+		//non-cached layer and not in "origin" zoom, skip tile
 		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Skip image")
 		return nil, nil, nil
 	}

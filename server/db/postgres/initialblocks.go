@@ -78,7 +78,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 		"pos2":    tcr.Pos2,
 		"tile":    tc,
 	}
-	log.WithFields(fields).Info("Initial-Query")
+	log.WithFields(fields).Debug("Initial-Query")
 
 	minX := int(math.Min(float64(tcr.Pos1.X), float64(tcr.Pos2.X)))
 	maxX := int(math.Max(float64(tcr.Pos1.X), float64(tcr.Pos2.X)))
