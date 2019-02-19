@@ -49,7 +49,7 @@ const (
 
 func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
 	//No tile in db
-	img, data, err := tr.RenderImage(tc, 2)
+	img, data, err := tr.renderImage(tc, 2)
 
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
 	return data, nil
 }
 
-func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, []byte, error) {
+func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, []byte, error) {
 
 	if recursionDepth < 2 {
 		cachedtile, err := tr.tdb.GetTile(tc)
@@ -153,22 +153,22 @@ func (tr *TileRenderer) RenderImage(tc *coords.TileCoords, recursionDepth int) (
 
 	start := time.Now()
 
-	upperLeft, _, err := tr.RenderImage(quads.UpperLeft, recursionDepth-1)
+	upperLeft, _, err := tr.renderImage(quads.UpperLeft, recursionDepth-1)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	upperRight, _, err := tr.RenderImage(quads.UpperRight, recursionDepth-1)
+	upperRight, _, err := tr.renderImage(quads.UpperRight, recursionDepth-1)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	lowerLeft, _, err := tr.RenderImage(quads.LowerLeft, recursionDepth-1)
+	lowerLeft, _, err := tr.renderImage(quads.LowerLeft, recursionDepth-1)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	lowerRight, _, err := tr.RenderImage(quads.LowerRight, recursionDepth-1)
+	lowerRight, _, err := tr.renderImage(quads.LowerRight, recursionDepth-1)
 	if err != nil {
 		return nil, nil, err
 	}
