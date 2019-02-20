@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func worker(ctx *app.App, coords <-chan *coords.TileCoords) {
+func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
 	for tc := range coords {
 		//render tile
 
@@ -24,4 +24,6 @@ func worker(ctx *app.App, coords <-chan *coords.TileCoords) {
 			panic(err)
 		}
 	}
+
+	done <- true
 }

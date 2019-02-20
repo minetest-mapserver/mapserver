@@ -2,7 +2,6 @@ package tilerendererjob
 
 import (
 	"mapserver/app"
-	"mapserver/coords"
 	"mapserver/settings"
 	"time"
 
@@ -13,7 +12,7 @@ type InitialRenderEvent struct {
 	Progress float64 `json:"progress"`
 }
 
-func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
+func initialRender(ctx *app.App) {
 	logrus.Info("Starting initial rendering job")
 	lastMtime := ctx.Settings.GetInt64(settings.SETTING_LAST_MTIME, 0)
 
@@ -44,7 +43,7 @@ func initialRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			return
 		}
 
-		tiles := renderMapblocks(ctx, jobs, result.List)
+		tiles := renderMapblocks(ctx, result.List)
 
 		t := time.Now()
 		elapsed := t.Sub(start)

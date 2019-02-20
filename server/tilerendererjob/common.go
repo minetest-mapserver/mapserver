@@ -14,12 +14,21 @@ func getTileKey(tc *coords.TileCoords) string {
 		strconv.Itoa(tc.Zoom) + "/" + strconv.Itoa(tc.LayerId)
 }
 
-func renderMapblocks(ctx *app.App, jobs chan *coords.TileCoords, mblist []*mapblockparser.MapBlock) int {
+func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 	tileRenderedMap := make(map[string]bool)
 	tilecount := 0
 	totalRenderedMapblocks.Add(float64(len(mblist)))
 
 	for i := 12; i >= 1; i-- {
+
+		//Spin up workers
+		jobs := make(chan *coords.TileCoords, ctx.Config.RenderingQueue)
+		done := make(chan bool, 1)
+
+		for i := 0; i < ctx.Config.RenderingJobs; i++ {
+			go worker(ctx, jobs, done)
+		}
+
 		for _, mb := range mblist {
 			//13
 
@@ -60,6 +69,10 @@ func renderMapblocks(ctx *app.App, jobs chan *coords.TileCoords, mblist []*mapbl
 			//dispatch re-render
 			jobs <- tc
 		}
+
+		//spin down worker pool
+		close(jobs)
+		<-done
 	}
 
 	return tilecount

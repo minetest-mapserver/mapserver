@@ -2,7 +2,6 @@ package tilerendererjob
 
 import (
 	"mapserver/app"
-	"mapserver/coords"
 	"mapserver/settings"
 	"time"
 
@@ -13,7 +12,7 @@ type IncrementalRenderEvent struct {
 	LastMtime int64 `json:"lastmtime"`
 }
 
-func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
+func incrementalRender(ctx *app.App) {
 
 	lastMtime := ctx.Settings.GetInt64(settings.SETTING_LAST_MTIME, 0)
 
@@ -36,7 +35,7 @@ func incrementalRender(ctx *app.App, jobs chan *coords.TileCoords) {
 			continue
 		}
 
-		tiles := renderMapblocks(ctx, jobs, result.List)
+		tiles := renderMapblocks(ctx, result.List)
 
 		lastMtime = result.LastMtime
 		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, lastMtime)
