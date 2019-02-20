@@ -6,8 +6,6 @@ import (
 )
 
 func Job(ctx *app.App) {
-	initMetrics()
-
 	if ctx.Settings.GetBool(settings.SETTING_INITIAL_RUN, true) {
 		initialRender(ctx)
 	}

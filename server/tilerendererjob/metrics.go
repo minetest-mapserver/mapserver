@@ -13,6 +13,6 @@ var (
 	)
 )
 
-func initMetrics() {
+func init() {
 	prometheus.MustRegister(totalRenderedMapblocks)
 }
