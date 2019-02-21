@@ -35,17 +35,6 @@ func TestTileDB(t *testing.T) {
 		t.Error("wrong size")
 	}
 
-	db.RemoveTile(c)
-
-	tile, err = db.GetTile(c)
-	if err != nil {
-		panic(err)
-	}
-
-	if tile != nil {
-		t.Error("tile not removed")
-	}
-
 	c2 := coords.NewTileCoords(1, 0, 1, 2)
 	tile, err = db.GetTile(c2)
 	if err != nil {

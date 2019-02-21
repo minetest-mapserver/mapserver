@@ -65,15 +65,3 @@ func (this *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
 
 	return err
 }
-
-func (this *TileDB) RemoveTile(pos *coords.TileCoords) error {
-	timer := prometheus.NewTimer(removeDuration)
-	defer timer.ObserveDuration()
-
-	err := this.db.Update(func(txn *badger.Txn) error {
-		err := txn.Delete(getKey(pos))
-		return err
-	})
-
-	return err
-}
