@@ -25,7 +25,7 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 		jobs := make(chan *coords.TileCoords, ctx.Config.RenderingQueue)
 		done := make(chan bool, 1)
 
-		for i := 0; i < ctx.Config.RenderingJobs; i++ {
+		for j := 0; j < ctx.Config.RenderingJobs; j++ {
 			go worker(ctx, jobs, done)
 		}
 
@@ -33,7 +33,7 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 			//13
 
 			fields := logrus.Fields{
-				"pos": mb.Pos,
+				"pos":    mb.Pos,
 				"prefix": "tilerenderjob",
 			}
 			logrus.WithFields(fields).Debug("Tile render job mapblock")
@@ -62,7 +62,7 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 				"Y":       tc.Y,
 				"Zoom":    tc.Zoom,
 				"LayerId": tc.LayerId,
-				"prefix": "tilerenderjob",
+				"prefix":  "tilerenderjob",
 			}
 			logrus.WithFields(fields).Debug("Tile render job dispatch tile")
 
