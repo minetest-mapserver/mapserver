@@ -33,11 +33,11 @@ func (this *TileDB) GC() {
 
 func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 	_, file := this.getDirAndFile(pos)
-	info, err := os.Stat(file)
-	if info != nil && err == nil {
+	info, _ := os.Stat(file)
+	if info != nil {
 		content, err := ioutil.ReadFile(file)
 		if err != nil {
-			return nil, err
+			panic(err)
 		}
 
 		return content, err
