@@ -1,67 +1,56 @@
 package tiledb
 
 import (
-	"fmt"
+	"io/ioutil"
 	"mapserver/coords"
-
-	"github.com/dgraph-io/badger"
-	"github.com/prometheus/client_golang/prometheus"
+	"os"
+	"strconv"
 )
 
 func New(path string) (*TileDB, error) {
-	opts := badger.DefaultOptions
-	opts.Dir = path
-	opts.ValueDir = path
-	db, err := badger.Open(opts)
-
-	if err != nil {
-		return nil, err
-	}
-
 	return &TileDB{
-		db: db,
+		path: path,
 	}, nil
 }
 
 type TileDB struct {
-	db *badger.DB
+	path string
 }
 
-func getKey(pos *coords.TileCoords) []byte {
-	return []byte(fmt.Sprintf("%d/%d/%d/%d", pos.X, pos.Y, pos.Zoom, pos.LayerId))
+func (this *TileDB) getDirAndFile(pos *coords.TileCoords) (string, string) {
+	dir := this.path + "/" +
+		strconv.Itoa(pos.LayerId) + "/" +
+		strconv.Itoa(pos.Zoom) + "/" +
+		strconv.Itoa(pos.X)
+
+	file := dir + "/" + strconv.Itoa(pos.Y) + ".png"
+	return dir, file
 }
 
 func (this *TileDB) GC() {
-	this.db.RunValueLogGC(0.7)
+	//No-Op
 }
 
 func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
-	timer := prometheus.NewTimer(getDuration)
-	defer timer.ObserveDuration()
-
-	var tile []byte
-	err := this.db.View(func(txn *badger.Txn) error {
-		item, err := txn.Get(getKey(pos))
-		if item != nil {
-			tile, err = item.ValueCopy(nil)
+	_, file := this.getDirAndFile(pos)
+	info, err := os.Stat(file)
+	if info != nil && err == nil {
+		content, err := ioutil.ReadFile(file)
+		if err != nil {
+			return nil, err
 		}
-		return err
-	})
-	if err != nil {
-		return nil, nil
+
+		return content, err
 	}
 
-	return tile, err
+	return nil, nil
 }
 
 func (this *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
-	timer := prometheus.NewTimer(setDuration)
-	defer timer.ObserveDuration()
+	dir, file := this.getDirAndFile(pos)
+	os.MkdirAll(dir, 0700)
 
-	err := this.db.Update(func(txn *badger.Txn) error {
-		err := txn.Set(getKey(pos), tile)
-		return err
-	})
+	err := ioutil.WriteFile(file, tile, 0644)
 
 	return err
 }

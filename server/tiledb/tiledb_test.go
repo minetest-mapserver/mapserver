@@ -8,7 +8,7 @@ import (
 )
 
 func TestTileDB(t *testing.T) {
-	tmpfile, err := ioutil.TempDir("", "TestTileDB.*.badger")
+	tmpfile, err := ioutil.TempDir("", "TestTileDB")
 	if err != nil {
 		panic(err)
 	}

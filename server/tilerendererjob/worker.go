@@ -1,9 +1,9 @@
 package tilerendererjob
 
 import (
+	"github.com/sirupsen/logrus"
 	"mapserver/app"
 	"mapserver/coords"
-	"github.com/sirupsen/logrus"
 )
 
 func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
@@ -15,7 +15,7 @@ func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
 			"Y":       tc.Y,
 			"Zoom":    tc.Zoom,
 			"LayerId": tc.LayerId,
-			"prefix": "tilerenderjob",
+			"prefix":  "tilerenderjob",
 		}
 		logrus.WithFields(fields).Debug("Tile render job tile")
 
