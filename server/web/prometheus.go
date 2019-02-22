@@ -26,11 +26,11 @@ var (
 		Help: "Websocket client count",
 	})
 	mintestPlayers = prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "minetest_player_count",
+		Name: "mapserver_minetest_player_count",
 		Help: "game player count",
 	})
 	mintestMaxLag = prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "minetest_max_lag",
+		Name: "mapserver_minetest_max_lag",
 		Help: "Max lag",
 	})
 )

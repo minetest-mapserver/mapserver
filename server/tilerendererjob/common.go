@@ -72,7 +72,7 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 
 		//spin down worker pool
 		close(jobs)
-		
+
 		for j := 0; j < ctx.Config.RenderingJobs; j++ {
 			<-done
 		}

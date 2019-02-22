@@ -1,12 +1,13 @@
 package tiledb
 
 import (
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/coords"
 	"os"
 	"strconv"
 	"sync"
-	"github.com/sirupsen/logrus"
 )
 
 var mutex = &sync.RWMutex{}
@@ -36,6 +37,9 @@ func (this *TileDB) GC() {
 }
 
 func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
+	timer := prometheus.NewTimer(tiledbLoadDuration)
+	defer timer.ObserveDuration()
+
 	mutex.RLock()
 	defer mutex.RUnlock()
 
@@ -59,6 +63,9 @@ func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 }
 
 func (this *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
+	timer := prometheus.NewTimer(tiledbSaveDuration)
+	defer timer.ObserveDuration()
+
 	mutex.Lock()
 	defer mutex.Unlock()
 
