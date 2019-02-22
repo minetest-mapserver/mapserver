@@ -29,6 +29,7 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("protector:protect", &ProtectorBlock{})
 		l.AddMapObject("protector:protect2", &ProtectorBlock{})
 		l.AddMapObject("xp_redo:protector", &XPProtectorBlock{})
+		l.AddMapObject("priv_protector:protector", &PrivProtectorBlock{})
 	}
 
 	//builtin
