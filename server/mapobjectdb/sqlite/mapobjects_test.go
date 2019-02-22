@@ -71,7 +71,7 @@ func TestMapObjects(t *testing.T) {
 		Type: "xy",
 	}
 
-	objs, err := db.GetMapData(q)
+	objs, err := db.GetMapData(&q)
 
 	if err != nil {
 		panic(err)

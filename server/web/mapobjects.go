@@ -2,10 +2,11 @@ package web
 
 import (
 	"encoding/json"
-	"github.com/prometheus/client_golang/prometheus"
 	"mapserver/app"
 	"mapserver/mapobjectdb"
 	"net/http"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type MapObjects struct {
@@ -18,7 +19,7 @@ func (t *MapObjects) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	defer timer.ObserveDuration()
 
 	decoder := json.NewDecoder(req.Body)
-	var q mapobjectdb.SearchQuery
+	q := mapobjectdb.SearchQuery{}
 
 	err := decoder.Decode(&q)
 	if err != nil {
@@ -27,7 +28,7 @@ func (t *MapObjects) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	objects, err := t.ctx.Objectdb.GetMapData(q)
+	objects, err := t.ctx.Objectdb.GetMapData(&q)
 	if err != nil {
 		resp.WriteHeader(500)
 		resp.Write([]byte(err.Error()))

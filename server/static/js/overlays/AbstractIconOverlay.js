@@ -67,10 +67,10 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
     var y1 = parseInt(mapLayer.from/16);
     var y2 = parseInt(mapLayer.to/16);
-    var x1 = parseInt(min.lng);
-    var x2 = parseInt(max.lng);
-    var z1 = parseInt(min.lat);
-    var z2 = parseInt(max.lat);
+    var x1 = parseInt(min.lng/16);
+    var x2 = parseInt(max.lng/16);
+    var z1 = parseInt(min.lat/16);
+    var z2 = parseInt(max.lat/16);
 
     api.getMapObjects({
       pos1: { x:x1, y:y1, z:z1 },

@@ -5,7 +5,7 @@ import (
 	"mapserver/mapobjectdb"
 )
 
-func (db *Sqlite3Accessor) GetMapData(q mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
+func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
 	rows, err := db.db.Query(getMapDataPosQuery,
 		q.Type,
 		q.Pos1.X, q.Pos1.Y, q.Pos1.Z,

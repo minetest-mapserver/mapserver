@@ -69,7 +69,7 @@ type DBAccessor interface {
 	Migrate() error
 
 	//Generic map objects (poi, etc)
-	GetMapData(q SearchQuery) ([]*MapObject, error)
+	GetMapData(q *SearchQuery) ([]*MapObject, error)
 	RemoveMapData(pos *coords.MapBlockCoords) error
 	AddMapData(data *MapObject) error
 

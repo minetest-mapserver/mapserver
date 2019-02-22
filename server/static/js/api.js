@@ -3,7 +3,7 @@ var api = {
   getMapObjects: function(query){
     return m.request({
       method: "POST",
-      url: "api/mapobjects",
+      url: "api/mapobjects/",
       data: query
     });
   },
