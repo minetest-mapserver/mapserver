@@ -21,8 +21,8 @@ func getKey(pos *coords.MapBlockCoords) string {
 	return fmt.Sprintf("Coord %d/%d/%d", pos.X, pos.Y, pos.Z)
 }
 
-func NewMapBlockAccessor(accessor db.DBAccessor) *MapBlockAccessor {
-	c := cache.New(500*time.Millisecond, 1000*time.Millisecond)
+func NewMapBlockAccessor(accessor db.DBAccessor, expiretime, purgetime time.Duration) *MapBlockAccessor {
+	c := cache.New(expiretime, purgetime)
 
 	return &MapBlockAccessor{
 		accessor: accessor,

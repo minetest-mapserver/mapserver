@@ -10,16 +10,22 @@ import (
 )
 
 type Config struct {
-	Port                int              `json:"port"`
-	EnablePrometheus    bool             `json:"enableprometheus"`
-	EnableRendering     bool             `json:"enablerendering"`
-	Webdev              bool             `json:"webdev"`
-	WebApi              *WebApiConfig    `json:"webapi"`
-	Layers              []*layer.Layer   `json:"layers"`
-	RenderingFetchLimit int              `json:"renderingfetchlimit"`
-	RenderingJobs       int              `json:"renderingjobs"`
-	RenderingQueue      int              `json:"renderingqueue"`
-	MapObjects          *MapObjectConfig `json:"mapobjects"`
+	Port                int                     `json:"port"`
+	EnablePrometheus    bool                    `json:"enableprometheus"`
+	EnableRendering     bool                    `json:"enablerendering"`
+	Webdev              bool                    `json:"webdev"`
+	WebApi              *WebApiConfig           `json:"webapi"`
+	Layers              []*layer.Layer          `json:"layers"`
+	RenderingFetchLimit int                     `json:"renderingfetchlimit"`
+	RenderingJobs       int                     `json:"renderingjobs"`
+	RenderingQueue      int                     `json:"renderingqueue"`
+	MapObjects          *MapObjectConfig        `json:"mapobjects"`
+	MapBlockAccessorCfg *MapBlockAccessorConfig `json:"mapblockaccessor"`
+}
+
+type MapBlockAccessorConfig struct {
+	Expiretime string `json:"expiretime"`
+	Purgetime  string `json:"purgetime"`
 }
 
 type MapObjectConfig struct {
@@ -106,6 +112,11 @@ func ParseConfig(filename string) (*Config, error) {
 		ATM:           true,
 	}
 
+	mapblockaccessor := MapBlockAccessorConfig{
+		Expiretime: "500ms",
+		Purgetime:  "1000ms",
+	}
+
 	cfg := Config{
 		Port:                8080,
 		EnableRendering:     true,
@@ -117,6 +128,7 @@ func ParseConfig(filename string) (*Config, error) {
 		RenderingJobs:       runtime.NumCPU(),
 		RenderingQueue:      100,
 		MapObjects:          &mapobjs,
+		MapBlockAccessorCfg: &mapblockaccessor,
 	}
 
 	info, err := os.Stat(filename)

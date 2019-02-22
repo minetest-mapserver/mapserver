@@ -13,11 +13,12 @@ import (
 	"mapserver/tiledb"
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
-
-	"github.com/sirupsen/logrus"
+	"time"
 
 	"io/ioutil"
 	"os"
+
+	"github.com/sirupsen/logrus"
 
 	"errors"
 )
@@ -58,7 +59,17 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	}
 
 	//mapblock accessor
-	a.BlockAccessor = mapblockaccessor.NewMapBlockAccessor(a.Blockdb)
+	expireDuration, err := time.ParseDuration(cfg.MapBlockAccessorCfg.Expiretime)
+	if err != nil {
+		panic(err)
+	}
+
+	purgeDuration, err := time.ParseDuration(cfg.MapBlockAccessorCfg.Purgetime)
+	if err != nil {
+		panic(err)
+	}
+
+	a.BlockAccessor = mapblockaccessor.NewMapBlockAccessor(a.Blockdb, expireDuration, purgeDuration)
 
 	//color mapping
 	a.Colormapping = colormapping.NewColorMapping()
