@@ -29,8 +29,26 @@ var PlayerOverlay = L.LayerGroup.extend({
 
   createMarker: function(player){
     var marker = L.marker([player.pos.z, player.pos.x], {icon: PlayerIcon});
-    marker.bindPopup(player.name);
 
+    var html = "<b>" + player.name + "</b>";
+    html += "<hr>";
+
+    for (var i=0; i<Math.floor(player.hp / 2); i++)
+      html += "<img src='pics/heart.png'>";
+
+    if (player.hp % 2 == 1)
+      html += "<img src='pics/heart.png' width='8'>";
+
+    html += "<br>";
+
+    for (var i=0; i<Math.floor(player.breath / 2); i++)
+      html += "<img src='pics/bubble.png'>";
+
+    if (player.breath % 2 == 1)
+      html += "<img src='pics/bubble.png' width='8'>";
+
+
+    marker.bindPopup(html);
     return marker;
   },
 
