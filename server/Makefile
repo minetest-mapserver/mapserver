@@ -5,7 +5,7 @@ ENV=GO111MODULE=on
 
 GO_LDFLAGS=-ldflags "-linkmode external -extldflags -static"
 
-all: build
+all: build-all
 
 $(OUT_DIR):
 	mkdir $@
@@ -28,9 +28,17 @@ clean-all: clean
 	rm -rf mapserver.json
 
 build-docker:
-	sudo docker run --rm -it -v $(shell pwd)/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make
+	sudo docker run --rm -it -v $(shell pwd)/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make build
+
+build-all-docker:
+	sudo docker run --rm -it -v $(shell pwd)/:/app -v mapserver-volume:/root/go -w /app mapserver-builder make build-all
 
 build: $(OUT_DIR)
+	go generate
+	# native
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc go build $(GO_LDFLAGS) -o $(OUT_DIR)/mapserver-linux-x86_64
+
+build-all: $(OUT_DIR)
 	go generate
 	# native
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc go build $(GO_LDFLAGS) -o $(OUT_DIR)/mapserver-linux-x86_64
