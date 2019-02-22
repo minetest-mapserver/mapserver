@@ -18,6 +18,65 @@ type LuaParser struct {
 	state *lua.LState
 }
 
+func parseMap(t *lua.LTable) map[string]interface{} {
+	result := make(map[string]interface{})
+
+	t.ForEach(func(k1, v1 lua.LValue) {
+
+		boolValue, ok := v1.(lua.LBool)
+		if ok {
+			result[k1.String()] = boolValue == lua.LTrue
+		}
+
+		intValue, ok := v1.(lua.LNumber)
+		if ok {
+			result[k1.String()], _ = strconv.Atoi(intValue.String())
+		}
+
+		strValue, ok := v1.(lua.LString)
+		if ok {
+			result[k1.String()] = strValue.String()
+		}
+
+		tblValue, ok := v1.(*lua.LTable)
+		if ok {
+			result[k1.String()] = parseMap(tblValue)
+		}
+	})
+
+	return result
+}
+
+func (this *LuaParser) ParseList(expr string) ([]map[string]interface{}, error){
+	result := make([]map[string]interface{}, 0)
+
+	err := this.state.DoString(expr)
+	if err != nil {
+		return result, err
+	}
+
+	lv := this.state.Get(-1)
+
+	tbl, ok := lv.(*lua.LTable)
+	if !ok {
+		return result, errors.New("parsing failed")
+	}
+
+	tbl.ForEach(func(k, v lua.LValue) {
+		key, ok := v.(*lua.LTable)
+
+		if !ok {
+			return
+		}
+
+		mapresult := parseMap(key)
+
+		result = append(result, mapresult)
+	})
+
+	return result, nil
+}
+
 func (this *LuaParser) ParseMap(expr string) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 
@@ -33,26 +92,5 @@ func (this *LuaParser) ParseMap(expr string) (map[string]interface{}, error) {
 		return result, errors.New("parsing failed")
 	}
 
-	tbl.ForEach(func(k, v lua.LValue) {
-		key, ok := k.(lua.LString)
-
-		if !ok {
-			return
-		}
-
-		boolValue, ok := v.(lua.LBool)
-		if ok {
-			result[key.String()] = boolValue == lua.LTrue
-		}
-		intValue, ok := v.(lua.LNumber)
-		if ok {
-			result[key.String()], _ = strconv.Atoi(intValue.String())
-		}
-		strValue, ok := v.(lua.LString)
-		if ok {
-			result[key.String()] = strValue.String()
-		}
-	})
-
-	return result, nil
+	return parseMap(tbl), nil
 }
