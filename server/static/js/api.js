@@ -1,11 +1,11 @@
 var api = {
 
-  getMapObjects: function(x1,y1,z1,x2,y2,z2,type){
-    return m.request("/api/mapobjects/" +
-      x1 + "/" + y1 + "/" + z1 + "/" +
-      x2 + "/" + y2 + "/" + z2 + "/" +
-      type
-    );
+  getMapObjects: function(query){
+    return m.request({
+      method: "POST",
+      url: "api/mapobjects",
+      data: query
+    });
   },
 
   getConfig: function(){

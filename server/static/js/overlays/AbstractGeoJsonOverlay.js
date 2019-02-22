@@ -57,10 +57,11 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
     var z1 = parseInt(min.lat);
     var z2 = parseInt(max.lat);
 
-    api.getMapObjects(
-      x1, y1, z1,
-      x2, y2, z2,
-      this.type)
+    api.getMapObjects({
+      pos1: { x:x1, y:y1, z:z1 },
+      pos2: { x:x2, y:y2, z:z2 },
+      type: this.type
+    })
     .then(function(objects){
       self.clearLayers();
 
