@@ -8,4 +8,4 @@
 * Start the mapserver via command-line: `./mapserver` or `./mapserver.exe`
 * Point your browser to `http://127.0.0.1:8080`
 
-For additional infos (lag,time,players) on the mapserver interface you should install the [mapserver-mod](mod.md)
+For additional infos (lag,time,players => active mode) on the mapserver interface you should install the [mapserver-mod](mod.md)

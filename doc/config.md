@@ -94,7 +94,16 @@ If you make more substantial changes here you may have to remove all
 existing tiles and start rendering from scratch.
 
 #### renderingjobs
-Number of cores to use for rendering, defaults to all available cores
+Number of cores to use for rendering, defaults to all available cores.
+If CPU-limiting is desired, this is a good spot to begin with (Set to 1 for single-thread)
+
+#### renderingfetchlimit
+Number of mapblocks to collect at once while rendering:
+* More means faster but also more RAM usage
+* Less means slower but less RAM usage
+
+For a small system (Raspberry PI) a setting of 1000 is ok.
+Faster system can use the default (10'000)
 
 #### enableprometheus
 Enables the [Prometheus](./prometheus.md) metrics endpoint

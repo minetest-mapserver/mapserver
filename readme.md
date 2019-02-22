@@ -14,14 +14,21 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * [License](doc/license.md)
 * [Changelog](doc/changelog.md)
 
+# Compatibility
+
+* Minetest 0.4.15 - 0.4.17.1
+* Minetest 5.0
+
 # Features
 
 ## Current features
 
+* Click-and-run installation
 * Initial and incremental map rendering
+* Realtime rendering and map-updating
 * Realtime player and world stats
 * Configurable layers (default: "Base" from y -16 to 160)
-* POI markers / mod integration
+* POI [markers](doc/mapobjects.md) / [mod](doc/mod.md) integration
 * Protector display
 * LCD Displays as markers
 * Monitoring with [Prometheus](doc/prometheus.md)
@@ -32,9 +39,11 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * Street names / Train stuff
 * City borders
 
-# Supported databases
+# Supported map-databases
+The connection is auto-detected from your `world.mt`:
 
-* Sqlite3 (for map and mapobjects)
+* Sqlite3
+* PostgreSql
 
 # Screenshots
 
@@ -47,13 +56,6 @@ Realtime mapserver for [Minetest](https://minetest.net)
 ## Map objects (as markers)
 Enable/Disable those in the [Configuration](doc/config.md)
 See:  [mapobjects](doc/mapobjects.md)
-
-<img src="./pics/bones.png">
-<img src="./pics/digiterms.png">
-<img src="./pics/lcd_display.png">
-<img src="./pics/poi.png">
-<img src="./pics/protectors.png">
-<img src="./pics/travelnet.png">
 
 
 # Bugs
