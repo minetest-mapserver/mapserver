@@ -113,7 +113,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Webdev:              false,
 		WebApi:              &webapi,
 		Layers:              layers,
-		RenderingFetchLimit: 1000,
+		RenderingFetchLimit: 10000,
 		RenderingJobs:       runtime.NumCPU(),
 		RenderingQueue:      100,
 		MapObjects:          &mapobjs,
