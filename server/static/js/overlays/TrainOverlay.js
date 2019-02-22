@@ -1,7 +1,7 @@
 'use strict';
 
 //TODO
-var PlayerIcon = L.icon({
+var TrainIcon = L.icon({
   iconUrl: 'pics/sam.png',
 
   iconSize:     [16, 32],
@@ -29,7 +29,7 @@ var TrainOverlay = L.LayerGroup.extend({
   },
 
   createMarker: function(train){
-    var marker = L.marker([train.pos.z, train.pos.x], {icon: PlayerIcon});
+    var marker = L.marker([train.pos.z, train.pos.x], {icon: TrainIcon});
     marker.bindPopup("Train");
 
     return marker;
