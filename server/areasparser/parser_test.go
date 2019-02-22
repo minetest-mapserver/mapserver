@@ -1,26 +1,25 @@
 package areasparser
 
 import (
-  "testing"
-  "fmt"
-  "encoding/json"
-
+	"encoding/json"
+	"fmt"
+	"testing"
 )
 
-func TestParse(t *testing.T){
+func TestParse(t *testing.T) {
 
-  a, err := ParseFile("testdata/areas.dat")
+	a, err := ParseFile("testdata/areas.dat")
 
-  if err != nil {
-    t.Fatal(err)
-  }
+	if err != nil {
+		t.Fatal(err)
+	}
 
-  j, err := json.MarshalIndent(a, "", " ")
+	j, err := json.MarshalIndent(a, "", " ")
 
-  if err != nil {
-    t.Fatal(err)
-  }
+	if err != nil {
+		t.Fatal(err)
+	}
 
-  fmt.Println(string(j[:]))
+	fmt.Println(string(j[:]))
 
 }

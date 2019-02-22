@@ -47,7 +47,7 @@ func parseMap(t *lua.LTable) map[string]interface{} {
 	return result
 }
 
-func (this *LuaParser) ParseList(expr string) ([]map[string]interface{}, error){
+func (this *LuaParser) ParseList(expr string) ([]map[string]interface{}, error) {
 	result := make([]map[string]interface{}, 0)
 
 	err := this.state.DoString(expr)
