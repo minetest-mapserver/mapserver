@@ -16,6 +16,31 @@ const (
 	SETTING_LAST_Y_BLOCK = "last_y_block"
 )
 
+func (this *PostgresAccessor) countBlocks(x1, y1, z1, x2, y2, z2 int) (int, error) {
+	rows, err := this.db.Query(getBlockCountByInitialTileQuery,
+		x1, y1, z1, x2, y2, z2,
+	)
+
+	if err != nil {
+		return 0, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var count int
+
+		err = rows.Scan(&count)
+		if err != nil {
+			return 0, err
+		}
+
+		return count, nil
+	}
+
+	return 0, nil
+}
+
 // x -> 0 ... 256
 
 //zoom/mapblock-width
@@ -131,34 +156,44 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 		}
 	}
 
-	rows, err := this.db.Query(getBlocksByInitialTileQuery,
-		minX, minY, minZ, maxX, maxY, maxZ,
-	)
+	count, err := this.countBlocks(minX, minY, minZ, maxX, maxY, maxZ)
 
 	if err != nil {
 		return nil, err
 	}
 
-	defer rows.Close()
 	blocks := make([]*db.Block, 0)
 	var lastmtime int64
 
-	for rows.Next() {
-		var posx, posy, posz int
-		var data []byte
-		var mtime int64
+	if count > 0 {
 
-		err = rows.Scan(&posx, &posy, &posz, &data, &mtime)
+		rows, err := this.db.Query(getBlocksByInitialTileQuery,
+			minX, minY, minZ, maxX, maxY, maxZ,
+		)
+
 		if err != nil {
 			return nil, err
 		}
 
-		if mtime > lastmtime {
-			lastmtime = mtime
-		}
+		defer rows.Close()
 
-		mb := convertRows(posx, posy, posz, data, mtime)
-		blocks = append(blocks, mb)
+		for rows.Next() {
+			var posx, posy, posz int
+			var data []byte
+			var mtime int64
+
+			err = rows.Scan(&posx, &posy, &posz, &data, &mtime)
+			if err != nil {
+				return nil, err
+			}
+
+			if mtime > lastmtime {
+				lastmtime = mtime
+			}
+
+			mb := convertRows(posx, posy, posz, data, mtime)
+			blocks = append(blocks, mb)
+		}
 	}
 
 	s.SetInt(SETTING_LAST_LAYER, lastlayer)

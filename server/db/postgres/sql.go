@@ -11,6 +11,17 @@ and b.posy <= $5
 and b.posz <= $6
 `
 
+const getBlockCountByInitialTileQuery = `
+select count(*)
+from blocks b
+where b.posx >= $1
+and b.posy >= $2
+and b.posz >= $3
+and b.posx <= $4
+and b.posy <= $5
+and b.posz <= $6
+`
+
 const getBlocksByMtimeQuery = `
 select posx,posy,posz,data,mtime
 from blocks b
