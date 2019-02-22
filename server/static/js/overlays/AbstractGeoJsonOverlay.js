@@ -58,7 +58,7 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
     var z2 = parseInt(max.lat);
 
     api.getMapObjects(
-      x1, y1, y1,
+      x1, y1, z1,
       x2, y2, z2,
       this.type)
     .then(function(objects){
