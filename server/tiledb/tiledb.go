@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"sync"
+	"github.com/sirupsen/logrus"
 )
 
 var mutex = &sync.RWMutex{}
@@ -38,6 +39,11 @@ func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 	mutex.RLock()
 	defer mutex.RUnlock()
 
+	fields := logrus.Fields{
+		"pos": pos,
+	}
+	log.WithFields(fields).Debug("GetTile")
+
 	_, file := this.getDirAndFile(pos)
 	info, _ := os.Stat(file)
 	if info != nil {
@@ -55,6 +61,12 @@ func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 func (this *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
 	mutex.Lock()
 	defer mutex.Unlock()
+
+	fields := logrus.Fields{
+		"pos":  pos,
+		"size": len(tile),
+	}
+	log.WithFields(fields).Debug("SetTile")
 
 	dir, file := this.getDirAndFile(pos)
 	os.MkdirAll(dir, 0700)

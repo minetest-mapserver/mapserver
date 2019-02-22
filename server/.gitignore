@@ -6,3 +6,4 @@ mapserver.tiles
 mapserver.sqlite
 mapserver.sqlite-journal
 mapserver.json
+debug.txt

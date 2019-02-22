@@ -72,7 +72,10 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 
 		//spin down worker pool
 		close(jobs)
-		<-done
+		
+		for j := 0; j < ctx.Config.RenderingJobs; j++ {
+			<-done
+		}
 	}
 
 	return tilecount
