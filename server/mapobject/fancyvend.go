@@ -5,6 +5,7 @@ import (
 	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
 	"strconv"
+	"github.com/sirupsen/logrus"
 )
 
 type FancyVend struct{}
@@ -31,7 +32,15 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 
 	settings, err := parser.ParseMap(md["settings"])
 	if err != nil {
-		panic(err) //TODO
+		fields := logrus.Fields{
+			"x":      x,
+			"y":      y,
+			"z":      z,
+			"pos":   block.Pos,
+			"err": err,
+		}
+		log.WithFields(fields).Error("Fancyvend setting error")
+		return nil
 	}
 
 	if settings["input_item_qty"] == nil || settings["output_item_qty"] == nil {
