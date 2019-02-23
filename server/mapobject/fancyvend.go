@@ -5,6 +5,7 @@ import (
 	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
 	"strconv"
+
 	"github.com/sirupsen/logrus"
 )
 
@@ -26,6 +27,14 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 	giveInv := invMap["given_item"]
 	mainInv := invMap["main"]
 
+	if payInv == nil || giveInv == nil {
+		return nil
+	}
+
+	if payInv.Items == nil || giveInv.Items == nil {
+		return nil
+	}
+
 	if payInv.Items[0].IsEmpty() || giveInv.Items[0].IsEmpty() {
 		return nil
 	}
@@ -33,10 +42,10 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 	settings, err := parser.ParseMap(md["settings"])
 	if err != nil {
 		fields := logrus.Fields{
-			"x":      x,
-			"y":      y,
-			"z":      z,
-			"pos":   block.Pos,
+			"x":   x,
+			"y":   y,
+			"z":   z,
+			"pos": block.Pos,
 			"err": err,
 		}
 		log.WithFields(fields).Error("Fancyvend setting error")
@@ -76,6 +85,7 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "shop")
 	o.Attributes["owner"] = md["owner"]
+	o.Attributes["type"] = md["fancyvend"]
 
 	o.Attributes["in_item"] = in_item
 	o.Attributes["in_count"] = strconv.Itoa(in_count)

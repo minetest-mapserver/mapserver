@@ -1,7 +1,7 @@
 'use strict';
 
 var TechnicQuarryIcon = L.icon({
-  iconUrl: 'pics/default_tool_mesepick.png.png',
+  iconUrl: 'pics/default_tool_mesepick.png',
 
   iconSize:     [16, 16],
   iconAnchor:   [8, 8],

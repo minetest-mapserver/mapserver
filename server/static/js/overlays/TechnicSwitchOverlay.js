@@ -1,7 +1,7 @@
 'use strict';
 
 var TechnicSwitchIcon = L.icon({
-  iconUrl: 'pics/technic_water_mill_top_active.png.png',
+  iconUrl: 'pics/technic_water_mill_top_active.png',
 
   iconSize:     [16, 16],
   iconAnchor:   [8, 8],
@@ -10,7 +10,7 @@ var TechnicSwitchIcon = L.icon({
 
 var TechnicSwitchOverlay = AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicswitch", TechnicQuarryIcon);
+    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicswitch", TechnicSwitchIcon);
   },
 
   createPopup: function(sw){
