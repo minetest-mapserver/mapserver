@@ -51,6 +51,9 @@ function send_stats()
       --print(dump(train))--XXX
 
       local t = {
+        text_outside = train.text_outside,
+        text_inside = train.text_inside,
+        line = train.line,
         pos = train.last_pos,
         velocity = train.velocity,
         off_track = train.off_track,

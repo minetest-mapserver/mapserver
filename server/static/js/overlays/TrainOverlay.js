@@ -1,13 +1,24 @@
 'use strict';
 
-//TODO
-var TrainIcon = L.icon({
-  iconUrl: 'pics/sam.png',
-
-  iconSize:     [16, 32],
-  iconAnchor:   [8, 16],
-  popupAnchor:  [0, -16]
-});
+function getTrainImageUrlForType(type){
+  switch(type){
+    case "advtrains:subway_wagon":
+      return "pics/advtrains/advtrains_subway_wagon_inv.png";
+    case "advtrains:engine_japan":
+      return  "pics/advtrains/advtrains_engine_japan_inv.png";
+    case "advtrains:engine_steam":
+      return  "pics/advtrains/advtrains_engine_steam_inv.png";
+    case "advtrains:engine_industrial":
+      return  "pics/advtrains/advtrains_engine_industrial_inv.png";
+    case "advtrains:wagon_wood":
+      return  "pics/advtrains/advtrains_wagon_wood_inv.png";
+    case "advtrains:wagon_box":
+      return  "pics/advtrains/advtrains_wagon_box_inv.png";
+    default:
+      //TODO: fallback image
+      return "pics/advtrains/advtrains_subway_wagon_inv.png";
+  }
+}
 
 var TrainOverlay = L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr) {
@@ -29,8 +40,40 @@ var TrainOverlay = L.LayerGroup.extend({
   },
 
   createMarker: function(train){
-    var marker = L.marker([train.pos.z, train.pos.x], {icon: TrainIcon});
-    marker.bindPopup("Train");
+
+    //search for wagin in front (whatever "front" is...)
+    var type;
+    var lowest_pos = 100;
+    train.wagons.forEach(function(w){
+      if (w.pos_in_train < lowest_pos){
+        lowest_pos = w.pos_in_train;
+        type = w.type;
+      }
+    });
+
+    var Icon = L.icon({
+      iconUrl: getTrainImageUrlForType(type),
+
+      iconSize:     [16, 16],
+      iconAnchor:   [8, 8],
+      popupAnchor:  [0, -16]
+    });
+
+    var marker = L.marker([train.pos.z, train.pos.x], {icon: Icon});
+
+    var html = "<b>Train</b><hr>";
+
+    html += "<b>Name:</b> " + train.text_outside + "<br>";
+    html += "<b>Line:</b> " + train.line + "<br>";
+    html += "<b>Velocity:</b> "+ Math.floor(train.velocity*10)/10 + "<br>";
+
+    html += "<b>Composition: </b>";
+    train.wagons.forEach(function(w){
+      var iconUrl =  getTrainImageUrlForType(w.type);
+      html += "<img src='"+iconUrl+"'>";
+    });
+
+    marker.bindPopup(html);
 
     return marker;
   },

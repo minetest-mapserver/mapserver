@@ -21,11 +21,14 @@ type Wagon struct {
 }
 
 type Train struct {
-	Pos      GenericPos `json:"pos"`
-	Id       string     `json:"id"`
-	Wagons   []*Wagon   `json:"wagons"`
-	OffTrack bool       `json:"off_track"`
-	Velocity float64    `json:"velocity"`
+	Pos         GenericPos `json:"pos"`
+	Id          string     `json:"id"`
+	Wagons      []*Wagon   `json:"wagons"`
+	OffTrack    bool       `json:"off_track"`
+	Velocity    float64    `json:"velocity"`
+	Line        string     `json:"line"`
+	TextOutside string     `json:"text_outside"`
+	TextInside  string     `json:"text_inside"`
 }
 
 type Player struct {
