@@ -21,7 +21,15 @@ func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
 
 		_, err := ctx.Tilerenderer.Render(tc)
 		if err != nil {
-			panic(err)
+			fields := logrus.Fields{
+				"X":       tc.X,
+				"Y":       tc.Y,
+				"Zoom":    tc.Zoom,
+				"LayerId": tc.LayerId,
+				"prefix":  "tilerenderjob",
+				"err":     err,
+			}
+			logrus.WithFields(fields).Error("Tile render job tile")
 		}
 	}
 

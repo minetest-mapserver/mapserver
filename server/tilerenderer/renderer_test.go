@@ -2,6 +2,7 @@ package tilerenderer
 
 import (
 	"bytes"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/colormapping"
 	"mapserver/coords"
@@ -14,7 +15,6 @@ import (
 	"os"
 	"testing"
 	"time"
-	"github.com/sirupsen/logrus"
 )
 
 func TestTileRender(t *testing.T) {

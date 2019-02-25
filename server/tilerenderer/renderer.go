@@ -128,6 +128,13 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 		img, err := tr.mapblockrenderer.Render(mbr.Pos1, mbr.Pos2)
 
 		if err != nil {
+			fields := logrus.Fields{
+				"pos1": mbr.Pos1,
+				"pos2": mbr.Pos2,
+				"err":  err,
+			}
+			log.WithFields(fields).Debug("mapblock render from tilerender")
+
 			return nil, nil, err
 		}
 
