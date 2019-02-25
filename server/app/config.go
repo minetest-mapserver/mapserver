@@ -91,9 +91,15 @@ func ParseConfig(filename string) (*Config, error) {
 	layers := []*layer.Layer{
 		&layer.Layer{
 			Id:   0,
-			Name: "Base",
+			Name: "Ground",
 			From: -16,
 			To:   160,
+		},
+		&layer.Layer{
+			Id:   1,
+			Name: "Sky",
+			From: 160,
+			To:   320,
 		},
 	}
 
