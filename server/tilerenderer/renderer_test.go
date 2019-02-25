@@ -13,7 +13,7 @@ import (
 	"mapserver/tiledb"
 	"os"
 	"testing"
-
+	"time"
 	"github.com/sirupsen/logrus"
 )
 
@@ -38,7 +38,7 @@ func TestTileRender(t *testing.T) {
 		panic(err)
 	}
 
-	cache := mapblockaccessor.NewMapBlockAccessor(a)
+	cache := mapblockaccessor.NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond)
 	c := colormapping.NewColorMapping()
 	_, err = c.LoadVFSColors(false, "/colors.txt")
 	if err != nil {
