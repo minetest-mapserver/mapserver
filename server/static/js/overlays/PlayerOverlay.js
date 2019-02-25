@@ -37,7 +37,7 @@ var PlayerOverlay = L.LayerGroup.extend({
       html += "<img src='pics/heart.png'>";
 
     if (player.hp % 2 == 1)
-      html += "<img src='pics/heart.png' width='8'>";
+      html += "<img src='pics/heart_half.png'>";
 
     html += "<br>";
 
@@ -45,7 +45,7 @@ var PlayerOverlay = L.LayerGroup.extend({
       html += "<img src='pics/bubble.png'>";
 
     if (player.breath % 2 == 1)
-      html += "<img src='pics/bubble.png' width='8'>";
+      html += "<img src='pics/bubble_half.png'>";
 
 
     marker.bindPopup(html);
