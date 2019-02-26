@@ -4,6 +4,8 @@ mapserver = {}
 local MP = minetest.get_modpath("mapserver")
 dofile(MP.."/poi.lua")
 dofile(MP.."/train.lua")
+dofile(MP.."/label.lua")
+dofile(MP.."/border.lua")
 
 
 -- optional mapserver-bridge stuff below
@@ -26,7 +28,7 @@ if http then
 	print("[Mapserver] starting mapserver-bridge with endpoint: " .. mapserver_url)
 	dofile(MP .. "/bridge.lua")
 	mapserver.bridge_init(http, mapserver_url, mapserver_key)
-	
+
 else
 	print("[Mapserver] bridge not active, additional infos will not be visible on the map")
 

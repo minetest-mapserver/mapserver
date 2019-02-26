@@ -27,11 +27,6 @@ end
 minetest.register_node("mapserver:train", {
 	description = "Mapserver Train",
 	tiles = {
-		"mapserver_train.png",
-		"mapserver_train.png",
-		"mapserver_train.png",
-		"mapserver_train.png",
-		"mapserver_train.png",
 		"mapserver_train.png"
 	},
 	groups = {cracky=3,oddly_breakable_by_hand=3},

@@ -26,11 +26,6 @@ end
 minetest.register_node("mapserver:label", {
 	description = "Mapserver Label",
 	tiles = {
-		"mapserver_label.png",
-		"mapserver_label.png",
-		"mapserver_label.png",
-		"mapserver_label.png",
-		"mapserver_label.png",
 		"mapserver_label.png"
 	},
 	groups = {cracky=3,oddly_breakable_by_hand=3},

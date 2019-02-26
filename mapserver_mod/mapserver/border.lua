@@ -16,7 +16,7 @@ local update_formspec = function(meta)
 		"button_exit[4,1;4,1;save;Save]" ..
 
 		-- col 2
-		"field[4,2.5;4,1;index;Index;" .. index .. "]"
+		"field[4,2.5;4,1;index;Index;" .. index .. "]" ..
 		"")
 
 end
@@ -25,11 +25,6 @@ end
 minetest.register_node("mapserver:border", {
 	description = "Mapserver Border",
 	tiles = {
-		"mapserver_border.png",
-		"mapserver_border.png",
-		"mapserver_border.png",
-		"mapserver_border.png",
-		"mapserver_border.png",
 		"mapserver_border.png"
 	},
 	groups = {cracky=3,oddly_breakable_by_hand=3},

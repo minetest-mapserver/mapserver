@@ -26,11 +26,6 @@ end
 minetest.register_node("mapserver:poi", {
 	description = "Mapserver POI",
 	tiles = {
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
-		"mapserver_poi.png",
 		"mapserver_poi.png"
 	},
 	groups = {cracky=3,oddly_breakable_by_hand=3},
