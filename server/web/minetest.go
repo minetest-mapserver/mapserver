@@ -35,8 +35,8 @@ type Player struct {
 	Pos      GenericPos `json:"pos"`
 	Velocity GenericPos `json:"velocity"`
 	Name     string     `json:"name"`
-	HP       int        `json:"hp"`
-	Breath   int        `json:"breath"`
+	HP       float64    `json:"hp"`
+	Breath   float64    `json:"breath"`
 	//TODO: stamina, skin, etc
 }
 
