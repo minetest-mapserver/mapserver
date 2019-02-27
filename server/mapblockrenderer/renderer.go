@@ -211,8 +211,12 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 						imgX+IMG_SCALE, imgY+IMG_SCALE,
 					)
 
-					foundBlocks++
-					xzOccupationMap[x][z] = true
+					if c.A != 0xFF {
+						//not transparent, mark as rendered
+						foundBlocks++
+						xzOccupationMap[x][z] = true
+					}
+					
 					draw.Draw(img, rect, &image.Uniform{c}, image.ZP, draw.Src)
 
 					if foundBlocks == EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK {
