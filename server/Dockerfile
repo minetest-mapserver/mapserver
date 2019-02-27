@@ -9,9 +9,10 @@ RUN apt-get update &&\
 COPY ./ /server
 RUN cd /server && make build
 
-FROM alpine:latest  
+FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY --from=builder /server/output/mapserver-linux-x86_64 /bin/mapserver
-CMD ["/bin/mapserver"]
 
+EXPOSE 8080
+CMD ["/bin/mapserver"]
