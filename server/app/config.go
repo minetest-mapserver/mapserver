@@ -13,6 +13,7 @@ type Config struct {
 	Port                int                     `json:"port"`
 	EnablePrometheus    bool                    `json:"enableprometheus"`
 	EnableRendering     bool                    `json:"enablerendering"`
+	EnableTransparency  bool                    `json:"enabletransparency"`
 	Webdev              bool                    `json:"webdev"`
 	WebApi              *WebApiConfig           `json:"webapi"`
 	Layers              []*layer.Layer          `json:"layers"`
@@ -133,6 +134,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Port:                8080,
 		EnableRendering:     true,
 		EnablePrometheus:    true,
+		EnableTransparency:  true,
 		Webdev:              false,
 		WebApi:              &webapi,
 		Layers:              layers,

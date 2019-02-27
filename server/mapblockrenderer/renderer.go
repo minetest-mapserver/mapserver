@@ -15,16 +15,18 @@ import (
 )
 
 type MapBlockRenderer struct {
-	accessor     *mapblockaccessor.MapBlockAccessor
-	colors       *colormapping.ColorMapping
-	enableShadow bool
+	accessor           *mapblockaccessor.MapBlockAccessor
+	colors             *colormapping.ColorMapping
+	enableShadow       bool
+	enableTransparency bool
 }
 
 func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping) *MapBlockRenderer {
 	return &MapBlockRenderer{
-		accessor:     accessor,
-		colors:       colors,
-		enableShadow: true,
+		accessor:           accessor,
+		colors:             colors,
+		enableShadow:       true,
+		enableTransparency: false,
 	}
 }
 
@@ -211,12 +213,12 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 						imgX+IMG_SCALE, imgY+IMG_SCALE,
 					)
 
-					if c.A != 0xFF {
+					if c.A != 0xFF || !r.enableTransparency {
 						//not transparent, mark as rendered
 						foundBlocks++
 						xzOccupationMap[x][z] = true
 					}
-					
+
 					draw.Draw(img, rect, &image.Uniform{c}, image.ZP, draw.Src)
 
 					if foundBlocks == EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK {
