@@ -16,4 +16,13 @@ func TestNewMapping(t *testing.T) {
 		panic("no color")
 	}
 
+	c = m.GetColor("default:river_water_flowing")
+	if c == nil {
+		panic("no color")
+	}
+
+	if c.A != 128 {
+		panic("wrong alpha")
+	}
+
 }

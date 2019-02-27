@@ -61,15 +61,20 @@ func (m *ColorMapping) LoadBytes(buffer []byte) (int, error) {
 				return 0, err
 			}
 
-			c := color.RGBA{uint8(r), uint8(g), uint8(b), 0xFF}
+			a := int64(255)
+
+			if len(parts) >= 5 {
+				//with alpha
+				a, err = strconv.ParseInt(parts[4], 10, 32)
+				if err != nil {
+					return 0, err
+				}
+			}
+
+			c := color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}
 			m.colors[parts[0]] = &c
 			count++
 		}
-
-		if len(parts) >= 5 {
-			//with alpha
-		}
-
 	}
 
 	return count, nil
