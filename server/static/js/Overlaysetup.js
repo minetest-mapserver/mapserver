@@ -42,6 +42,14 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
       overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
     }
 
+    if (cfg.mapobjects.xpprotector) {
+      overlays["XP Protector"] = new XPProtectorOverlay(wsChannel, layerMgr);
+    }
+
+    if (cfg.mapobjects.privprotector) {
+      overlays["Priv Protector"] = new PrivProtectorOverlay(wsChannel, layerMgr);
+    }
+
     if (cfg.mapobjects.mission) {
       overlays["Missions"] = new MissionOverlay(wsChannel, layerMgr);
     }

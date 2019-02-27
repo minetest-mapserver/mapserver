@@ -24,11 +24,19 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
 	}
 
-	//protections
+	//protector
 	if ctx.Config.MapObjects.Protector {
 		l.AddMapObject("protector:protect", &ProtectorBlock{})
 		l.AddMapObject("protector:protect2", &ProtectorBlock{})
+	}
+
+	//xp protector
+	if ctx.Config.MapObjects.XPProtector {
 		l.AddMapObject("xp_redo:protector", &XPProtectorBlock{})
+	}
+
+	//priv protector
+	if ctx.Config.MapObjects.PrivProtector {
 		l.AddMapObject("priv_protector:protector", &PrivProtectorBlock{})
 	}
 
