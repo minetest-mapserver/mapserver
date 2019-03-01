@@ -41,6 +41,11 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
 			if tc == nil {
+				fields := logrus.Fields{
+					"pos":  mb.Pos,
+					"zoom": i,
+				}
+				logrus.WithFields(fields).Error("mapblock outside of layer!")
 				panic("mapblock outside of layer!")
 			}
 
