@@ -5,10 +5,11 @@ import (
 	"bytes"
 	"compress/zlib"
 	"errors"
-	"github.com/sirupsen/logrus"
 	"io"
 	"strconv"
 	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 /*
@@ -94,6 +95,11 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 
 			valueLength := readU32(metadata, offset)
 			offset += 4
+
+			if len(metadata) <= valueLength+offset {
+				return 0, errors.New("metadata too short: " + strconv.Itoa(len(metadata)) +
+					", valuelength: " + strconv.Itoa(int(valueLength)))
+			}
 
 			value := string(metadata[offset : valueLength+offset])
 			offset += valueLength
