@@ -1,7 +1,9 @@
 
 # Changelog
 
-## 0.2.0 (NEXT)
+## 1.1.0 (NEXT)
+
+## 1.0.0
 * Extended [configuration](config.md)
 * [Monitoring](prometheus.md)
 * [Mod](mod.md)-bridge
