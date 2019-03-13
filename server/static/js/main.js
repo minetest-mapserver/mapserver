@@ -23,12 +23,13 @@ api.getConfig().then(function(cfg){
 
   //All layers
   cfg.layers.forEach(function(layer){
-    var tileLayer = new RealtimeTileLayer(wsChannel, layer.id);
+    var tileLayer = new RealtimeTileLayer(wsChannel, layer.id, map);
     layers[layer.name] = tileLayer;
   });
 
   //current layer
-  layerMgr.getCurrentLayer().addTo(map);
+  var currentLayer = layerMgr.getCurrentLayer();
+  layers[currentLayer.name].addTo(map);
 
   //All overlays
   Overlaysetup(cfg, map, overlays, wsChannel, layerMgr);

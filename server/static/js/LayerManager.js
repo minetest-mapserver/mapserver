@@ -5,9 +5,11 @@ function LayerManager(layers, map){
   this.currentLayer = layers[0];
   this.layers = layers;
 
+  var self = this;
+
   map.on('baselayerchange', function (e) {
       console.log("baselayerchange", e.layer);
-      //TODO
+      self.setLayerId(e.layer.layerId);
   });
 
 }
@@ -17,6 +19,10 @@ LayerManager.prototype.setLayerId = function(layerId){
   this.layers.forEach(function(layer){
     if (layer.id == layerId){
       self.currentLayer = layer;
+      self.listeners.forEach(function(listener){
+        listener(layer);
+      });
+      return;
     }
   });
 },

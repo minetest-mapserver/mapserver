@@ -12,6 +12,7 @@ var Hashroute = {
 
     map.on('zoomend', updateHash)
     map.on('moveend', updateHash)
+    map.on('baselayerchange', updateHash)
     updateHash();
   },
 

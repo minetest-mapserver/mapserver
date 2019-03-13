@@ -2,7 +2,7 @@
 
 var RealtimeTileLayer = L.TileLayer.extend({
 
-  initialize: function(wsChannel, layerId) {
+  initialize: function(wsChannel, layerId, map) {
     var self = this;
     this.layerId = layerId;
 
@@ -12,7 +12,7 @@ var RealtimeTileLayer = L.TileLayer.extend({
         return;
       }
 
-      if (tc.zoom != self._map.getZoom()){
+      if (tc.zoom != map.getZoom()){
         //ignore other zoom levels
         return;
       }
