@@ -76,7 +76,8 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 
 		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
 
-		a.c.Set(key, mapblock, cache.DefaultExpiration)
+		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
+		cacheBlockCount.Inc()
 		mblist = append(mblist, mapblock)
 
 	}

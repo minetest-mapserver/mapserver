@@ -61,7 +61,8 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*l
 
 		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
 
-		a.c.Set(key, mapblock, cache.DefaultExpiration)
+		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
+		cacheBlockCount.Inc()
 		mblist = append(mblist, mapblock)
 
 	}

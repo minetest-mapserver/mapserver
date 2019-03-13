@@ -13,24 +13,23 @@ import (
 func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockparser.MapBlock, error) {
 	key := getKey(pos)
 
-	if a.c.ItemCount() > a.maxcount {
+	cacheBlocks.Set(float64(a.blockcache.ItemCount()))
+	if a.blockcache.ItemCount() > a.maxcount {
 		//flush cache
 		fields := logrus.Fields{
-			"cached items": a.c.ItemCount(),
+			"cached items": a.blockcache.ItemCount(),
 			"maxcount":     a.maxcount,
 		}
-		logrus.WithFields(fields).Warn("Flushing cache")
+		logrus.WithFields(fields).Debug("Flushing cache")
 
-		a.c.Flush()
+		a.blockcache.Flush()
 	}
 
-	cachedblock, found := a.c.Get(key)
+	cachedblock, found := a.blockcache.Get(key)
 	if found {
 		getCacheHitCount.Inc()
 		return cachedblock.(*mapblockparser.MapBlock), nil
 	}
-
-	getCacheMissCount.Inc()
 
 	timer := prometheus.NewTimer(dbGetDuration)
 	defer timer.ObserveDuration()
@@ -41,8 +40,13 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 	}
 
 	if block == nil {
+		//no mapblock here
+		cacheBlockCount.Inc()
+		a.blockcache.Set(key, nil, cache.DefaultExpiration)
 		return nil, nil
 	}
+
+	getCacheMissCount.Inc()
 
 	mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, pos)
 	if err != nil {
@@ -51,7 +55,8 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 
 	a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
 
-	a.c.Set(key, mapblock, cache.DefaultExpiration)
+	cacheBlockCount.Inc()
+	a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
 
 	return mapblock, nil
 }

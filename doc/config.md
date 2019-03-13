@@ -57,6 +57,11 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 		"smartshop": true,
 		"fancyvend": true,
 		"atm": true
+	},
+	"mapblockaccessor": {
+		"expiretime": "10s",
+		"purgetime": "15s",
+		"maxitems": 10
 	}
 }
 ```
@@ -107,3 +112,6 @@ Faster system can use the default (10'000)
 
 #### enableprometheus
 Enables the [Prometheus](./prometheus.md) metrics endpoint
+
+#### mapblockaccessor.maxitems
+Number of mapblocks to keep in memory, dial this down if you have memory issues

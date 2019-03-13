@@ -9,5 +9,6 @@ import (
 
 func (a *MapBlockAccessor) Update(pos *coords.MapBlockCoords, mb *mapblockparser.MapBlock) {
 	key := getKey(pos)
-	a.c.Set(key, mb, cache.DefaultExpiration)
+	cacheBlockCount.Inc()
+	a.blockcache.Set(key, mb, cache.DefaultExpiration)
 }

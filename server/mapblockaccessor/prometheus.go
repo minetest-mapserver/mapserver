@@ -17,6 +17,18 @@ var (
 			Help: "Count of db cache miss",
 		},
 	)
+	cacheBlockCount = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "dbcache_block_count",
+			Help: "Count of db blocks inserted",
+		},
+	)
+	cacheBlocks = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "dbcache_blocks",
+			Help: "Block count currently in the cache",
+		},
+	)
 	dbGetDuration = prometheus.NewHistogram(prometheus.HistogramOpts{
 		Name:    "db_get_duration",
 		Help:    "Histogram for db mapblock get durations",
@@ -32,6 +44,9 @@ var (
 func init() {
 	prometheus.MustRegister(getCacheHitCount)
 	prometheus.MustRegister(getCacheMissCount)
+
+	prometheus.MustRegister(cacheBlockCount)
+	prometheus.MustRegister(cacheBlocks)
 
 	prometheus.MustRegister(dbGetDuration)
 	prometheus.MustRegister(dbGetMtimeDuration)

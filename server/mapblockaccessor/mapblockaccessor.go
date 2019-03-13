@@ -12,10 +12,10 @@ import (
 )
 
 type MapBlockAccessor struct {
-	accessor db.DBAccessor
-	c        *cache.Cache
-	Eventbus *eventbus.Eventbus
-	maxcount int
+	accessor   db.DBAccessor
+	blockcache *cache.Cache
+	Eventbus   *eventbus.Eventbus
+	maxcount   int
 }
 
 func getKey(pos *coords.MapBlockCoords) string {
@@ -23,12 +23,12 @@ func getKey(pos *coords.MapBlockCoords) string {
 }
 
 func NewMapBlockAccessor(accessor db.DBAccessor, expiretime, purgetime time.Duration, maxcount int) *MapBlockAccessor {
-	c := cache.New(expiretime, purgetime)
+	blockcache := cache.New(expiretime, purgetime)
 
 	return &MapBlockAccessor{
-		accessor: accessor,
-		c:        c,
-		Eventbus: eventbus.New(),
-		maxcount: maxcount,
+		accessor:   accessor,
+		blockcache: blockcache,
+		Eventbus:   eventbus.New(),
+		maxcount:   maxcount,
 	}
 }
