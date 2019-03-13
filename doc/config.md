@@ -61,7 +61,7 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 	"mapblockaccessor": {
 		"expiretime": "10s",
 		"purgetime": "15s",
-		"maxitems": 10
+		"maxitems": 5000
 	}
 }
 ```
