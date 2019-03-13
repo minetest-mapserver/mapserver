@@ -30,6 +30,7 @@ type MapBlockAccessorConfig struct {
 }
 
 type MapObjectConfig struct {
+	Areas         bool `json:"areas"`
 	Bones         bool `json:"bones"`
 	Protector     bool `json:"protector"`
 	XPProtector   bool `json:"xpprotector"`
@@ -107,6 +108,7 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	mapobjs := MapObjectConfig{
+		Areas:         true,
 		Bones:         true,
 		Protector:     true,
 		XPProtector:   true,
