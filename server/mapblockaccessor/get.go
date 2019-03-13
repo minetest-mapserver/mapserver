@@ -28,7 +28,11 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 	cachedblock, found := a.blockcache.Get(key)
 	if found {
 		getCacheHitCount.Inc()
-		return cachedblock.(*mapblockparser.MapBlock), nil
+		if cachedblock == nil {
+			return nil, nil
+		} else {
+			return cachedblock.(*mapblockparser.MapBlock), nil
+		}
 	}
 
 	timer := prometheus.NewTimer(dbGetDuration)
