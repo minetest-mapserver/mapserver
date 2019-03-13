@@ -69,7 +69,10 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		panic(err)
 	}
 
-	a.BlockAccessor = mapblockaccessor.NewMapBlockAccessor(a.Blockdb, expireDuration, purgeDuration)
+	a.BlockAccessor = mapblockaccessor.NewMapBlockAccessor(
+		a.Blockdb,
+		expireDuration, purgeDuration,
+		cfg.MapBlockAccessorCfg.MaxItems)
 
 	//color mapping
 	a.Colormapping = colormapping.NewColorMapping()

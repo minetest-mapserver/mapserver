@@ -32,7 +32,7 @@ func TestSimpleAccess(t *testing.T) {
 		panic(err)
 	}
 
-	cache := NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond)
+	cache := NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond, 1000)
 	mb, err := cache.GetMapBlock(coords.NewMapBlockCoords(0, 0, 0))
 
 	if err != nil {

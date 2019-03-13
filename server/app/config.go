@@ -27,6 +27,7 @@ type Config struct {
 type MapBlockAccessorConfig struct {
 	Expiretime string `json:"expiretime"`
 	Purgetime  string `json:"purgetime"`
+	MaxItems   int    `json:"maxitems"`
 }
 
 type MapObjectConfig struct {
@@ -128,8 +129,9 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	mapblockaccessor := MapBlockAccessorConfig{
-		Expiretime: "500ms",
-		Purgetime:  "1000ms",
+		Expiretime: "15s",
+		Purgetime:  "30s",
+		MaxItems:   5000,
 	}
 
 	cfg := Config{
