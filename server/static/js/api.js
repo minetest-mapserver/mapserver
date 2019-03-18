@@ -9,7 +9,7 @@ var api = {
   },
 
   getConfig: function(){
-    return m.request("/api/config");
+    return m.request("api/config");
   }
 
 

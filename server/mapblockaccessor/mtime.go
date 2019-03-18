@@ -71,7 +71,14 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 
 		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
 		if err != nil {
-			return nil, err
+			fields := logrus.Fields{
+				"x":   block.Pos.X,
+				"y":   block.Pos.Y,
+				"z":   block.Pos.Z,
+				"err": err,
+			}
+			logrus.WithFields(fields).Error("parse error")
+			continue
 		}
 
 		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
