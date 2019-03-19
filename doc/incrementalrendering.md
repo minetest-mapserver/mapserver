@@ -29,7 +29,7 @@ last\_mtime	| **1552977950020**
 
 The following query will return all changed blocks since the last call:
 
-```
+```sql
 select posx,posy,posz,data,mtime
 from blocks b
 where b.mtime > 1552977950020
