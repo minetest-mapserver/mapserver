@@ -53,6 +53,6 @@ Incremental rendering is executed periodically:
 ## About realtime
 
 Of course there are delays between placing/removing blocks and the tiles on the mapserver.
-The minetest setting ** server\_map\_save\_interval ** is responsible for the delay to the mapserver (defaults to 5.3 seconds)
+The minetest setting **server\_map\_save\_interval** is responsible for the delay to the mapserver (defaults to 5.3 seconds)
 Don't try to decrease this value too much on your minetest instance, it has a performance impact!
 
