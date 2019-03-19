@@ -12,7 +12,7 @@ last query.
 ## Table *blocks* (minetest db)
 
 posx	| posy	| posz	| data	| mtime
----	| ---	| ---	| ---	|
+---	| ---	| ---	| ---	| ---
 10	| 11	| 12	| ABC	| 1552977950000
 20      | 21    | 22    | 123   | 1552977950010
 30      | 31    | 32    | XYZ   | **1552977950020**
@@ -22,7 +22,7 @@ posx	| posy	| posz	| data	| mtime
 ## Table *settings* (mapserver db)
 
 key		| value
----		|
+---		| ---
 last\_mtime	| **1552977950020**
 
 ## Query example
