@@ -14,6 +14,10 @@ Realtime mapserver for [Minetest](https://minetest.net)
 * [License](doc/license.md)
 * [Changelog](doc/changelog.md)
 
+# How it works
+
+See: [Incremental rendering](doc/incrementalrendering.md)
+
 # Compatibility
 
 * Minetest 0.4.15 - 0.4.17.1
