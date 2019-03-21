@@ -15,7 +15,7 @@ create index if not exists objects_pos on objects(posx,posy,posz);
 create index if not exists objects_pos_type on objects(posx,posy,posz,type);
 
 create table if not exists object_attributes(
-	objectid integer not null,
+	objectid serial,
 	key varchar not null,
 	value varchar not null,
 	FOREIGN KEY (objectid) references objects(id) ON DELETE CASCADE,
