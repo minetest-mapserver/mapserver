@@ -70,16 +70,13 @@ func (db *PostgresAccessor) RemoveMapData(pos *coords.MapBlockCoords) error {
 }
 
 func (db *PostgresAccessor) AddMapData(data *mapobjectdb.MapObject) error {
-	res, err := db.db.Exec(addMapDataQuery,
+	res := db.db.QueryRow(addMapDataQuery,
 		data.X, data.Y, data.Z,
 		data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
 		data.Type, data.Mtime)
 
-	if err != nil {
-		return err
-	}
-
-	id, err := res.LastInsertId()
+	lastInsertId := 0
+	err := res.Scan(&lastInsertId)
 
 	if err != nil {
 		return err
@@ -87,7 +84,7 @@ func (db *PostgresAccessor) AddMapData(data *mapobjectdb.MapObject) error {
 
 	for k, v := range data.Attributes {
 		//TODO: batch insert
-		_, err := db.db.Exec(addMapDataAttributeQuery, id, k, v)
+		_, err := db.db.Exec(addMapDataAttributeQuery, lastInsertId, k, v)
 
 		if err != nil {
 			return err

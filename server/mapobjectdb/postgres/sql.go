@@ -21,6 +21,7 @@ const addMapDataQuery = `
 insert into
 objects(x,y,z,posx,posy,posz,type,mtime)
 values($1, $2, $3, $4, $5, $6, $7, $8)
+returning id
 `
 
 const addMapDataAttributeQuery = `
