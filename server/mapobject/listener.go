@@ -67,7 +67,11 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 
 						if len(objs) > 0 {
 							for _, obj := range objs {
-								this.ctx.Objectdb.AddMapData(obj)
+								err := this.ctx.Objectdb.AddMapData(obj)
+								if err != nil {
+									panic(err)
+								}
+
 								this.ctx.WebEventbus.Emit("mapobject-created", obj)
 							}
 						}
