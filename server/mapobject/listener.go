@@ -99,7 +99,10 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 						obj := v.onMapObject(x, y, z, block)
 
 						if obj != nil {
-							this.ctx.Objectdb.AddMapData(obj)
+							err := this.ctx.Objectdb.AddMapData(obj)
+							if err != nil {
+								panic(err)
+							}
 							this.ctx.WebEventbus.Emit("mapobject-created", obj)
 						}
 					}
