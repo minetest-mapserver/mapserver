@@ -4,15 +4,19 @@ import (
 	"mapserver/coords"
 	"mapserver/eventbus"
 	"mapserver/mapblockparser"
+	"sync"
 
 	cache "github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 )
 
+var lock = &sync.RWMutex{}
+
 func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockparser.MapBlock, error) {
 	key := getKey(pos)
 
+	//maintenance
 	cacheBlocks.Set(float64(a.blockcache.ItemCount()))
 	if a.blockcache.ItemCount() > a.maxcount {
 		//flush cache
@@ -25,8 +29,13 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 		a.blockcache.Flush()
 	}
 
+	//read section
+	lock.RLock()
+
 	cachedblock, found := a.blockcache.Get(key)
 	if found {
+		defer lock.RUnlock()
+
 		getCacheHitCount.Inc()
 		if cachedblock == nil {
 			return nil, nil
@@ -35,8 +44,26 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 		}
 	}
 
+	//end read
+	lock.RUnlock()
+
 	timer := prometheus.NewTimer(dbGetDuration)
 	defer timer.ObserveDuration()
+
+	//write section
+	lock.Lock()
+	defer lock.Unlock()
+
+	//try read
+	cachedblock, found = a.blockcache.Get(key)
+	if found {
+		getCacheHitCount.Inc()
+		if cachedblock == nil {
+			return nil, nil
+		} else {
+			return cachedblock.(*mapblockparser.MapBlock), nil
+		}
+	}
 
 	block, err := a.accessor.GetBlock(pos)
 	if err != nil {
