@@ -45,6 +45,7 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 
 	this.ctx.WebEventbus.Emit("mapobjects-cleared", block.Pos)
 
+	//TODO: refactor into single loop
 	for id, name := range block.BlockMapping {
 
 		for k, v := range this.multiobjectlisteners {
@@ -69,6 +70,17 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 							for _, obj := range objs {
 								err := this.ctx.Objectdb.AddMapData(obj)
 								if err != nil {
+									fields = logrus.Fields{
+										"mbpos": block.Pos,
+										"x":     x,
+										"y":     y,
+										"z":     z,
+										"type":  name,
+										"obj":   obj,
+									}
+									log.WithFields(fields).Error("AddMapData()")
+
+									//unrecoverable
 									panic(err)
 								}
 
@@ -101,6 +113,17 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 						if obj != nil {
 							err := this.ctx.Objectdb.AddMapData(obj)
 							if err != nil {
+								fields = logrus.Fields{
+									"mbpos": block.Pos,
+									"x":     x,
+									"y":     y,
+									"z":     z,
+									"type":  name,
+									"obj":   obj,
+								}
+								log.WithFields(fields).Error("AddMapData()")
+
+								//unrecoverable
 								panic(err)
 							}
 							this.ctx.WebEventbus.Emit("mapobject-created", obj)
