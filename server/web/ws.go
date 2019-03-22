@@ -69,6 +69,13 @@ func (t *WS) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 	for {
 		data := <-ch
+
+		if data == nil {
+			//how the hell got a nil reference in here..?!
+			//related issue: #18
+			continue
+		}
+
 		err := conn.WriteMessage(websocket.TextMessage, data)
 		if err != nil {
 			break
