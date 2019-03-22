@@ -63,7 +63,7 @@ function send_stats()
 
   for _, player in ipairs(minetest.get_connected_players()) do
 
-    local is_hidden = minetest.check_player_privs(player:get_player_name(), {mapserver_hide_player = true}) then
+    local is_hidden = minetest.check_player_privs(player:get_player_name(), {mapserver_hide_player = true})
 
     local info = {
       name = player:get_player_name(),
