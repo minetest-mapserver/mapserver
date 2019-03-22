@@ -44,6 +44,6 @@ WebSocketChannel.prototype.connect = function(){
 
   ws.onerror = function(){
     //reconnect after some time
-    setTimeout(() => this.connect(), 1000);
+    setTimeout(self.connect.bind(self), 1000);
   }
 };
