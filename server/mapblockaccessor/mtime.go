@@ -31,6 +31,8 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 	blocks, err := a.accessor.FindBlocksByMtime(lastmtime, limit)
 	timer.ObserveDuration()
 
+	changedBlockCount.Add(float64(len(blocks)))
+
 	if err != nil {
 		return nil, err
 	}

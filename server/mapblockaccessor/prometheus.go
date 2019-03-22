@@ -23,6 +23,12 @@ var (
 			Help: "Count of db blocks inserted",
 		},
 	)
+	changedBlockCount = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "changed_block_count",
+			Help: "Count of db blocks changed (database)",
+		},
+	)
 	cacheBlocks = prometheus.NewGauge(
 		prometheus.GaugeOpts{
 			Name: "dbcache_blocks",
@@ -47,6 +53,8 @@ func init() {
 
 	prometheus.MustRegister(cacheBlockCount)
 	prometheus.MustRegister(cacheBlocks)
+
+	prometheus.MustRegister(changedBlockCount)
 
 	prometheus.MustRegister(dbGetDuration)
 	prometheus.MustRegister(dbGetMtimeDuration)
