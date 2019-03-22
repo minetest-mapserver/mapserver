@@ -85,7 +85,7 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "shop")
 	o.Attributes["owner"] = md["owner"]
-	o.Attributes["type"] = md["fancyvend"]
+	o.Attributes["type"] = "fancyvend"
 
 	o.Attributes["in_item"] = in_item
 	o.Attributes["in_count"] = strconv.Itoa(in_count)
