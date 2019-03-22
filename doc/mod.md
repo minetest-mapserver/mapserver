@@ -42,3 +42,12 @@ secure.http_mods = mapserver
 mapserver.url = http://127.0.0.1:8080
 mapserver.key = ZJoSpysiKGlYexof
 ```
+
+### Hiding players from the map
+
+If (for any reason) you want to hide players on the map, you can `/grant` them the following priv:
+```
+mapserver_hide_player
+```
+
+The player-position and data will not be sent to the mapserver

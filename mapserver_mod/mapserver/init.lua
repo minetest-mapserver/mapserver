@@ -7,6 +7,7 @@ dofile(MP.."/train.lua")
 dofile(MP.."/label.lua")
 dofile(MP.."/border.lua")
 dofile(MP.."/legacy.lua")
+dofile(MP.."/privs.lua")
 
 
 -- optional mapserver-bridge stuff below

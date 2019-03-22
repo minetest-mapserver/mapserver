@@ -78,6 +78,9 @@ function send_stats()
   end
 
   for _, player in ipairs(minetest.get_connected_players()) do
+
+    local is_hidden = minetest.check_player_privs(player:get_player_name(), {mapserver_hide_player = true}) then
+
     local info = {
       name = player:get_player_name(),
       pos = player:get_pos(),
@@ -86,7 +89,9 @@ function send_stats()
       velocity = player:get_player_velocity()
     }
 
-    table.insert(data.players, info)
+    if not is_hidden then
+      table.insert(data.players, info)
+    end
   end
 
   local json = minetest.write_json(data)
