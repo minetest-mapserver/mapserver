@@ -14,6 +14,7 @@ func (this *LabelBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock)
 	o.Attributes["text"] = md["text"]
 	o.Attributes["size"] = md["size"]
 	o.Attributes["direction"] = md["direction"]
+	o.Attributes["owner"] = md["owner"]
 
 	return o
 }

@@ -13,6 +13,7 @@ func (this *BorderBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "border")
 	o.Attributes["name"] = md["name"]
 	o.Attributes["index"] = md["index"]
+	o.Attributes["owner"] = md["owner"]
 
 	return o
 }
