@@ -27,22 +27,6 @@ function send_stats()
     players = {}
   }
 
-  --[[
-  "trains":[
-      {"id":"690096","off_track":false,"pos":{"x":-125,"y":6,"z":-46},"velocity":0},
-      {"id":"973462","off_track":false,"pos":{"x":-125,"y":5,"z":-64},"velocity":0}
-    ],
-  "uptime":2.0000000298023224,
-  "wagons":[
-    {"id":"980189","pos_in_train":2,"train_id":"690096","type":"advtrains:subway_wagon"},
-    {"id":"243215","pos_in_train":2.5,"train_id":"973462","type":"advtrains:engine_japan"}
-  ]}
-
-  {"max_lag":0.38148100000000001,"players":[{"breath":11,"hp":20,"name":"BuckarooBanzai","pos":{"x":-114.66400146484375,"y":3.5,"z":-66.122001647949219},"velocity":{"x":0,"y":0,"z":0}}],"time":18530.00020980835,"trains":[{"id":"261557","off_track":true,"pos":{"x":-125,"y":5,"z":-56},"velocity":0,"wagons":[{"id":"423954","pos_in_train":6,"type":"advtrains:subway_wagon"},{"id":"635309","pos_in_train":10,"type":"advtrains:subway_wagon"},{"id":"253216","pos_in_train":2,"type":"advtrains:subway_wagon"}]},{"id":"690096","off_track":false,"pos":{"x":-125,"y":6,"z":-46},"velocity":0,"wagons":[{"id":"980189","pos_in_train":2,"type":"advtrains:subway_wagon"}]}],"uptime":235.100003503263}
-
-
-  --]]
-
   if has_advtrains then
     -- send trains if 'advtrains' mod installed
 
