@@ -6,6 +6,7 @@ RUN apt-get update &&\
 	apt-get update &&\
 	apt-get install -y golang-go
 
+VOLUME /root/go
 COPY ./ /server
 RUN cd /server && make build
 
