@@ -52,10 +52,29 @@ var PlayerOverlay = L.LayerGroup.extend({
     return marker;
   },
 
+  isPlayerInCurrentLayer: function(player){
+    var mapLayer = this.layerMgr.getCurrentLayer()
+
+    return (player.pos.y >= mapLayer.from && player.pos.y <= mapLayer.to)
+  },
+
   onMinetestUpdate: function(info){
     var self = this;
 
     this.players.forEach(function(player){
+      var isInLayer = self.isPlayerInCurrentLayer(player);
+
+      if (!isInLayer){
+        if (self.currentObjects[player.name]){
+          //player is displayed and not on the layer anymore
+          //Remove the marker and reference
+          self.currentObjects[player.name].remove();
+          delete self.currentObjects[player.name];
+        }
+
+        return;
+      }
+
       if (self.currentObjects[player.name]){
         //marker exists
         self.currentObjects[player.name].setLatLng([player.pos.z, player.pos.x]);
@@ -91,7 +110,10 @@ var PlayerOverlay = L.LayerGroup.extend({
     var mapLayer = this.layerMgr.getCurrentLayer()
 
     this.players.forEach(function(player){
-      //TODO: filter layer
+      if (!self.isPlayerInCurrentLayer(player)){
+        //not in current layer
+        return;
+      }
 
       var marker = self.createMarker(player);
       marker.addTo(self);
