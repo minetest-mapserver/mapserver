@@ -1,7 +1,7 @@
 
 minetest.register_lbm({
 	label = "Tileserver->Mapserver poi upgrade",
-	name = "tileserver:poi",
+	name = "mapserver:poi",
 	nodenames = {"tileserver:poi"},
 	run_at_every_load = true,
 	action = function(pos, node)
@@ -11,7 +11,7 @@ minetest.register_lbm({
 
 minetest.register_lbm({
 	label = "Tileserver->Mapserver train upgrade",
-	name = "tileserver:train",
+	name = "mapserver:train",
 	nodenames = {"tileserver:train"},
 	run_at_every_load = true,
 	action = function(pos, node)
