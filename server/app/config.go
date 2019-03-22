@@ -31,23 +31,24 @@ type MapBlockAccessorConfig struct {
 }
 
 type MapObjectConfig struct {
-	Areas         bool `json:"areas"`
-	Bones         bool `json:"bones"`
-	Protector     bool `json:"protector"`
-	XPProtector   bool `json:"xpprotector"`
-	PrivProtector bool `json:"privprotector"`
-	Technic       bool `json:"technic"`
-	LuaController bool `json:"luacontroller"`
-	Digiterms     bool `json:"digiterms"`
-	Digilines     bool `json:"digilines"`
-	Travelnet     bool `json:"travelnet"`
-	Mapserver     bool `json:"mapserver"`
-	Mission       bool `json:"mission"`
-	Jumpdrive     bool `json:"jumpdrive"`
-	Smartshop     bool `json:"smartshop"`
-	Fancyvend     bool `json:"fancyvend"`
-	ATM           bool `json:"atm"`
-	Train         bool `json:"train"`
+	Areas            bool `json:"areas"`
+	Bones            bool `json:"bones"`
+	Protector        bool `json:"protector"`
+	XPProtector      bool `json:"xpprotector"`
+	PrivProtector    bool `json:"privprotector"`
+	Technic          bool `json:"technic"`
+	LuaController    bool `json:"luacontroller"`
+	Digiterms        bool `json:"digiterms"`
+	Digilines        bool `json:"digilines"`
+	Travelnet        bool `json:"travelnet"`
+	Mapserver        bool `json:"mapserver"`
+	TileServerLegacy bool `json:"tileserverlegacy"`
+	Mission          bool `json:"mission"`
+	Jumpdrive        bool `json:"jumpdrive"`
+	Smartshop        bool `json:"smartshop"`
+	Fancyvend        bool `json:"fancyvend"`
+	ATM              bool `json:"atm"`
+	Train            bool `json:"train"`
 }
 
 type WebApiConfig struct {
@@ -109,23 +110,24 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	mapobjs := MapObjectConfig{
-		Areas:         true,
-		Bones:         true,
-		Protector:     true,
-		XPProtector:   true,
-		PrivProtector: true,
-		Technic:       true,
-		LuaController: true,
-		Digiterms:     true,
-		Digilines:     true,
-		Travelnet:     true,
-		Mapserver:     true,
-		Mission:       true,
-		Jumpdrive:     true,
-		Smartshop:     true,
-		Fancyvend:     true,
-		ATM:           true,
-		Train:         true,
+		Areas:            true,
+		Bones:            true,
+		Protector:        true,
+		XPProtector:      true,
+		PrivProtector:    true,
+		Technic:          true,
+		LuaController:    true,
+		Digiterms:        true,
+		Digilines:        true,
+		Travelnet:        true,
+		Mapserver:        true,
+		TileServerLegacy: true,
+		Mission:          true,
+		Jumpdrive:        true,
+		Smartshop:        true,
+		Fancyvend:        true,
+		ATM:              true,
+		Train:            true,
 	}
 
 	mapblockaccessor := MapBlockAccessorConfig{

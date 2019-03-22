@@ -19,6 +19,12 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("mapserver:label", &LabelBlock{})
 	}
 
+	//old tileserver stuff
+	if ctx.Config.MapObjects.TileServerLegacy {
+		l.AddMapObject("tileserver:poi", &PoiBlock{})
+		l.AddMapObject("tileserver:train", &TrainBlock{})
+	}
+
 	//travelnet
 	if ctx.Config.MapObjects.Travelnet {
 		l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
