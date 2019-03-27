@@ -1,5 +1,7 @@
-language: go
+sudo: required
 
+services:
+ - docker
 
-go:
-  - "1.11"
+install:
+ - docker build -t thomasrudin-mt/mapserver ./server
