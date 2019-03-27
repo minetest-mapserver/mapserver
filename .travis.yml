@@ -5,3 +5,7 @@ services:
 
 install:
  - docker build -t thomasrudin-mt/mapserver ./server
+
+deploy:
+  provider: script
+  script: echo
