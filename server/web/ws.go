@@ -9,6 +9,7 @@ import (
 	"sync"
 
 	"github.com/gorilla/websocket"
+	"github.com/sirupsen/logrus"
 )
 
 type WS struct {
@@ -56,7 +57,15 @@ func (t *WS) OnEvent(eventtype string, o interface{}) {
 }
 
 func (t *WS) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
-	conn, _ := upgrader.Upgrade(resp, req, nil)
+	conn, err := upgrader.Upgrade(resp, req, nil)
+
+	if err != nil {
+		fields := logrus.Fields{
+			"err": err,
+		}
+		logrus.WithFields(fields).Error("ws-upgrade")
+
+	}
 
 	id := rand.Intn(64000)
 	ch := make(chan []byte)
