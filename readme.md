@@ -1,7 +1,11 @@
 Minetest mapserver
 =======
 
+[![Dependencies](https://img.shields.io/librariesio/github/thomasrudin-mt/mapserver.svg)](https://github.com/thomasrudin-mt/mapserver)
+[![Build Status](https://travis-ci.org/thomasrudin-mt/mapserver.svg?branch=master)](https://travis-ci.org/thomasrudin-mt/mapserver)
+
 Realtime mapserver for [Minetest](https://minetest.net)
+
 
 # Documentation
 
