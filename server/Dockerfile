@@ -8,7 +8,7 @@ RUN apt-get update &&\
 
 VOLUME /root/go
 COPY ./ /server
-RUN cd /server && make build
+RUN cd /server && make test build
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
