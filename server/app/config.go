@@ -98,14 +98,14 @@ func ParseConfig(filename string) (*Config, error) {
 		&layer.Layer{
 			Id:   0,
 			Name: "Ground",
-			From: -16,
-			To:   160,
+			From: -1,
+			To:   10,
 		},
 		&layer.Layer{
 			Id:   1,
 			Name: "Sky",
-			From: 160,
-			To:   320,
+			From: 11,
+			To:   24,
 		},
 	}
 

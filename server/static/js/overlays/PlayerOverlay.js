@@ -55,7 +55,7 @@ var PlayerOverlay = L.LayerGroup.extend({
   isPlayerInCurrentLayer: function(player){
     var mapLayer = this.layerMgr.getCurrentLayer()
 
-    return (player.pos.y >= mapLayer.from && player.pos.y <= mapLayer.to)
+    return (player.pos.y >= (mapLayer.from*16) && player.pos.y <= (mapLayer.to*16))
   },
 
   onMinetestUpdate: function(info){

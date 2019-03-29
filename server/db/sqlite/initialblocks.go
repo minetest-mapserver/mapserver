@@ -71,7 +71,7 @@ func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers [
 		// new position
 		lastpos = pos
 
-		blockcoordy := mb.Pos.Y * 16
+		blockcoordy := mb.Pos.Y
 		currentlayer := layer.FindLayerByY(layers, blockcoordy)
 
 		if currentlayer != nil {

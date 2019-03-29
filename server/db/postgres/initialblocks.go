@@ -90,12 +90,9 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	tc := coords.NewTileCoords(lastxblock, lastyblock, 9, lastlayer)
 	currentlayer := layer.FindLayerById(layers, lastlayer)
 
-	fromY := int(currentlayer.From / 16)
-	toY := int(currentlayer.To / 16)
-
 	tcr := coords.GetMapBlockRangeFromTile(tc, 0)
-	tcr.Pos1.Y = fromY
-	tcr.Pos2.Y = toY
+	tcr.Pos1.Y = currentlayer.From
+	tcr.Pos2.Y = currentlayer.To
 
 	fields := logrus.Fields{
 		"layerId": lastlayer,
@@ -111,20 +108,6 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 	maxY := int(math.Max(float64(tcr.Pos1.Y), float64(tcr.Pos2.Y)))
 	minZ := int(math.Min(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z)))
 	maxZ := int(math.Max(float64(tcr.Pos1.Z), float64(tcr.Pos2.Z)))
-
-	//upper left: https://pandorabox.io/map/tiles/0/9/-121/-121
-	//lower right: https://pandorabox.io/map/tiles/0/9/120/120
-	//	INFO[0007] Initial rendering                             elapsed=24.749287ms mapblocks=0 progress%=2 tiles=0
-	//INFO[0007] Initial-Query                                 layerId=0 pos1="&{-1968 -1 1935}" pos2="&{-1953 10 1920}" prefix=postgres-db tile="&{-123 -121 9 0}"
-	//INFO[0007] Initial rendering                             elapsed=24.587519ms mapblocks=0 progress%=2 tiles=0
-	//INFO[0007] Initial-Query                                 layerId=0 pos1="&{-1952 -1 1935}" pos2="&{-1937 10 1920}" prefix=postgres-db tile="&{-122 -121 9 0}"
-	//INFO[0007] Initial rendering                             elapsed=24.607329ms mapblocks=0 progress%=2 tiles=0
-	//INFO[0007] Initial-Query                                 layerId=0 pos1="&{-1936 -1 1935}" pos2="&{-1921 10 1920}" prefix=postgres-db tile="&{-121 -121 9 0}"
-	//INFO[0007] Initial rendering                             elapsed=25.090037ms mapblocks=0 progress%=2 tiles=0
-	//INFO[0007] Initial-Query                                 layerId=0 pos1="&{-1920 -1 1935}" pos2="&{-1905 10 1920}" prefix=postgres-db tile="&{-120 -121 9 0}"
-	//INFO[0007] Initial rendering                             elapsed=24.754558ms mapblocks=0 progress%=2 tiles=0
-	//INFO[0007] Initial-Query                                 layerId=0 pos1="&{-1904 -1 1935}" pos2="&{-1889 10 1920}" prefix=postgres-db tile="&{-119 -121 9 0}"
-	//INFO[0007] Initial rendering                             elapsed=24.711348ms mapblocks=0 progress%=2 tiles=0
 
 	if lastxblock <= -128 {
 		//first x entry, check z stride

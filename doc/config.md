@@ -93,7 +93,7 @@ More layers can be added here:
   }
 ],
 ```
-*from* and *to* are in blocks (not mapblocks)
+*from* and *to* are in mapblocks (16x16x16 blocks)
 Don't reuse the `id` after the tiles are generated.
 If you make more substantial changes here you may have to remove all
 existing tiles and start rendering from scratch.

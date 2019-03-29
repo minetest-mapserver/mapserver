@@ -55,8 +55,8 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
     var min = this._map.getBounds().getSouthWest();
     var max = this._map.getBounds().getNorthEast();
 
-    var y1 = parseInt(mapLayer.from/16);
-    var y2 = parseInt(mapLayer.to/16);
+    var y1 = parseInt(mapLayer.from);
+    var y2 = parseInt(mapLayer.to);
     var x1 = parseInt(min.lng/16);
     var x2 = parseInt(max.lng/16);
     var z1 = parseInt(min.lat/16);

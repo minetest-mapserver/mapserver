@@ -52,7 +52,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 
 		inLayer := false
 		for _, l := range layerfilter {
-			if (block.Pos.Y*16) >= l.From && (block.Pos.Y*16) <= l.To {
+			if block.Pos.Y >= l.From && block.Pos.Y <= l.To {
 				inLayer = true
 				break
 			}

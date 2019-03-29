@@ -103,15 +103,9 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 	timer := prometheus.NewTimer(renderDuration)
 	defer timer.ObserveDuration()
 
-	var layer *layer.Layer
+	currentLayer := layer.FindLayerById(tr.layers, tc.LayerId)
 
-	for _, l := range tr.layers {
-		if l.Id == tc.LayerId {
-			layer = l
-		}
-	}
-
-	if layer == nil {
+	if currentLayer == nil {
 		return nil, nil, errors.New("No layer found")
 	}
 
@@ -122,8 +116,8 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 	if tc.Zoom == 13 {
 		//max zoomed in on mapblock level
 		mbr := coords.GetMapBlockRangeFromTile(tc, 0)
-		mbr.Pos1.Y = layer.From
-		mbr.Pos2.Y = layer.To
+		mbr.Pos1.Y = currentLayer.From
+		mbr.Pos2.Y = currentLayer.To
 
 		img, err := tr.mapblockrenderer.Render(mbr.Pos1, mbr.Pos2)
 
