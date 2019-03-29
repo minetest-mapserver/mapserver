@@ -13,10 +13,6 @@ import (
 	"mapserver/tilerenderer"
 )
 
-const (
-	Version = "1.0.1"
-)
-
 type App struct {
 	Params      params.ParamsType
 	Config      *Config

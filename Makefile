@@ -1,6 +1,7 @@
 
 OUT_DIR=output
 MOD_ZIP=$(OUT_DIR)/mapserver-mod.zip
+VERSION=git-$(shell git rev-parse HEAD)
 
 all: $(OUT_DIR) $(MOD_ZIP)
 	# build the docker image with all dependencies
@@ -11,7 +12,7 @@ all: $(OUT_DIR) $(MOD_ZIP)
 	 -v mapserver-volume:/root/go\
 	 -w /app\
 	 mapserver-builder\
-	 make test all
+	 make test all VERSION=$(VERSION)
 	# copy generated files to output dir
 	cp server/output/* $(OUT_DIR)/
 

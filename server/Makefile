@@ -1,8 +1,13 @@
 STATIC_VFS=vfs/static.go
 OUT_DIR=output
 ENV=GO111MODULE=on
+VERSION=git-$(shell git rev-parse HEAD)
 
-GO_LDFLAGS=-ldflags "-linkmode external -extldflags -static"
+
+# -ldflags="-X mapserver/app.Version=1.0"
+GO_LDFLAGS=-ldflags "-linkmode external -extldflags -static -X mapserver/app.Version=$(VERSION)"
+GO_LDFLAGS_WIN=-ldflags "-X mapserver/app.Version=$(VERSION)"
+GO_BUILD=CGO_ENABLED=1 go build
 
 BINARIES =  $(OUT_DIR)/mapserver-linux-x86_64
 BINARIES += $(OUT_DIR)/mapserver-linux-x86
@@ -30,21 +35,21 @@ $(STATIC_VFS):
 
 $(OUT_DIR)/mapserver-linux-x86_64: $(OUT_DIR)
 	# native (linux x86_64)
-	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc go build $(GO_LDFLAGS) -o $@
+	GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
 
 $(OUT_DIR)/mapserver-linux-x86: $(OUT_DIR)
 	# apt install gcc-8-i686-linux-gnu
-	CGO_ENABLED=1 GOOS=linux GOARCH=386 CC=i686-linux-gnu-gcc-7 go build $(GO_LDFLAGS) -o $@
+	GOOS=linux GOARCH=386 CC=i686-linux-gnu-gcc-7 $(GO_BUILD) $(GO_LDFLAGS) -o $@
 
 $(OUT_DIR)/mapserver-windows-x86.exe: $(OUT_DIR)
 	# apt install gcc-mingw-w64
-	GOARCH=386 GOOS=windows CC=i686-w64-mingw32-gcc CGO_ENABLED=1 go build -o $@
+	GOARCH=386 GOOS=windows CC=i686-w64-mingw32-gcc $(GO_BUILD) $(GO_LDFLAGS_WIN) -o $@
 
 $(OUT_DIR)/mapserver-windows-x86-64.exe: $(OUT_DIR)
-	GOARCH=amd64 GOOS=windows CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1 go build -o $@
+	GOARCH=amd64 GOOS=windows CC=x86_64-w64-mingw32-gcc $(GO_BUILD) $(GO_LDFLAGS_WIN) -o $@
 
 $(OUT_DIR)/mapserver-linux-arm: $(OUT_DIR)
 	# apt install gcc-5-arm-linux-gnueabihf
-	GOARCH=arm GOARM=7 CC=arm-linux-gnueabihf-gcc-5 CGO_ENABLED=1 go build $(GO_LDFLAGS) -o $@
+	GOARCH=arm GOARM=7 CC=arm-linux-gnueabihf-gcc-5 $(GO_BUILD) $(GO_LDFLAGS) -o $@
 
 all: $(STATIC_VFS) $(BINARIES)

@@ -9,6 +9,7 @@ import (
 
 //Public facing config
 type PublicConfig struct {
+	Version    string               `json:"version"`
 	Layers     []*layer.Layer       `json:"layers"`
 	MapObjects *app.MapObjectConfig `json:"mapobjects"`
 }
@@ -23,6 +24,7 @@ func (h *ConfigHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	webcfg := PublicConfig{}
 	webcfg.Layers = h.ctx.Config.Layers
 	webcfg.MapObjects = h.ctx.Config.MapObjects
+	webcfg.Version = app.Version
 
 	json.NewEncoder(resp).Encode(webcfg)
 }
