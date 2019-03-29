@@ -30,6 +30,9 @@ func NewWS(ctx *app.App) *WS {
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
 func (t *WS) OnEvent(eventtype string, o interface{}) {
