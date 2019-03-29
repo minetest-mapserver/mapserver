@@ -13,8 +13,10 @@ func Job(ctx *app.App) {
 		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, time.Now().Unix())
 	}
 
-	if ctx.Settings.GetBool(settings.SETTING_INITIAL_RUN, true) {
-		initialRender(ctx)
+	if ctx.Config.EnableInitialRendering {
+		if ctx.Settings.GetBool(settings.SETTING_INITIAL_RUN, true) {
+			initialRender(ctx)
+		}
 	}
 
 	incrementalRender(ctx)

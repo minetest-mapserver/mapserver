@@ -10,18 +10,19 @@ import (
 )
 
 type Config struct {
-	Port                int                     `json:"port"`
-	EnablePrometheus    bool                    `json:"enableprometheus"`
-	EnableRendering     bool                    `json:"enablerendering"`
-	EnableTransparency  bool                    `json:"enabletransparency"`
-	Webdev              bool                    `json:"webdev"`
-	WebApi              *WebApiConfig           `json:"webapi"`
-	Layers              []*layer.Layer          `json:"layers"`
-	RenderingFetchLimit int                     `json:"renderingfetchlimit"`
-	RenderingJobs       int                     `json:"renderingjobs"`
-	RenderingQueue      int                     `json:"renderingqueue"`
-	MapObjects          *MapObjectConfig        `json:"mapobjects"`
-	MapBlockAccessorCfg *MapBlockAccessorConfig `json:"mapblockaccessor"`
+	Port                   int                     `json:"port"`
+	EnablePrometheus       bool                    `json:"enableprometheus"`
+	EnableRendering        bool                    `json:"enablerendering"`
+	EnableInitialRendering bool                    `json:"enableinitialrendering"`
+	EnableTransparency     bool                    `json:"enabletransparency"`
+	Webdev                 bool                    `json:"webdev"`
+	WebApi                 *WebApiConfig           `json:"webapi"`
+	Layers                 []*layer.Layer          `json:"layers"`
+	RenderingFetchLimit    int                     `json:"renderingfetchlimit"`
+	RenderingJobs          int                     `json:"renderingjobs"`
+	RenderingQueue         int                     `json:"renderingqueue"`
+	MapObjects             *MapObjectConfig        `json:"mapobjects"`
+	MapBlockAccessorCfg    *MapBlockAccessorConfig `json:"mapblockaccessor"`
 }
 
 type MapBlockAccessorConfig struct {
@@ -137,18 +138,19 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	cfg := Config{
-		Port:                8080,
-		EnableRendering:     true,
-		EnablePrometheus:    true,
-		EnableTransparency:  true,
-		Webdev:              false,
-		WebApi:              &webapi,
-		Layers:              layers,
-		RenderingFetchLimit: 10000,
-		RenderingJobs:       runtime.NumCPU(),
-		RenderingQueue:      100,
-		MapObjects:          &mapobjs,
-		MapBlockAccessorCfg: &mapblockaccessor,
+		Port:                   8080,
+		EnableRendering:        true,
+		EnablePrometheus:       true,
+		EnableInitialRendering: true,
+		EnableTransparency:     true,
+		Webdev:                 false,
+		WebApi:                 &webapi,
+		Layers:                 layers,
+		RenderingFetchLimit:    10000,
+		RenderingJobs:          runtime.NumCPU(),
+		RenderingQueue:         100,
+		MapObjects:             &mapobjs,
+		MapBlockAccessorCfg:    &mapblockaccessor,
 	}
 
 	info, err := os.Stat(filename)
