@@ -15,7 +15,7 @@ Either apt-get:
 * gcc-5-arm-linux-gnueabihf
 * gcc-i686-linux-gnu
 
-Or use the docker-builder image in `server/docker`
+Or use the docker-builder image in `/docker-builder`
 
 # Development setup
 
@@ -61,13 +61,24 @@ pgsql_player_connection = host=localhost port=5432 user=postgres password=enter 
 * Start the server with `go run .` or with debug output: `go run . -debug`
 * The web files in `static/` can now be changed on the fly without restarting the server
 
+# All platform build
+
+Prerequisites:
+* docker
+* make
+
+Building:
+* Run `make clean all` to build for all supported targets
+
+The artifacts should now be in the `output` directory
+
 # Release build
 
 Prerequisites:
 * docker
+* go >= 1.11
+* make
+* valid github token in `.releasetoken`
 
 Building:
-* Build the docker-image in the `docker` directory with: `cd docker && make build`
-* Run `make clean build-docker` to build for all supported targets
-
-The artifacts should now be in the `output` directory
+* Run `./release.sh <version>`
