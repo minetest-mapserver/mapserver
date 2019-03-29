@@ -3,8 +3,6 @@ local last_index = 0
 local last_line = ""
 
 local update_formspec = function(meta)
-	local inv = meta:get_inventory()
-
 	local line = meta:get_string("line")
 	local station = meta:get_string("station")
 	local index = meta:get_string("index")
@@ -72,9 +70,6 @@ minetest.register_node("mapserver:train", {
 					meta:set_int("index", index)
 				end
 			end
-
-		else
-			-- non-owner
 		end
 
 

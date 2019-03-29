@@ -3,8 +3,6 @@ local last_index = 0
 local last_name = ""
 
 local update_formspec = function(meta)
-	local inv = meta:get_inventory()
-
 	local name = meta:get_string("name")
 	local index = meta:get_string("index")
 
@@ -68,8 +66,6 @@ minetest.register_node("mapserver:border", {
 					meta:set_int("index", index)
 				end
 			end
-		else
-			-- non-owner
 		end
 
 

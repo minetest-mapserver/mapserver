@@ -1,7 +1,5 @@
 
 local update_formspec = function(meta)
-	local inv = meta:get_inventory()
-
 	local text = meta:get_string("text")
 	local size = meta:get_string("size")
 	local direction = meta:get_string("direction")
@@ -64,8 +62,6 @@ minetest.register_node("mapserver:label", {
 				meta:set_string("direction", fields.direction)
 				meta:set_string("size", fields.size)
 			end
-		else
-			-- non-owner
 		end
 
 

@@ -1,7 +1,5 @@
 
 local update_formspec = function(meta)
-	local inv = meta:get_inventory()
-
 	local name = meta:get_string("name")
 	local category = meta:get_string("category")
 	local url = meta:get_string("url") or ""
@@ -64,8 +62,6 @@ minetest.register_node("mapserver:poi", {
 				meta:set_string("url", fields.url)
 				meta:set_string("category", fields.category)
 			end
-		else
-			-- non-owner
 		end
 
 

@@ -20,6 +20,13 @@ $(OUT_DIR):
 	mkdir $@
 
 $(MOD_ZIP): $(OUT_DIR)
+	# lint with luacheck
+	sudo docker run --rm -it\
+	 -v $(shell pwd)/mapserver_mod/mapserver:/app\
+	 -w /app\
+	 mapserver-builder\
+	 luacheck .
+	# zip mod
 	zip -r $(OUT_DIR)/mapserver-mod.zip mapserver_mod
 
 clean:
