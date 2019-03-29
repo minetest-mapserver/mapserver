@@ -8,7 +8,10 @@ RUN apt-get update &&\
 
 VOLUME /root/go
 COPY ./ /server
-RUN cd /server && make test build
+RUN cd /server &&\
+ go generate &&\
+ go test &&\
+ CGO_ENABLED=1 go build
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
