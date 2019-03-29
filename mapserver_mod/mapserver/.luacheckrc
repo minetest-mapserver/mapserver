@@ -2,8 +2,7 @@ unused_args = false
 allow_defined_top = true
 
 globals = {
-	"mapserver",
-	"advtrains"
+	"mapserver"
 }
 
 read_globals = {
@@ -17,7 +16,7 @@ read_globals = {
 	"dump",
 
 	-- Deps
-	"unified_inventory", "default",
+	"unified_inventory", "default", "advtrains",
 
 	-- optional mods
 	"xban"
