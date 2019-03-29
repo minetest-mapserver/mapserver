@@ -1,7 +1,11 @@
 
 # Changelog
 
-## 1.1.0 (NEXT)
+## 2.0.0 (NEXT)
+* Fixed websocket connect issue (origin check)
+* Fixed multiple layer issue
+* Reworked mapserver.json layer config (now mapblock range, not blocks)
+* Reworkes build pipeline
 
 ## 1.0.0
 * Extended [configuration](config.md)
