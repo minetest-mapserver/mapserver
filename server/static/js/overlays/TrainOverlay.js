@@ -78,10 +78,30 @@ var TrainOverlay = L.LayerGroup.extend({
     return marker;
   },
 
+  isTrainInCurrentLayer: function(train){
+    var mapLayer = this.layerMgr.getCurrentLayer()
+
+    return (train.pos.y >= (mapLayer.from*16) && train.pos.y <= (mapLayer.to*16))
+  },
+
+
   onMinetestUpdate: function(info){
     var self = this;
 
     this.trains.forEach(function(train){
+      var isInLayer = self.isTrainInCurrentLayer(train);
+
+      if (!isInLayer){
+        if (self.currentObjects[train.id]){
+          //train is displayed and not on the layer anymore
+          //Remove the marker and reference
+          self.currentObjects[train.id].remove();
+          delete self.currentObjects[train.id];
+        }
+
+        return;
+      }
+
       if (self.currentObjects[train.id]){
         //marker exists
         self.currentObjects[train.id].setLatLng([train.pos.z, train.pos.x]);
@@ -117,7 +137,10 @@ var TrainOverlay = L.LayerGroup.extend({
     var mapLayer = this.layerMgr.getCurrentLayer()
 
     this.trains.forEach(function(train){
-      //TODO: filter layer
+      if (!self.isPlayerInCurrentLayer(train)){
+        //not in current layer
+        return;
+      }
 
       var marker = self.createMarker(train);
       marker.addTo(self);
