@@ -47,10 +47,14 @@ var AbstractIconOverlay = L.LayerGroup.extend({
     return this.icon;
   },
 
+  getMaxDisplayedZoom: function(){
+    return 10;
+  },
+
   reDraw: function(full){
     var self = this;
 
-    if (this.map.getZoom() < 10) {
+    if (this.map.getZoom() < this.getMaxDisplayedZoom()) {
       this.clearLayers();
       this.currentObjects = {};
       return;

@@ -16,6 +16,10 @@ var PoiOverlay = AbstractIconOverlay.extend({
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "poi", PoiIcon);
   },
 
+  getMaxDisplayedZoom: function(){
+    return 5;
+  },
+
   createPopup: function(poi){
     return "<h4>" + poi.attributes.name + "</h4><hr>" +
       "<b>Owner: </b> " + poi.attributes.owner + "<br>";
