@@ -3,9 +3,7 @@ OUT_DIR=output
 MOD_ZIP=$(OUT_DIR)/mapserver-mod.zip
 VERSION=git-$(shell git rev-parse HEAD)
 
-all: $(OUT_DIR) $(MOD_ZIP)
-	# build the docker image with all dependencies
-	$(MAKE) -C docker_builder build
+all: builder_image $(OUT_DIR) $(MOD_ZIP)
 	# build all with the docker image
 	sudo docker run --rm -it\
 	 -v $(shell pwd)/server/:/app\
@@ -16,10 +14,15 @@ all: $(OUT_DIR) $(MOD_ZIP)
 	# copy generated files to output dir
 	cp server/output/* $(OUT_DIR)/
 
+builder_image:
+	# build the docker image with all dependencies
+	$(MAKE) -C docker_builder build
+
+
 $(OUT_DIR):
 	mkdir $@
 
-$(MOD_ZIP): $(OUT_DIR)
+$(MOD_ZIP): builder_image $(OUT_DIR)
 	# lint with luacheck
 	sudo docker run --rm -it\
 	 -v $(shell pwd)/mapserver_mod/mapserver:/app\
