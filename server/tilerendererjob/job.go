@@ -10,7 +10,7 @@ func Job(ctx *app.App) {
 	lastMtime := ctx.Settings.GetInt64(settings.SETTING_LAST_MTIME, 0)
 	if lastMtime == 0 {
 		//mark current time as last incremental render point
-		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, time.Now().Unix() * 1000)
+		ctx.Settings.SetInt64(settings.SETTING_LAST_MTIME, time.Now().Unix()*1000)
 	}
 
 	if ctx.Config.EnableInitialRendering {
