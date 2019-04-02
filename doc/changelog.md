@@ -4,8 +4,10 @@
 ## 2.0.0
 * Fixed websocket connect issue (origin check)
 * Fixed multiple layer issue
+* Fixed mapblock version support issue
 * *Breaking change:* Reworked `mapserver.json` layer config (now mapblock range, not blocks)
 * Reworked build pipeline
+* Optional crafting recipes for mapobjects
 
 ## 1.0.0
 * Extended [configuration](config.md)
