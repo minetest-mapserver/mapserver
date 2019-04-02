@@ -16,6 +16,13 @@ You can use the `mapserver-mod` either passive or active:
 The mod itself is available in the git [repo](../mapserver_mod)
 or as a zip package in the [releases](../../../releases)
 
+If you want to enable craftable mapobjects (poi, labels, trainblocks, etc) you
+can enable the setting in your `minetest.conf` (defaults to false)
+
+```
+mapserver.enable_crafting = true
+```
+
 ## Passive mode
 
 You don't have to set up anything, passive mode is the default.
