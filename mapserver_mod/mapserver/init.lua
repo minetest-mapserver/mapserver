@@ -2,6 +2,7 @@
 mapserver = {}
 
 local MP = minetest.get_modpath("mapserver")
+dofile(MP.."/common.lua")
 dofile(MP.."/poi.lua")
 dofile(MP.."/train.lua")
 dofile(MP.."/label.lua")
