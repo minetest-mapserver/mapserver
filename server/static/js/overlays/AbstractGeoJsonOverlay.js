@@ -21,7 +21,7 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
   },
 
   createStyle: function(feature){
-	//TODO: default style
+	   //TODO: default style
   },
 
   createGeoJson: function(objects){
@@ -33,7 +33,7 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
                 layer.bindPopup(feature.properties.popupContent);
             }
         },
-	style: self.createStyle.bind(self)
+        style: self.createStyle.bind(self)
     });
 
     objects.forEach(function(obj){

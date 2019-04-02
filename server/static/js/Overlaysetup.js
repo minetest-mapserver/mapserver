@@ -56,5 +56,6 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
 
     if (cfg.mapobjects.train) {
       overlays["Trains"] = new TrainOverlay(wsChannel, layerMgr);
+      overlays["Trainlines"] = new TrainlineOverlay(wsChannel, layerMgr);
     }
 }
