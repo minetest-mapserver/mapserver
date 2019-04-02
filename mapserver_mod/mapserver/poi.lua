@@ -57,6 +57,16 @@ minetest.register_node("mapserver:poi", {
 
 		update_formspec(meta)
 	end
-
-
 })
+
+
+if mapserver.enable_crafting then
+	minetest.register_craft({
+	    output = 'mapserver:poi',
+	    recipe = {
+				{"", "dye:blue", ""},
+				{"default:paper", "default:goldblock", "default:paper"},
+				{"", "default:glass", ""}
+			}
+	})
+end

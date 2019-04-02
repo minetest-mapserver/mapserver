@@ -65,6 +65,15 @@ minetest.register_node("mapserver:train", {
 
 		update_formspec(meta)
 	end
-
-
 })
+
+if mapserver.enable_crafting then
+	minetest.register_craft({
+	    output = 'mapserver:train',
+	    recipe = {
+				{"", "default:steel_ingot", ""},
+				{"default:paper", "default:goldblock", "default:paper"},
+				{"", "default:glass", ""}
+			}
+	})
+end

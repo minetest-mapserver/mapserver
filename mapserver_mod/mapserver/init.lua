@@ -1,5 +1,7 @@
 
-mapserver = {}
+mapserver = {
+	enable_crafting = minetest.settings:get("mapserver.enable_crafting")
+}
 
 local MP = minetest.get_modpath("mapserver")
 dofile(MP.."/common.lua")

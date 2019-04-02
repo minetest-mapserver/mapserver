@@ -57,6 +57,15 @@ minetest.register_node("mapserver:label", {
 
 		update_formspec(meta)
 	end
-
-
 })
+
+if mapserver.enable_crafting then
+	minetest.register_craft({
+	    output = 'mapserver:label',
+	    recipe = {
+				{"", "default:paper", ""},
+				{"default:paper", "default:goldblock", "default:paper"},
+				{"", "default:glass", ""}
+			}
+	})
+end
