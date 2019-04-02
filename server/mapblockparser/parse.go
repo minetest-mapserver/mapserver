@@ -20,8 +20,6 @@ func Parse(data []byte, mtime int64, pos *coords.MapBlockCoords) (*MapBlock, err
 	mapblock.Pos = pos
 	mapblock.Size = len(data)
 
-	offset := 0
-
 	// version
 	mapblock.Version = data[0]
 
@@ -33,8 +31,17 @@ func Parse(data []byte, mtime int64, pos *coords.MapBlockCoords) (*MapBlock, err
 	flags := data[1]
 	mapblock.Underground = (flags & 0x01) == 0x01
 
-	content_width := data[4]
-	params_width := data[4]
+	var offset int
+
+	if mapblock.Version >= 27 {
+		offset = 4
+	} else {
+		//u16 lighting_complete not present
+		offset = 2
+	}
+
+	content_width := data[offset]
+	params_width := data[offset+1]
 
 	if content_width != 2 {
 		return nil, errors.New("content_width = " + strconv.Itoa(int(content_width)))
