@@ -43,10 +43,14 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
     return geoJsonLayer;
   },
 
+  getMaxDisplayedZoom: function(){
+    return 7;
+  },
+
   reDraw: function(){
     var self = this;
 
-    if (this.map.getZoom() < 10) {
+    if (this.map.getZoom() < this.getMaxDisplayedZoom()) {
       this.clearLayers();
       return;
     }

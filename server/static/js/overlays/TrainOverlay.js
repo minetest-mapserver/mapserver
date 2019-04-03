@@ -137,7 +137,7 @@ var TrainOverlay = L.LayerGroup.extend({
     var mapLayer = this.layerMgr.getCurrentLayer()
 
     this.trains.forEach(function(train){
-      if (!self.isPlayerInCurrentLayer(train)){
+      if (!self.isTrainInCurrentLayer(train)){
         //not in current layer
         return;
       }
