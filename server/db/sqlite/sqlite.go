@@ -106,6 +106,28 @@ func (db *Sqlite3Accessor) CountBlocks() (int, error) {
 	return 0, nil
 }
 
+func (db *Sqlite3Accessor) GetTimestamp() (int64, error) {
+	rows, err := db.db.Query(getTimestampQuery)
+	if err != nil {
+		return 0, err
+	}
+
+	defer rows.Close()
+
+	if rows.Next() {
+		var ts int64
+
+		err = rows.Scan(&ts)
+		if err != nil {
+			return 0, err
+		}
+
+		return ts, nil
+	}
+
+	return 0, nil
+}
+
 func (db *Sqlite3Accessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
 	ppos := coords.CoordToPlain(pos)
 

@@ -23,6 +23,7 @@ type InitialBlocksResult struct {
 type DBAccessor interface {
 	Migrate() error
 
+	GetTimestamp() (int64, error)
 	FindBlocksByMtime(gtmtime int64, limit int) ([]*Block, error)
 	FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*InitialBlocksResult, error)
 	GetBlock(pos *coords.MapBlockCoords) (*Block, error)

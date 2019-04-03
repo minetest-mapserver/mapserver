@@ -15,3 +15,7 @@ select count(*) from blocks b
 const getBlockQuery = `
 select pos,data,mtime from blocks b where b.pos = ?
 `
+
+const getTimestampQuery = `
+select strftime('%s', 'now')
+`

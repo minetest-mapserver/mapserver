@@ -103,3 +103,31 @@ func TestMigrateAndQueryCount(t *testing.T) {
 		t.Fatal("zero count")
 	}
 }
+
+func TestMigrateAndQueryTimestamp(t *testing.T) {
+	tmpfile, err := ioutil.TempFile("", "TestMigrateAndQueryStride.*.sqlite")
+	if err != nil {
+		panic(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	testutils.CreateTestDatabase(tmpfile.Name())
+	a, err := New(tmpfile.Name())
+	if err != nil {
+		panic(err)
+	}
+
+	err = a.Migrate()
+	if err != nil {
+		panic(err)
+	}
+
+	count, err := a.GetTimestamp()
+	if err != nil {
+		panic(err)
+	}
+
+	if count <= 0 {
+		t.Fatal("zero count")
+	}
+}

@@ -34,6 +34,10 @@ const countBlocksQuery = `
 select count(*) from blocks where mtime >= $1 and mtime <= $2
 `
 
+const getTimestampQuery = `
+select floor(EXTRACT(EPOCH from now()) * 1000)
+`
+
 const getBlockQuery = `
 select posx,posy,posz,data,mtime from blocks b
 where b.posx = $1

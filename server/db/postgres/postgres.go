@@ -91,6 +91,28 @@ func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error)
 	return 0, nil
 }
 
+func (db *PostgresAccessor) GetTimestamp() (int64, error) {
+	rows, err := db.db.Query(getTimestampQuery)
+	if err != nil {
+		return 0, err
+	}
+
+	defer rows.Close()
+
+	if rows.Next() {
+		var ts int64
+
+		err = rows.Scan(&ts)
+		if err != nil {
+			return 0, err
+		}
+
+		return ts, nil
+	}
+
+	return 0, nil
+}
+
 func (this *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
 	rows, err := this.db.Query(getBlockQuery, pos.X, pos.Y, pos.Z)
 	if err != nil {
