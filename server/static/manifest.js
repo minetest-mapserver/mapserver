@@ -1,0 +1,40 @@
+{
+  "scripts": [
+    "/js/lib/leaflet.js",
+    "/js/lib/mithril.min.js",
+    "/js/util/debounce.js",
+    "/js/api.js",
+    "/js/LayerManager.js",
+    "/js/SimpleCRS.js",
+    "/js/WebSocketChannel.js",
+    "/js/RealtimeTileLayer.js",
+    "/js/CoordinatesDisplay.js",
+    "/js/WorldInfoDisplay.js",
+    "/js/overlays/AbstractIconOverlay.js",
+    "/js/overlays/AbstractGeoJsonOverlay.js",
+    "/js/overlays/TravelnetOverlay.js",
+    "/js/overlays/PoiOverlay.js",
+    "/js/overlays/LabelOverlay.js",
+    "/js/overlays/PlayerOverlay.js",
+    "/js/overlays/TrainOverlay.js",
+    "/js/overlays/TrainlineOverlay.js",
+    "/js/overlays/ProtectorOverlay.js",
+    "/js/overlays/XPProtectorOverlay.js",
+    "/js/overlays/PrivProtectorOverlay.js",
+    "/js/overlays/BonesOverlay.js",
+    "/js/overlays/LcdOverlay.js",
+    "/js/overlays/DigitermOverlay.js",
+    "/js/overlays/LuacontrollerOverlay.js",
+    "/js/overlays/TechnicAnchorOverlay.js",
+    "/js/overlays/TechnicQuarryOverlay.js",
+    "/js/overlays/TechnicSwitchOverlay.js",
+    "/js/overlays/MissionOverlay.js",
+    "/js/Overlaysetup.js",
+    "/js/Hashroute.js",
+    "/js/main.js"
+  ],
+  "styles": [
+    "/css/leaflet.css",
+    "/css/custom.css"
+  ]
+}
