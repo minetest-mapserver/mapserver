@@ -10,6 +10,7 @@ import (
 )
 
 type Config struct {
+	ConfigVersion          int                     `json:"configversion"`
 	Port                   int                     `json:"port"`
 	EnablePrometheus       bool                    `json:"enableprometheus"`
 	EnableRendering        bool                    `json:"enablerendering"`
@@ -138,6 +139,7 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	cfg := Config{
+		ConfigVersion:          1,
 		Port:                   8080,
 		EnableRendering:        true,
 		EnablePrometheus:       true,
