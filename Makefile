@@ -10,7 +10,7 @@ all: builder_image $(OUT_DIR) $(MOD_ZIP)
 	 -v mapserver-volume:/root/go\
 	 -w /app\
 	 mapserver-builder\
-	 make test all VERSION=$(VERSION)
+	 make test jshint all VERSION=$(VERSION)
 	# copy generated files to output dir
 	cp server/output/* $(OUT_DIR)/
 
