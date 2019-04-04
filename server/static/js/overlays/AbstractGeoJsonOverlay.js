@@ -1,4 +1,5 @@
-'use strict';
+/* exported AbstractGeoJsonOverlay */
+/* jshint unused: false */
 
 var AbstractGeoJsonOverlay = L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr, type) {
@@ -81,7 +82,7 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
 
       var geoJsonLayer = self.createGeoJson(objects);
       geoJsonLayer.addTo(self);
-    })
+    });
 
   },
 
@@ -90,7 +91,7 @@ var AbstractGeoJsonOverlay = L.LayerGroup.extend({
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
     this.layerMgr.addListener(this.onLayerChange);
-    this.reDraw(true)
+    this.reDraw(true);
   },
 
   onRemove: function(map) {

@@ -1,4 +1,4 @@
-'use strict';
+/* exported SimpleCRS */
 
 var SimpleCRS = L.Util.extend({}, L.CRS.Simple, {
     scale: function (zoom) {

@@ -1,4 +1,4 @@
-'use strict';
+/* exported LayerManager */
 
 function LayerManager(layers, map){
   this.listeners = [];
@@ -8,7 +8,6 @@ function LayerManager(layers, map){
   var self = this;
 
   map.on('baselayerchange', function (e) {
-      console.log("baselayerchange", e.layer);
       self.setLayerId(e.layer.layerId);
   });
 
@@ -25,7 +24,7 @@ LayerManager.prototype.setLayerId = function(layerId){
       return;
     }
   });
-},
+};
 
 
 LayerManager.prototype.addListener = function(listener){

@@ -1,3 +1,5 @@
+/* exported api */
+
 var api = {
 
   getMapObjects: function(query){

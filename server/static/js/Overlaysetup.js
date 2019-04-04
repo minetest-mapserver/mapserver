@@ -1,24 +1,25 @@
-'use strict';
+/* jshint undef: false */
+/* exported Overlaysetup */
 
 function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
 
     if (cfg.mapobjects.mapserver) {
-      overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
-      overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
-      overlays["Label"] = new LabelOverlay(wsChannel, layerMgr);
-      overlays["Border"] = new BorderOverlay(wsChannel, layerMgr);
+      overlays.Player = new PlayerOverlay(wsChannel, layerMgr);
+      overlays.POI = new PoiOverlay(wsChannel, layerMgr);
+      overlays.Label = new LabelOverlay(wsChannel, layerMgr);
+      overlays.Border = new BorderOverlay(wsChannel, layerMgr);
 
-      map.addLayer(overlays["Player"]);
-      map.addLayer(overlays["POI"]);
-      map.addLayer(overlays["Labels"]);
+      map.addLayer(overlays.Player);
+      map.addLayer(overlays.POI);
+      map.addLayer(overlays.Labels);
     }
 
     if (cfg.mapobjects.travelnet) {
-      overlays["Travelnet"] = new TravelnetOverlay(wsChannel, layerMgr);
+      overlays.Travelnet = new TravelnetOverlay(wsChannel, layerMgr);
     }
 
     if (cfg.mapobjects.bones) {
-      overlays["Bones"] = new BonesOverlay(wsChannel, layerMgr);
+      overlays.Bones = new BonesOverlay(wsChannel, layerMgr);
     }
 
     if (cfg.mapobjects.digilines) {
@@ -26,7 +27,7 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
     }
 
     if (cfg.mapobjects.digiterms) {
-      overlays["Digiterms"] = new DigitermOverlay(wsChannel, layerMgr);
+      overlays.Digiterms = new DigitermOverlay(wsChannel, layerMgr);
     }
 
     if (cfg.mapobjects.luacontroller) {
@@ -40,7 +41,7 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
     }
 
     if (cfg.mapobjects.protector) {
-      overlays["Protector"] = new ProtectorOverlay(wsChannel, layerMgr);
+      overlays.Protector = new ProtectorOverlay(wsChannel, layerMgr);
     }
 
     if (cfg.mapobjects.xpprotector) {
@@ -52,11 +53,11 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
     }
 
     if (cfg.mapobjects.mission) {
-      overlays["Missions"] = new MissionOverlay(wsChannel, layerMgr);
+      overlays.Missions = new MissionOverlay(wsChannel, layerMgr);
     }
 
     if (cfg.mapobjects.train) {
-      overlays["Trains"] = new TrainOverlay(wsChannel, layerMgr);
-      overlays["Trainlines"] = new TrainlineOverlay(wsChannel, layerMgr);
+      overlays.Trains = new TrainOverlay(wsChannel, layerMgr);
+      overlays.Trainlines = new TrainlineOverlay(wsChannel, layerMgr);
     }
 }

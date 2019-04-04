@@ -1,4 +1,4 @@
-'use strict';
+/* exported RealtimeTileLayer */
 
 var RealtimeTileLayer = L.TileLayer.extend({
 

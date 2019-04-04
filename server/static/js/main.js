@@ -1,4 +1,4 @@
-'use strict';
+/* jshint undef: false */
 
 api.getConfig().then(function(cfg){
 
@@ -16,7 +16,7 @@ api.getConfig().then(function(cfg){
   map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Minetest Mapserver</a>');
 
   var layers = {};
-  var overlays = {}
+  var overlays = {};
 
   var layerMgr = new LayerManager(cfg.layers, map);
   layerMgr.setLayerId( Hashroute.getLayerId() );

@@ -1,7 +1,11 @@
-'use strict';
+/* exported WebSocketChannel */
 
 function WebSocketChannel(){
-  this.wsUrl = location.protocol.replace("http", "ws") + "//" + location.host + location.pathname.substring(0, location.pathname.lastIndexOf("/")) + "/api/ws";
+  this.wsUrl = window.location.protocol.replace("http", "ws") +
+    "//" + window.location.host +
+    window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")) +
+    "/api/ws";
+
   this.listenerMap = {/* type -> [listeners] */};
 }
 
@@ -18,7 +22,7 @@ WebSocketChannel.prototype.addListener = function(type, listener){
 WebSocketChannel.prototype.removeListener = function(type, listener){
   var list = this.listenerMap[type];
   if (!list){
-    return
+    return;
   }
 
   this.listenerMap[type] = list.filter(function(l){
@@ -40,10 +44,10 @@ WebSocketChannel.prototype.connect = function(){
         listener(event.data);
       });
     }
-  }
+  };
 
   ws.onerror = function(){
     //reconnect after some time
     setTimeout(self.connect.bind(self), 1000);
-  }
+  };
 };

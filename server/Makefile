@@ -30,6 +30,9 @@ clean:
 	rm -rf $(STATIC_VFS)
 	rm -rf $(OUT_DIR)
 
+jshint:
+	jshint static/js/*.js static/js/util static/js/overlays
+
 $(STATIC_VFS):
 	go generate
 

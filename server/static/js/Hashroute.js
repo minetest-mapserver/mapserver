@@ -1,26 +1,26 @@
-'use strict';
+/* exported Hashroute */
 
 var Hashroute = {
 
   setup: function(map, layerMgr){
     function updateHash(){
       var center = map.getCenter();
-      location.hash =
+      window.location.hash =
         layerMgr.getCurrentLayer().id + "/" +
         center.lng + "/" + center.lat + "/" + map.getZoom();
     }
 
-    map.on('zoomend', updateHash)
-    map.on('moveend', updateHash)
-    map.on('baselayerchange', updateHash)
+    map.on('zoomend', updateHash);
+    map.on('moveend', updateHash);
+    map.on('baselayerchange', updateHash);
     updateHash();
   },
 
   getLayerId: function(){
-    var hashParts = location.hash.substring(1).split("/");
+    var hashParts = window.location.hash.substring(1).split("/");
     if (hashParts.length == 4){
       //new format
-      return +hashParts[0]
+      return +hashParts[0];
 
     }
 
@@ -28,14 +28,14 @@ var Hashroute = {
   },
 
   getZoom: function(){
-    var hashParts = location.hash.substring(1).split("/");
+    var hashParts = window.location.hash.substring(1).split("/");
     if (hashParts.length == 3){
       //old format
-      return +hashParts[2]
+      return +hashParts[2];
 
     } else if (hashParts.length == 4){
       //new format
-      return +hashParts[3]
+      return +hashParts[3];
 
     }
 
@@ -43,7 +43,7 @@ var Hashroute = {
   },
 
   getCenter: function(){
-    var hashParts = location.hash.substring(1).split("/");
+    var hashParts = window.location.hash.substring(1).split("/");
     if (hashParts.length == 3){
       //old format
       return [+hashParts[1], +hashParts[0]];

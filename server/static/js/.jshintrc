@@ -1,0 +1,12 @@
+{
+  "undef": true,
+  "unused": true,
+  "esversion": 6,
+  "browser": true,
+  "globals": {
+    "debounce": true,
+    "L": true,
+    "m": true,
+    "api": true
+  }
+}

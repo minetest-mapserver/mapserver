@@ -1,4 +1,4 @@
-'use strict';
+/* exported WorldInfoDisplay */
 
 // coord display
 var WorldInfoDisplay = L.Control.extend({
@@ -7,7 +7,7 @@ var WorldInfoDisplay = L.Control.extend({
         this.wsChannel = wsChannel;
     },
 
-    onAdd: function(map) {
+    onAdd: function() {
       var div = L.DomUtil.create('div', 'leaflet-bar leaflet-custom-display');
 
       this.wsChannel.addListener("minetest-info", function(info){
@@ -15,8 +15,5 @@ var WorldInfoDisplay = L.Control.extend({
       });
 
       return div;
-    },
-
-    onRemove: function(map) {
     }
 });

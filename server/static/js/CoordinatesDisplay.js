@@ -1,11 +1,11 @@
-'use strict';
+/* exported CoordinatesDisplay */
 
 // coord display
 var CoordinatesDisplay = L.Control.extend({
     onAdd: function(map) {
       var div = L.DomUtil.create('div', 'leaflet-bar leaflet-custom-display');
 
-      var hoverCoord, clickCoord
+      var hoverCoord, clickCoord;
 
       function updateHover(ev){
         hoverCoord = ev.latlng;
@@ -33,8 +33,6 @@ var CoordinatesDisplay = L.Control.extend({
       map.on('touch', updateClick);
 
       return div;
-    },
-
-    onRemove: function(map) {
     }
+
 });
