@@ -2,9 +2,11 @@
 # Changelog
 
 ## NEXT
-* Added config-version to `mapserver.json`
+* Added *configversion* to `mapserver.json`
+* Added *defaultoverlays* to `mapserver.json`
 * Added trainline overlay
 * Added border overlay
+* Added simple js/css bundler (concat)
 * Fix mismatching timestamp issues
 
 ## 2.0.0
