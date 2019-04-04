@@ -5,7 +5,8 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
     if (cfg.mapobjects.mapserver) {
       overlays["Player"] = new PlayerOverlay(wsChannel, layerMgr);
       overlays["POI"] = new PoiOverlay(wsChannel, layerMgr);
-      overlays["Labels"] = new LabelOverlay(wsChannel, layerMgr);
+      overlays["Label"] = new LabelOverlay(wsChannel, layerMgr);
+      overlays["Border"] = new BorderOverlay(wsChannel, layerMgr);
 
       map.addLayer(overlays["Player"]);
       map.addLayer(overlays["POI"]);
