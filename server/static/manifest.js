@@ -2,6 +2,7 @@
   "scripts": [
     "/js/lib/leaflet.js",
     "/js/lib/mithril.min.js",
+    "/js/lib/color-hash.js",
     "/js/util/debounce.js",
     "/js/api.js",
     "/js/LayerManager.js",
