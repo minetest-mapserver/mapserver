@@ -19,6 +19,7 @@ end
 local http, url, key
 
 function send_stats()
+  local t0 = minetest.get_us_time()
 
   local data = {
     time = minetest.get_timeofday() * 24000,
@@ -81,15 +82,29 @@ function send_stats()
   local json = minetest.write_json(data)
   --print(json)--XXX
 
+  local t1 = minetest.get_us_time()
+  local process_time = t1 - t0
+  if process_time > 10000 then
+    minetest.log("warning", "[mapserver-bridge] processing took " .. process_time .. " us")
+  end
+
   http.fetch({
     url = url .. "/api/minetest",
     extra_headers = { "Content-Type: application/json", "Authorization: " .. key },
     timeout = 1,
     post_data = json
   }, function(res)
+
+    local t2 = minetest.get_us_time()
+    local post_time = t2 - t1
+    if post_time > 10000 then
+      minetest.log("warning", "[mapserver-bridge] post took " .. process_time .. " us")
+    end
+
     -- TODO: error-handling
     minetest.after(2, send_stats)
   end)
+
 end
 
 function mapserver.bridge_init(_http, _url, _key)
