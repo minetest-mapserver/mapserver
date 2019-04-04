@@ -8,6 +8,8 @@ function getTrainImageUrlForType(type){
       return "pics/advtrains/advtrains_subway_wagon_inv.png";
     case "advtrains:engine_japan":
       return  "pics/advtrains/advtrains_engine_japan_inv.png";
+    case "advtrains:wagon_japan":
+      return  "pics/advtrains/advtrains_wagon_japan_inv.png";
     case "advtrains:engine_steam":
       return  "pics/advtrains/advtrains_engine_steam_inv.png";
     case "advtrains:engine_industrial":
