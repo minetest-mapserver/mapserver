@@ -1,7 +1,7 @@
 
 # Changelog
 
-## NEXT
+## 2.0.1
 * Added *configversion* to `mapserver.json`
 * Added *defaultoverlays* to `mapserver.json`
 * Added trainline overlay
