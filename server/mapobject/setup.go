@@ -12,10 +12,19 @@ func Setup(ctx *app.App) {
 	}
 
 	//mapserver stuff
-	if ctx.Config.MapObjects.Mapserver {
+	if ctx.Config.MapObjects.MapserverPOI {
 		l.AddMapObject("mapserver:poi", &PoiBlock{})
+	}
+
+	if ctx.Config.MapObjects.MapserverTrainline {
 		l.AddMapObject("mapserver:train", &TrainBlock{})
+	}
+
+	if ctx.Config.MapObjects.MapserverBorder {
 		l.AddMapObject("mapserver:border", &BorderBlock{})
+	}
+
+	if ctx.Config.MapObjects.MapserverLabel {
 		l.AddMapObject("mapserver:label", &LabelBlock{})
 	}
 
@@ -52,10 +61,19 @@ func Setup(ctx *app.App) {
 	}
 
 	//technic
-	if ctx.Config.MapObjects.Technic {
+	if ctx.Config.MapObjects.TechnicQuarry {
 		l.AddMapObject("technic:quarry", &QuarryBlock{})
+	}
+
+	if ctx.Config.MapObjects.TechnicReactor {
 		l.AddMapObject("technic:hv_nuclear_reactor_core_active", &NuclearReactorBlock{})
+	}
+
+	if ctx.Config.MapObjects.TechnicAnchor {
 		l.AddMapObject("technic:admin_anchor", &TechnicAnchorBlock{})
+	}
+
+	if ctx.Config.MapObjects.TechnicSwitch {
 		l.AddMapObject("technic:switching_station", &TechnicSwitchBlock{})
 	}
 

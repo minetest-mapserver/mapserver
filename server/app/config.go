@@ -24,6 +24,7 @@ type Config struct {
 	RenderingQueue         int                     `json:"renderingqueue"`
 	MapObjects             *MapObjectConfig        `json:"mapobjects"`
 	MapBlockAccessorCfg    *MapBlockAccessorConfig `json:"mapblockaccessor"`
+	DefaultOverlays        []string                `json:"defaultoverlays"`
 }
 
 type MapBlockAccessorConfig struct {
@@ -33,24 +34,31 @@ type MapBlockAccessorConfig struct {
 }
 
 type MapObjectConfig struct {
-	Areas            bool `json:"areas"`
-	Bones            bool `json:"bones"`
-	Protector        bool `json:"protector"`
-	XPProtector      bool `json:"xpprotector"`
-	PrivProtector    bool `json:"privprotector"`
-	Technic          bool `json:"technic"`
-	LuaController    bool `json:"luacontroller"`
-	Digiterms        bool `json:"digiterms"`
-	Digilines        bool `json:"digilines"`
-	Travelnet        bool `json:"travelnet"`
-	Mapserver        bool `json:"mapserver"`
-	TileServerLegacy bool `json:"tileserverlegacy"`
-	Mission          bool `json:"mission"`
-	Jumpdrive        bool `json:"jumpdrive"`
-	Smartshop        bool `json:"smartshop"`
-	Fancyvend        bool `json:"fancyvend"`
-	ATM              bool `json:"atm"`
-	Train            bool `json:"train"`
+	Areas              bool `json:"areas"`
+	Bones              bool `json:"bones"`
+	Protector          bool `json:"protector"`
+	XPProtector        bool `json:"xpprotector"`
+	PrivProtector      bool `json:"privprotector"`
+	TechnicQuarry      bool `json:"technic_quarry"`
+	TechnicSwitch      bool `json:"technic_switch"`
+	TechnicAnchor      bool `json:"technic_anchor"`
+	TechnicReactor     bool `json:"technic_reactor"`
+	LuaController      bool `json:"luacontroller"`
+	Digiterms          bool `json:"digiterms"`
+	Digilines          bool `json:"digilines"`
+	Travelnet          bool `json:"travelnet"`
+	MapserverPlayer    bool `json:"mapserver_player"`
+	MapserverPOI       bool `json:"mapserver_poi"`
+	MapserverLabel     bool `json:"mapserver_label"`
+	MapserverTrainline bool `json:"mapserver_trainline"`
+	MapserverBorder    bool `json:"mapserver_border"`
+	TileServerLegacy   bool `json:"tileserverlegacy"`
+	Mission            bool `json:"mission"`
+	Jumpdrive          bool `json:"jumpdrive"`
+	Smartshop          bool `json:"smartshop"`
+	Fancyvend          bool `json:"fancyvend"`
+	ATM                bool `json:"atm"`
+	Train              bool `json:"train"`
 }
 
 type WebApiConfig struct {
@@ -112,30 +120,43 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	mapobjs := MapObjectConfig{
-		Areas:            true,
-		Bones:            true,
-		Protector:        true,
-		XPProtector:      true,
-		PrivProtector:    true,
-		Technic:          true,
-		LuaController:    true,
-		Digiterms:        true,
-		Digilines:        true,
-		Travelnet:        true,
-		Mapserver:        true,
-		TileServerLegacy: true,
-		Mission:          true,
-		Jumpdrive:        true,
-		Smartshop:        true,
-		Fancyvend:        true,
-		ATM:              true,
-		Train:            true,
+		Areas:              true,
+		Bones:              true,
+		Protector:          true,
+		XPProtector:        true,
+		PrivProtector:      true,
+		TechnicQuarry:      true,
+		TechnicSwitch:      true,
+		TechnicAnchor:      true,
+		TechnicReactor:     true,
+		LuaController:      true,
+		Digiterms:          true,
+		Digilines:          true,
+		Travelnet:          true,
+		MapserverPlayer:    true,
+		MapserverPOI:       true,
+		MapserverLabel:     true,
+		MapserverTrainline: true,
+		MapserverBorder:    true,
+		TileServerLegacy:   true,
+		Mission:            true,
+		Jumpdrive:          true,
+		Smartshop:          true,
+		Fancyvend:          true,
+		ATM:                true,
+		Train:              true,
 	}
 
 	mapblockaccessor := MapBlockAccessorConfig{
 		Expiretime: "15s",
 		Purgetime:  "30s",
 		MaxItems:   5000,
+	}
+
+	defaultoverlays := []string{
+		"mapserver_poi",
+		"mapserver_label",
+		"mapserver_player",
 	}
 
 	cfg := Config{
@@ -153,6 +174,7 @@ func ParseConfig(filename string) (*Config, error) {
 		RenderingQueue:         100,
 		MapObjects:             &mapobjs,
 		MapBlockAccessorCfg:    &mapblockaccessor,
+		DefaultOverlays:        defaultoverlays,
 	}
 
 	info, err := os.Stat(filename)

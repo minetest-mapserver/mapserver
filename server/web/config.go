@@ -9,9 +9,10 @@ import (
 
 //Public facing config
 type PublicConfig struct {
-	Version    string               `json:"version"`
-	Layers     []*layer.Layer       `json:"layers"`
-	MapObjects *app.MapObjectConfig `json:"mapobjects"`
+	Version         string               `json:"version"`
+	Layers          []*layer.Layer       `json:"layers"`
+	MapObjects      *app.MapObjectConfig `json:"mapobjects"`
+	DefaultOverlays []string             `json:"defaultoverlays"`
 }
 
 type ConfigHandler struct {
@@ -25,6 +26,7 @@ func (h *ConfigHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	webcfg.Layers = h.ctx.Config.Layers
 	webcfg.MapObjects = h.ctx.Config.MapObjects
 	webcfg.Version = app.Version
+	webcfg.DefaultOverlays = h.ctx.Config.DefaultOverlays
 
 	json.NewEncoder(resp).Encode(webcfg)
 }
