@@ -97,8 +97,8 @@ function send_stats()
 
     local t2 = minetest.get_us_time()
     local post_time = t2 - t1
-    if post_time > 10000 then
-      minetest.log("warning", "[mapserver-bridge] post took " .. process_time .. " us")
+    if post_time > 1000000 then -- warn if over a second
+      minetest.log("warning", "[mapserver-bridge] post took " .. post_time .. " us")
     end
 
     -- TODO: error-handling
