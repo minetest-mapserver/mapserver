@@ -11,6 +11,10 @@ var LabelIcon = L.Icon.extend({
 		    options = this.options;
 
 		div.innerHTML = options.html || "";
+    div.style.width = "200px";
+    div.style.height = "200px";
+    div.style.marginLeft = "-100px";
+    div.style.marginTop = "-175px";
 
 		return div;
   }
@@ -23,20 +27,27 @@ var LabelOverlay = AbstractIconOverlay.extend({
 
   getIcon: function(lbl){
 
+    var height = 200;
+    var width = 200;
+    var fontSize = Math.min(lbl.attributes.size, 20);
+
     const html = `
-      <svg height='30' width='100'>
-        <text x='0' y='15'>${lbl.attributes.text}</text>
+      <svg height='${height}' width='${width}' text-anchor='middle' font-size='${fontSize}px'>
+        <text x='${width/2}' y='${height/2}'
+          fill='${lbl.attributes.color}'
+          dominant-baseline="central"
+          transform="rotate(${lbl.attributes.direction}, 100, 100)">
+          ${lbl.attributes.text}
+        </text>
       </svg>
     `;
 
     return new LabelIcon({
-      iconAnchor:   [15, 50],
-      iconSize:     [30, 100],
-      html: html
+      html: html,
+      height: height,
+      width: width
     });
   },
 
-  createPopup: function(lbl){
-    return "<p>" + lbl.attributes.text + "</p>";
-  }
+  createPopup: function(lbl){}
 });

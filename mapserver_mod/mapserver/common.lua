@@ -1,6 +1,6 @@
 
 mapserver.can_dig = function(pos, player)
-  local meta = minetest.env:get_meta(pos)
+  local meta = minetest.get_meta(pos)
   local owner = meta:get_string("owner")
 
   return player and player:get_player_name() == owner

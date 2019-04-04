@@ -41,7 +41,7 @@ minetest.register_node("mapserver:label", {
 
 		meta:set_string("text", "")
 		meta:set_string("direction", "0")
-		meta:set_string("size", "1")
+		meta:set_string("size", "20")
 		meta:set_string("color", "rgb(0,0,0)")
 
 		update_formspec(meta)
