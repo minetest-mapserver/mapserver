@@ -100,14 +100,14 @@ func (db *PostgresAccessor) GetTimestamp() (int64, error) {
 	defer rows.Close()
 
 	if rows.Next() {
-		var ts int64
+		var ts float64
 
 		err = rows.Scan(&ts)
 		if err != nil {
 			return 0, err
 		}
 
-		return ts, nil
+		return int64(ts), nil
 	}
 
 	return 0, nil
