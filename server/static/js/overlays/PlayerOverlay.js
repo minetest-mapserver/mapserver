@@ -1,4 +1,6 @@
-'use strict';
+/* exported PlayerOverlay */
+/* globals AbstractIconOverlay: true */
+/* jshint unused: false */
 
 var PlayerIcon = L.icon({
   iconUrl: 'pics/sam.png',
@@ -29,11 +31,12 @@ var PlayerOverlay = L.LayerGroup.extend({
 
   createMarker: function(player){
     var marker = L.marker([player.pos.z, player.pos.x], {icon: PlayerIcon});
+    var i;
 
     var html = "<b>" + player.name + "</b>";
     html += "<hr>";
 
-    for (var i=0; i<Math.floor(player.hp / 2); i++)
+    for (i=0; i<Math.floor(player.hp / 2); i++)
       html += "<img src='pics/heart.png'>";
 
     if (player.hp % 2 == 1)
@@ -41,7 +44,7 @@ var PlayerOverlay = L.LayerGroup.extend({
 
     html += "<br>";
 
-    for (var i=0; i<Math.floor(player.breath / 2); i++)
+    for (i=0; i<Math.floor(player.breath / 2); i++)
       html += "<img src='pics/bubble.png'>";
 
     if (player.breath % 2 == 1)
@@ -53,9 +56,9 @@ var PlayerOverlay = L.LayerGroup.extend({
   },
 
   isPlayerInCurrentLayer: function(player){
-    var mapLayer = this.layerMgr.getCurrentLayer()
+    var mapLayer = this.layerMgr.getCurrentLayer();
 
-    return (player.pos.y >= (mapLayer.from*16) && player.pos.y <= (mapLayer.to*16))
+    return (player.pos.y >= (mapLayer.from*16) && player.pos.y <= (mapLayer.to*16));
   },
 
   onMinetestUpdate: function(info){
@@ -107,7 +110,7 @@ var PlayerOverlay = L.LayerGroup.extend({
     this.currentObjects = {};
     this.clearLayers();
 
-    var mapLayer = this.layerMgr.getCurrentLayer()
+    var mapLayer = this.layerMgr.getCurrentLayer();
 
     this.players.forEach(function(player){
       if (!self.isPlayerInCurrentLayer(player)){

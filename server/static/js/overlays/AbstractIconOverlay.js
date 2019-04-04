@@ -1,4 +1,5 @@
-'use strict';
+/* exported AbstractIconOverlay */
+/* jshint unused: false */
 
 var AbstractIconOverlay = L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr, type, icon) {
@@ -65,7 +66,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
       this.currentObjects = {};
     }
 
-    var mapLayer = this.layerMgr.getCurrentLayer()
+    var mapLayer = this.layerMgr.getCurrentLayer();
     var min = this.map.getBounds().getSouthWest();
     var max = this.map.getBounds().getNorthEast();
 
@@ -87,12 +88,13 @@ var AbstractIconOverlay = L.LayerGroup.extend({
       objects.forEach(function(obj){
         var hash = self.hashPos(obj.x, obj.y, obj.z);
         var marker = self.currentObjects[hash];
+        var popup;
 
         if (marker) {
           //marker exists
 
           //set popup, if changed
-          var popup = self.createPopup(obj);
+          popup = self.createPopup(obj);
           if (popup)
             marker.setPopupContent(popup);
 
@@ -102,7 +104,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
         } else {
           //marker does not exist
           marker = L.marker([obj.z, obj.x], {icon: self.getIcon(obj)});
-          var popup = self.createPopup(obj);
+          popup = self.createPopup(obj);
           if (popup)
             marker.bindPopup(popup);
           marker.addTo(self);
@@ -111,7 +113,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
         }
       });
-    })
+    });
 
   },
 
@@ -121,7 +123,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
     map.on("moveend", this.onMapMove);
     this.layerMgr.addListener(this.onLayerChange);
     this.wsChannel.addListener("mapobject-created", this.onMapObjectUpdated);
-    this.reDraw(true)
+    this.reDraw(true);
   },
 
   onRemove: function(map) {

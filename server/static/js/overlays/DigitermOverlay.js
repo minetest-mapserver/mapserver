@@ -1,4 +1,5 @@
-'use strict';
+/* exported DigitermOverlay */
+/* globals AbstractIconOverlay: true */
 
 var DigitermIcon = L.icon({
   iconUrl: 'pics/digiterms_beige_front.png',

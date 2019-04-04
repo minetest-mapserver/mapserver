@@ -1,4 +1,5 @@
-'use strict';
+/* exported LcdOverlay */
+/* globals AbstractIconOverlay: true */
 
 var LcdIcon = L.icon({
   iconUrl: 'pics/lcd_lcd.png',

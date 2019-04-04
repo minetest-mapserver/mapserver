@@ -1,4 +1,5 @@
-'use strict';
+/* exported TechnicQuarryOverlay */
+/* globals AbstractIconOverlay: true */
 
 var TechnicQuarryIcon = L.icon({
   iconUrl: 'pics/default_tool_mesepick.png',

@@ -1,4 +1,5 @@
-'use strict';
+/* exported TechnicAnchorOverlay */
+/* globals AbstractIconOverlay: true */
 
 var TechnicAnchorIcon = L.icon({
   iconUrl: 'pics/technic_admin_anchor.png',

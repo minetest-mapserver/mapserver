@@ -1,4 +1,5 @@
-'use strict';
+/* exported PoiOverlay */
+/* globals AbstractIconOverlay: true */
 
 var PoiIcon = L.icon({
   iconUrl:       'css/images/marker-icon.png',

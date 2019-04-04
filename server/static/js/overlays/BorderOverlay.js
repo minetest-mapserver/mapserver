@@ -1,4 +1,5 @@
-'use strict';
+/* exported BorderOverlay */
+/* globals AbstractGeoJsonOverlay: true */
 
 var BorderOverlay = AbstractGeoJsonOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
@@ -6,8 +7,6 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
   },
 
   createGeoJson: function(objects){
-    var self = this;
-
     var geoJsonLayer = L.geoJSON([], {
       onEachFeature: function(feature, layer){
         if (feature.properties && feature.properties.popupContent) {
@@ -20,7 +19,7 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
 
     objects.forEach(function(obj){
       if (!obj.attributes.name)
-        return
+        return;
 
       var border = borders[obj.attributes.name];
       if (!border){
@@ -51,10 +50,10 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
           "coordinates":coords
         },
         "properties":{
-            "name": linename,
+            "name": bordername,
             "popupContent": "<b>Border (" + bordername + ")</b>"
         }
-      }
+      };
 
       //line-points
       geoJsonLayer.addData(feature);

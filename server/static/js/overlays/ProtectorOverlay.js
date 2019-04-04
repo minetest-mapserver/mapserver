@@ -1,4 +1,5 @@
-'use strict';
+/* exported ProtectorOverlay */
+/* globals AbstractGeoJsonOverlay: true */
 
 var ProtectorOverlay = AbstractGeoJsonOverlay.extend({
   initialize: function(wsChannel, layerMgr) {

@@ -1,4 +1,5 @@
-'use strict';
+/* exported TrainlineOverlay */
+/* globals AbstractGeoJsonOverlay: true */
 
 var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
@@ -6,7 +7,6 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
   },
 
   createGeoJson: function(objects){
-    var self = this;
 
     var geoJsonLayer = L.geoJSON([], {
       onEachFeature: function(feature, layer){
@@ -24,7 +24,7 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
           opacity: 1,
           fillOpacity: 0.8
         };
-        
+
         return L.circleMarker(latlng, geojsonMarkerOptions);
       }
     });
@@ -34,7 +34,7 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
     //Sort and add lines
     objects.forEach(function(obj){
       if (!obj.attributes.line)
-        return
+        return;
 
       var line = lines[obj.attributes.line];
       if (!line){
@@ -84,7 +84,8 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
             "name": linename,
             "popupContent": "<b>Train-line (" + linename + ")</b>"
         }
-      }
+      };
+
       //line-points
       geoJsonLayer.addData(feature);
 

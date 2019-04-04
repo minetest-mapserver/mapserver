@@ -1,4 +1,5 @@
-'use strict';
+/* exported TechnicSwitchOverlay */
+/* globals AbstractIconOverlay: true */
 
 var TechnicSwitchIcon = L.icon({
   iconUrl: 'pics/technic_water_mill_top_active.png',

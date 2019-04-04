@@ -1,4 +1,5 @@
-'use strict';
+/* exported LuacontrollerOverlay */
+/* globals AbstractIconOverlay: true */
 
 var LuacontrollerIcon = L.icon({
   iconUrl: 'pics/jeija_luacontroller_top.png',

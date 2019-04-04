@@ -1,4 +1,6 @@
-'use strict';
+/* exported TrainOverlay */
+/* globals AbstractIconOverlay: true */
+/* jshint unused: false */
 
 function getTrainImageUrlForType(type){
   switch(type){
@@ -79,9 +81,9 @@ var TrainOverlay = L.LayerGroup.extend({
   },
 
   isTrainInCurrentLayer: function(train){
-    var mapLayer = this.layerMgr.getCurrentLayer()
+    var mapLayer = this.layerMgr.getCurrentLayer();
 
-    return (train.pos.y >= (mapLayer.from*16) && train.pos.y <= (mapLayer.to*16))
+    return (train.pos.y >= (mapLayer.from*16) && train.pos.y <= (mapLayer.to*16));
   },
 
 
@@ -134,7 +136,7 @@ var TrainOverlay = L.LayerGroup.extend({
     this.currentObjects = {};
     this.clearLayers();
 
-    var mapLayer = this.layerMgr.getCurrentLayer()
+    var mapLayer = this.layerMgr.getCurrentLayer();
 
     this.trains.forEach(function(train){
       if (!self.isTrainInCurrentLayer(train)){

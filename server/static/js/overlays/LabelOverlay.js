@@ -1,11 +1,12 @@
-'use strict';
+/* exported LabelOverlay */
+/* globals AbstractIconOverlay: true */
 
 var LabelIcon = L.Icon.extend({
   initialize: function(options) {
     L.Icon.prototype.initialize.call(this, options);
   },
 
-  createIcon: function (oldIcon) {
+  createIcon: function() {
 		var div = document.createElement('div'),
 		    options = this.options;
 

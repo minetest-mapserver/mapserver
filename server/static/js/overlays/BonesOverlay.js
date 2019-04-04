@@ -1,4 +1,5 @@
-'use strict';
+/* exported BonesOverlay */
+/* globals AbstractIconOverlay: true */
 
 var BonesIcon = L.icon({
   iconUrl: 'pics/bones_top.png',

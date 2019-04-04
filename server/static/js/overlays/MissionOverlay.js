@@ -1,4 +1,5 @@
-'use strict';
+/* exported MissionOverlay */
+/* globals AbstractIconOverlay: true */
 
 var MissionIcon = L.icon({
   iconUrl: 'pics/mission_32px.png',

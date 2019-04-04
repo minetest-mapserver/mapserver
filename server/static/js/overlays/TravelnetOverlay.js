@@ -1,4 +1,5 @@
-'use strict';
+/* exported TravelnetOverlay */
+/* globals AbstractIconOverlay: true */
 
 var TravelnetIcon = L.icon({
   iconUrl: 'pics/travelnet_inv.png',
