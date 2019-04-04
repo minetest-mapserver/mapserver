@@ -14,6 +14,7 @@ func (this *BorderBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock
 	o.Attributes["name"] = md["name"]
 	o.Attributes["index"] = md["index"]
 	o.Attributes["owner"] = md["owner"]
+	o.Attributes["color"] = md["color"]
 
 	return o
 }

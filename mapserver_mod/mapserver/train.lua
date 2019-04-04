@@ -6,17 +6,22 @@ local update_formspec = function(meta)
 	local line = meta:get_string("line")
 	local station = meta:get_string("station")
 	local index = meta:get_string("index")
+	local color = meta:get_string("color") or ""
 
 	meta:set_string("infotext", "Train: Line=" .. line .. ", Station=" .. station)
 
-	meta:set_string("formspec", "size[8,3;]" ..
+	meta:set_string("formspec", "size[8,4;]" ..
 		-- col 1
 		"field[0,1;4,1;line;Line;" .. line .. "]" ..
 		"button_exit[4,1;4,1;save;Save]" ..
 
 		-- col 2
 		"field[0,2.5;4,1;station;Station;" .. station .. "]" ..
-		"field[4,2.5;4,1;index;Index;" .. index .. "]"
+		"field[4,2.5;4,1;index;Index;" .. index .. "]" ..
+
+		-- col 3
+		"field[0,3.5;4,1;color;Color;" .. color .. "]" ..
+		""
 	)
 
 end
@@ -40,6 +45,7 @@ minetest.register_node("mapserver:train", {
 		meta:set_string("station", "")
 		meta:set_string("line", last_line)
 		meta:set_int("index", last_index)
+		meta:set_string("color", "rgb(10,10,200)")
 
 		update_formspec(meta)
 	end,
@@ -54,6 +60,7 @@ minetest.register_node("mapserver:train", {
 
 		if fields.save then
 			last_line = fields.line
+			meta:set_string("color", fields.color)
 			meta:set_string("line", fields.line)
 			meta:set_string("station", fields.station)
 			local index = tonumber(fields.index)

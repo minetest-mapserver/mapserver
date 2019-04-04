@@ -22,10 +22,17 @@ var LabelOverlay = AbstractIconOverlay.extend({
   },
 
   getIcon: function(lbl){
+
+    const html = `
+      <svg height='30' width='100'>
+        <text x='0' y='15'>${lbl.attributes.text}</text>
+      </svg>
+    `;
+
     return new LabelIcon({
       iconAnchor:   [15, 50],
       iconSize:     [30, 100],
-      html: "<svg height='30' width='100'><text x='0' y='15'>" + lbl.attributes.text + "</text></svg>"
+      html: html
     });
   },
 

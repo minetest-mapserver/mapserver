@@ -3,10 +3,11 @@ local update_formspec = function(meta)
 	local text = meta:get_string("text")
 	local size = meta:get_string("size")
 	local direction = meta:get_string("direction")
+	local color = meta:get_string("color") or "rgb(0,0,0)"
 
 	meta:set_string("infotext", "Label, Text:" .. text .. ", Size:" .. size .. ", Direction:" .. direction)
 
-	meta:set_string("formspec", "size[8,5;]" ..
+	meta:set_string("formspec", "size[8,6;]" ..
 		-- col 1
 		"field[0,1;4,1;text;Text;" .. text .. "]" ..
 		"button_exit[4,1;4,1;save;Save]" ..
@@ -16,6 +17,10 @@ local update_formspec = function(meta)
 
 		-- col 3
 		"field[0,3.5;8,1;direction;Direction (0-360);" .. direction .. "]" ..
+
+		-- col 4
+		"field[0,4.5;8,1;color;Color;" .. color .. "]" ..
+
 		"")
 
 end
@@ -37,6 +42,7 @@ minetest.register_node("mapserver:label", {
 		meta:set_string("text", "")
 		meta:set_string("direction", "0")
 		meta:set_string("size", "1")
+		meta:set_string("color", "rgb(0,0,0)")
 
 		update_formspec(meta)
 	end,
@@ -50,6 +56,7 @@ minetest.register_node("mapserver:label", {
 		local meta = minetest.get_meta(pos)
 
 		if fields.save then
+			meta:set_string("color", fields.color)
 			meta:set_string("text", fields.text)
 			meta:set_string("direction", fields.direction)
 			meta:set_string("size", fields.size)

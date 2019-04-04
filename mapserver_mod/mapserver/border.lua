@@ -5,16 +5,20 @@ local last_name = ""
 local update_formspec = function(meta)
 	local name = meta:get_string("name")
 	local index = meta:get_string("index")
+	local color = meta:get_string("color") or "rgb(10,10,200)"
 
 	meta:set_string("infotext", "Border: Name=" .. name .. ", Index=" .. index)
 
-	meta:set_string("formspec", "size[8,3;]" ..
+	meta:set_string("formspec", "size[8,4;]" ..
 		-- col 1
 		"field[0,1;4,1;name;Name;" .. name .. "]" ..
 		"button_exit[4,1;4,1;save;Save]" ..
 
 		-- col 2
 		"field[4,2.5;4,1;index;Index;" .. index .. "]" ..
+
+		-- col 3
+		"field[4,3.5;4,1;color;Color;" .. color .. "]" ..
 		"")
 
 end
@@ -35,6 +39,7 @@ minetest.register_node("mapserver:border", {
 
 		last_index = last_index + 5
 
+		meta:set_string("color", "rgb(10,10,200)")
 		meta:set_string("name", last_name)
 		meta:set_int("index", last_index)
 
@@ -52,6 +57,7 @@ minetest.register_node("mapserver:border", {
 		if fields.save then
 			last_name = fields.name
 			meta:set_string("name", fields.name)
+			meta:set_string("color", fields.color)
 			local index = tonumber(fields.index)
 			if index ~= nil then
 				last_index = index
