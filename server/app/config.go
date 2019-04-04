@@ -165,7 +165,7 @@ func ParseConfig(filename string) (*Config, error) {
 		EnableRendering:        true,
 		EnablePrometheus:       true,
 		EnableInitialRendering: true,
-		EnableTransparency:     true,
+		EnableTransparency:     false,
 		Webdev:                 false,
 		WebApi:                 &webapi,
 		Layers:                 layers,
