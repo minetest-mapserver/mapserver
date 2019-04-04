@@ -2,7 +2,7 @@
 # Mapobject-Database
 
 The mapobject database is for all the mapobjects (POI, Shops, etc)
-Per default it is initialized as a sqlite3 database in `mapserver.sqlite3`
+Per default it is initialized as a sqlite3 database in `mapserver.sqlite`
 
 If you want to store your mapobjects in a proper database or need performance at
 scale you can configure a postgresql server in your `world.mt`:
