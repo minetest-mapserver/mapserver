@@ -76,9 +76,7 @@ The artifacts should now be in the `output` directory
 
 Prerequisites:
 * docker
-* go >= 1.11
 * make
-* valid github token in `.releasetoken`
 
 Building:
-* Run `./release.sh <version>`
+* Run `make all VERSION=X.Y.Z` in the root directory
