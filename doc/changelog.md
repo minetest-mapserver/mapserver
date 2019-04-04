@@ -1,6 +1,12 @@
 
 # Changelog
 
+## NEXT
+* Added config-version to `mapserver.json`
+* Added trainline overlay
+* Added border overlay
+* Fix mismatching timestamp issues
+
 ## 2.0.0
 * Fixed websocket connect issue (origin check)
 * Fixed multiple layer issue
