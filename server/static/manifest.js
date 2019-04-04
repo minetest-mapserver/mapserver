@@ -18,6 +18,7 @@
     "/js/overlays/PlayerOverlay.js",
     "/js/overlays/TrainOverlay.js",
     "/js/overlays/TrainlineOverlay.js",
+    "/js/overlays/BorderOverlay.js",
     "/js/overlays/ProtectorOverlay.js",
     "/js/overlays/XPProtectorOverlay.js",
     "/js/overlays/PrivProtectorOverlay.js",
