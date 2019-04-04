@@ -27,7 +27,7 @@ test: $(OUT_DIR)
 	$(ENV) go test ./...
 
 clean:
-	rm -rf $(STATIC_VFS)
+	rm -rf $(STATIC_VFS) test-output
 	rm -rf $(OUT_DIR)
 
 jshint:

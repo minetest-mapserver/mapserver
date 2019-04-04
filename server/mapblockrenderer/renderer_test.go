@@ -52,7 +52,7 @@ func TestSimpleRender(t *testing.T) {
 	}
 
 	r := NewMapBlockRenderer(cache, c)
-	os.Mkdir("../output", 0755)
+	os.Mkdir("../test-output", 0755)
 
 	results := make(chan JobResult, 100)
 	jobs := make(chan JobData, 100)
@@ -68,7 +68,7 @@ func TestSimpleRender(t *testing.T) {
 			}
 
 			tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1, layers)
-			f, _ := os.Create(fmt.Sprintf("../output/image_%d_%d.png", tc.X, tc.Y))
+			f, _ := os.Create(fmt.Sprintf("../test-output/image_%d_%d.png", tc.X, tc.Y))
 			result.Data.WriteTo(f)
 			f.Close()
 		}
