@@ -4,6 +4,7 @@ import (
 	"mapserver/luaparser"
 	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
+	"math"
 	"strconv"
 
 	"github.com/sirupsen/logrus"
@@ -76,7 +77,7 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 	} else {
 		for _, item := range mainInv.Items {
 			if item.Name == out_item {
-				stock += item.Count
+				stock += int(math.Max(1, float64(item.Count)))
 			}
 		}
 	}
