@@ -18,6 +18,7 @@
     "/js/overlays/AbstractIconOverlay.js",
     "/js/overlays/AbstractGeoJsonOverlay.js",
     "/js/overlays/TravelnetOverlay.js",
+    "/js/overlays/ShopOverlay.js",
     "/js/overlays/PoiOverlay.js",
     "/js/overlays/LabelOverlay.js",
     "/js/overlays/PlayerOverlay.js",

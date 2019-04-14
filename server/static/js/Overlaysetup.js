@@ -17,6 +17,13 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
       }
     }
 
+    if (cfg.mapobjects.smartshop || cfg.mapobjects.fancyvend) {
+      overlays.Shop = new ShopOverlay(wsChannel, layerMgr);
+      if (cfg.defaultoverlays.indexOf("smartshop") >= 0 || cfg.defaultoverlays.indexOf("fancyvend") >= 0) {
+        map.addLayer(overlays.Shop);
+      }
+    }
+
     if (cfg.mapobjects.mapserver_label) {
       overlays.Label = new LabelOverlay(wsChannel, layerMgr);
       if (cfg.defaultoverlays.indexOf("mapserver_label") >= 0) {
