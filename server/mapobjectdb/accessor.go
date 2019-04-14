@@ -57,11 +57,17 @@ func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type strin
 	return &o
 }
 
+type SearchAttributeLike struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
 type SearchQuery struct {
 	//mapblock position
-	Pos1 *coords.MapBlockCoords `json:"pos1"`
-	Pos2 *coords.MapBlockCoords `json:"pos2"`
-	Type string                 `json:"type"`
+	Pos1          *coords.MapBlockCoords `json:"pos1"`
+	Pos2          *coords.MapBlockCoords `json:"pos2"`
+	Type          string                 `json:"type"`
+	AttributeLike *SearchAttributeLike   `json:"attributelike"`
 }
 
 type DBAccessor interface {

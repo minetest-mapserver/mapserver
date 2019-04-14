@@ -12,6 +12,21 @@ and o.posx >= $2 and o.posy >= $3 and o.posz >= $4
 and o.posx <= $5 and o.posy <= $6 and o.posz <= $7
 order by o.id
 `
+const getMapDataWithAttributeLikePosQuery = `
+select o.id, o.type, o.mtime,
+ o.x, o.y, o.z,
+ o.posx, o.posy, o.posz,
+ oa.key, oa.value
+from objects o
+left join object_attributes oa on o.id = oa.objectid
+where o.id in (
+  select objectid from object_attributes where key = $8 and value like $9
+)
+and o.type = $1
+and o.posx >= $2 and o.posy >= $3 and o.posz >= $4
+and o.posx <= $5 and o.posy <= $6 and o.posz <= $7
+order by o.id
+`
 
 const removeMapDataQuery = `
 delete from objects where posx = $1 and posy = $2 and posz = $3

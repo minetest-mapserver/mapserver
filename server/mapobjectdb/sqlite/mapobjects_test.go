@@ -82,3 +82,65 @@ func TestMapObjects(t *testing.T) {
 	}
 
 }
+
+func TestMapObjectsQueryWithAttribute(t *testing.T) {
+	tmpfile, err := ioutil.TempFile("", "TestMapObjects.*.sqlite")
+	if err != nil {
+		panic(err)
+	}
+	//defer os.Remove(tmpfile.Name())
+
+	db, err := New(tmpfile.Name())
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.Migrate()
+	if err != nil {
+		panic(err)
+	}
+
+	attrs := make(map[string]string)
+	attrs["X"] = "y"
+
+	pos := coords.NewMapBlockCoords(0, 0, 0)
+
+	o := mapobjectdb.MapObject{
+		MBPos:      pos,
+		X:          15,
+		Y:          15,
+		Z:          15,
+		Type:       "xy",
+		Mtime:      1234,
+		Attributes: attrs,
+	}
+
+	err = db.AddMapData(&o)
+	if err != nil {
+		panic(err)
+	}
+
+	q := mapobjectdb.SearchQuery{
+		Pos1: pos,
+		Pos2: pos,
+		Type: "xy",
+		AttributeLike: &mapobjectdb.SearchAttributeLike{
+			Key:   "X",
+			Value: "%y",
+		},
+	}
+
+	objs, err := db.GetMapData(&q)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, mo := range objs {
+		fmt.Println(mo)
+	}
+
+	if len(objs) != 1 {
+		panic("length mismatch")
+	}
+}

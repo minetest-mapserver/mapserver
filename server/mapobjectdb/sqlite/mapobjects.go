@@ -1,16 +1,33 @@
 package sqlite
 
 import (
+	"database/sql"
 	"mapserver/coords"
 	"mapserver/mapobjectdb"
 )
 
 func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
-	rows, err := db.db.Query(getMapDataPosQuery,
-		q.Type,
-		q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
-		q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
-	)
+
+	var rows *sql.Rows
+	var err error
+
+	if q.AttributeLike == nil {
+		//plain pos search
+		rows, err = db.db.Query(getMapDataPosQuery,
+			q.Type,
+			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
+			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+		)
+
+	} else {
+		//attribute like search
+		rows, err = db.db.Query(getMapDataWithAttributeLikePosQuery,
+			q.AttributeLike.Key, q.AttributeLike.Value,
+			q.Type,
+			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
+			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+		)
+	}
 
 	if err != nil {
 		return nil, err
