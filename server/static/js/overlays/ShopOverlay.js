@@ -18,15 +18,26 @@ var ShopEmptyIcon = L.icon({
 
 var ShopOverlay = AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "shop", ShopIcon);
+    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "shop");
   },
 
   getMaxDisplayedZoom: function(){
     return 5;
   },
 
-  createPopup: function(poi){
-    return "<h4>" + poi.attributes.type + "</h4><hr>" +
-      "<b>Owner: </b> " + poi.attributes.owner + "<br>";
+  getIcon: function(obj){
+    if (obj.attributes.stock > 0)
+      return ShopIcon;
+    else
+      return ShopEmptyIcon;
+  },
+
+  createPopup: function(obj){
+    console.log(obj)
+    return "<h4>" + obj.attributes.type + "</h4><hr>" +
+      "<b>Owner: </b> " + obj.attributes.owner + "<br>" +
+      "<b>Input: </b> " + obj.attributes.in_count + " x " + obj.attributes.in_item + "<br>" +
+      "<b>Output: </b> " + obj.attributes.out_count + " x " + obj.attributes.out_item + "<br>" +
+      "<b>Stock: </b> " + obj.attributes.stock + "<br>";
   }
 });

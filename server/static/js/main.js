@@ -18,7 +18,7 @@ api.getConfig().then(function(cfg){
   var layers = {};
   var overlays = {};
 
-  var layerMgr = new LayerManager(cfg.layers, map);
+  window.layerMgr = new LayerManager(cfg.layers, map);
   layerMgr.setLayerId( Hashroute.getLayerId() );
 
   //All layers

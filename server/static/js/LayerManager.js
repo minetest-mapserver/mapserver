@@ -26,6 +26,11 @@ LayerManager.prototype.setLayerId = function(layerId){
   });
 };
 
+LayerManager.prototype.getLayerByY = function(y){
+  return this.layers.find(function(layer){
+    return (y >= (layer.from*16) && y <= (layer.to*16));
+  });
+};
 
 LayerManager.prototype.addListener = function(listener){
   this.listeners.push(listener);
