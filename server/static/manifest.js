@@ -40,6 +40,7 @@
     "/js/main.js"
   ],
   "styles": [
+    "/css/fontawesome.min.css",
     "/css/bootstrap.min.css",
     "/css/leaflet.css",
     "/css/custom.css"

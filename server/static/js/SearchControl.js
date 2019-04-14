@@ -6,13 +6,7 @@ var SearchControl = L.Control.extend({
     },
 
     onAdd: function() {
-      var div = L.DomUtil.create('div', 'leaflet-bar leaflet-custom-display');
-
-      var View = {
-        view: function(){
-          return m("input[type=text]", { placeholder: "Search", class: "form-control" });
-        }
-      };
+      var div = L.DomUtil.create('div');
 
       m.mount(div, SearchInput);
       m.mount(document.getElementById("search-content"), SearchMenu);
