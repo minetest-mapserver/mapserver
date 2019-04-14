@@ -9,8 +9,12 @@
     "/js/SimpleCRS.js",
     "/js/WebSocketChannel.js",
     "/js/RealtimeTileLayer.js",
+    "/js/SearchControl.js",
     "/js/CoordinatesDisplay.js",
     "/js/WorldInfoDisplay.js",
+    "/js/search/SearchStore.js",
+    "/js/search/SearchMenu.js",
+    "/js/search/SearchInput.js",
     "/js/overlays/AbstractIconOverlay.js",
     "/js/overlays/AbstractGeoJsonOverlay.js",
     "/js/overlays/TravelnetOverlay.js",
@@ -36,6 +40,7 @@
     "/js/main.js"
   ],
   "styles": [
+    "/css/bootstrap.min.css",
     "/css/leaflet.css",
     "/css/custom.css"
   ]

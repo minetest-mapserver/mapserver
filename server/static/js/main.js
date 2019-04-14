@@ -34,10 +34,16 @@ api.getConfig().then(function(cfg){
   //All overlays
   Overlaysetup(cfg, map, overlays, wsChannel, layerMgr);
 
-  L.control.layers(layers, overlays).addTo(map);
 
   new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
   new WorldInfoDisplay(wsChannel, { position: 'bottomright' }).addTo(map);
+
+  if (cfg.enablesearch){
+    new SearchControl(wsChannel, { position: 'topright' }).addTo(map);
+  }
+
+  //layer control
+  L.control.layers(layers, overlays, { position: "topright" }).addTo(map);
 
   Hashroute.setup(map, layerMgr);
 

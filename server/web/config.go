@@ -13,6 +13,7 @@ type PublicConfig struct {
 	Layers          []*layer.Layer       `json:"layers"`
 	MapObjects      *app.MapObjectConfig `json:"mapobjects"`
 	DefaultOverlays []string             `json:"defaultoverlays"`
+	EnableSearch    bool                 `json:"enablesearch"`
 }
 
 type ConfigHandler struct {
@@ -27,6 +28,7 @@ func (h *ConfigHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	webcfg.MapObjects = h.ctx.Config.MapObjects
 	webcfg.Version = app.Version
 	webcfg.DefaultOverlays = h.ctx.Config.DefaultOverlays
+	webcfg.EnableSearch = h.ctx.Config.EnableSearch
 
 	json.NewEncoder(resp).Encode(webcfg)
 }

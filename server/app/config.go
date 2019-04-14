@@ -14,6 +14,7 @@ type Config struct {
 	Port                   int                     `json:"port"`
 	EnablePrometheus       bool                    `json:"enableprometheus"`
 	EnableRendering        bool                    `json:"enablerendering"`
+	EnableSearch           bool                    `json:"enablesearch"`
 	EnableInitialRendering bool                    `json:"enableinitialrendering"`
 	EnableTransparency     bool                    `json:"enabletransparency"`
 	Webdev                 bool                    `json:"webdev"`
@@ -135,9 +136,9 @@ func ParseConfig(filename string) (*Config, error) {
 		Travelnet:          true,
 		MapserverPlayer:    true,
 		MapserverPOI:       true,
-		MapserverLabel:     true,
+		MapserverLabel:     false,
 		MapserverTrainline: true,
-		MapserverBorder:    true,
+		MapserverBorder:    false,
 		TileServerLegacy:   true,
 		Mission:            true,
 		Jumpdrive:          true,
@@ -164,6 +165,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Port:                   8080,
 		EnableRendering:        true,
 		EnablePrometheus:       true,
+		EnableSearch:           false,
 		EnableInitialRendering: true,
 		EnableTransparency:     false,
 		Webdev:                 false,
