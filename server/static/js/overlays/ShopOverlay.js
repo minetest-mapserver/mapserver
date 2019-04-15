@@ -33,7 +33,6 @@ var ShopOverlay = AbstractIconOverlay.extend({
   },
 
   createPopup: function(obj){
-    console.log(obj)
     return "<h4>" + obj.attributes.type + "</h4><hr>" +
       "<b>Owner: </b> " + obj.attributes.owner + "<br>" +
       "<b>Input: </b> " + obj.attributes.in_count + " x " + obj.attributes.in_item + "<br>" +

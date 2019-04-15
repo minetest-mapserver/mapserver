@@ -49,5 +49,5 @@ var LabelOverlay = AbstractIconOverlay.extend({
     });
   },
 
-  createPopup: function(lbl){}
+  createPopup: function(){}
 });

@@ -13,6 +13,8 @@
     "/js/CoordinatesDisplay.js",
     "/js/WorldInfoDisplay.js",
     "/js/search/SearchStore.js",
+    "/js/search/SearchService.js",
+    "/js/search/SearchResults.js",
     "/js/search/SearchMenu.js",
     "/js/search/SearchInput.js",
     "/js/overlays/AbstractIconOverlay.js",

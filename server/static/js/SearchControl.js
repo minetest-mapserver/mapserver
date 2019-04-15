@@ -1,4 +1,6 @@
 /* exported SearchControl */
+/* globals SearchInput: true */
+/* globals SearchMenu: true */
 
 var SearchControl = L.Control.extend({
     initialize: function(wsChannel, opts) {
