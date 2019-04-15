@@ -12,19 +12,13 @@ const (
 func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []*layer.Layer) *TileCoords {
 	tc := TileCoords{X: mbc.X, Y: (mbc.Z + 1) * -1, Zoom: MAX_ZOOM}
 
-	var layerid *int
-	for _, l := range layers {
-		if mbc.Y >= l.From && mbc.Y <= l.To {
-			layerid = &l.Id
-			break
-		}
-	}
+	currentLayer := layer.FindLayerByY(layers, mbc.Y)
 
-	if layerid == nil {
+	if currentLayer == nil {
 		return nil
 	}
 
-	tc.LayerId = *layerid
+	tc.LayerId = currentLayer.Id
 
 	return &tc
 }
