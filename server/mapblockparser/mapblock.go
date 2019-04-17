@@ -33,6 +33,25 @@ type Item struct {
 	//TODO: metadata
 }
 
+func (this *MapBlock) IsEmpty() bool {
+	if len(this.BlockMapping) == 0 {
+		// only air
+		return true
+	}
+
+	if len(this.BlockMapping) == 1 {
+		for _, name := range this.BlockMapping {
+			if name == "vacuum:vacuum" {
+				// only vacuum
+				return true
+			}
+		}
+	}
+
+	// other stuff
+	return false
+}
+
 func (this *Item) IsEmpty() bool {
 	return this.Name == "" && this.Count == 0
 }

@@ -118,7 +118,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 			return nil, err
 		}
 
-		if mb == nil {
+		if mb == nil || mb.IsEmpty() {
 			continue
 		}
 
