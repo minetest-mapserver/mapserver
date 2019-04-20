@@ -4,7 +4,8 @@
 /* globals SearchStore: true */
 
 var SearchMenu = {
-  view: function(){
+  view: function(vnode){
+
     var style = {};
 
     if (!SearchStore.query) {
@@ -21,7 +22,7 @@ var SearchMenu = {
         "Search",
         m("i", { class: "fa fa-times float-right", onclick: close }),
       ]),
-      m("div", { class: "card-body", style: {overflow: "auto"} }, m(SearchResult))
+      m("div", { class: "card-body", style: {overflow: "auto"} }, m(SearchResult, { map: vnode.attrs.map }))
     ]);
   }
 };
