@@ -12,7 +12,6 @@ var SearchResult = {
     }
 
     function getPos(obj){
-      var layer = layerMgr.getLayerByY(obj.y);
       var text = obj.x + "/" + obj.y + "/" + obj.z;
 
       return m("span", {class:"badge badge-success"}, text);
@@ -23,6 +22,21 @@ var SearchResult = {
       var row_classes = "";
       var description = obj.type;
       var type = obj.type;
+
+      if (obj.type == "train"){
+        description = [
+          m("span", obj.attributes.station),
+          " ",
+          m("span", {class:"badge badge-info"}, obj.attributes.line)
+        ];
+
+        type = m("i", { class: "fa fa-subway" });
+      }
+
+      if (obj.type == "travelnet"){
+        description = m("span", obj.attributes.station_name);
+        type = m("img", { src: "pics/travelnet_inv.png" });
+      }
 
       if (obj.type == "poi"){
         description = m("span", obj.attributes.name);
@@ -50,7 +64,12 @@ var SearchResult = {
       }
 
       function onclick(){
+        var layer = layerMgr.getLayerByY(obj.y);
+
+        layerMgr.switchLayer(layer.id);
+
         map.setView([obj.z, obj.x], 12);
+        SearchStore.show = false;
       }
 
       return m("tr", {"class": row_classes}, [

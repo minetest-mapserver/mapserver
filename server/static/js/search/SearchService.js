@@ -3,49 +3,55 @@
 
 var SearchService = {
 
-    search: function(q){
-      SearchStore.query = q;
-
+    search: function(){
+      SearchStore.show = true;
       this.fetchData();
     },
 
-    fetchData: debounce(function(){
+    fetchData: function(){
       SearchStore.result = [];
 
       if (!SearchStore.query){
         return;
       }
 
-      function searchFor(q){
-        q.pos1 = { x:-2048, y:-2048, z:-2048 };
-        q.pos2 = { x:2048, y:2048, z:2048 };
-        return api.getMapObjects(q);
+      SearchStore.busy = true;
+
+      function searchFor(type, key, valuelike){
+        return api.getMapObjects({
+          pos1: { x:-2048, y:-2048, z:-2048 },
+          pos2: { x:2048, y:2048, z:2048 },
+          type: type,
+          attributelike: {
+            key: key,
+            value: "%" + valuelike +"%"
+          }
+        });
       }
 
-      var shop_prom = searchFor({
-        type: "shop",
-        attributelike: {
-          key: "out_item",
-          value: "%" + SearchStore.query + "%"
-        }
+      var prom_list = [];
+
+      prom_list.push(searchFor("shop", "out_item", SearchStore.query));
+      prom_list.push(searchFor("poi", "name", SearchStore.query));
+      prom_list.push(searchFor("train", "station", SearchStore.query));
+      prom_list.push(searchFor("travelnet", "station_name", SearchStore.query));
+
+      Promise.all(prom_list)
+      .then(function(results){
+
+        var arr = [];
+        results.forEach(function(r) {
+          arr = arr.concat(r);
+        });
+
+        SearchStore.result = arr;
+        SearchStore.busy = false;
       });
 
-      var poi_prom = searchFor({
-        type: "poi",
-        attributelike: {
-          key: "name",
-          value: "%" + SearchStore.query + "%"
-        }
-      });
-
-      Promise.all([shop_prom, poi_prom]).then(function(results){
-        SearchStore.result = results[1].concat(results[0]);
-      });
-
-    }, 400),
+    },
 
     clear: function(){
-      SearchStore.query = "";
       SearchStore.result = [];
+      SearchStore.show = false;
     }
 };

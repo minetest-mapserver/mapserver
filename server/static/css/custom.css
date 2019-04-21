@@ -18,9 +18,9 @@ body {
 
 #search-menu {
   position: absolute;
-  top: 20%;
-  bottom: 20%;
-  left: 20%;
-  right: 20%;
+  top: 5%;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
   z-index: 99999;
 }
