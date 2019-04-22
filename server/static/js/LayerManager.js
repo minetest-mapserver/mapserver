@@ -1,7 +1,7 @@
 /* exported LayerManager */
 /* globals RealtimeTileLayer: true */
 
-function LayerManager(wsChannel, layers, map){
+function LayerManager(wsChannel, layers, map, currentLayerId){
   this.listeners = [];
   this.currentLayer = layers[0];
   this.layers = layers;
@@ -14,15 +14,16 @@ function LayerManager(wsChannel, layers, map){
   layers.forEach(function(layer){
     var tileLayer = new RealtimeTileLayer(wsChannel, layer.id, map);
     self.layerObjects[layer.name] = tileLayer;
+    if (layer.id == currentLayerId){
+      tileLayer.addTo(map);
+      self.currentLayer = layer;
+    }
   });
 
   map.on('baselayerchange', function (e) {
       self.setLayerId(e.layer.layerId);
   });
 
-  //current layer
-  var currentLayer = this.getCurrentLayer();
-  this.layerObjects[currentLayer.name].addTo(map);
 }
 
 LayerManager.prototype.switchLayer = function(layerId){

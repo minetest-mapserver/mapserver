@@ -17,8 +17,7 @@ api.getConfig().then(function(cfg){
 
   var overlays = {};
 
-  window.layerMgr = new LayerManager(wsChannel, cfg.layers, map);
-  layerMgr.setLayerId( Hashroute.getLayerId() );
+  window.layerMgr = new LayerManager(wsChannel, cfg.layers, map, Hashroute.getLayerId());
 
   //All overlays
   Overlaysetup(cfg, map, overlays, wsChannel, layerMgr);
