@@ -1,6 +1,8 @@
 
 mapserver = {
 	enable_crafting = minetest.settings:get("mapserver.enable_crafting")
+
+	bridge = {}
 }
 
 local MP = minetest.get_modpath("mapserver")
@@ -14,13 +16,6 @@ dofile(MP.."/privs.lua")
 
 
 -- optional mapserver-bridge stuff below
-
---[[ minetest.conf
-secure.http_mods = mapserver
-mapserver.url = http://127.0.0.1:8080
-mapserver.key = myserverkey
---]]
-
 local http = minetest.request_http_api()
 
 if http then
@@ -31,7 +26,8 @@ if http then
 	if not mapserver_key then error("mapserver.key is not defined") end
 
 	print("[Mapserver] starting mapserver-bridge with endpoint: " .. mapserver_url)
-	dofile(MP .. "/bridge.lua")
+	dofile(MP .. "/bridge/init.lua")
+	
 	mapserver.bridge_init(http, mapserver_url, mapserver_key)
 
 else

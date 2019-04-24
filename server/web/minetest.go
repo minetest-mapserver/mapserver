@@ -31,6 +31,11 @@ type Train struct {
 	TextInside  string     `json:"text_inside"`
 }
 
+type Minecart struct {
+	Pos   GenericPos `json:"pos"`
+	Speed GenericPos `json:"speed"`
+}
+
 type Player struct {
 	Pos      GenericPos `json:"pos"`
 	Velocity GenericPos `json:"velocity"`
@@ -41,11 +46,12 @@ type Player struct {
 }
 
 type MinetestInfo struct {
-	MaxLag  float64   `json:"max_lag"`
-	Players []*Player `json:"players"`
-	Trains  []*Train  `json:"trains"`
-	Time    float64   `json:"time"`
-	Uptime  float64   `json:"uptime"`
+	MaxLag    float64     `json:"max_lag"`
+	Players   []*Player   `json:"players"`
+	Trains    []*Train    `json:"trains"`
+	Minecarts []*Minecart `json:"minecarts"`
+	Time      float64     `json:"time"`
+	Uptime    float64     `json:"uptime"`
 }
 
 type Minetest struct {

@@ -135,4 +135,11 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
         map.addLayer(overlays.Trains);
       }
     }
+
+    if (cfg.mapobjects.minecart) {
+      overlays.Minecart = new MinecartOverlay(wsChannel, layerMgr);
+      if (cfg.defaultoverlays.indexOf("minecart") >= 0) {
+        map.addLayer(overlays.Minecart);
+      }
+    }
 }

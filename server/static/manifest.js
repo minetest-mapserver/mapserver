@@ -25,6 +25,7 @@
     "/js/overlays/LabelOverlay.js",
     "/js/overlays/PlayerOverlay.js",
     "/js/overlays/TrainOverlay.js",
+    "/js/overlays/MinecartOverlay.js",
     "/js/overlays/TrainlineOverlay.js",
     "/js/overlays/BorderOverlay.js",
     "/js/overlays/ProtectorOverlay.js",
