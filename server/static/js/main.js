@@ -15,21 +15,9 @@ api.getConfig().then(function(cfg){
 
   map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Minetest Mapserver</a>');
 
-  var layers = {};
   var overlays = {};
 
-  window.layerMgr = new LayerManager(cfg.layers, map);
-  layerMgr.setLayerId( Hashroute.getLayerId() );
-
-  //All layers
-  cfg.layers.forEach(function(layer){
-    var tileLayer = new RealtimeTileLayer(wsChannel, layer.id, map);
-    layers[layer.name] = tileLayer;
-  });
-
-  //current layer
-  var currentLayer = layerMgr.getCurrentLayer();
-  layers[currentLayer.name].addTo(map);
+  window.layerMgr = new LayerManager(wsChannel, cfg.layers, map, Hashroute.getLayerId());
 
   //All overlays
   Overlaysetup(cfg, map, overlays, wsChannel, layerMgr);
@@ -43,7 +31,7 @@ api.getConfig().then(function(cfg){
   }
 
   //layer control
-  L.control.layers(layers, overlays, { position: "topright" }).addTo(map);
+  L.control.layers(layerMgr.layerObjects, overlays, { position: "topright" }).addTo(map);
 
   Hashroute.setup(map, layerMgr);
 

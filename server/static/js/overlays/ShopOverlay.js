@@ -22,7 +22,7 @@ var ShopOverlay = AbstractIconOverlay.extend({
   },
 
   getMaxDisplayedZoom: function(){
-    return 5;
+    return 10;
   },
 
   getIcon: function(obj){

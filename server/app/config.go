@@ -167,7 +167,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Port:                   8080,
 		EnableRendering:        true,
 		EnablePrometheus:       true,
-		EnableSearch:           false,
+		EnableSearch:           true,
 		EnableInitialRendering: true,
 		EnableTransparency:     false,
 		Webdev:                 false,

@@ -7,11 +7,14 @@ var SearchControl = L.Control.extend({
         L.Control.prototype.initialize.call(this, opts);
     },
 
-    onAdd: function() {
+    onAdd: function(map) {
       var div = L.DomUtil.create('div');
-
       m.mount(div, SearchInput);
-      m.mount(document.getElementById("search-content"), SearchMenu);
+      m.mount(document.getElementById("search-content"), {
+        view: function () {
+          return m(SearchMenu, {map: map});
+        }
+      });
 
       return div;
     }
