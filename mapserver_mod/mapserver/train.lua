@@ -45,7 +45,7 @@ minetest.register_node("mapserver:train", {
 		meta:set_string("station", "")
 		meta:set_string("line", last_line)
 		meta:set_int("index", last_index)
-		meta:set_string("color", "rgb(10,10,200)")
+		meta:set_string("color", "")
 
 		update_formspec(meta)
 	end,
