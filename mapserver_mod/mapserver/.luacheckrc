@@ -17,6 +17,7 @@ read_globals = {
 
 	-- Deps
 	"unified_inventory", "default", "advtrains",
+	"minecart",
 
 	-- optional mods
 	"xban"

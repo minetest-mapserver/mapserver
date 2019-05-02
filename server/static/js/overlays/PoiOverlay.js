@@ -3,7 +3,7 @@
 
 var PoiOverlay = AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "poi", PoiIcon);
+    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "poi");
   },
 
   getIcon: function(obj){

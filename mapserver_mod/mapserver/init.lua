@@ -1,6 +1,6 @@
 
 mapserver = {
-	enable_crafting = minetest.settings:get("mapserver.enable_crafting")
+	enable_crafting = minetest.settings:get("mapserver.enable_crafting"),
 
 	bridge = {}
 }
@@ -27,7 +27,7 @@ if http then
 
 	print("[Mapserver] starting mapserver-bridge with endpoint: " .. mapserver_url)
 	dofile(MP .. "/bridge/init.lua")
-	
+
 	mapserver.bridge_init(http, mapserver_url, mapserver_key)
 
 else
