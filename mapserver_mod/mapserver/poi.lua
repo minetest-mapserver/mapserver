@@ -1,4 +1,7 @@
 
+-- possible icons: https://fontawesome.com/icons?d=gallery&s=brands,regular,solid&m=free
+-- default: "home"
+
 local update_formspec = function(meta)
 	local name = meta:get_string("name")
 	local category = meta:get_string("category")
