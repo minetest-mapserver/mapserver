@@ -1,6 +1,7 @@
 {
   "scripts": [
     "/js/lib/leaflet.js",
+    "/js/lib/leaflet.awesome-markers.js",
     "/js/lib/mithril.min.js",
     "/js/lib/color-hash.js",
     "/js/util/debounce.js",
@@ -47,6 +48,7 @@
     "/css/fontawesome.min.css",
     "/css/bootstrap.min.css",
     "/css/leaflet.css",
+    "/css/leaflet.awesome-markers.css",
     "/css/custom.css"
   ]
 }
