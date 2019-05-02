@@ -12,10 +12,11 @@ type GenericPos struct {
 }
 
 type Area struct {
-	Owner string      `json:"owner"`
-	Name  string      `json:"name"`
-	Pos1  *GenericPos `json:"pos1"`
-	Pos2  *GenericPos `json:"pos2"`
+	Owner  string      `json:"owner"`
+	Name   string      `json:"name"`
+	Parent int         `json:"parent"`
+	Pos1   *GenericPos `json:"pos1"`
+	Pos2   *GenericPos `json:"pos2"`
 }
 
 func ParseFile(filename string) ([]*Area, error) {
@@ -41,6 +42,9 @@ func Parse(data []byte) ([]*Area, error) {
 		a := Area{}
 		a.Name = entry["name"].(string)
 		a.Owner = entry["owner"].(string)
+		if entry["parent"] != nil {
+			a.Parent = entry["owner"].(int)
+		}
 
 		p1 := GenericPos{}
 		pos1 := entry["pos1"].(map[string]interface{})
