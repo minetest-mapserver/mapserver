@@ -43,7 +43,7 @@ func Parse(data []byte) ([]*Area, error) {
 		a.Name = entry["name"].(string)
 		a.Owner = entry["owner"].(string)
 		if entry["parent"] != nil {
-			a.Parent = entry["owner"].(int)
+			a.Parent = entry["parent"].(int)
 		}
 
 		p1 := GenericPos{}
