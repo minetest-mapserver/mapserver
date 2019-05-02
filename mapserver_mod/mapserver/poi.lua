@@ -4,10 +4,10 @@
 
 local update_formspec = function(meta)
 	local name = meta:get_string("name")
-	local category = meta:get_string("category")
+	local icon = meta:get_string("icon") or "home"
 	local url = meta:get_string("url") or ""
 
-	meta:set_string("infotext", "POI: " .. name .. ", " .. category)
+	meta:set_string("infotext", "POI, name:" .. name .. ", icon:" .. icon)
 
 	meta:set_string("formspec", "size[8,5;]" ..
 		-- col 1
@@ -15,12 +15,29 @@ local update_formspec = function(meta)
 		"button_exit[4,1;4,1;save;Save]" ..
 
 		-- col 2
-		"field[0,2.5;4,1;category;Category;" .. category .. "]" ..
+		"field[0,2.5;4,1;icon;Icon;" .. icon .. "]" ..
 
 		-- col 3
 		"field[0,3.5;8,1;url;URL;" .. url .. "]" ..
 		"")
 
+end
+
+local on_receive_fields = function(pos, formname, fields, sender)
+
+	if not mapserver.can_interact(pos, sender) then
+		return
+	end
+
+	local meta = minetest.get_meta(pos)
+
+	if fields.save then
+		meta:set_string("name", fields.name)
+		meta:set_string("url", fields.url)
+		meta:set_string("icon", fields.icon or "home")
+	end
+
+	update_formspec(meta)
 end
 
 local register_poi = function(color)
@@ -38,28 +55,13 @@ local register_poi = function(color)
 			local meta = minetest.get_meta(pos)
 
 			meta:set_string("name", "<unconfigured>")
-			meta:set_string("category", "main")
+			meta:set_string("icon", "home")
 			meta:set_string("url", "")
 
 			update_formspec(meta)
 		end,
 
-		on_receive_fields = function(pos, formname, fields, sender)
-
-			if not mapserver.can_interact(pos, sender) then
-				return
-			end
-
-			local meta = minetest.get_meta(pos)
-
-			if fields.save then
-				meta:set_string("name", fields.name)
-				meta:set_string("url", fields.url)
-				meta:set_string("category", fields.category)
-			end
-
-			update_formspec(meta)
-		end
+		on_receive_fields = on_receive_fields
 	})
 
 
