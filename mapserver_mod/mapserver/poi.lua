@@ -40,8 +40,8 @@ local on_receive_fields = function(pos, formname, fields, sender)
 	update_formspec(meta)
 end
 
-local register_poi = function(color)
-	minetest.register_node("mapserver:poi:" .. color, {
+local register_poi = function(color, dye)
+	minetest.register_node("mapserver:poi_" .. color, {
 		description = "Mapserver POI (" .. color .. ")",
 		tiles = {
 			"[combine:16x16:0,0=mapserver_gold_block.png:3,2=mapserver_poi_" .. color .. ".png"
@@ -69,7 +69,7 @@ local register_poi = function(color)
 		minetest.register_craft({
 		    output = 'mapserver:poi_' .. color,
 		    recipe = {
-					{"", "dye:" .. color, ""},
+					{"", "dye:" .. dye, ""},
 					{"default:paper", "default:goldblock", "default:paper"},
 					{"", "default:glass", ""}
 				}
@@ -77,11 +77,11 @@ local register_poi = function(color)
 	end
 end
 
-register_poi("blue")
-register_poi("green")
-register_poi("orange")
-register_poi("red")
-register_poi("purple")
+register_poi("blue", "blue")
+register_poi("green", "green")
+register_poi("orange", "orange")
+register_poi("red", "red")
+register_poi("purple", "violet")
 
 -- default poi was always blue
 minetest.register_alias("mapserver:poi", "mapserver:poi_blue")
