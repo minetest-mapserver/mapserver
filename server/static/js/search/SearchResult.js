@@ -40,7 +40,13 @@ var SearchResult = {
 
       if (obj.type == "poi"){
         description = m("span", obj.attributes.name);
-        type = m("img", { src: "css/images/marker-icon.png" });
+
+        var color = obj.attributes.color || "blue";
+        var icon = obj.attributes.icon || "home";
+
+        type = m("div", { class: "awesome-marker awesome-marker-icon-" + color }, [
+          m("i", { class: "fa fa-" + icon })
+        ]);
       }
 
       if (obj.type == "shop") {
