@@ -6,6 +6,10 @@ var ProtectorOverlay = AbstractGeoJsonOverlay.extend({
     AbstractGeoJsonOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "protector");
   },
 
+  getMaxDisplayedZoom: function(){
+    return 11;
+  },
+
   createFeature: function(protector){
     return {
       "type":"Feature",

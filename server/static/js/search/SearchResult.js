@@ -44,7 +44,7 @@ var SearchResult = {
         var color = obj.attributes.color || "blue";
         var icon = obj.attributes.icon || "home";
 
-        type = m("div", { class: "awesome-marker awesome-marker-icon-" + color }, [
+        type = m("div", { style: "position: relative", class: "awesome-marker awesome-marker-icon-" + color }, [
           m("i", { class: "fa fa-" + icon })
         ]);
       }
