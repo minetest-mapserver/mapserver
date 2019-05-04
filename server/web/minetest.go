@@ -34,6 +34,7 @@ type Train struct {
 type Minecart struct {
 	Pos   GenericPos `json:"pos"`
 	Speed GenericPos `json:"speed"`
+	Id    float64    `json:"id"`
 }
 
 type Player struct {

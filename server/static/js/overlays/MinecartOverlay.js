@@ -10,7 +10,7 @@ var MinecartOverlay = L.LayerGroup.extend({
     this.wsChannel = wsChannel;
 
     this.currentObjects = {}; // name => marker
-    this.trains = [];
+    this.minecarts = [];
 
     this.reDraw = this.reDraw.bind(this);
     this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
@@ -33,6 +33,7 @@ var MinecartOverlay = L.LayerGroup.extend({
 
     var marker = L.marker([cart.pos.z, cart.pos.x], {icon: Icon});
     var html = "<b>Minecart</b><hr>";
+    html += "<b>Id: </b> " + cart.id + "<br>";
 
     marker.bindPopup(html);
 
@@ -53,37 +54,36 @@ var MinecartOverlay = L.LayerGroup.extend({
       var isInLayer = self.isCartInCurrentLayer(cart);
 
       if (!isInLayer){
-        if (self.currentObjects[train.id]){
-          //train is displayed and not on the layer anymore
+        if (self.currentObjects[cart.id]){
+          //cart is displayed and not on the layer anymore
           //Remove the marker and reference
-          self.currentObjects[train.id].remove();
-          delete self.currentObjects[train.id];
+          self.currentObjects[cart.id].remove();
+          delete self.currentObjects[cart.id];
         }
 
         return;
       }
 
-      if (self.currentObjects[train.id]){
+      if (self.currentObjects[cart.id]){
         //marker exists
-        self.currentObjects[train.id].setLatLng([train.pos.z, train.pos.x]);
+        self.currentObjects[cart.id].setLatLng([cart.pos.z, cart.pos.x]);
         //setPopupContent
 
       } else {
         //marker does not exist
-        var marker = self.createMarker(train);
+        var marker = self.createMarker(cart);
         marker.addTo(self);
 
-        self.currentObjects[train.id] = marker;
+        self.currentObjects[cart.id] = marker;
       }
     });
 
     Object.keys(self.currentObjects).forEach(function(existingId){
-      var trainIsActive = self.trains.find(function(t){
+      var cartIsActive = self.minecarts.find(function(t){
         return t.id == existingId;
       });
 
-      if (!trainIsActive){
-        //train
+      if (!cartIsActive){
         self.currentObjects[existingId].remove();
         delete self.currentObjects[existingId];
       }
@@ -97,15 +97,15 @@ var MinecartOverlay = L.LayerGroup.extend({
 
     var mapLayer = this.layerMgr.getCurrentLayer();
 
-    this.trains.forEach(function(train){
-      if (!self.isTrainInCurrentLayer(train)){
+    this.minecarts.forEach(function(cart){
+      if (!self.isCartInCurrentLayer(cart)){
         //not in current layer
         return;
       }
 
-      var marker = self.createMarker(train);
+      var marker = self.createMarker(cart);
       marker.addTo(self);
-      self.currentObjects[train.id] = marker;
+      self.currentObjects[cart.id] = marker;
     });
 
   },
