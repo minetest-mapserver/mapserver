@@ -1,6 +1,8 @@
 
 # Mapserver mod
 
+* Repository: https://github.com/thomasrudin/mapserver_mod
+
 If the `mapserver-mod` is installed and configured
 you get more realtime-data from within your minetest-world:
 
