@@ -1,20 +1,17 @@
 /* exported PoiOverlay */
 /* globals AbstractIconOverlay: true */
 
-var PoiIcon = L.icon({
-  iconUrl:       'css/images/marker-icon.png',
-	shadowUrl:     'css/images/marker-shadow.png',
-	iconSize:    [25, 41],
-	iconAnchor:  [12, 41],
-	popupAnchor: [1, -34],
-	tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-
-
 var PoiOverlay = AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "poi", PoiIcon);
+    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "poi");
+  },
+
+  getIcon: function(obj){
+    return L.AwesomeMarkers.icon({
+      icon: obj.attributes.icon || "home",
+      prefix: "fa",
+      markerColor: obj.attributes.color || "blue"
+    });
   },
 
   getMaxDisplayedZoom: function(){

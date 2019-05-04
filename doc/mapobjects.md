@@ -17,6 +17,9 @@ See: https://github.com/minetest-mods/digilines
 ## POI
 
 <img src="../pics/poi.png">
+<img src="../pics/poi_icons.png">
+
+All supported icons: https://fontawesome.com/icons?d=gallery&s=regular,solid&m=free
 
 ## Protector
 
@@ -26,6 +29,10 @@ See: https://github.com/minetest-mods/digilines
 See: https://github.com/Sokomine/travelnet
 
 <img src="../pics/travelnet.png">
+
+## Trains from advtrains
+
+<img src="../pics/trains.png">
 
 ## More
 And various more, see: [setup.go](../server/mapobject/setup.go)

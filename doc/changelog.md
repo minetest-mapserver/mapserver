@@ -1,6 +1,14 @@
 
 # Changelog
 
+## 2.1.0
+
+* Added search bar
+* Shop info with stock
+* Colored POI's
+* Icons for POI's
+* Exported mapserver mod to own repository: https://github.com/thomasrudin/mapserver_mod
+
 ## 2.0.1
 * Added *configversion* to `mapserver.json`
 * Added *defaultoverlays* to `mapserver.json`

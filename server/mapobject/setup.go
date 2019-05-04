@@ -13,7 +13,12 @@ func Setup(ctx *app.App) {
 
 	//mapserver stuff
 	if ctx.Config.MapObjects.MapserverPOI {
-		l.AddMapObject("mapserver:poi", &PoiBlock{})
+		l.AddMapObject("mapserver:poi", &PoiBlock{Color: "blue"})
+		l.AddMapObject("mapserver:poi_blue", &PoiBlock{Color: "blue"})
+		l.AddMapObject("mapserver:poi_green", &PoiBlock{Color: "green"})
+		l.AddMapObject("mapserver:poi_orange", &PoiBlock{Color: "orange"})
+		l.AddMapObject("mapserver:poi_red", &PoiBlock{Color: "red"})
+		l.AddMapObject("mapserver:poi_purple", &PoiBlock{Color: "purple"})
 	}
 
 	if ctx.Config.MapObjects.MapserverTrainline {
