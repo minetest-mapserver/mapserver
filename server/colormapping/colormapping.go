@@ -20,6 +20,10 @@ func (m *ColorMapping) GetColor(name string) *color.RGBA {
 	return m.colors[name]
 }
 
+func (m *ColorMapping) GetColors() map[string]*color.RGBA {
+	return m.colors
+}
+
 func (m *ColorMapping) LoadBytes(buffer []byte) (int, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(buffer))
 	count := 0

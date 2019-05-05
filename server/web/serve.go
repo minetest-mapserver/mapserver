@@ -31,6 +31,7 @@ func Serve(ctx *app.App) {
 	mux.Handle("/api/config", &ConfigHandler{ctx: ctx})
 	mux.Handle("/api/minetest", &Minetest{ctx: ctx})
 	mux.Handle("/api/mapobjects/", &MapObjects{ctx: ctx})
+	mux.Handle("/api/colormapping/", &ColorMappingHandler{ctx: ctx})
 
 	if ctx.Config.MapObjects.Areas {
 		mux.Handle("/api/areas", &AreasHandler{ctx: ctx})
