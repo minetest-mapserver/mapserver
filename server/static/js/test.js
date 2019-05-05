@@ -1,32 +1,16 @@
 var camera, scene, renderer;
+var colormapping, geometry;
 
 init();
 animate();
 
-function init() {
+function getNodePos(x,y,z){ return x + (y * 16) + (z * 256); }
 
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 2, 2000 );
-	camera.position.z = 30;
-	camera.position.y = 10;
-
-	scene = new THREE.Scene();
-
-	var geometry = new THREE.BoxGeometry( 3, 3, 3 );
-
-	//var texture = new THREE.TextureLoader().load( 'textures/technic_water_mill_top_active.png', render );
-	//var material = new THREE.MeshBasicMaterial( { map: texture } );
-  var material = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
-  var colormapping;
-
-  m.request("api/colormapping")
-  .then(function(_colormapping){
-    colormapping = _colormapping;
-    console.log(colormapping);
-    return m.request("api/mapblock/0/0/0")
-  })
+function drawMapblock(posx,posy,posz){
+  m.request("api/mapblock/"+posx+"/"+posy+"/"+posz)
   .then(function(mapblock){
-    //console.log(mapblock);
-    function getNodePos(x,y,z){ return x + (y * 16) + (z * 256); }
+    if (!mapblock)
+      return;
 
     for (var x=0; x<16; x++){
       for (var y=0; y<16; y++){
@@ -43,15 +27,39 @@ function init() {
           var material = new THREE.MeshBasicMaterial( { color: color } );
 
           var mesh = new THREE.Mesh( geometry, material );
-          mesh.position.x = x*3;
-          mesh.position.y = y*3;
-          mesh.position.z = z*3;
+          mesh.position.x = (x*3) + (posx*3*16);
+          mesh.position.y = (y*3) + (posy*3*16);
+          mesh.position.z = (z*3) + (posz*3*16);
         	scene.add( mesh );
 
 
         }
       }
     }
+  });
+}
+
+function init() {
+
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 2, 2000 );
+	camera.position.z = 30;
+	camera.position.y = 10;
+
+	scene = new THREE.Scene();
+
+	geometry = new THREE.BoxGeometry( 3, 3, 3 );
+
+  m.request("api/colormapping")
+  .then(function(_colormapping){
+    colormapping = _colormapping;
+    for (var x=-4; x<4; x++){
+      for (var y=0; y<4; y++){
+        for (var z=-4; z<4; z++){
+          drawMapblock(x,y,z);
+        }
+      }
+    }
+
   });
 
 	renderer = new THREE.WebGLRenderer();
