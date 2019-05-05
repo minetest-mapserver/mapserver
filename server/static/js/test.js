@@ -53,7 +53,7 @@ function init() {
   .then(function(_colormapping){
     colormapping = _colormapping;
     for (var x=-4; x<4; x++){
-      for (var y=0; y<4; y++){
+      for (var y=0; y<2; y++){
         for (var z=-4; z<4; z++){
           drawMapblock(x,y,z);
         }
