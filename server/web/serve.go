@@ -4,6 +4,7 @@ import (
 	"mapserver/app"
 	"mapserver/bundle"
 	"mapserver/vfs"
+	"net"
 	"net/http"
 	"strconv"
 
@@ -51,7 +52,12 @@ func Serve(ctx *app.App) {
 		mux.Handle("/api/mapblock/", &MapblockHandler{ctx: ctx})
 	}
 
-	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), mux)
+	server := &http.Server{Handler: mux}
+	l, err := net.Listen("tcp4", ":"+strconv.Itoa(ctx.Config.Port))
+	if err != nil {
+		panic(err)
+	}
+	err = server.Serve(l)
 	if err != nil {
 		panic(err)
 	}
