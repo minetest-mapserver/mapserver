@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 2.1.1
+
+* force tcp v4 for listenery
+
 ## 2.1.0
 
 * Added search bar
