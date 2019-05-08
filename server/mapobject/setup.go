@@ -150,5 +150,13 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("atm:atm", &ATM{})
 	}
 
+	//locator
+	if ctx.Config.MapObjects.Locator {
+		loc := &Locator{}
+		l.AddMapObject("locator:beacon_1", loc)
+		l.AddMapObject("locator:beacon_2", loc)
+		l.AddMapObject("locator:beacon_3", loc)
+	}
+
 	ctx.BlockAccessor.Eventbus.AddListener(&l)
 }
