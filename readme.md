@@ -12,6 +12,7 @@ Realtime mapserver for [Minetest](https://minetest.net)
 # Documentation
 
 * [Installation](doc/install.md)
+* [Building](doc/building.md)
 * [Mapserver mod](doc/mod.md)
 * [Parameters](doc/params.md)
 * [Search](doc/search.md)
