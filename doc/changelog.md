@@ -1,9 +1,15 @@
 
 # Changelog
 
+## 2.2.0
+
+* Added ATM overlay
+* Add ability for bone-owner search
+* Separate mapserver_mod into own repository
+
 ## 2.1.1
 
-* force tcp v4 for listenery
+* force tcp v4 for listener
 
 ## 2.1.0
 
