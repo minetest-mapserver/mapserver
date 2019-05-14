@@ -1,7 +1,42 @@
 /* exported WorldInfoDisplay */
 
 var worldInfoRender = function(info){
-  return "Lag: " + parseInt(info.max_lag*10)/10 + " Time: " + parseInt(info.time)/1000;
+
+  var timeIcon = m("span", { class: "fa fa-sun" });
+
+  if (info.time < 5500 || info.time > 19000) //0 - 24'000
+    timeIcon = m("span", { class: "fa fa-moon" });
+
+  function getHour(){
+    return Math.floor(info.time/1000);
+  }
+
+  function getMinute(){
+    return Math.floor((info.time % 1000) / 100 * 60);
+  }
+
+  function getLag(){
+    var color = "green";
+    if (info.max_lag > 0.8)
+      color = "yellow";
+    else if (info.max_lag > 1.2)
+      color = "red";
+
+    return [
+      m("span", { class: "fa fa-wifi", style: "color: " + color }),
+      parseInt(info.max_lag/1000),
+      " ms"
+    ];
+  }
+
+  return [
+    getLag(),
+    " ",
+    m("span", { class: "fa fa-clock" }),
+    timeIcon,
+    getHour(), ":", getMinute()
+  ];
+
 };
 
 // coord display
