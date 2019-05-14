@@ -147,7 +147,11 @@ func Setup(ctx *app.App) {
 	}
 
 	if ctx.Config.MapObjects.ATM {
-		l.AddMapObject("atm:atm", &ATM{})
+		atm := &ATM{}
+		l.AddMapObject("atm:atm", atm)
+		l.AddMapObject("atm:atm2", atm)
+		l.AddMapObject("atm:atm3", atm)
+		l.AddMapObject("atm:wtt", atm)
 	}
 
 	//locator

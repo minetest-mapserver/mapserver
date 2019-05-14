@@ -20,6 +20,7 @@
     "/js/search/SearchInput.js",
     "/js/overlays/AbstractIconOverlay.js",
     "/js/overlays/AbstractGeoJsonOverlay.js",
+    "/js/overlays/ATMOverlay.js",
     "/js/overlays/TravelnetOverlay.js",
     "/js/overlays/ShopOverlay.js",
     "/js/overlays/PoiOverlay.js",
