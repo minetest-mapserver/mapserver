@@ -46,6 +46,20 @@ var SearchResult = {
         type = m("img", { src: "pics/bones_top.png" });
       }
 
+      // locator
+      if (obj.type == "locator"){
+        description = m("span", obj.attributes.name);
+
+        var img = "pics/locator_beacon_level1.png"
+
+        if (obj.attributes.level == "2")
+          img = "pics/locator_beacon_level2.png";
+        else if (obj.attributes.level == "3")
+          img = "pics/locator_beacon_level3.png";
+
+        type = m("img", { src: img });
+      }
+
       // poi marker
       if (obj.type == "poi"){
         description = m("span", obj.attributes.name);
