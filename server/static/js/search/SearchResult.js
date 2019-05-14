@@ -23,6 +23,7 @@ var SearchResult = {
       var description = obj.type;
       var type = obj.type;
 
+      // train-line result
       if (obj.type == "train"){
         description = [
           m("span", obj.attributes.station),
@@ -33,11 +34,19 @@ var SearchResult = {
         type = m("i", { class: "fa fa-subway" });
       }
 
+      // travelnet
       if (obj.type == "travelnet"){
         description = m("span", obj.attributes.station_name);
         type = m("img", { src: "pics/travelnet_inv.png" });
       }
 
+      // bones
+      if (obj.type == "bones"){
+        description = m("span", obj.attributes.owner);
+        type = m("img", { src: "pics/bones_top.png" });
+      }
+
+      // poi marker
       if (obj.type == "poi"){
         description = m("span", obj.attributes.name);
 
@@ -49,6 +58,7 @@ var SearchResult = {
         ]);
       }
 
+      //shop
       if (obj.type == "shop") {
         if (obj.attributes.stock == 0){
           row_classes += "table-warning";

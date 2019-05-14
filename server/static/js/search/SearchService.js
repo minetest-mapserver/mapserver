@@ -29,12 +29,13 @@ var SearchService = {
         });
       }
 
-      var prom_list = [];
-
-      prom_list.push(searchFor("shop", "out_item", SearchStore.query));
-      prom_list.push(searchFor("poi", "name", SearchStore.query));
-      prom_list.push(searchFor("train", "station", SearchStore.query));
-      prom_list.push(searchFor("travelnet", "station_name", SearchStore.query));
+      var prom_list = [
+        searchFor("shop", "out_item", SearchStore.query),
+        searchFor("poi", "name", SearchStore.query),
+        searchFor("train", "station", SearchStore.query),
+        searchFor("travelnet", "station_name", SearchStore.query),
+        searchFor("bones", "owner", SearchStore.query)        
+      ];
 
       Promise.all(prom_list)
       .then(function(results){
