@@ -2,29 +2,30 @@
 
 var worldInfoRender = function(info){
 
-  var timeIcon = m("span", { class: "fa fa-sun" });
+  var timeIcon = m("span", { class: "fa fa-sun", style: "color: orange;" });
 
   if (info.time < 5500 || info.time > 19000) //0 - 24'000
-    timeIcon = m("span", { class: "fa fa-moon" });
+    timeIcon = m("span", { class: "fa fa-moon", style: "color: blue;" });
 
   function getHour(){
     return Math.floor(info.time/1000);
   }
 
   function getMinute(){
-    return Math.floor((info.time % 1000) / 100 * 60);
+    var min = Math.floor((info.time % 1000) / 1000 * 60);
+    return min > 10 ? min : "0" + min;
   }
 
   function getLag(){
     var color = "green";
     if (info.max_lag > 0.8)
-      color = "yellow";
+      color = "orange";
     else if (info.max_lag > 1.2)
       color = "red";
 
     return [
       m("span", { class: "fa fa-wifi", style: "color: " + color }),
-      parseInt(info.max_lag/1000),
+      parseInt(info.max_lag*1000),
       " ms"
     ];
   }
@@ -32,11 +33,11 @@ var worldInfoRender = function(info){
   function getPlayers(){
     return [
       m("span", { class: "fa fa-users" }),
-      info.players.length
+      info.players ? info.players.length : "0"
     ];
   }
 
-  return [
+  return m("div", [
     getPlayers(),
     " ",
     getLag(),
@@ -44,7 +45,7 @@ var worldInfoRender = function(info){
     m("span", { class: "fa fa-clock" }),
     timeIcon,
     getHour(), ":", getMinute()
-  ];
+  ]);
 
 };
 
