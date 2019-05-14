@@ -1,4 +1,4 @@
-/* exported ATMOverlay */
+/* exported LocatorOverlay */
 /* globals AbstractIconOverlay: true */
 
 
@@ -12,7 +12,7 @@ var LocatorOverlay = AbstractIconOverlay.extend({
   },
 
   getIcon: function(obj){
-    var img = "pics/locator_beacon_level1.png"
+    var img = "pics/locator_beacon_level1.png";
 
     if (obj.attributes.level == "2")
       img = "pics/locator_beacon_level2.png";
@@ -31,6 +31,6 @@ var LocatorOverlay = AbstractIconOverlay.extend({
     return "<h4>Locator</h4><hr>" +
       "<b>Owner: " + obj.attributes.owner + "</b><br>" +
       "<b>Name:</b> " + obj.attributes.name + "<br>" +
-      "<b>Level:</b> " obj.attributes.level "<br>";
+      "<b>Level:</b> " + obj.attributes.level + "<br>";
   }
 });

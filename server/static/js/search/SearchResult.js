@@ -50,7 +50,7 @@ var SearchResult = {
       if (obj.type == "locator"){
         description = m("span", obj.attributes.name);
 
-        var img = "pics/locator_beacon_level1.png"
+        var img = "pics/locator_beacon_level1.png";
 
         if (obj.attributes.level == "2")
           img = "pics/locator_beacon_level2.png";

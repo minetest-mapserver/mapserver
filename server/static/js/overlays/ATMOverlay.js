@@ -12,7 +12,7 @@ var ATMOverlay = AbstractIconOverlay.extend({
   },
 
   getIcon: function(obj){
-    var img = "pics/atm_front.png"
+    var img = "pics/atm_front.png";
 
     if (obj.attributes.type == "wiretransfer")
       img = "pics/atm_front.png";

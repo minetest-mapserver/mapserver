@@ -2,7 +2,7 @@
 
 var worldInfoRender = function(info){
   return "Lag: " + parseInt(info.max_lag*10)/10 + " Time: " + parseInt(info.time)/1000;
-}
+};
 
 // coord display
 var WorldInfoDisplay = L.Control.extend({
@@ -15,7 +15,7 @@ var WorldInfoDisplay = L.Control.extend({
       var div = L.DomUtil.create('div', 'leaflet-bar leaflet-custom-display');
 
       this.wsChannel.addListener("minetest-info", function(info){
-        m.render(div, worldInfoRender(info))
+        m.render(div, worldInfoRender(info));
       });
 
       return div;
