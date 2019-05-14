@@ -12,6 +12,7 @@ func (this *ProtectorBlock) onMapObject(x, y, z int, block *mapblockparser.MapBl
 
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "protector")
 	o.Attributes["owner"] = md["owner"]
+	o.Attributes["members"] = md["members"]
 
 	return o
 }
