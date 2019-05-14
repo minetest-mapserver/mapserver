@@ -29,7 +29,16 @@ var worldInfoRender = function(info){
     ];
   }
 
+  function getPlayers(){
+    return [
+      m("span", { class: "fa fa-users" }),
+      info.players.length
+    ];
+  }
+
   return [
+    getPlayers(),
+    " ",
     getLag(),
     " ",
     m("span", { class: "fa fa-clock" }),
