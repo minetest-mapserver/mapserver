@@ -4,6 +4,7 @@
 ## 2.2.0
 
 * Added ATM overlay
+* Added locator overlay
 * Add ability for bone-owner search
 * Separate mapserver_mod into own repository
 

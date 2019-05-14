@@ -35,6 +35,7 @@
     "/js/overlays/PrivProtectorOverlay.js",
     "/js/overlays/BonesOverlay.js",
     "/js/overlays/LcdOverlay.js",
+    "/js/overlays/LocatorOverlay.js",
     "/js/overlays/DigitermOverlay.js",
     "/js/overlays/LuacontrollerOverlay.js",
     "/js/overlays/TechnicAnchorOverlay.js",

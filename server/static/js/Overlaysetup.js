@@ -149,4 +149,12 @@ function Overlaysetup(cfg, map, overlays, wsChannel, layerMgr){
         map.addLayer(overlays.ATM);
       }
     }
+
+    if (cfg.mapobjects.locator) {
+      overlays.Locator = new LocatorOverlay(wsChannel, layerMgr);
+      if (cfg.defaultoverlays.indexOf("locator") >= 0) {
+        map.addLayer(overlays.Locator);
+      }
+    }
+
 }
