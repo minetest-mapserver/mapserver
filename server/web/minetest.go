@@ -38,11 +38,12 @@ type Minecart struct {
 }
 
 type Player struct {
-	Pos      GenericPos `json:"pos"`
-	Velocity GenericPos `json:"velocity"`
-	Name     string     `json:"name"`
-	HP       float64    `json:"hp"`
-	Breath   float64    `json:"breath"`
+	Pos       GenericPos `json:"pos"`
+	Velocity  GenericPos `json:"velocity"`
+	Name      string     `json:"name"`
+	HP        float64    `json:"hp"`
+	Breath    float64    `json:"breath"`
+	Moderator bool       `json:"moderator"`
 	//TODO: stamina, skin, etc
 }
 
