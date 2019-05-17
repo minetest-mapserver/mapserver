@@ -40,6 +40,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 * Initial and incremental map rendering
 * Realtime rendering and map-updating
 * Realtime player and world stats
+* [Search](doc/search.md) bar
 * Configurable layers (default: "Base" from y -16 to 160)
 * POI [markers](doc/mapobjects.md) / [mod](doc/mod.md) integration
 * Protector display
@@ -48,9 +49,10 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 
 ## Planned Features
 
-* Player infos (HP, breath, etc)
-* Street names / Train stuff
+* Street names
 * City borders
+* Isometric view
+* Route planning (via travelnets)
 
 # Supported map-databases
 The connection is auto-detected from your `world.mt`:
