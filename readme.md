@@ -8,6 +8,7 @@ Minetest mapserver
 
 Realtime mapserver for [Minetest](https://minetest.net)
 
+Demo: [Pandorabox Server map](https://pandorabox.io/map/#-1782.25/493.5/10)
 
 # Documentation
 
