@@ -48,12 +48,14 @@ var TrainOverlay = L.LayerGroup.extend({
     //search for wagin in front (whatever "front" is...)
     var type;
     var lowest_pos = 100;
-    train.wagons.forEach(function(w){
-      if (w.pos_in_train < lowest_pos){
-        lowest_pos = w.pos_in_train;
-        type = w.type;
-      }
-    });
+    if (train.wagons){
+    	train.wagons.forEach(function(w){
+      		if (w.pos_in_train < lowest_pos){
+       			lowest_pos = w.pos_in_train;
+       			type = w.type;
+      		}
+    	});
+    }
 
     var Icon = L.icon({
       iconUrl: getTrainImageUrlForType(type),
@@ -71,11 +73,13 @@ var TrainOverlay = L.LayerGroup.extend({
     html += "<b>Line:</b> " + train.line + "<br>";
     html += "<b>Velocity:</b> "+ Math.floor(train.velocity*10)/10 + "<br>";
 
-    html += "<b>Composition: </b>";
-    train.wagons.forEach(function(w){
-      var iconUrl =  getTrainImageUrlForType(w.type);
-      html += "<img src='"+iconUrl+"'>";
-    });
+    if (train.wagons){
+	    html += "<b>Composition: </b>";
+	    train.wagons.forEach(function(w){
+	      var iconUrl =  getTrainImageUrlForType(w.type);
+	      html += "<img src='"+iconUrl+"'>";
+	    });
+    }
 
     marker.bindPopup(html);
 
