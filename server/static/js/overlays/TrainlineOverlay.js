@@ -10,13 +10,11 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
 
     var geoJsonLayer = L.geoJSON([], {
       onEachFeature: function(feature, layer){
-        console.log("onEachFeature", feature)//XXX
         if (feature.properties && feature.properties.popupContent) {
           layer.bindPopup(feature.properties.popupContent);
         }
       },
       pointToLayer: function (feature, latlng) {
-        console.log("pointToLayer", feature)//XXX
         var geojsonMarkerOptions = {
           radius: 8,
           weight: 1,
