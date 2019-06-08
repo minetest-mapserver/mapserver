@@ -44,7 +44,7 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
         line = [];
         lines[obj.attributes.line] = line;
         //default or new color
-        lineColors[obj.attributes.line] = obj.attributes.color || "#ff7800";
+        lineColors[obj.attributes.line] = "#ff7800";
       }
 
       if (obj.attributes.color){

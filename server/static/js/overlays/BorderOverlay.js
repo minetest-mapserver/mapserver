@@ -6,16 +6,34 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
     AbstractGeoJsonOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "border");
   },
 
+  getMaxDisplayedZoom: function(){
+    return 1;
+  },
+
+  getMinDisplayedZoom: function(){
+    return 9;
+  },
+
   createGeoJson: function(objects){
     var geoJsonLayer = L.geoJSON([], {
       onEachFeature: function(feature, layer){
         if (feature.properties && feature.properties.popupContent) {
           layer.bindPopup(feature.properties.popupContent);
         }
+      },
+      style: function(feature) {
+        if (feature.properties && feature.properties.color){
+          return {
+            color: feature.properties.color,
+            fill: feature.properties.color,
+            opacity: 0.3
+          };
+        }
       }
     });
 
     var borders = [];
+    var borderColors = {}; // { name: color }
 
     objects.forEach(function(obj){
       if (!obj.attributes.name)
@@ -25,6 +43,11 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
       if (!border){
         border = [];
         borders[obj.attributes.name] = border;
+        borderColors[obj.attributes.name] = "#ff7800";
+      }
+
+      if (obj.attributes.color){
+        borderColors[obj.attributes.name] = obj.attributes.color;
       }
 
       border.push(obj);
@@ -43,6 +66,12 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
         coords.push([entry.x, entry.z]);
       });
 
+      // closing border
+      coords.push([
+        borders[bordername][0].x,
+        borders[bordername][0].z
+      ])
+
       var feature = {
         "type":"Feature",
         "geometry": {
@@ -51,6 +80,7 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
         },
         "properties":{
             "name": bordername,
+            "color": borderColors[bordername],
             "popupContent": "<b>Border (" + bordername + ")</b>"
         }
       };
