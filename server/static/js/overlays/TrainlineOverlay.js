@@ -10,26 +10,31 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
 
     var geoJsonLayer = L.geoJSON([], {
       onEachFeature: function(feature, layer){
+        console.log("onEachFeature", feature)//XXX
         if (feature.properties && feature.properties.popupContent) {
           layer.bindPopup(feature.properties.popupContent);
         }
       },
       pointToLayer: function (feature, latlng) {
-
+        console.log("pointToLayer", feature)//XXX
         var geojsonMarkerOptions = {
           radius: 8,
-          fillColor: "#ff7800",
-          color: "#000",
           weight: 1,
           opacity: 1,
           fillOpacity: 0.8
         };
 
         return L.circleMarker(latlng, geojsonMarkerOptions);
+      },
+      style: function(feature) {
+        if (feature.properties && feature.properties.color){
+          return { color: feature.properties.color };
+        }
       }
     });
 
     var lines = {}; // { "A1":[] }
+    var lineColors = {} // { "A1": "red" }
 
     //Sort and add lines
     objects.forEach(function(obj){
@@ -40,6 +45,13 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
       if (!line){
         line = [];
         lines[obj.attributes.line] = line;
+        //default or new color
+        lineColors[obj.attributes.line] = obj.attributes.color || "#ff7800";
+      }
+
+      if (obj.attributes.color){
+        //new color
+        lineColors[obj.attributes.line] = obj.attributes.color;
       }
 
       line.push(obj);
@@ -63,6 +75,7 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
             "type": "Feature",
             "properties": {
               "name": entry.attributes.station,
+              "color": lineColors[linename],
               "popupContent": "<b>Train-station (Line " + entry.attributes.line + ")</b><hr>" +
                 entry.attributes.station
             },
@@ -82,6 +95,7 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
         },
         "properties":{
             "name": linename,
+            "color": lineColors[linename],
             "popupContent": "<b>Train-line (" + linename + ")</b>"
         }
       };
