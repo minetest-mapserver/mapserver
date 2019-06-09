@@ -88,11 +88,11 @@ var AbstractIconOverlay = L.LayerGroup.extend({
       objects.forEach(function(obj){
         var hash = self.hashPos(obj.x, obj.y, obj.z);
         var marker = self.currentObjects[hash];
-        var popup;
+        var popup, icon;
 
         if (marker) {
           //marker exists
-          var icon = self.getIcon(obj);
+          icon = self.getIcon(obj);
 
           if (!icon) {
             //icon does not wanna be displayed anymore
@@ -109,7 +109,7 @@ var AbstractIconOverlay = L.LayerGroup.extend({
 
         } else {
           //marker does not exist
-          var icon = self.getIcon(obj);
+          icon = self.getIcon(obj);
 
           if (!icon) {
             //icon does not want to be displayed

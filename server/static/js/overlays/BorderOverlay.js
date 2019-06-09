@@ -70,7 +70,7 @@ var BorderOverlay = AbstractGeoJsonOverlay.extend({
       coords.push([
         borders[bordername][0].x,
         borders[bordername][0].z
-      ])
+      ]);
 
       var feature = {
         "type":"Feature",

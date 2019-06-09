@@ -32,7 +32,7 @@ var TrainlineOverlay = AbstractGeoJsonOverlay.extend({
     });
 
     var lines = {}; // { "A1":[] }
-    var lineColors = {} // { "A1": "red" }
+    var lineColors = {}; // { "A1": "red" }
 
     //Sort and add lines
     objects.forEach(function(obj){
