@@ -24,3 +24,8 @@ body {
   right: 5%;
   z-index: 99999;
 }
+
+.mapserver-label-icon {
+  margin-left: -100px !important;
+  margin-top: -100px !important;
+}
