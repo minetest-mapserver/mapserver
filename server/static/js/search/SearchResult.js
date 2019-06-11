@@ -52,6 +52,18 @@ var SearchResult = {
         type = m("img", { src: "pics/mapserver_label.png" });
       }
 
+      // digiterm
+      if (obj.type == "digiterm"){
+        description = m("span", obj.attributes.display_text);
+        type = m("img", { src: "pics/digiterms_beige_front.png" });
+      }
+
+      // digiline lcd
+      if (obj.type == "digilinelcd"){
+        description = m("span", obj.attributes.text);
+        type = m("img", { src: "pics/lcd_lcd.png" });
+      }
+
       // locator
       if (obj.type == "locator"){
         description = m("span", obj.attributes.name);
