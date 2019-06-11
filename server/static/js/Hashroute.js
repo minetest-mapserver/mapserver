@@ -1,6 +1,6 @@
 /* exported Hashroute */
 
-var Hashroute = {
+export default {
 
   setup: function(map, layerMgr){
     function updateHash(){

@@ -1,8 +1,6 @@
-/* exported SearchResult */
-/* globals SearchStore: true */
-/* globals layerMgr: true */
+import SearchStore from './SearchStore.js';
 
-var SearchResult = {
+export default {
   view: function(vnode){
     var map = vnode.attrs.map;
 

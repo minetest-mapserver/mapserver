@@ -1,7 +1,7 @@
-/* exported SearchService */
-/* globals SearchStore: true */
+import SearchStore from './SearchStore.js';
+import { getMapObjects } from '../api.js';
 
-var SearchService = {
+export default {
 
     search: function(){
       SearchStore.show = true;
@@ -18,7 +18,7 @@ var SearchService = {
       SearchStore.busy = true;
 
       function searchFor(type, key, valuelike){
-        return api.getMapObjects({
+        return getMapObjects({
           pos1: { x:-2048, y:-2048, z:-2048 },
           pos2: { x:2048, y:2048, z:2048 },
           type: type,

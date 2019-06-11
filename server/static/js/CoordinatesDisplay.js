@@ -1,7 +1,5 @@
-/* exported CoordinatesDisplay */
 
-// coord display
-var CoordinatesDisplay = L.Control.extend({
+export default L.Control.extend({
     onAdd: function(map) {
       var div = L.DomUtil.create('div', 'leaflet-bar leaflet-custom-display');
 
@@ -34,5 +32,4 @@ var CoordinatesDisplay = L.Control.extend({
 
       return div;
     }
-
 });

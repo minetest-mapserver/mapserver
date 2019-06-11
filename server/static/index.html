@@ -4,12 +4,30 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000">
-    <link rel="stylesheet" href="css/bundle.css"/>
+
+    <!-- styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="css/leaflet.css"/>
+    <link rel="stylesheet" href="css/leaflet.aewsome-markers.css"/>
+    <link rel="stylesheet" href="css/custom.css"/>
+
     <title>Minetest Mapserver</title>
   </head>
   <body>
     <div id="image-map"></div>
     <div id="search-content"></div>
-    <script src="js/bundle.js"></script>
+
+    <!-- libraries -->
+    <script src="js/mithril.min.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet.aewsome-markers.js"></script>
+    <script src="js/moment.min.js"></script>
+
+    <!-- main module -->
+    <script src="js/main.js" type="module"></script>
+
+    <!-- unsupported -->
+    <script src="js/nomodule.js" nomodule></script>
   </body>
 </html>

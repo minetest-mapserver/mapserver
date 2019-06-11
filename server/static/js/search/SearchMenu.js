@@ -1,9 +1,9 @@
-/* exported SearchMenu */
-/* globals SearchResult: true */
-/* globals SearchService: true */
-/* globals SearchStore: true */
 
-var SearchMenu = {
+import SearchService from './SearchService.js';
+import SearchStore from './SearchStore.js';
+import SearchResult from './SearchResult.js';
+
+export default {
   view: function(vnode){
 
     var style = {};

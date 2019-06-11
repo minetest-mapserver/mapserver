@@ -2,7 +2,6 @@ package web
 
 import (
 	"mapserver/app"
-	"mapserver/bundle"
 	"mapserver/vfs"
 	"net"
 	"net/http"
@@ -22,9 +21,6 @@ func Serve(ctx *app.App) {
 	mux := http.NewServeMux()
 
 	mux.Handle("/", http.FileServer(vfs.FS(ctx.Config.Webdev)))
-
-	mux.Handle("/js/bundle.js", bundle.NewJsHandler(ctx.Config.Webdev))
-	mux.Handle("/css/bundle.css", bundle.NewCSSHandler(ctx.Config.Webdev))
 
 	tiles := &Tiles{ctx: ctx}
 	tiles.Init()

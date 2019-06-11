@@ -1,8 +1,4 @@
-/* exported SearchInput */
-/* globals SearchService: true */
-/* globals SearchStore: true */
-
-var SearchInput = {
+export default {
   view: function(){
     function handleInput(e){
       SearchStore.query = e.target.value;

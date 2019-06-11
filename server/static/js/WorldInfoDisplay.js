@@ -50,7 +50,7 @@ var worldInfoRender = function(info){
 };
 
 // coord display
-var WorldInfoDisplay = L.Control.extend({
+export default L.Control.extend({
     initialize: function(wsChannel, opts) {
         L.Control.prototype.initialize.call(this, opts);
         this.wsChannel = wsChannel;

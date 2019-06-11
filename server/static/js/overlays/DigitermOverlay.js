@@ -1,5 +1,4 @@
-/* exported DigitermOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var DigitermIcon = L.icon({
   iconUrl: 'pics/digiterms_beige_front.png',
@@ -9,7 +8,7 @@ var DigitermIcon = L.icon({
   popupAnchor:  [0, -16]
 });
 
-var DigitermOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "digiterm", DigitermIcon);
   },

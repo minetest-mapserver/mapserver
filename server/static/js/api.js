@@ -1,18 +1,12 @@
-/* exported api */
 
-var api = {
+export getMapObjects(query){
+  return m.request({
+    method: "POST",
+    url: "api/mapobjects/",
+    data: query
+  });
+}
 
-  getMapObjects: function(query){
-    return m.request({
-      method: "POST",
-      url: "api/mapobjects/",
-      data: query
-    });
-  },
-
-  getConfig: function(){
-    return m.request("api/config");
-  }
-
-
-};
+export getConfig(){
+  return m.request("api/config");
+}

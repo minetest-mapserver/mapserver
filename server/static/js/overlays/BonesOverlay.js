@@ -1,7 +1,6 @@
-/* exported BonesOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
-var BonesIcon = L.icon({
+export default L.icon({
   iconUrl: 'pics/bones_top.png',
 
   iconSize:     [16, 16],

@@ -1,8 +1,6 @@
-/* exported ATMOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
-
-var ATMOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "atm");
   },

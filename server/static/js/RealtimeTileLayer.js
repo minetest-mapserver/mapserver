@@ -1,6 +1,5 @@
-/* exported RealtimeTileLayer */
 
-var RealtimeTileLayer = L.TileLayer.extend({
+export default L.TileLayer.extend({
 
   initialize: function(wsChannel, layerId, map) {
     var self = this;

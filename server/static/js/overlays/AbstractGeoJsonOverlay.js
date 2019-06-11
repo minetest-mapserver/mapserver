@@ -1,7 +1,5 @@
-/* exported AbstractGeoJsonOverlay */
-/* jshint unused: false */
 
-var AbstractGeoJsonOverlay = L.LayerGroup.extend({
+export default L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr, type) {
     L.LayerGroup.prototype.initialize.call(this);
 

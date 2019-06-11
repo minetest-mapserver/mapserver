@@ -1,7 +1,6 @@
-/* exported BorderOverlay */
-/* globals AbstractGeoJsonOverlay: true */
+import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
 
-var BorderOverlay = AbstractGeoJsonOverlay.extend({
+export default AbstractGeoJsonOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractGeoJsonOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "border");
   },

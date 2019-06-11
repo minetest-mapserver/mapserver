@@ -1,6 +1,5 @@
-/* exported SearchStore */
 
-var SearchStore = {
+export default {
   query: "",
   show: false,
   busy: false,

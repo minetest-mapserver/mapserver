@@ -1,7 +1,5 @@
-/* exported AbstractIconOverlay */
-/* jshint unused: false */
 
-var AbstractIconOverlay = L.LayerGroup.extend({
+export default L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr, type, icon) {
     L.LayerGroup.prototype.initialize.call(this);
 
