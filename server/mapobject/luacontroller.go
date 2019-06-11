@@ -12,8 +12,8 @@ func (this *LuaControllerBlock) onMapObject(x, y, z int, block *mapblockparser.M
 	nodename := block.GetNodeName(x, y, z)
 
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "luacontroller")
-	o.Attributes["code"] = md["code"]
-	o.Attributes["lc_memory"] = md["lc_memory"]
+	//o.Attributes["code"] = md["code"]
+	//o.Attributes["lc_memory"] = md["lc_memory"]
 
 	if nodename == "mesecons_luacontroller:luacontroller_burnt" {
 		o.Attributes["burnt"] = "1"

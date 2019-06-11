@@ -23,13 +23,13 @@ var LuacontrollerOverlay = AbstractIconOverlay.extend({
   },
 
   getIcon: function(ctrl){
-    if (ctrl.burnt)
+    if (ctrl.attributes.burnt)
       return LuacontrollerBurntIcon;
     else
       return LuacontrollerIcon;
   },
 
   createPopup: function(ctrl){
-    return "<pre>" + ctrl.attributes.code + "</pre>";
+    return "LuaController" + (ctrl.attributes.burnt ? "(Burnt)" : "");
   }
 });
