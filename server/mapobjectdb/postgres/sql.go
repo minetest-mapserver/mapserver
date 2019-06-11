@@ -20,7 +20,7 @@ select o.id, o.type, o.mtime,
 from objects o
 left join object_attributes oa on o.id = oa.objectid
 where o.id in (
-  select objectid from object_attributes where key = $8 and value like $9
+  select objectid from object_attributes where key = $8 and value ilike $9
 )
 and o.type = $1
 and o.posx >= $2 and o.posy >= $3 and o.posz >= $4
