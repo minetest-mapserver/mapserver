@@ -1,4 +1,3 @@
-/* exported Hashroute */
 
 export default {
 

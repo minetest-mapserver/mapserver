@@ -1,5 +1,4 @@
-/* exported MissionOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var MissionIcon = L.icon({
   iconUrl: 'pics/mission_32px.png',
@@ -9,7 +8,7 @@ var MissionIcon = L.icon({
   popupAnchor:  [0, -32]
 });
 
-var MissionOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "mission", MissionIcon);
   },

@@ -1,5 +1,4 @@
-/* exported TechnicQuarryOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var TechnicQuarryIcon = L.icon({
   iconUrl: 'pics/default_tool_mesepick.png',
@@ -9,7 +8,7 @@ var TechnicQuarryIcon = L.icon({
   popupAnchor:  [0, -16]
 });
 
-var TechnicQuarryOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicquarry", TechnicQuarryIcon);
   },

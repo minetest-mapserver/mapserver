@@ -1,3 +1,5 @@
+import debounce from '../util/debounce.js';
+import { getMapObjects } from '../api.js';
 
 export default L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr, type, icon) {
@@ -34,7 +36,7 @@ export default L.LayerGroup.extend({
     return x + "/" + y + "/" + z;
   },
 
-  onLayerChange: function(layer){
+  onLayerChange: function(/*layer*/){
     this.reDraw(true);
   },
 
@@ -42,7 +44,7 @@ export default L.LayerGroup.extend({
     this.reDraw(false);
   },
 
-  getIcon: function(obj){
+  getIcon: function(/*ob*/){
     return this.icon;
   },
 
@@ -75,7 +77,7 @@ export default L.LayerGroup.extend({
     var z1 = parseInt(min.lat/16);
     var z2 = parseInt(max.lat/16);
 
-    api.getMapObjects({
+    getMapObjects({
       pos1: { x:x1, y:y1, z:z1 },
       pos2: { x:x2, y:y2, z:z2 },
       type: this.type

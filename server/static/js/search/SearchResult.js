@@ -1,4 +1,5 @@
 import SearchStore from './SearchStore.js';
+import layerMgr from '../LayerManager.js';
 
 export default {
   view: function(vnode){

@@ -1,8 +1,6 @@
-/* exported LabelOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
-
-var LabelOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "label");
   },

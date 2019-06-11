@@ -1,5 +1,4 @@
-/* exported LuacontrollerOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var LuacontrollerIcon = L.icon({
   iconUrl: 'pics/jeija_luacontroller_top.png',
@@ -17,7 +16,7 @@ var LuacontrollerBurntIcon = L.icon({
   popupAnchor:  [0, -16]
 });
 
-var LuacontrollerOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "luacontroller");
   },

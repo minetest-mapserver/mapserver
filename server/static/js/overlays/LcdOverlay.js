@@ -1,5 +1,4 @@
-/* exported LcdOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var LcdIcon = L.icon({
   iconUrl: 'pics/lcd_lcd.png',
@@ -9,7 +8,7 @@ var LcdIcon = L.icon({
   popupAnchor:  [0, -16]
 });
 
-var LcdOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "digilinelcd", LcdIcon);
   },

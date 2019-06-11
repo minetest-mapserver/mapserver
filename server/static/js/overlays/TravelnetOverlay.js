@@ -1,5 +1,4 @@
-/* exported TravelnetOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var TravelnetIcon = L.icon({
   iconUrl: 'pics/travelnet_inv.png',
@@ -9,7 +8,7 @@ var TravelnetIcon = L.icon({
   popupAnchor:  [0, -32]
 });
 
-var TravelnetOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "travelnet", TravelnetIcon);
   },

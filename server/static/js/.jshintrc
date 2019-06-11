@@ -4,9 +4,7 @@
   "esversion": 6,
   "browser": true,
   "globals": {
-    "debounce": true,
     "L": true,
-    "m": true,
-    "api": true
+    "m": true
   }
 }

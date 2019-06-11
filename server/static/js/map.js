@@ -1,6 +1,14 @@
+import wsChannel from './WebSocketChannel.js';
+import Hashroute from './Hashroute.js';
+import SimpleCRS from './SimpleCRS.js';
+import CoordinatesDisplay from './CoordinatesDisplay.js';
+import WorldInfoDisplay from './WorldInfoDisplay.js';
+import SearchControl from './SearchControl.js';
+import Overlaysetup from './Overlaysetup.js';
+import layerManager from './LayerManager.js';
 
 export function setup(cfg){
-  var wsChannel = new WebSocketChannel();
+
   wsChannel.connect();
 
   var map = L.map('image-map', {
@@ -15,11 +23,10 @@ export function setup(cfg){
 
   var overlays = {};
 
-  window.layerMgr = new LayerManager(wsChannel, cfg.layers, map, Hashroute.getLayerId());
+  layerManager.setup(wsChannel, cfg.layers, map, Hashroute.getLayerId());
 
   //All overlays
-  Overlaysetup(cfg, map, overlays, wsChannel, layerMgr);
-
+  Overlaysetup(cfg, map, overlays, wsChannel, layerManager);
 
   new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
   new WorldInfoDisplay(wsChannel, { position: 'bottomright' }).addTo(map);
@@ -29,7 +36,7 @@ export function setup(cfg){
   }
 
   //layer control
-  L.control.layers(layerMgr.layerObjects, overlays, { position: "topright" }).addTo(map);
+  L.control.layers(layerManager.layerObjects, overlays, { position: "topright" }).addTo(map);
 
-  Hashroute.setup(map, layerMgr);
+  Hashroute.setup(map, layerManager);
 }

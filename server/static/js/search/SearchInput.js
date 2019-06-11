@@ -1,3 +1,6 @@
+import SearchStore from './SearchStore.js';
+import SearchService from './SearchService.js';
+
 export default {
   view: function(){
     function handleInput(e){

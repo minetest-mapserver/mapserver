@@ -1,7 +1,6 @@
-/* exported PrivProtectorOverlay */
-/* globals AbstractGeoJsonOverlay: true */
+import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
 
-var PrivProtectorOverlay = AbstractGeoJsonOverlay.extend({
+export default AbstractGeoJsonOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractGeoJsonOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "privprotector");
   },

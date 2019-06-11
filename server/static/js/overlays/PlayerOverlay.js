@@ -1,6 +1,3 @@
-/* exported PlayerOverlay */
-/* globals AbstractIconOverlay: true */
-/* jshint unused: false */
 
 var PlayerIcon = L.icon({
   iconUrl: 'pics/sam.png',
@@ -10,7 +7,7 @@ var PlayerIcon = L.icon({
   popupAnchor:  [0, -16]
 });
 
-var PlayerOverlay = L.LayerGroup.extend({
+export default L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr) {
     L.LayerGroup.prototype.initialize.call(this);
 
@@ -61,7 +58,7 @@ var PlayerOverlay = L.LayerGroup.extend({
     return (player.pos.y >= (mapLayer.from*16) && player.pos.y <= (mapLayer.to*16));
   },
 
-  onMinetestUpdate: function(info){
+  onMinetestUpdate: function(/*info*/){
     var self = this;
 
     this.players.forEach(function(player){
@@ -125,13 +122,13 @@ var PlayerOverlay = L.LayerGroup.extend({
 
   },
 
-  onAdd: function(map) {
+  onAdd: function(/*map*/) {
     this.layerMgr.addListener(this.reDraw);
     this.wsChannel.addListener("minetest-info", this.onMinetestUpdate);
     this.reDraw();
   },
 
-  onRemove: function(map) {
+  onRemove: function(/*map*/) {
     this.clearLayers();
     this.layerMgr.removeListener(this.reDraw);
     this.wsChannel.removeListener("minetest-info", this.onMinetestUpdate);

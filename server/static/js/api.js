@@ -1,5 +1,5 @@
 
-export getMapObjects(query){
+export function getMapObjects(query){
   return m.request({
     method: "POST",
     url: "api/mapobjects/",
@@ -7,6 +7,6 @@ export getMapObjects(query){
   });
 }
 
-export getConfig(){
+export function getConfig(){
   return m.request("api/config");
 }

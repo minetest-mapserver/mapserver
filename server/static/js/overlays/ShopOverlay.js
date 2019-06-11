@@ -1,5 +1,4 @@
-/* exported ShopOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var ShopIcon = L.icon({
   iconUrl: 'pics/shop.png',
@@ -16,7 +15,7 @@ var ShopEmptyIcon = L.icon({
 });
 
 
-var ShopOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "shop");
   },

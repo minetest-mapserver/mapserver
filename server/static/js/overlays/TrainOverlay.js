@@ -1,6 +1,3 @@
-/* exported TrainOverlay */
-/* globals AbstractIconOverlay: true */
-/* jshint unused: false */
 
 function getTrainImageUrlForType(type){
   switch(type){
@@ -32,7 +29,7 @@ function getTrainImageUrlForType(type){
   }
 }
 
-var TrainOverlay = L.LayerGroup.extend({
+export default L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr) {
     L.LayerGroup.prototype.initialize.call(this);
 
@@ -101,7 +98,7 @@ var TrainOverlay = L.LayerGroup.extend({
   },
 
 
-  onMinetestUpdate: function(info){
+  onMinetestUpdate: function(/*info*/){
     var self = this;
 
     this.trains.forEach(function(train){
@@ -165,13 +162,13 @@ var TrainOverlay = L.LayerGroup.extend({
 
   },
 
-  onAdd: function(map) {
+  onAdd: function(/*map*/) {
     this.layerMgr.addListener(this.reDraw);
     this.wsChannel.addListener("minetest-info", this.onMinetestUpdate);
     this.reDraw();
   },
 
-  onRemove: function(map) {
+  onRemove: function(/*map*/) {
     this.clearLayers();
     this.layerMgr.removeListener(this.reDraw);
     this.wsChannel.removeListener("minetest-info", this.onMinetestUpdate);

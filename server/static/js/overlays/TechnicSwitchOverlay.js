@@ -1,5 +1,4 @@
-/* exported TechnicSwitchOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var TechnicSwitchIcon = L.icon({
   iconUrl: 'pics/technic_water_mill_top_active.png',
@@ -9,7 +8,7 @@ var TechnicSwitchIcon = L.icon({
   popupAnchor:  [0, -16]
 });
 
-var TechnicSwitchOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicswitch", TechnicSwitchIcon);
   },

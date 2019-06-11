@@ -1,6 +1,6 @@
 import AbstractIconOverlay from './AbstractIconOverlay.js';
 
-export default L.icon({
+var BonesIcon = L.icon({
   iconUrl: 'pics/bones_top.png',
 
   iconSize:     [16, 16],
@@ -8,7 +8,7 @@ export default L.icon({
   popupAnchor:  [0, -16]
 });
 
-var BonesOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "bones", BonesIcon);
   },

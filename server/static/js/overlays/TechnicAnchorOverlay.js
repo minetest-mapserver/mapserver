@@ -1,5 +1,4 @@
-/* exported TechnicAnchorOverlay */
-/* globals AbstractIconOverlay: true */
+import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 var TechnicAnchorIcon = L.icon({
   iconUrl: 'pics/technic_admin_anchor.png',
@@ -9,7 +8,7 @@ var TechnicAnchorIcon = L.icon({
   popupAnchor:  [0, -32]
 });
 
-var TechnicAnchorOverlay = AbstractIconOverlay.extend({
+export default AbstractIconOverlay.extend({
   initialize: function(wsChannel, layerMgr) {
     AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicanchor", TechnicAnchorIcon);
   },
