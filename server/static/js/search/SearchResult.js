@@ -46,6 +46,12 @@ var SearchResult = {
         type = m("img", { src: "pics/bones_top.png" });
       }
 
+      // label
+      if (obj.type == "label"){
+        description = m("span", obj.attributes.text);
+        type = m("img", { src: "pics/mapserver_label.png" });
+      }
+
       // locator
       if (obj.type == "locator"){
         description = m("span", obj.attributes.name);

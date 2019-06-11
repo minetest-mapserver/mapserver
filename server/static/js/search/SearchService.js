@@ -35,7 +35,8 @@ var SearchService = {
         searchFor("train", "station", SearchStore.query),
         searchFor("travelnet", "station_name", SearchStore.query),
         searchFor("bones", "owner", SearchStore.query),
-        searchFor("locator", "name", SearchStore.query)
+        searchFor("locator", "name", SearchStore.query),
+        searchFor("label", "text", SearchStore.query)
       ];
 
       Promise.all(prom_list)
