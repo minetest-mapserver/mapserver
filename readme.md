@@ -49,8 +49,6 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 
 ## Planned Features
 
-* Street names
-* City borders
 * Isometric view
 * Route planning (via travelnets)
 
