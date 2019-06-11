@@ -8,7 +8,7 @@ import (
 type LuaControllerBlock struct{}
 
 func (this *LuaControllerBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
-	md := block.Metadata.GetMetadata(x, y, z)
+	//md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "luacontroller")
