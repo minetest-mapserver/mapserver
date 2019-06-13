@@ -1,11 +1,13 @@
-sudo: required
+language: go
+sudo: false
 
-services:
- - docker
+go:
+ - 1.11.x
 
-install:
- - docker build -t thomasrudin-mt/mapserver .
+os:
+ - linux
 
-deploy:
-  provider: script
-  script: echo
+script:
+ - go generate
+ - go build
+ - go test
