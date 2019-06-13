@@ -8,6 +8,7 @@ os:
  - linux
 
 script:
+ - go get github.com/mjibson/esc
  - go generate
  - go build
  - go test
