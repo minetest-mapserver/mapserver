@@ -24,6 +24,13 @@ can enable the setting in your `minetest.conf` (defaults to false)
 mapserver.enable_crafting = true
 ```
 
+The update interval of the players on the map can be changed with:
+```
+mapserver.send_interval = 1
+```
+
+Default is `2`, means that the player, time and lag info get sent every 2 seconds.
+
 ## Passive mode
 
 You don't have to set up anything, passive mode is the default.
