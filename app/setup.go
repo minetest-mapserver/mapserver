@@ -146,8 +146,12 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	//create media repo
 	repo := make(map[string][]byte)
-	media.ScanDir(repo, ".", []string{"mapserver.tiles", ".git"})
-	logrus.WithFields(logrus.Fields{"count": len(repo)}).Info("Created media repository")
+	mediasize, _ := media.ScanDir(repo, ".", []string{"mapserver.tiles", ".git"})
+	fields := logrus.Fields{
+		"count": len(repo),
+		"bytes": mediasize,
+	}
+	logrus.WithFields(fields).Info("Created media repository")
 
 	a.MediaRepo = repo
 
