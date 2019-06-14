@@ -11,9 +11,6 @@ Ubuntu install: https://github.com/golang/go/wiki/Ubuntu
 
 ## Compile
 
-
-Working directory: */server*
-
 ```bash
 # generate the static web files
 go generate
@@ -25,4 +22,3 @@ go build
 go test ./...
 
 ```
-
