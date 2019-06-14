@@ -21,6 +21,15 @@ func (h *MediaHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 	filename := parts[0]
 
-	resp.WriteHeader(500)
-	resp.Write([]byte(filename))
+	content := h.ctx.MediaRepo[filename]
+
+	if content != nil {
+		resp.Write(content)
+		resp.Header().Add("content-type", "image/png")
+
+	} else {
+		resp.WriteHeader(404)
+		resp.Write([]byte(filename))
+
+	}
 }
