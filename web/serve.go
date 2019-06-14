@@ -30,6 +30,7 @@ func Serve(ctx *app.App) {
 	tiles.Init()
 	mux.Handle("/api/tile/", tiles)
 	mux.Handle("/api/config", &ConfigHandler{ctx: ctx})
+	mux.Handle("/api/media", &MediaHandler{ctx: ctx})
 	mux.Handle("/api/minetest", &Minetest{ctx: ctx})
 	mux.Handle("/api/mapobjects/", &MapObjects{ctx: ctx})
 
