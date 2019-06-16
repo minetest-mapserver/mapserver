@@ -36,6 +36,7 @@ func scan_recursive(dir_path string, ignore []string) ([]string, []string) {
 			// If no error
 			if err != nil {
 				log.Fatal(err)
+				return nil
 			}
 
 			// File & Folder Mode
