@@ -9,6 +9,7 @@ import (
 	"mapserver/mapblockrenderer"
 	postgresobjdb "mapserver/mapobjectdb/postgres"
 	sqliteobjdb "mapserver/mapobjectdb/sqlite"
+	"mapserver/media"
 	"mapserver/params"
 	"mapserver/settings"
 	"mapserver/tiledb"
@@ -142,6 +143,13 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		a.Blockdb,
 		a.Config.Layers,
 	)
+
+	//create media repo
+	repo := make(map[string][]byte)
+	media.ScanDir(repo, ".", []string{"mapserver.tiles", ".git"})
+	logrus.WithFields(logrus.Fields{"count": len(repo)}).Info("Created media repository")
+
+	a.MediaRepo = repo
 
 	return &a
 }

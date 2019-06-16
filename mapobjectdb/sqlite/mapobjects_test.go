@@ -145,7 +145,6 @@ func TestMapObjectsQueryWithAttribute(t *testing.T) {
 	}
 }
 
-
 func TestMapObjectsQueryWithAttributeIgnoreCase(t *testing.T) {
 	tmpfile, err := ioutil.TempFile("", "TestMapObjects.*.sqlite")
 	if err != nil {
