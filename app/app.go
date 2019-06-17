@@ -28,5 +28,7 @@ type App struct {
 	Mapblockrenderer *mapblockrenderer.MapBlockRenderer
 	Tilerenderer     *tilerenderer.TileRenderer
 
+	MediaRepo map[string][]byte
+
 	WebEventbus *eventbus.Eventbus
 }
