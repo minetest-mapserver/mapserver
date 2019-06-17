@@ -44,6 +44,13 @@ export default L.LayerGroup.extend({
     if (player.breath % 2 == 1)
       html += "<img src='pics/bubble_half.png'>";
 
+    html += `
+      <br>
+      <b>RTT:</b> ${player.rtt} ms
+      <br>
+      <b>Protocol version:</b> ${player.protocol_version}
+    `;
+
     return html;
   },
 
