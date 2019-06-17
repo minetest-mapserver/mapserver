@@ -1,7 +1,6 @@
 package media
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -35,7 +34,6 @@ func scan_recursive(dir_path string, ignore []string) ([]string, []string) {
 
 			// If no error
 			if err != nil {
-				log.Fatal(err)
 				return nil
 			}
 
