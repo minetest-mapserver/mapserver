@@ -2,6 +2,7 @@ package web
 
 import (
 	"mapserver/app"
+	"mapserver/vfs"
 	"net/http"
 	"strings"
 )
@@ -20,16 +21,20 @@ func (h *MediaHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	filename := parts[0]
+	fallback, hasfallback := req.URL.Query()["fallback"]
 
 	content := h.ctx.MediaRepo[filename]
+
+	if content == nil && hasfallback && len(fallback) > 0 {
+		content, _ = vfs.FSByte(h.ctx.Config.Webdev, "/pics/"+fallback[0])
+	}
 
 	if content != nil {
 		resp.Write(content)
 		resp.Header().Add("content-type", "image/png")
-
-	} else {
-		resp.WriteHeader(404)
-		resp.Write([]byte(filename))
-
+		return
 	}
+
+	resp.WriteHeader(404)
+	resp.Write([]byte(filename))
 }
