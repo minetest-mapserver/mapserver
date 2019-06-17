@@ -16164,3 +16164,5 @@ youngtrees:youngtree2_middle 94 68 49
 youngtrees:youngtree_bottom 51 38 33
 youngtrees:youngtree_middle 176 199 137
 youngtrees:youngtree_top 190 211 156
+
+planetoidgen:sun 255 100 0
