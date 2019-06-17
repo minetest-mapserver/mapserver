@@ -48,6 +48,24 @@ export default L.LayerGroup.extend({
     }.bind(this));
   },
 
+  createPopup: function(train){
+    var html = "<b>Train</b><hr>";
+
+    html += "<b>Name:</b> " + train.text_outside + "<br>";
+    html += "<b>Line:</b> " + train.line + "<br>";
+    html += "<b>Velocity:</b> "+ Math.floor(train.velocity*10)/10 + "<br>";
+
+    if (train.wagons){
+	    html += "<b>Composition: </b>";
+	    train.wagons.forEach(function(w){
+	      var iconUrl =  getTrainImageUrlForType(w.type);
+	      html += "<img src='"+iconUrl+"'>";
+	    });
+    }
+
+    return html;
+  },
+
   createMarker: function(train){
 
     //search for wagin in front (whatever "front" is...)
@@ -71,22 +89,7 @@ export default L.LayerGroup.extend({
     });
 
     var marker = L.marker([train.pos.z, train.pos.x], {icon: Icon});
-
-    var html = "<b>Train</b><hr>";
-
-    html += "<b>Name:</b> " + train.text_outside + "<br>";
-    html += "<b>Line:</b> " + train.line + "<br>";
-    html += "<b>Velocity:</b> "+ Math.floor(train.velocity*10)/10 + "<br>";
-
-    if (train.wagons){
-	    html += "<b>Composition: </b>";
-	    train.wagons.forEach(function(w){
-	      var iconUrl =  getTrainImageUrlForType(w.type);
-	      html += "<img src='"+iconUrl+"'>";
-	    });
-    }
-
-    marker.bindPopup(html);
+    marker.bindPopup(this.createPopup(train));
 
     return marker;
   },
@@ -99,65 +102,63 @@ export default L.LayerGroup.extend({
 
 
   onMinetestUpdate: function(/*info*/){
-    var self = this;
-
-    this.trains.forEach(function(train){
-      var isInLayer = self.isTrainInCurrentLayer(train);
+    this.trains.forEach(train => {
+      var isInLayer = this.isTrainInCurrentLayer(train);
 
       if (!isInLayer){
-        if (self.currentObjects[train.id]){
+        if (this.currentObjects[train.id]){
           //train is displayed and not on the layer anymore
           //Remove the marker and reference
-          self.currentObjects[train.id].remove();
-          delete self.currentObjects[train.id];
+          this.currentObjects[train.id].remove();
+          delete this.currentObjects[train.id];
         }
 
         return;
       }
 
-      if (self.currentObjects[train.id]){
+      if (this.currentObjects[train.id]){
         //marker exists
-        self.currentObjects[train.id].setLatLng([train.pos.z, train.pos.x]);
-        //setPopupContent
+        let marker = this.currentObjects[train.id];
+        marker.setLatLng([train.pos.z, train.pos.x]);
+        marker.setPopupContent(this.createPopup(train));
 
       } else {
         //marker does not exist
-        var marker = self.createMarker(train);
-        marker.addTo(self);
+        let marker = this.createMarker(train);
+        marker.addTo(this);
 
-        self.currentObjects[train.id] = marker;
+        this.currentObjects[train.id] = marker;
       }
     });
 
-    Object.keys(self.currentObjects).forEach(function(existingId){
-      var trainIsActive = self.trains.find(function(t){
+    Object.keys(this.currentObjects).forEach(existingId => {
+      var trainIsActive = this.trains.find(function(t){
         return t.id == existingId;
       });
 
       if (!trainIsActive){
         //train
-        self.currentObjects[existingId].remove();
-        delete self.currentObjects[existingId];
+        this.currentObjects[existingId].remove();
+        delete this.currentObjects[existingId];
       }
     });
   },
 
   reDraw: function(){
-    var self = this;
     this.currentObjects = {};
     this.clearLayers();
 
     var mapLayer = this.layerMgr.getCurrentLayer();
 
-    this.trains.forEach(function(train){
-      if (!self.isTrainInCurrentLayer(train)){
+    this.trains.forEach(train => {
+      if (!this.isTrainInCurrentLayer(train)){
         //not in current layer
         return;
       }
 
-      var marker = self.createMarker(train);
-      marker.addTo(self);
-      self.currentObjects[train.id] = marker;
+      var marker = this.createMarker(train);
+      marker.addTo(this);
+      this.currentObjects[train.id] = marker;
     });
 
   },
