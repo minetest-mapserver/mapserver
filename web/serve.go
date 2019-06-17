@@ -47,7 +47,25 @@ func Serve(ctx *app.App) {
 		mux.Handle("/api/mapblock/", &MapblockHandler{ctx: ctx})
 	}
 
-	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), mux)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		uri := r.RequestURI
+
+		if len(uri) >= 3 {
+			suffix := uri[len(uri)-3:]
+
+			switch suffix {
+			case "css":
+				w.Header().Set("Content-Type", "text/css")
+			case ".js":
+				w.Header().Set("Content-Type", "application/javascript")
+			case "png":
+				w.Header().Set("Content-Type", "image/png")
+			}
+		}
+		mux.ServeHTTP(w, r)
+	})
+
+	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), nil)
 	if err != nil {
 		panic(err)
 	}
