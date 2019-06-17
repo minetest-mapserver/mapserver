@@ -26,14 +26,11 @@ export default L.LayerGroup.extend({
     }.bind(this));
   },
 
-  createMarker: function(player){
-    var marker = L.marker([player.pos.z, player.pos.x], {icon: PlayerIcon});
-    var i;
-
+  createPopup: function(player){
     var html = "<b>" + player.name + "</b>";
     html += "<hr>";
 
-    for (i=0; i<Math.floor(player.hp / 2); i++)
+    for (let i=0; i<Math.floor(player.hp / 2); i++)
       html += "<img src='pics/heart.png'>";
 
     if (player.hp % 2 == 1)
@@ -41,14 +38,19 @@ export default L.LayerGroup.extend({
 
     html += "<br>";
 
-    for (i=0; i<Math.floor(player.breath / 2); i++)
+    for (let i=0; i<Math.floor(player.breath / 2); i++)
       html += "<img src='pics/bubble.png'>";
 
     if (player.breath % 2 == 1)
       html += "<img src='pics/bubble_half.png'>";
 
+    return html;
+  },
 
-    marker.bindPopup(html);
+  createMarker: function(player){
+    var marker = L.marker([player.pos.z, player.pos.x], {icon: PlayerIcon});
+
+    marker.bindPopup(this.createPopup(player));
     return marker;
   },
 
@@ -59,65 +61,64 @@ export default L.LayerGroup.extend({
   },
 
   onMinetestUpdate: function(/*info*/){
-    var self = this;
 
-    this.players.forEach(function(player){
-      var isInLayer = self.isPlayerInCurrentLayer(player);
+    this.players.forEach(player => {
+      var isInLayer = this.isPlayerInCurrentLayer(player);
 
       if (!isInLayer){
-        if (self.currentObjects[player.name]){
+        if (this.currentObjects[player.name]){
           //player is displayed and not on the layer anymore
           //Remove the marker and reference
-          self.currentObjects[player.name].remove();
-          delete self.currentObjects[player.name];
+          this.currentObjects[player.name].remove();
+          delete this.currentObjects[player.name];
         }
 
         return;
       }
 
-      if (self.currentObjects[player.name]){
+      if (this.currentObjects[player.name]){
         //marker exists
-        self.currentObjects[player.name].setLatLng([player.pos.z, player.pos.x]);
-        //setPopupContent
+        let marker = this.currentObjects[player.name];
+        marker.setLatLng([player.pos.z, player.pos.x]);
+        marker.setPopupContent(this.createPopup(player));
 
       } else {
         //marker does not exist
-        var marker = self.createMarker(player);
-        marker.addTo(self);
+        let marker = this.createMarker(player);
+        marker.addTo(this);
 
-        self.currentObjects[player.name] = marker;
+        this.currentObjects[player.name] = marker;
       }
     });
 
-    Object.keys(self.currentObjects).forEach(function(existingName){
-      var playerIsActive = self.players.find(function(p){
+    Object.keys(this.currentObjects).forEach(existingName => {
+      var playerIsActive = this.players.find(function(p){
         return p.name == existingName;
       });
 
       if (!playerIsActive){
         //player
-        self.currentObjects[existingName].remove();
-        delete self.currentObjects[existingName];
+        this.currentObjects[existingName].remove();
+        delete this.currentObjects[existingName];
       }
     });
   },
 
   reDraw: function(){
-    var self = this;
     this.currentObjects = {};
     this.clearLayers();
 
     var mapLayer = this.layerMgr.getCurrentLayer();
 
-    this.players.forEach(function(player){
-      if (!self.isPlayerInCurrentLayer(player)){
+    this.players.forEach(player => {
+      if (!this.isPlayerInCurrentLayer(player)){
         //not in current layer
         return;
       }
 
-      var marker = self.createMarker(player);
-      marker.addTo(self);
-      self.currentObjects[player.name] = marker;
+      var marker = this.createMarker(player);
+      marker.addTo(this);
+      this.currentObjects[player.name] = marker;
     });
 
   },
