@@ -39,8 +39,8 @@ func parseMapdata(mapblock *MapBlock, data []byte) (int, error) {
 
 	for i := 0; i < 4096; i++ {
 		mapd.ContentId[i] = readU16(rawdata, i*2)
-		mapd.Param1[i] = readU8(rawdata, (i*2)+2)
-		mapd.Param2[i] = readU8(rawdata, (i*2)+3) //TODO: last item has wrong value
+		mapd.Param1[i] = readU8(rawdata, (4096*2)+i)
+		mapd.Param2[i] = readU8(rawdata, (4096*3)+i)
 	}
 
 	return cr.Count, nil

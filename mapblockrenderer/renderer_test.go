@@ -2,7 +2,6 @@ package mapblockrenderer
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/colormapping"
 	"mapserver/coords"
@@ -13,6 +12,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 func TestSimpleRender(t *testing.T) {
@@ -51,7 +52,18 @@ func TestSimpleRender(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	r := NewMapBlockRenderer(cache, c)
+	palettedata, err := ioutil.ReadFile("./testdata/unifieddyes_palette_extended.png")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	palette, err := colormapping.NewPalette(palettedata)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	r := NewMapBlockRenderer(cache, c, palette)
 	os.Mkdir("../test-output", 0755)
 
 	results := make(chan JobResult, 100)

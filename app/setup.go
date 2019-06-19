@@ -14,6 +14,7 @@ import (
 	"mapserver/settings"
 	"mapserver/tiledb"
 	"mapserver/tilerenderer"
+	"mapserver/vfs"
 	"mapserver/worldconfig"
 	"time"
 
@@ -105,8 +106,14 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	}
 
+	fullpalette, err := colormapping.NewPalette(vfs.FSMustByte(false, "/pics/unifieddyes_palette_extended.png"))
+
+	if err != nil {
+		panic(err)
+	}
+
 	//mapblock renderer
-	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
+	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping, fullpalette)
 
 	//mapserver database
 	if a.Worldconfig[worldconfig.CONFIG_PSQL_MAPSERVER] != "" {

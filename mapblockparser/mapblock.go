@@ -84,6 +84,11 @@ func (mb *MapBlock) GetNodeId(x, y, z int) int {
 	return mb.Mapdata.ContentId[pos]
 }
 
+func (mb *MapBlock) GetParam2(x, y, z int) int {
+	pos := getNodePos(x, y, z)
+	return mb.Mapdata.Param2[pos]
+}
+
 func (mb *MapBlock) GetNodeName(x, y, z int) string {
 	id := mb.GetNodeId(x, y, z)
 	return mb.BlockMapping[id]

@@ -65,3 +65,8 @@
 * atm3_front.png
   * WTFPL
   * Source: http://git.gpcf.eu/?p=atm.git;a=summary
+
+
+* unifieddyes_palette_extended.png
+  * GPL 2.0
+  * Source: https://gitlab.com/VanessaE/unifieddyes
