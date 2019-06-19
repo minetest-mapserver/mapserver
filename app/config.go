@@ -17,6 +17,7 @@ type Config struct {
 	EnableSearch           bool                    `json:"enablesearch"`
 	EnableInitialRendering bool                    `json:"enableinitialrendering"`
 	EnableTransparency     bool                    `json:"enabletransparency"`
+	EnableMediaRepository  bool                    `json:"enablemediarepository"`
 	Webdev                 bool                    `json:"webdev"`
 	WebApi                 *WebApiConfig           `json:"webapi"`
 	Layers                 []*layer.Layer          `json:"layers"`
@@ -172,6 +173,7 @@ func ParseConfig(filename string) (*Config, error) {
 		EnableSearch:           true,
 		EnableInitialRendering: true,
 		EnableTransparency:     false,
+		EnableMediaRepository:  false,
 		Webdev:                 false,
 		WebApi:                 &webapi,
 		Layers:                 layers,
