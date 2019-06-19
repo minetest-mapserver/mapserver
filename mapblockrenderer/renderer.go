@@ -140,7 +140,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 					c := r.colors.GetColor(nodeName)
 					hasfullpalette := nodeName == "unifiedbricks:brickblock"
 
-					if hasfullpalette {
+					if hasfullpalette && r.fullpalette != nil {
 						param2 := mb.GetParam2(x, y, z)
 						c = r.fullpalette.GetColor(param2)
 					}

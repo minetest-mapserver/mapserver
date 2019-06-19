@@ -2,7 +2,6 @@ package tilerenderer
 
 import (
 	"bytes"
-	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"mapserver/colormapping"
 	"mapserver/coords"
@@ -15,6 +14,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 func TestTileRender(t *testing.T) {
@@ -45,7 +46,7 @@ func TestTileRender(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	r := mapblockrenderer.NewMapBlockRenderer(cache, c)
+	r := mapblockrenderer.NewMapBlockRenderer(cache, c, nil)
 
 	tiletmpdir, err := ioutil.TempDir("", "TestTileRenderTiles.*.sqlite")
 	defer os.RemoveAll(tiletmpdir)
