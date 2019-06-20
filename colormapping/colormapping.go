@@ -13,10 +13,17 @@ import (
 )
 
 type ColorMapping struct {
-	colors map[string]*color.RGBA
+	colors          map[string]*color.RGBA
+	extendedpalette *Palette
 }
 
-func (m *ColorMapping) GetColor(name string) *color.RGBA {
+func (m *ColorMapping) GetColor(name string, param2 int) *color.RGBA {
+	//TODO: list of node->palette
+	if name == "unifiedbricks:brickblock" {
+		// param2 coloring
+		return m.extendedpalette.GetColor(param2)
+	}
+
 	return m.colors[name]
 }
 
@@ -95,5 +102,14 @@ func (m *ColorMapping) LoadVFSColors(useLocal bool, filename string) (int, error
 }
 
 func NewColorMapping() *ColorMapping {
-	return &ColorMapping{colors: make(map[string]*color.RGBA)}
+	extendedpalette, err := NewPalette(vfs.FSMustByte(false, "/pics/unifieddyes_palette_extended.png"))
+
+	if err != nil {
+		panic(err)
+	}
+
+	return &ColorMapping{
+		colors:          make(map[string]*color.RGBA),
+		extendedpalette: extendedpalette,
+	}
 }

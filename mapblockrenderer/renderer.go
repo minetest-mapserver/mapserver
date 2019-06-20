@@ -17,16 +17,14 @@ import (
 type MapBlockRenderer struct {
 	accessor           *mapblockaccessor.MapBlockAccessor
 	colors             *colormapping.ColorMapping
-	fullpalette        *colormapping.Palette
 	enableShadow       bool
 	enableTransparency bool
 }
 
-func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping, fullpalette *colormapping.Palette) *MapBlockRenderer {
+func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping) *MapBlockRenderer {
 	return &MapBlockRenderer{
 		accessor:           accessor,
 		colors:             colors,
-		fullpalette:        fullpalette,
 		enableShadow:       true,
 		enableTransparency: false,
 	}
@@ -132,18 +130,13 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 					}
 
 					nodeName := mb.GetNodeName(x, y, z)
+					param2 := mb.GetParam2(x, y, z)
 
 					if nodeName == "" {
 						continue
 					}
 
-					c := r.colors.GetColor(nodeName)
-					hasfullpalette := nodeName == "unifiedbricks:brickblock"
-
-					if hasfullpalette && r.fullpalette != nil {
-						param2 := mb.GetParam2(x, y, z)
-						c = r.fullpalette.GetColor(param2)
-					}
+					c := r.colors.GetColor(nodeName, param2)
 
 					if c == nil {
 						continue

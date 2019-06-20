@@ -11,12 +11,12 @@ func TestNewMapping(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	c := m.GetColor("scifi_nodes:blacktile2")
+	c := m.GetColor("scifi_nodes:blacktile2", 0)
 	if c == nil {
 		panic("no color")
 	}
 
-	c = m.GetColor("default:river_water_flowing")
+	c = m.GetColor("default:river_water_flowing", 0)
 	if c == nil {
 		panic("no color")
 	}

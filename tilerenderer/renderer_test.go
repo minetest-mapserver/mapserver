@@ -46,7 +46,7 @@ func TestTileRender(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	r := mapblockrenderer.NewMapBlockRenderer(cache, c, nil)
+	r := mapblockrenderer.NewMapBlockRenderer(cache, c)
 
 	tiletmpdir, err := ioutil.TempDir("", "TestTileRenderTiles.*.sqlite")
 	defer os.RemoveAll(tiletmpdir)

@@ -52,18 +52,7 @@ func TestSimpleRender(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	palettedata, err := ioutil.ReadFile("./testdata/unifieddyes_palette_extended.png")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	palette, err := colormapping.NewPalette(palettedata)
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	r := NewMapBlockRenderer(cache, c, palette)
+	r := NewMapBlockRenderer(cache, c)
 	os.Mkdir("../test-output", 0755)
 
 	results := make(chan JobResult, 100)
