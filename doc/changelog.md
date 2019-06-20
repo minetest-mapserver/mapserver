@@ -1,6 +1,16 @@
 
 # Changelog
 
+## 3.0.0
+
+* Javascript ES6 frontend
+* Param2 coloring
+* More player infos (RTT)
+* Search ability for LCD displays
+* City border support
+* Label support (street, city names, regions)
+* Various bugfixes
+
 ## 2.2.0
 
 * Added ATM overlay

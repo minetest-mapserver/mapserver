@@ -38,6 +38,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 
 * Click-and-run installation
 * Initial and incremental map rendering
+* Param2 coloring
 * Realtime rendering and map-updating
 * Realtime player and world stats
 * [Search](doc/search.md) bar
@@ -50,7 +51,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 ## Planned Features
 
 * Isometric view
-* Route planning (via travelnets)
+* Route planning (via travelnets / trains)
 
 # Supported map-databases
 The connection is auto-detected from your `world.mt`:
