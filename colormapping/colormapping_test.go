@@ -21,6 +21,11 @@ func TestNewMapping(t *testing.T) {
 		panic("no color")
 	}
 
+	c = m.GetColor("unifiedbricks:brickblock_multicolor_dark", 100)
+	if c == nil {
+		panic("no color")
+	}
+
 	//if c.A != 128 {
 	//	panic("wrong alpha")
 	//}

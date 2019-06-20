@@ -13,13 +13,14 @@ import (
 )
 
 type ColorMapping struct {
-	colors          map[string]*color.RGBA
-	extendedpalette *Palette
+	colors               map[string]*color.RGBA
+	extendedpaletteblock map[string]bool
+	extendedpalette      *Palette
 }
 
 func (m *ColorMapping) GetColor(name string, param2 int) *color.RGBA {
 	//TODO: list of node->palette
-	if name == "unifiedbricks:brickblock" {
+	if m.extendedpaletteblock[name] {
 		// param2 coloring
 		return m.extendedpalette.GetColor(param2)
 	}
@@ -108,8 +109,27 @@ func NewColorMapping() *ColorMapping {
 		panic(err)
 	}
 
+	scanner := bufio.NewScanner(bytes.NewReader(vfs.FSMustByte(false, "/extended_palette.txt")))
+	extendedpaletteblock := make(map[string]bool)
+
+	if err != nil {
+		panic(err)
+	}
+
+	for scanner.Scan() {
+		txt := strings.Trim(scanner.Text(), " ")
+
+		if len(txt) == 0 {
+			//empty
+			continue
+		}
+
+		extendedpaletteblock[txt] = true
+	}
+
 	return &ColorMapping{
-		colors:          make(map[string]*color.RGBA),
-		extendedpalette: extendedpalette,
+		colors:               make(map[string]*color.RGBA),
+		extendedpaletteblock: extendedpaletteblock,
+		extendedpalette:      extendedpalette,
 	}
 }
