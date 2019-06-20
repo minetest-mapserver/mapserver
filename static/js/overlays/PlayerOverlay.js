@@ -46,7 +46,7 @@ export default L.LayerGroup.extend({
 
     html += `
       <br>
-      <b>RTT:</b> ${player.rtt} ms
+      <b>RTT:</b> ${Math.floor(player.rtt*1000)} ms
       <br>
       <b>Protocol version:</b> ${player.protocol_version}
     `;
