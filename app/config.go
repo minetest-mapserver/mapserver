@@ -156,7 +156,7 @@ func ParseConfig(filename string) (*Config, error) {
 	mapblockaccessor := MapBlockAccessorConfig{
 		Expiretime: "15s",
 		Purgetime:  "30s",
-		MaxItems:   5000,
+		MaxItems:   500,
 	}
 
 	defaultoverlays := []string{
