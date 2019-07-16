@@ -66,6 +66,11 @@ export default L.LayerGroup.extend({
     return html;
   },
 
+
+  getMaxDisplayedZoom: function(){
+    return 8;
+  },
+
   createMarker: function(train){
 
     //search for wagin in front (whatever "front" is...)
@@ -102,6 +107,13 @@ export default L.LayerGroup.extend({
 
 
   onMinetestUpdate: function(/*info*/){
+
+    if (this.map.getZoom() < this.getMaxDisplayedZoom()) {
+      this.clearLayers();
+      this.currentObjects = {};
+      return;
+    }
+
     this.trains.forEach(train => {
       var isInLayer = this.isTrainInCurrentLayer(train);
 
@@ -147,6 +159,10 @@ export default L.LayerGroup.extend({
   reDraw: function(){
     this.currentObjects = {};
     this.clearLayers();
+
+    if (this.map.getZoom() < this.getMaxDisplayedZoom()) {
+      return;
+    }
 
     var mapLayer = this.layerMgr.getCurrentLayer();
 
