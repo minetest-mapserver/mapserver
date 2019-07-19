@@ -179,7 +179,8 @@ export default L.LayerGroup.extend({
 
   },
 
-  onAdd: function(/*map*/) {
+  onAdd: function(map) {
+    this.map = map;
     this.layerMgr.addListener(() => this.reDraw());
     this.wsChannel.addListener("minetest-info", () => this.onMinetestUpdate());
     this.reDraw();
