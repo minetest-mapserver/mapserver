@@ -180,14 +180,14 @@ export default L.LayerGroup.extend({
   },
 
   onAdd: function(/*map*/) {
-    this.layerMgr.addListener(this.reDraw);
-    this.wsChannel.addListener("minetest-info", this.onMinetestUpdate);
+    this.layerMgr.addListener(() => this.reDraw());
+    this.wsChannel.addListener("minetest-info", () => this.onMinetestUpdate());
     this.reDraw();
   },
 
   onRemove: function(/*map*/) {
     this.clearLayers();
-    this.layerMgr.removeListener(this.reDraw);
-    this.wsChannel.removeListener("minetest-info", this.onMinetestUpdate);
+    this.layerMgr.removeListener(() => this.reDraw());
+    this.wsChannel.removeListener("minetest-info", () => this.onMinetestUpdate());
   }
 });
