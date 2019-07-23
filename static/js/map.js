@@ -19,7 +19,7 @@ export function setup(cfg){
     crs: SimpleCRS
   });
 
-  map.attributionControl.addAttribution('<a href="https://github.com/thomasrudin-mt/mapserver">Minetest Mapserver</a>');
+  map.attributionControl.addAttribution('<a href="https://github.com/minetest-tools/mapserver">Minetest Mapserver</a>');
 
   var overlays = {};
 

@@ -1,7 +1,7 @@
 
 # Mapserver mod
 
-* Repository: https://github.com/thomasrudin-mt/mapserver_mod
+* Repository: https://github.com/minetest-tools/mapserver_mod
 
 If the `mapserver-mod` is installed and configured
 you get more realtime-data from within your minetest-world:
@@ -15,7 +15,7 @@ You can use the `mapserver-mod` either passive or active:
 
 ## Installing and configuring the bridge-mod
 
-Download or clone from https://github.com/thomasrudin-mt/mapserver_mod
+Download or clone from https://github.com/minetest-tools/mapserver_mod
 
 If you want to enable craftable mapobjects (poi, labels, trainblocks, etc) you
 can enable the setting in your `minetest.conf` (defaults to false)

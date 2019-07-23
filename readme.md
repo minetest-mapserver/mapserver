@@ -1,10 +1,10 @@
 Minetest mapserver
 =======
 
-[![Dependencies](https://img.shields.io/librariesio/github/thomasrudin-mt/mapserver.svg)](https://github.com/thomasrudin-mt/mapserver)
-[![Build Status](https://travis-ci.org/thomasrudin-mt/mapserver.svg?branch=master)](https://travis-ci.org/thomasrudin-mt/mapserver)
-![GitHub repo size](https://img.shields.io/github/repo-size/thomasrudin-mt/mapserver.svg)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/thomasrudin-mt/mapserver.svg)
+[![Dependencies](https://img.shields.io/librariesio/github/minetest-tools/mapserver.svg)](https://github.com/minetest-tools/mapserver)
+[![Build Status](https://travis-ci.org/minetest-tools/mapserver.svg?branch=master)](https://travis-ci.org/minetest-tools/mapserver)
+![GitHub repo size](https://img.shields.io/github/repo-size/minetest-tools/mapserver.svg)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-tools/mapserver.svg)
 
 Realtime mapserver for [Minetest](https://minetest.net)
 
