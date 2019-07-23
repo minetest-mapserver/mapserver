@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Next
+
+* Train overlay decluttering
+
 ## 3.0.0
 
 * Javascript ES6 frontend
