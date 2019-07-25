@@ -20,6 +20,11 @@ type Wagon struct {
 	Type       string  `json:"type"`
 }
 
+type Signal struct {
+	Pos   GenericPos `json:"pos"`
+	Green bool       `json:"green"`
+}
+
 type Train struct {
 	Pos         GenericPos `json:"pos"`
 	Id          string     `json:"id"`
@@ -53,6 +58,7 @@ type MinetestInfo struct {
 	MaxLag    float64     `json:"max_lag"`
 	Players   []*Player   `json:"players"`
 	Trains    []*Train    `json:"trains"`
+	Signals   []*Signal   `json:"signals"`
 	Minecarts []*Minecart `json:"minecarts"`
 	Time      float64     `json:"time"`
 	Uptime    float64     `json:"uptime"`
