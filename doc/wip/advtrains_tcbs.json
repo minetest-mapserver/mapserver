@@ -1,0 +1,222 @@
+[
+   {
+      "signal" : {
+         "x" : -2103,
+         "y" : 22,
+         "z" : 790
+      },
+      "signal_name" : "Signal at (-2109,22,787)"
+   },
+   {
+      "aspect" : {
+         "dst" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "info" : null,
+         "main" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "shunt" : {
+            "free" : false
+         }
+      },
+      "signal" : {
+         "x" : -2125,
+         "y" : 28,
+         "z" : 562
+      },
+      "signal_name" : "Signal at (-2124,28,562)"
+   },
+   {
+      "signal" : {
+         "x" : 10003,
+         "y" : 9699,
+         "z" : 15558
+      },
+      "signal_name" : "Signal at (10003,9696,15559)"
+   },
+   {
+      "aspect" : {
+         "dst" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "info" : null,
+         "main" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "shunt" : {
+            "free" : false
+         }
+      },
+      "signal" : {
+         "x" : 10000,
+         "y" : 9699,
+         "z" : 15391
+      },
+      "signal_name" : "Signal at (10000,9696,15391)"
+   },
+   {
+      "signal" : {
+         "x" : -2087,
+         "y" : 21,
+         "z" : 775
+      },
+      "signal_name" : "Signal at (-2088,21,774)"
+   },
+   {
+      "signal" : {
+         "x" : -1323,
+         "y" : 42,
+         "z" : 393
+      },
+      "signal_name" : "Signal at (-1323,42,392)"
+   },
+   {
+      "aspect" : {
+         "dst" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "info" : null,
+         "main" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "shunt" : {
+            "free" : false
+         }
+      },
+      "signal" : {
+         "x" : 10003,
+         "y" : 9699,
+         "z" : 15027
+      },
+      "signal_name" : "Signal at (10003,9696,15027)"
+   },
+   {
+      "aspect" : {
+         "dst" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "info" : null,
+         "main" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "shunt" : {
+            "free" : false
+         }
+      },
+      "signal" : {
+         "x" : -1044,
+         "y" : 42,
+         "z" : 393
+      },
+      "signal_name" : "Signal at (-1045,42,392)"
+   },
+   {
+      "signal" : {
+         "x" : -1019,
+         "y" : 42,
+         "z" : 396
+      },
+      "signal_name" : "Signal at (-1021,42,395)"
+   },
+   {
+      "signal" : {
+         "x" : -2428,
+         "y" : 18,
+         "z" : 3954
+      },
+      "signal_name" : "Signal at (-2426,18,3953)"
+   },
+   {
+      "signal" : {
+         "x" : -1875,
+         "y" : 42,
+         "z" : 393
+      },
+      "signal_name" : "Signal at (-1875,42,392)"
+   },
+   {
+      "signal" : {
+         "x" : -1925,
+         "y" : 42,
+         "z" : 388
+      },
+      "signal_name" : "Signal at (-1924,42,390)"
+   },
+   {
+      "aspect" : {
+         "dst" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "info" : null,
+         "main" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "shunt" : {
+            "free" : false
+         }
+      },
+      "signal" : {
+         "x" : -1079,
+         "y" : 42,
+         "z" : 393
+      },
+      "signal_name" : "Signal at (-1080,42,392)"
+   },
+   {
+      "signal" : {
+         "x" : 10003,
+         "y" : 9699,
+         "z" : 15160
+      },
+      "signal_name" : "Signal at (10003,9696,15160)"
+   },
+   {
+      "signal" : {
+         "x" : -1292,
+         "y" : 42,
+         "z" : 393
+      },
+      "signal_name" : "Signal at (-1292,42,392)"
+   },
+   {
+      "aspect" : {
+         "dst" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "info" : null,
+         "main" : {
+            "free" : true,
+            "speed" : -1
+         },
+         "shunt" : {
+            "free" : false
+         }
+      },
+      "signal" : {
+         "x" : -2125,
+         "y" : 28,
+         "z" : 595
+      },
+      "signal_name" : "Signal at (-2124,28,593)"
+   },
+   {
+      "signal" : {
+         "x" : 10003,
+         "y" : 9699,
+         "z" : 15249
+      },
+      "signal_name" : "Signal at (10003,9696,15249)"
+   }
+]
