@@ -73,7 +73,7 @@ export default L.LayerGroup.extend({
 
   createMarker: function(train){
 
-    //search for wagin in front (whatever "front" is...)
+    //search for wagon in front (whatever "front" is...)
     var type;
     var lowest_pos = 100;
     if (train.wagons){
