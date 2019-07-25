@@ -20,6 +20,7 @@ import ATMOverlay from './overlays/ATMOverlay.js';
 import LocatorOverlay from './overlays/LocatorOverlay.js';
 import BorderOverlay from './overlays/BorderOverlay.js';
 import TrainOverlay from './overlays/TrainOverlay.js';
+import TrainsignalOverlay from './overlays/TrainsignalOverlay.js';
 
 export default function(cfg, map, overlays, wsChannel, layerMgr){
 
@@ -155,8 +156,17 @@ export default function(cfg, map, overlays, wsChannel, layerMgr){
 
   if (cfg.mapobjects.train) {
     overlays.Trains = new TrainOverlay(wsChannel, layerMgr);
+
     if (isDefault("train")) {
       map.addLayer(overlays.Trains);
+    }
+  }
+
+  if (cfg.mapobjects.trainsignal) {
+    overlays.Trainsignals = new TrainsignalOverlay(wsChannel, layerMgr);
+
+    if (isDefault("trainsignal")) {
+      map.addLayer(overlays.Trainsignals);
     }
   }
 
