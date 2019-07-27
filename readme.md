@@ -1,7 +1,7 @@
 Minetest mapserver
 =======
 
-<img src="./pics/General_map_preview.png">
+<img src="./doc/pics/General_map_preview.png">
 
 [![Dependencies](https://img.shields.io/librariesio/github/minetest-tools/mapserver.svg)](https://github.com/minetest-tools/mapserver)
 [![Build Status](https://travis-ci.org/minetest-tools/mapserver.svg?branch=master)](https://travis-ci.org/minetest-tools/mapserver)
