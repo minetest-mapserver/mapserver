@@ -48,6 +48,8 @@
 * advtrains_wagon_japan_inv.png
 * advtrains_wagon_tank_inv.png
 * advtrains_wagon_wood_inv.png
+* advtrains_signal_on.png
+* advtrains_signal_off.png
   * License: CC BY-SA 3.0
   * Source [advtrains](http://advtrains.bleipb.de/)
 

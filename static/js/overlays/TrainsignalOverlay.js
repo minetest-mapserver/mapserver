@@ -1,4 +1,20 @@
 
+var IconOn = L.icon({
+  iconUrl: "pics/advtrains/advtrains_signal_on.png",
+  iconSize:     [16, 16],
+  iconAnchor:   [8, 8],
+  popupAnchor:  [0, -16]
+});
+
+var IconOff = L.icon({
+  iconUrl: "pics/advtrains/advtrains_signal_off.png",
+  iconSize:     [16, 16],
+  iconAnchor:   [8, 8],
+  popupAnchor:  [0, -16]
+});
+
+
+
 export default L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr) {
     L.LayerGroup.prototype.initialize.call(this);
@@ -20,7 +36,9 @@ export default L.LayerGroup.extend({
 
   createPopup: function(signal){
     var html = "<b>Signal</b><hr>";
-    html += "<b>State:</b> " + signal.green + "<br>";
+    html += "<b>State:</b> " +
+      (signal.green ? "Green" : "Red") +
+      "<br>";
 
     return html;
   },
@@ -35,14 +53,7 @@ export default L.LayerGroup.extend({
 
   createMarker: function(signal){
 
-    var Icon = L.icon({
-      iconUrl: "TODO",
-
-      iconSize:     [16, 16],
-      iconAnchor:   [8, 8],
-      popupAnchor:  [0, -16]
-    });
-
+    var Icon = signal.green ? IconOn : IconOff;
     var marker = L.marker([signal.pos.z, signal.pos.x], {icon: Icon});
     marker.bindPopup(this.createPopup(signal));
 
@@ -84,6 +95,7 @@ export default L.LayerGroup.extend({
         let marker = this.currentObjects[signalId];
         marker.setLatLng([signal.pos.z, signal.pos.x]);
         marker.setPopupContent(this.createPopup(signal));
+        marker.setIcon(signal.green ? IconOn : IconOff);
 
       } else {
         //marker does not exist
