@@ -1,1 +1,7 @@
+
+# planetoidgen
 planetoidgen:sun 255 100 0
+
+# beacon
+beacon:redbeam 255 0 0
+beacon:greenbeam 0 255 0

@@ -90,7 +90,7 @@ func (m *ColorMapping) LoadBytes(buffer []byte) (int, error) {
 }
 
 func (m *ColorMapping) LoadVFSColors(useLocal bool, filename string) (int, error) {
-	buffer, err := vfs.FSByte(useLocal, "/colors.txt")
+	buffer, err := vfs.FSByte(useLocal, filename)
 	if err != nil {
 		return 0, err
 	}
