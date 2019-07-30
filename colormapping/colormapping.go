@@ -97,7 +97,7 @@ func (m *ColorMapping) LoadVFSColors(useLocal bool, filename string) (int, error
 
 	log.WithFields(logrus.Fields{"size": len(buffer),
 		"filename": filename,
-		"useLocal": useLocal}).Info("Loading default colors")
+		"useLocal": useLocal}).Info("Loading colors")
 
 	return m.LoadBytes(buffer)
 }

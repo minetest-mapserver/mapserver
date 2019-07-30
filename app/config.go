@@ -61,7 +61,7 @@ type MapObjectConfig struct {
 	Fancyvend          bool `json:"fancyvend"`
 	ATM                bool `json:"atm"`
 	Train              bool `json:"train"`
-	TrainSignal              bool `json:"trainsignal"`
+	TrainSignal        bool `json:"trainsignal"`
 	Minecart           bool `json:"minecart"`
 	Locator            bool `json:"locator"`
 }
@@ -150,7 +150,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Fancyvend:          true,
 		ATM:                true,
 		Train:              true,
-TrainSignal: true,
+		TrainSignal:        true,
 		Minecart:           false,
 		Locator:            false,
 	}

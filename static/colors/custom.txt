@@ -1,0 +1,1 @@
+planetoidgen:sun 255 100 0

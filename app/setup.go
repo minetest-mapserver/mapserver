@@ -79,12 +79,19 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	//color mapping
 	a.Colormapping = colormapping.NewColorMapping()
 
-	//load default colors
-	count, err := a.Colormapping.LoadVFSColors(false, "/colors.txt")
-	if err != nil {
-		panic(err)
+	colorfiles := []string{
+		"/colors/default.txt",
+		"/colors/advtrains.txt",
+		"/colors/scifi_nodes.txt",
+		"/colors/custom.txt",
 	}
-	logrus.WithFields(logrus.Fields{"count": count}).Info("Loaded default colors")
+
+	for _, colorfile := range colorfiles {
+		_, err := a.Colormapping.LoadVFSColors(false, colorfile)
+		if err != nil {
+			panic(err)
+		}
+	}
 
 	//load provided colors, if available
 	info, err := os.Stat("colors.txt")
@@ -96,7 +103,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 			panic(err)
 		}
 
-		count, err = a.Colormapping.LoadBytes(data)
+		count, err := a.Colormapping.LoadBytes(data)
 		if err != nil {
 			panic(err)
 		}
