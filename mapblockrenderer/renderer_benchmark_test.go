@@ -14,14 +14,19 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func BenchmarkRender(b *testing.B) {
-	logrus.SetLevel(logrus.ErrorLevel)
+type callback func()
+
+func createRenderer(b *testing.B) (*MapBlockRenderer, callback) {
+	logrus.SetLevel(logrus.PanicLevel)
 
 	tmpfile, err := ioutil.TempFile("", "TestMigrate.*.sqlite")
 	if err != nil {
 		panic(err)
 	}
-	defer os.Remove(tmpfile.Name())
+	cleanup := func() {
+		os.Remove(tmpfile.Name())
+	}
+
 	testutils.CreateTestDatabase(tmpfile.Name())
 
 	a, err := sqlite.New(tmpfile.Name())
@@ -42,13 +47,73 @@ func BenchmarkRender(b *testing.B) {
 	}
 
 	r := NewMapBlockRenderer(cache, c)
-	os.Mkdir("../test-output", 0755)
-
 	b.ResetTimer()
+
+	return r, cleanup
+}
+
+
+func BenchmarkRenderEmptySingle(b *testing.B) {
+	r, cleanup := createRenderer(b)
+	defer cleanup()
+
+	for n := 0; n < b.N; n++ {
+
+		pos1 := coords.NewMapBlockCoords(10, 0, 10)
+		pos2 := coords.NewMapBlockCoords(10, 0, 10)
+
+		_, err := r.Render(pos1, pos2)
+
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func BenchmarkRenderSingle(b *testing.B) {
+	r, cleanup := createRenderer(b)
+	defer cleanup()
+
+	for n := 0; n < b.N; n++ {
+
+		pos1 := coords.NewMapBlockCoords(0, 0, 0)
+		pos2 := coords.NewMapBlockCoords(0, 0, 0)
+
+		_, err := r.Render(pos1, pos2)
+
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+
+func BenchmarkRenderStride(b *testing.B) {
+	r, cleanup := createRenderer(b)
+	defer cleanup()
+
 	for n := 0; n < b.N; n++ {
 
 		pos1 := coords.NewMapBlockCoords(0, 10, 0)
 		pos2 := coords.NewMapBlockCoords(0, -1, 0)
+
+		_, err := r.Render(pos1, pos2)
+
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+
+func BenchmarkRenderBigStride(b *testing.B) {
+	r, cleanup := createRenderer(b)
+	defer cleanup()
+
+	for n := 0; n < b.N; n++ {
+
+		pos1 := coords.NewMapBlockCoords(0, 1000, 0)
+		pos2 := coords.NewMapBlockCoords(0, -1000, 0)
 
 		_, err := r.Render(pos1, pos2)
 
