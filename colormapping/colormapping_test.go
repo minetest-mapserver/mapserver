@@ -6,7 +6,12 @@ import (
 
 func TestNewMapping(t *testing.T) {
 	m := NewColorMapping()
-	_, err := m.LoadVFSColors(false, "/colors.txt")
+	_, err := m.LoadVFSColors(false, "/colors/vanessa.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = m.LoadVFSColors(false, "/colors/scifi_nodes.txt")
 	if err != nil {
 		t.Fatal(err)
 	}

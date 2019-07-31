@@ -41,7 +41,7 @@ func TestTileRender(t *testing.T) {
 
 	cache := mapblockaccessor.NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond, 1000)
 	c := colormapping.NewColorMapping()
-	_, err = c.LoadVFSColors(false, "/colors.txt")
+	_, err = c.LoadVFSColors(false, "/colors/vanessa.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
