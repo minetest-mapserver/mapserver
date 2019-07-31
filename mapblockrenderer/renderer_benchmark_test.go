@@ -1,12 +1,10 @@
 package mapblockrenderer
 
 import (
-	"fmt"
 	"io/ioutil"
 	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/db/sqlite"
-	"mapserver/layer"
 	"mapserver/mapblockaccessor"
 	"mapserver/testutils"
 	"os"
@@ -18,15 +16,6 @@ import (
 
 func BenchmarkRender(b *testing.B) {
 	logrus.SetLevel(logrus.ErrorLevel)
-
-	layers := []*layer.Layer{
-		&layer.Layer{
-			Id:   0,
-			Name: "Base",
-			From: -16,
-			To:   160,
-		},
-	}
 
 	tmpfile, err := ioutil.TempFile("", "TestMigrate.*.sqlite")
 	if err != nil {
@@ -58,37 +47,14 @@ func BenchmarkRender(b *testing.B) {
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 
-		results := make(chan JobResult, 100)
-		jobs := make(chan JobData, 100)
+		pos1 := coords.NewMapBlockCoords(0, 10, 0)
+		pos2 := coords.NewMapBlockCoords(0, -1, 0)
 
-		go Worker(r, jobs, results)
+		_, err := r.Render(pos1, pos2)
 
-		go func() {
-			for result := range results {
-				if result.Data.Len() == 0 {
-					continue
-				}
-
-				tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1, layers)
-				f, _ := os.Create(fmt.Sprintf("../test-output/image_%d_%d.png", tc.X, tc.Y))
-				result.Data.WriteTo(f)
-				f.Close()
-			}
-		}()
-
-		from := 0
-		to := 0
-
-		for x := from; x < to; x++ {
-			for z := from; z < to; z++ {
-				pos1 := coords.NewMapBlockCoords(x, 10, z)
-				pos2 := coords.NewMapBlockCoords(x, -1, z)
-
-				jobs <- JobData{Pos1: pos1, Pos2: pos2}
-			}
+		if err != nil {
+			panic(err)
 		}
-
-		close(jobs)
 	}
 }
 
