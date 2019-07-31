@@ -1,6 +1,7 @@
 package app
 
 import (
+	"mapserver/blockaccessor"
 	"mapserver/colormapping"
 	"mapserver/db/postgres"
 	"mapserver/db/sqlite"
@@ -71,10 +72,14 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		panic(err)
 	}
 
+	// mapblock accessor
 	a.MapBlockAccessor = mapblockaccessor.NewMapBlockAccessor(
 		a.Blockdb,
 		expireDuration, purgeDuration,
 		cfg.MapBlockAccessorCfg.MaxItems)
+
+	// block accessor
+	a.BlockAccessor = blockaccessor.New(a.MapBlockAccessor)
 
 	//color mapping
 	a.Colormapping = colormapping.NewColorMapping()
