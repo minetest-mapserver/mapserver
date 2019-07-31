@@ -58,6 +58,3 @@ func BenchmarkRender(b *testing.B) {
 	}
 }
 
-//func BenchmarkRender1(b *testing.B) { benchmarkRender(1, b) }
-//func BenchmarkRender2(b *testing.B) { benchmarkRender(2, b) }
-//func BenchmarkRender4(b *testing.B) { benchmarkRender(4, b) }
