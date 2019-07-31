@@ -52,7 +52,6 @@ func createRenderer(b *testing.B) (*MapBlockRenderer, callback) {
 	return r, cleanup
 }
 
-
 func BenchmarkRenderEmptySingle(b *testing.B) {
 	r, cleanup := createRenderer(b)
 	defer cleanup()
@@ -87,7 +86,6 @@ func BenchmarkRenderSingle(b *testing.B) {
 	}
 }
 
-
 func BenchmarkRenderStride(b *testing.B) {
 	r, cleanup := createRenderer(b)
 	defer cleanup()
@@ -105,7 +103,6 @@ func BenchmarkRenderStride(b *testing.B) {
 	}
 }
 
-
 func BenchmarkRenderBigStride(b *testing.B) {
 	r, cleanup := createRenderer(b)
 	defer cleanup()
@@ -122,4 +119,3 @@ func BenchmarkRenderBigStride(b *testing.B) {
 		}
 	}
 }
-

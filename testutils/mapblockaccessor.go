@@ -1,8 +1,6 @@
 package testutils
 
-import (
-)
+import ()
 
 func CreateMapBlockAccessor() {
 }
-
