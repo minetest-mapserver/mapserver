@@ -18,7 +18,7 @@ func initialRender(ctx *app.App) {
 	for true {
 		start := time.Now()
 
-		result, err := ctx.BlockAccessor.FindNextLegacyBlocks(ctx.Settings, ctx.Config.Layers, ctx.Config.RenderingFetchLimit)
+		result, err := ctx.MapBlockAccessor.FindNextLegacyBlocks(ctx.Settings, ctx.Config.Layers, ctx.Config.RenderingFetchLimit)
 
 		if err != nil {
 			panic(err)

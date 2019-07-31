@@ -1,6 +1,7 @@
 package app
 
 import (
+	"mapserver/blockaccessor"
 	"mapserver/colormapping"
 	"mapserver/db"
 	"mapserver/eventbus"
@@ -23,7 +24,8 @@ type App struct {
 	TileDB   *tiledb.TileDB
 	Settings settings.Settings
 
-	BlockAccessor    *mapblockaccessor.MapBlockAccessor
+	MapBlockAccessor *mapblockaccessor.MapBlockAccessor
+	BlockAccessor    *blockaccessor.BlockAccessor
 	Colormapping     *colormapping.ColorMapping
 	Mapblockrenderer *mapblockrenderer.MapBlockRenderer
 	Tilerenderer     *tilerenderer.TileRenderer

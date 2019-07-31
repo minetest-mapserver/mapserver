@@ -24,7 +24,7 @@ func incrementalRender(ctx *app.App) {
 	for true {
 		start := time.Now()
 
-		result, err := ctx.BlockAccessor.FindMapBlocksByMtime(lastMtime, ctx.Config.RenderingFetchLimit, ctx.Config.Layers)
+		result, err := ctx.MapBlockAccessor.FindMapBlocksByMtime(lastMtime, ctx.Config.RenderingFetchLimit, ctx.Config.Layers)
 
 		if err != nil {
 			panic(err)

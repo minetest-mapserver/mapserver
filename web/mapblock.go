@@ -27,7 +27,7 @@ func (h *MapblockHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request)
 	z, _ := strconv.Atoi(parts[2])
 
 	c := coords.NewMapBlockCoords(x, y, z)
-	mb, err := h.ctx.BlockAccessor.GetMapBlock(c)
+	mb, err := h.ctx.MapBlockAccessor.GetMapBlock(c)
 
 	if err != nil {
 		resp.WriteHeader(500)

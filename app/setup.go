@@ -71,7 +71,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		panic(err)
 	}
 
-	a.BlockAccessor = mapblockaccessor.NewMapBlockAccessor(
+	a.MapBlockAccessor = mapblockaccessor.NewMapBlockAccessor(
 		a.Blockdb,
 		expireDuration, purgeDuration,
 		cfg.MapBlockAccessorCfg.MaxItems)
@@ -114,7 +114,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	}
 
 	//mapblock renderer
-	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.BlockAccessor, a.Colormapping)
+	a.Mapblockrenderer = mapblockrenderer.NewMapBlockRenderer(a.MapBlockAccessor, a.Colormapping)
 
 	//mapserver database
 	if a.Worldconfig[worldconfig.CONFIG_PSQL_MAPSERVER] != "" {

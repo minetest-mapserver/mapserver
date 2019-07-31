@@ -162,5 +162,5 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("locator:beacon_3", loc)
 	}
 
-	ctx.BlockAccessor.Eventbus.AddListener(&l)
+	ctx.MapBlockAccessor.Eventbus.AddListener(&l)
 }
