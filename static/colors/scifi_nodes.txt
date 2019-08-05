@@ -1,0 +1,44 @@
+
+
+# scifi nodes
+scifi_nodes:slope_white 240 240 240
+scifi_nodes:slope_vent 120 120 120
+scifi_nodes:white2 240 240 240
+scifi_nodes:white 240 240 240
+scifi_nodes:slope_glight 30 250 30
+scifi_nodes:black_mesh 20 20 20
+scifi_nodes:blacktile 20 20 20
+scifi_nodes:blink 200 30 30
+scifi_nodes:ladder 40 40 40
+scifi_nodes:black 20 20 20
+scifi_nodes:slope_rlight 200 30 30
+scifi_nodes:glass 30 30 30
+scifi_nodes:blacktile2 20 20 20
+scifi_nodes:light 200 200 200
+scifi_nodes:green_light 30 200 30
+scifi_nodes:slope_stripes 30 30 30
+scifi_nodes:doomwall3 50 50 50
+scifi_nodes:slope_blight 30 30 200
+scifi_nodes:whitetile 210 210 210
+scifi_nodes:windowstraight2 30 30 30
+scifi_nodes:lighttop 210 210 210
+scifi_nodes:windowstraight2 40 40 40
+#scifi_nodes:mesh2
+scifi_nodes:blue 30 30 200
+scifi_nodes:greenmetal 30 180 30
+scifi_nodes:greenlights2 30 200 30
+scifi_nodes:white_base 200 200 200
+scifi_nodes:dent 20 20 20
+scifi_nodes:blackvent 20 20 20
+scifi_nodes:black_screen 20 20 20
+scifi_nodes:slope_black 20 20 20
+scifi_nodes:greenbar 30 200 30
+scifi_nodes:black_lights 20 20 20
+scifi_nodes:slope_white2 200 200 200
+scifi_nodes:octbl 30 30 200
+scifi_nodes:lightbar 200 200 200
+scifi_nodes:green 20 210 20
+scifi_nodes:whiteoct 210 210 210
+scifi_nodes:tile 20 20 20
+scifi_nodes:lightbars 210 210 210
+scifi_nodes:octgrn 30 210 30

@@ -1,6 +1,31 @@
 
 # Changelog
 
+## Next
+
+* Train overlay decluttering
+
+## 3.0.0
+
+* Javascript ES6 frontend
+* Param2 coloring
+* More player infos (RTT)
+* Search ability for LCD displays
+* City border support
+* Label support (street, city names, regions)
+* Various bugfixes
+
+## 2.2.0
+
+* Added ATM overlay
+* Added locator overlay
+* Add ability for bone-owner search
+* Separate mapserver_mod into own repository
+
+## 2.1.1
+
+* force tcp v4 for listener
+
 ## 2.1.0
 
 * Added search bar

@@ -1,17 +1,21 @@
 Minetest mapserver
 =======
 
-[![Dependencies](https://img.shields.io/librariesio/github/thomasrudin-mt/mapserver.svg)](https://github.com/thomasrudin-mt/mapserver)
-[![Build Status](https://travis-ci.org/thomasrudin-mt/mapserver.svg?branch=master)](https://travis-ci.org/thomasrudin-mt/mapserver)
-![GitHub repo size](https://img.shields.io/github/repo-size/thomasrudin-mt/mapserver.svg)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/thomasrudin-mt/mapserver.svg)
+<img src="./doc/pics/General_map_preview.png">
+
+[![Dependencies](https://img.shields.io/librariesio/github/minetest-tools/mapserver.svg)](https://github.com/minetest-tools/mapserver)
+[![Build Status](https://travis-ci.org/minetest-tools/mapserver.svg?branch=master)](https://travis-ci.org/minetest-tools/mapserver)
+![GitHub repo size](https://img.shields.io/github/repo-size/minetest-tools/mapserver.svg)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-tools/mapserver.svg)
 
 Realtime mapserver for [Minetest](https://minetest.net)
 
+Demo: [Pandorabox Server map](https://pandorabox.io/map/#-1782.25/493.5/10)
 
 # Documentation
 
 * [Installation](doc/install.md)
+* [Building](doc/building.md)
 * [Mapserver mod](doc/mod.md)
 * [Parameters](doc/params.md)
 * [Search](doc/search.md)
@@ -36,8 +40,10 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 
 * Click-and-run installation
 * Initial and incremental map rendering
+* Param2 coloring
 * Realtime rendering and map-updating
 * Realtime player and world stats
+* [Search](doc/search.md) bar
 * Configurable layers (default: "Base" from y -16 to 160)
 * POI [markers](doc/mapobjects.md) / [mod](doc/mod.md) integration
 * Protector display
@@ -46,9 +52,8 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 
 ## Planned Features
 
-* Player infos (HP, breath, etc)
-* Street names / Train stuff
-* City borders
+* Isometric view
+* Route planning (via travelnets / trains)
 
 # Supported map-databases
 The connection is auto-detected from your `world.mt`:
