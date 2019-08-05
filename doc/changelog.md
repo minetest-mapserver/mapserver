@@ -4,6 +4,10 @@
 ## Next
 
 * Train overlay decluttering
+* Updated builtin colors
+* Hide travelnets and missions by pattern "(P)"
+* Added benchmark
+* Minor speed improvements
 
 ## 3.0.0
 
