@@ -100,10 +100,18 @@ export default {
 
         description = m("span", [
           "Shop, trading ",
-          m("span", {class:"badge badge-primary"}, obj.attributes.out_count + "x"),
+          m("span", {class:"badge badge-primary"},
+            obj.attributes.out_count,
+            "x",
+            m("i", {class:"fa fa-cart-arrow-down"})
+          ),
           m("span", {class:"badge badge-info"}, obj.attributes.out_item),
           " for ",
-          m("span", {class:"badge badge-primary"},  obj.attributes.in_count + "x"),
+          m("span", {class:"badge badge-primary"},
+            obj.attributes.in_count,
+            "x",
+            m("i", {class:"fa fa-money-bill"})
+          ),
           m("span", {class:"badge badge-info"},  obj.attributes.in_item),
           " Stock: ",
           m("span", {class:"badge badge-info"}, obj.attributes.stock)
