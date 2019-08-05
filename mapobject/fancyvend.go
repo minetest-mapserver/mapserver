@@ -19,9 +19,14 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 	parser := luaparser.New()
 
 	isAdmin := false
+	isDepositor := false
 
 	if nodename == "fancy_vend:admin_vendor" || nodename == "fancy_vend:admin_depo" {
 		isAdmin = true
+	}
+
+	if nodename == "fancy_vend:player_depo" || nodename == "fancy_vend:admin_depo" {
+		isDepositor = true
 	}
 
 	payInv := invMap["wanted_item"]
@@ -88,10 +93,19 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["type"] = "fancyvend"
 
-	o.Attributes["in_item"] = in_item
-	o.Attributes["in_count"] = strconv.Itoa(in_count)
-	o.Attributes["out_item"] = out_item
-	o.Attributes["out_count"] = strconv.Itoa(out_count)
+	if !isDepositor {
+		o.Attributes["in_item"] = in_item
+		o.Attributes["in_count"] = strconv.Itoa(in_count)
+		o.Attributes["out_item"] = out_item
+		o.Attributes["out_count"] = strconv.Itoa(out_count)
+	} else {
+		// invert in and out
+		o.Attributes["out_item"] = in_item
+		o.Attributes["out_count"] = strconv.Itoa(in_count)
+		o.Attributes["in_item"] = out_item
+		o.Attributes["in_count"] = strconv.Itoa(out_count)
+
+	}
 	o.Attributes["stock"] = strconv.Itoa(stock_factor)
 
 	return o
