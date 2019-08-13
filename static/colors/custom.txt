@@ -5,3 +5,12 @@ planetoidgen:sun 255 100 0
 # beacon
 beacon:redbeam 255 0 0
 beacon:greenbeam 0 255 0
+
+# ores (thx to MilesDyson)
+default:stone_with_coal 36 36 36
+default:stone_with_copper 115 113 66
+default:stone_with_diamond 108 255 255
+default:stone_with_gold 255 228 0
+default:stone_with_iron 146 73 36
+default:stone_with_mese 186 194 0
+default:stone_with_tin 202 202 202
