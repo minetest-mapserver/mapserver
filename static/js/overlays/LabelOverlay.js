@@ -21,7 +21,7 @@ export default AbstractIconOverlay.extend({
     var notVisible = (fontSize < 2 || fontSize > 50);
 
     const html = `
-      <svg height='${height}' width='${width}' text-anchor='middle'>
+      <svg height='${height}' width='${width}' text-anchor='middle' style='pointer-events: none;'>
         <text x='${width/2}' y='${height/2}'
           font-size='${fontSize}px'
           fill='${lbl.attributes.color}'
