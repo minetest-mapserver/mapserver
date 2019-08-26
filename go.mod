@@ -4,7 +4,7 @@ require (
 	github.com/disintegration/imaging v1.5.0
 	github.com/gorilla/websocket v1.4.0
 	github.com/lib/pq v1.0.0
-	github.com/mattn/go-sqlite3 v1.10.0
+	github.com/mattn/go-sqlite3 v1.11.0
 	github.com/mjibson/esc v0.1.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/prometheus/client_golang v0.9.2
