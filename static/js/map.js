@@ -9,8 +9,6 @@ import layerManager from './LayerManager.js';
 
 export function setup(cfg){
 
-  wsChannel.connect();
-
   var map = L.map('image-map', {
     minZoom: 2,
     maxZoom: 12,
