@@ -7,6 +7,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/disintegration/imaging v1.5.0 h1:uYqUhwNmLU4K1FN44vhqS4TZJRAA4RhBINgbQlKyGi0=
 github.com/disintegration/imaging v1.5.0/go.mod h1:9B/deIUIrliYkyMTuXJd6OUFLcrZ2tf+3Qlwnaf/CjU=
+github.com/disintegration/imaging v1.6.1 h1:JnBbK6ECIZb1NsWIikP9pd8gIlTIRx7fuDNpU9fsxOE=
+github.com/disintegration/imaging v1.6.1/go.mod h1:xuIt+sRxDFrHS0drzXUlCJthkJ8k7lkkUojDSR247MQ=
 github.com/golang/protobuf v1.2.0 h1:P3YflyNX/ehuJFLhxviNdFxQPkGK5cDcApsge1SqnvM=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/gorilla/websocket v1.4.0 h1:WDFjx/TMzVgy9VdMMQi2K2Emtwi2QcUQsztZ/zLaH/Q=
@@ -46,6 +48,7 @@ github.com/yuin/gopher-lua v0.0.0-20190206043414-8bfc7677f583 h1:SZPG5w7Qxq7bMcM
 github.com/yuin/gopher-lua v0.0.0-20190206043414-8bfc7677f583/go.mod h1:gqRgreBUhTSL0GeU64rtZ3Uq3wtjOa/TB2YfrtkCbVQ=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793 h1:u+LnwYTOOW7Ukr/fppxEb1Nwz0AtPflrblfvUudpo+I=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
+golang.org/x/image v0.0.0-20180708004352-c73c2afc3b81/go.mod h1:ux5Hcp/YLpHSI86hEcLt0YII63i6oz57MZXIpbrjZUs=
 golang.org/x/image v0.0.0-20190118043309-183bebdce1b2 h1:FNSSV4jv1PrPsiM2iKGpqLPPgYACqh9Muav7Pollk1k=
 golang.org/x/image v0.0.0-20190118043309-183bebdce1b2/go.mod h1:ux5Hcp/YLpHSI86hEcLt0YII63i6oz57MZXIpbrjZUs=
 golang.org/x/net v0.0.0-20181201002055-351d144fa1fc h1:a3CU5tJYVj92DY2LaA1kUkrsqD5/3mLDhx2NcNqyW+0=
