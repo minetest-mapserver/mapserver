@@ -3,7 +3,6 @@ Minetest mapserver
 
 <img src="./doc/pics/General_map_preview.png">
 
-[![Dependencies](https://img.shields.io/librariesio/github/minetest-tools/mapserver.svg)](https://github.com/minetest-tools/mapserver)
 [![Build Status](https://travis-ci.org/minetest-tools/mapserver.svg?branch=master)](https://travis-ci.org/minetest-tools/mapserver)
 ![GitHub repo size](https://img.shields.io/github/repo-size/minetest-tools/mapserver.svg)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-tools/mapserver.svg)
