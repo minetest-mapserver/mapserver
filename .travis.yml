@@ -8,7 +8,7 @@ os:
  - linux
 
 script:
- - go get github.com/mjibson/esc
- - go generate
- - go build
- - go test
+ - env GO111MODULE=on go get github.com/mjibson/esc
+ - env GO111MODULE=on go generate
+ - env GO111MODULE=on go build
+ - env GO111MODULE=on go test
