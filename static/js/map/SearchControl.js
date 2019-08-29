@@ -1,5 +1,5 @@
-import SearchMenu from './search/SearchMenu.js';
-import SearchInput from './search/SearchInput.js';
+import SearchMenu from '../search/SearchMenu.js';
+import SearchInput from '../search/SearchInput.js';
 
 export default L.Control.extend({
     initialize: function(wsChannel, opts) {

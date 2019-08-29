@@ -1,10 +1,10 @@
-import wsChannel from '../WebSocketChannel.js';
-import SimpleCRS from '../SimpleCRS.js';
-import CoordinatesDisplay from '../CoordinatesDisplay.js';
-import WorldInfoDisplay from '../WorldInfoDisplay.js';
-import SearchControl from '../SearchControl.js';
-import Overlaysetup from '../Overlaysetup.js';
-import layerManager from '../LayerManager.js';
+import wsChannel from './WebSocketChannel.js';
+import SimpleCRS from './SimpleCRS.js';
+import CoordinatesDisplay from './CoordinatesDisplay.js';
+import WorldInfoDisplay from './WorldInfoDisplay.js';
+import SearchControl from './SearchControl.js';
+import Overlaysetup from './Overlaysetup.js';
+import layerManager from './LayerManager.js';
 import config from '../config.js';
 
 export default {
