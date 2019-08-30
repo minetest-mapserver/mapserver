@@ -1,5 +1,4 @@
-import SearchMenu from '../search/SearchMenu.js';
-import SearchInput from '../search/SearchInput.js';
+import SearchInput from '../components/SearchInput.js';
 
 export default L.Control.extend({
     initialize: function(wsChannel, opts) {
@@ -9,10 +8,6 @@ export default L.Control.extend({
     onAdd: function(map) {
       var div = L.DomUtil.create('div');
       m.mount(div, SearchInput);
-      m.mount(document.getElementById("search-content"), {
-        view: () => m(SearchMenu, {map: map})
-      });
-
       return div;
     }
 });

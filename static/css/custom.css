@@ -20,15 +20,6 @@ body {
   padding: 5px;
 }
 
-#search-menu {
-  position: absolute;
-  top: 5%;
-  bottom: 5%;
-  left: 5%;
-  right: 5%;
-  z-index: 99999;
-}
-
 .mapserver-label-icon {
   margin-left: -100px !important;
   margin-top: -100px !important;

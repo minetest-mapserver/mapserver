@@ -1,5 +1,6 @@
 
-import MapComponent from './map/MapComponent.js';
+import Map from './components/Map.js';
+import Search from './components/Search.js';
 
 var Home = {
     view: function() {
@@ -9,5 +10,6 @@ var Home = {
 
 export default {
   "/": Home,
-  "/map/:layerId/:zoom/:lon/:lat": MapComponent
+  "/map/:layerId/:zoom/:lon/:lat": Map,
+  "/search/:query": Search
 }
