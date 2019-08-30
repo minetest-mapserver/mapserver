@@ -4,6 +4,7 @@ import CoordinatesDisplay from './CoordinatesDisplay.js';
 import WorldInfoDisplay from './WorldInfoDisplay.js';
 import SearchControl from './SearchControl.js';
 import Overlaysetup from './Overlaysetup.js';
+import CustomOverlay from './CustomOverlay.js';
 import layerManager from './LayerManager.js';
 import config from '../config.js';
 
@@ -33,6 +34,7 @@ export default {
 
     //All overlays
     Overlaysetup(cfg, map, overlays, wsChannel, layerManager);
+    CustomOverlay(map, overlays);
 
     new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
     new WorldInfoDisplay(wsChannel, { position: 'bottomright' }).addTo(map);
@@ -54,8 +56,6 @@ export default {
     map.on('zoomend', updateHash);
     map.on('moveend', updateHash);
     map.on('baselayerchange', updateHash);
-
-    //TODO: overlay persistence (state, localstorage)
   },
 
   onbeforeupdate(newVnode, oldVnode) {
