@@ -1,4 +1,4 @@
-import wsChannel from './WebSocketChannel.js';
+import wsChannel from '../WebSocketChannel.js';
 import SimpleCRS from './SimpleCRS.js';
 import CoordinatesDisplay from './CoordinatesDisplay.js';
 import WorldInfoDisplay from './WorldInfoDisplay.js';
@@ -13,7 +13,6 @@ export default {
   },
 
   oncreate(vnode){
-    console.log("oncreate", vnode);
     const cfg = config.get();
 
     var map = L.map(vnode.dom, {
@@ -45,22 +44,36 @@ export default {
     //layer control
     L.control.layers(layerManager.layerObjects, overlays, { position: "topright" }).addTo(map);
 
+    function updateHash(){
+      const center = map.getCenter();
+      const layerId = layerManager.getCurrentLayer().id;
+
+      m.route.set(`/map/${layerId}/${map.getZoom()}/${center.lng}/${center.lat}`);
+    }
+
+    map.on('zoomend', updateHash);
+    map.on('moveend', updateHash);
+    map.on('baselayerchange', updateHash);
+
     //TODO: overlay persistence (state, localstorage)
-    //TODO: update hash
   },
 
   onbeforeupdate(newVnode, oldVnode) {
-      return false;
+    const center = newVnode.state.map.getCenter();
+    const newAattrs = newVnode.attrs;
+
+    return newAattrs.layerId != layerManager.getCurrentLayer().id ||
+      newAattrs.zoom != newVnode.state.map.getZoom() ||
+      Math.abs(newAattrs.lat - center.lat) > 0.1 ||
+      Math.abs(newAattrs.lat - center.lat) > 0.1;
   },
 
   onupdate(vnode){
-    console.log("onupdate", vnode);
-
-    //TODO: compare and update center,zoom,layer
+    layerManager.switchLayer(+vnode.attrs.layerId);
+    vnode.state.map.setView([+vnode.attrs.lat, +vnode.attrs.lon], +vnode.attrs.zoom);
   },
 
   onremove(vnode){
-    console.log("onremove", vnode);
     vnode.state.map.remove();
   }
 }
