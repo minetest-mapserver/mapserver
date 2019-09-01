@@ -25,7 +25,7 @@ export function createMap(node, layerId, zoom, lat, lon){
 
   var overlays = {};
 
-  layerManager.setup(wsChannel, cfg.layers, map, layerId);
+  layerManager.setupMap(wsChannel, map, layerId);
 
   //All overlays
   Overlaysetup(cfg, map, overlays, wsChannel, layerManager);
