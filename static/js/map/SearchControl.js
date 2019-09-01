@@ -5,7 +5,7 @@ export default L.Control.extend({
         L.Control.prototype.initialize.call(this, opts);
     },
 
-    onAdd: function(map) {
+    onAdd: function() {
       var div = L.DomUtil.create('div');
       m.mount(div, SearchInput);
       return div;

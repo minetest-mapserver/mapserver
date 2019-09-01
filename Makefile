@@ -36,7 +36,7 @@ clean:
 	rm -rf $(OUT_DIR)
 
 jshint:
-	jshint static/js/*.js static/js/util static/js/overlays static/js/search
+	jshint static/js/*.js static/js/components static/js/map static/js/util
 
 $(STATIC_VFS):
 	go generate

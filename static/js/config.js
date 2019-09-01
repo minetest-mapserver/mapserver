@@ -9,4 +9,4 @@ export default {
   set(cfg){
     config = cfg;
   }
-}
+};

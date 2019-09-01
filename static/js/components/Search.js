@@ -4,7 +4,7 @@ import { getMapObjects } from '../api.js';
 const state = {
   busy: false,
   result: []
-}
+};
 
 function searchFor(type, key, valuelike){
   return getMapObjects({
@@ -49,7 +49,6 @@ function search(query){
 
 export default {
   oncreate(vnode){
-    console.log("oncreate", vnode);
     search(vnode.attrs.query);
   },
 
@@ -57,7 +56,7 @@ export default {
     if (state.result.length == 0) {
       return m("div", vnode.attrs.query);
     } else {
-      return m(SearchResult, { result: state.result })
+      return m(SearchResult, { result: state.result });
     }
   }
-}
+};

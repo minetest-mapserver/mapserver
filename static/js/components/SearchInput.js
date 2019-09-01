@@ -1,7 +1,7 @@
 
 const state = {
   query: ""
-}
+};
 
 function doSearch(){
   m.route.set(`/search/${state.query}`);

@@ -2,7 +2,7 @@
 var customOverlays = {};
 
 try {
-  customOverlays = JSON.parse(localStorage["mapserver-customOverlays"])
+  customOverlays = JSON.parse(localStorage["mapserver-customOverlays"]);
 } catch (e){}
 
 function save(){

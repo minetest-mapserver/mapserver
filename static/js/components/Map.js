@@ -1,9 +1,8 @@
-import wsChannel from '../WebSocketChannel.js';
 import layerManager from '../map/LayerManager.js';
 import { createMap } from '../map/MapFactory.js';
 
 export default {
-  view(vnode){
+  view(){
     return m("div", { class: "full-screen" });
   },
 
@@ -31,7 +30,7 @@ export default {
     map.on('baselayerchange', updateHash);
   },
 
-  onbeforeupdate(newVnode, oldVnode) {
+  onbeforeupdate(newVnode) {
     const center = newVnode.state.map.getCenter();
     const newAattrs = newVnode.attrs;
 
@@ -49,4 +48,4 @@ export default {
   onremove(vnode){
     vnode.state.map.remove();
   }
-}
+};
