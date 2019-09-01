@@ -9,6 +9,16 @@ function save(){
   localStorage["mapserver-customOverlays"] = JSON.stringify(customOverlays);
 }
 
+function onAddLayer(e){
+  customOverlays[e.name] = true;
+  save();
+}
+
+function onRemoveLayer(e){
+  customOverlays[e.name] = false;
+  save();
+}
+
 export default function(map, overlays){
 
   Object.keys(customOverlays)
@@ -27,14 +37,12 @@ export default function(map, overlays){
     }
   });
 
-  map.on('overlayadd', e => {
-    customOverlays[e.name] = true;
-    save();
+  map.on('unload', () => {
+    map.off('overlayadd', onAddLayer);
+    map.off('overlayremove', onRemoveLayer);
   });
 
-  map.on('overlayremove', e => {
-    customOverlays[e.name] = false;
-    save();
-  });
+  map.on('overlayadd', onAddLayer);
+  map.on('overlayremove', onRemoveLayer);
 
 }
