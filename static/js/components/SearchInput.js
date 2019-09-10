@@ -1,20 +1,23 @@
-import SearchStore from './SearchStore.js';
-import SearchService from './SearchService.js';
+
+const state = {
+  query: ""
+};
+
+function doSearch(){
+  m.route.set(`/search/${state.query}`);
+}
 
 export default {
   view: function(){
+
     function handleInput(e){
-      SearchStore.query = e.target.value;
+      state.query = e.target.value;
     }
 
     function handleKeyDown(e){
       if (e.keyCode == 13){
-        SearchService.search();
+        doSearch();
       }
-    }
-
-    function handleDoSearch(){
-      SearchService.search();
     }
 
     return m("div", { class: "input-group mb-3" }, [
@@ -23,9 +26,9 @@ export default {
         class: "form-control",
         oninput: handleInput,
         onkeydown: handleKeyDown,
-        value: SearchStore.query
+        value: state.query
       }),
-      m("div", { class: "input-group-append", onclick: handleDoSearch }, [
+      m("div", { class: "input-group-append", onclick: doSearch }, [
         m("span", { class: "input-group-text" }, [
           m("i", { class: "fa fa-search"})
         ])

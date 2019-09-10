@@ -2,17 +2,20 @@ import RealtimeTileLayer from './RealtimeTileLayer.js';
 
 class LayerManager {
 
-  setup(wsChannel, layers, map, currentLayerId){
+  setup(layers){
     this.listeners = [];
-    this.currentLayer = layers[0];
     this.layers = layers;
+    this.currentLayer = this.layers[0];
+  }
+
+  setupMap(wsChannel, map, currentLayerId){
     this.map = map;
     this.layerObjects = {};
 
     var self = this;
 
     //All layers
-    layers.forEach(function(layer){
+    this.layers.forEach(function(layer){
       var tileLayer = new RealtimeTileLayer(wsChannel, layer.id, map);
       self.layerObjects[layer.name] = tileLayer;
       if (layer.id == currentLayerId){

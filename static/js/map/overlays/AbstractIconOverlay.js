@@ -1,5 +1,5 @@
-import debounce from '../util/debounce.js';
-import { getMapObjects } from '../api.js';
+import debounce from '../../util/debounce.js';
+import { getMapObjects } from '../../api.js';
 
 export default L.LayerGroup.extend({
   initialize: function(wsChannel, layerMgr, type, icon) {

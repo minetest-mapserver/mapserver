@@ -1,9 +1,8 @@
-import SearchStore from './SearchStore.js';
-import layerMgr from '../LayerManager.js';
+import layerMgr from '../map/LayerManager.js';
 
 export default {
   view: function(vnode){
-    var map = vnode.attrs.map;
+    var result = vnode.attrs.result;
 
     function getLayer(obj){
       var layer = layerMgr.getLayerByY(obj.y);
@@ -16,7 +15,7 @@ export default {
       return m("span", {class:"badge badge-success"}, text);
     }
 
-    var rows = SearchStore.result.map(function(obj){
+    var rows = result.map(function(obj){
 
       var row_classes = "";
       var description = obj.type;
@@ -120,11 +119,7 @@ export default {
 
       function onclick(){
         var layer = layerMgr.getLayerByY(obj.y);
-
-        layerMgr.switchLayer(layer.id);
-
-        map.setView([obj.z, obj.x], 12);
-        SearchStore.show = false;
+        m.route.set(`/map/${layer.id}/${12}/${obj.x}/${obj.z}`);
       }
 
       return m("tr", {"class": row_classes}, [

@@ -1,10 +1,13 @@
 body {
-  height: 100%;
+  height: 98%;
   margin: 0;
-  overflow: hidden;
 }
 
-#image-map {
+#app {
+  height: 100%;
+}
+
+.full-screen {
   width: 100%;
   height: 100%;
   border: 1px solid #ccc;
@@ -14,15 +17,6 @@ body {
 .leaflet-custom-display {
   background: #fff;
   padding: 5px;
-}
-
-#search-menu {
-  position: absolute;
-  top: 5%;
-  bottom: 5%;
-  left: 5%;
-  right: 5%;
-  z-index: 99999;
 }
 
 .mapserver-label-icon {
