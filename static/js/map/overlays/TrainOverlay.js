@@ -1,3 +1,5 @@
+import wsChannel from '../../WebSocketChannel.js';
+import layerMgr from '../../LayerManager.js';
 
 function getTrainImageUrlForType(type){
   switch(type){
@@ -29,23 +31,20 @@ function getTrainImageUrlForType(type){
   }
 }
 
+let trains = [];
+
+//update trains all the time
+wsChannel.addListener("minetest-info", function(info){
+  trains = info.trains || [];
+});
+
 export default L.LayerGroup.extend({
-  initialize: function(wsChannel, layerMgr) {
+  initialize: function() {
     L.LayerGroup.prototype.initialize.call(this);
 
-    this.layerMgr = layerMgr;
-    this.wsChannel = wsChannel;
-
     this.currentObjects = {}; // name => marker
-    this.trains = [];
 
     this.reDraw = this.reDraw.bind(this);
-    this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
-
-    //update players all the time
-    this.wsChannel.addListener("minetest-info", function(info){
-      this.trains = info.trains || [];
-    }.bind(this));
   },
 
   createPopup: function(train){
@@ -100,7 +99,7 @@ export default L.LayerGroup.extend({
   },
 
   isTrainInCurrentLayer: function(train){
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
 
     return (train.pos.y >= (mapLayer.from*16) && train.pos.y <= (mapLayer.to*16));
   },
@@ -114,7 +113,7 @@ export default L.LayerGroup.extend({
       return;
     }
 
-    this.trains.forEach(train => {
+    trains.forEach(train => {
       var isInLayer = this.isTrainInCurrentLayer(train);
 
       if (!isInLayer){
@@ -144,7 +143,7 @@ export default L.LayerGroup.extend({
     });
 
     Object.keys(this.currentObjects).forEach(existingId => {
-      var trainIsActive = this.trains.find(function(t){
+      var trainIsActive = trains.find(function(t){
         return t.id == existingId;
       });
 
@@ -164,9 +163,9 @@ export default L.LayerGroup.extend({
       return;
     }
 
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
 
-    this.trains.forEach(train => {
+    trains.forEach(train => {
       if (!this.isTrainInCurrentLayer(train)){
         //not in current layer
         return;
@@ -181,14 +180,12 @@ export default L.LayerGroup.extend({
 
   onAdd: function(map) {
     this.map = map;
-    this.layerMgr.addListener(() => this.reDraw());
-    this.wsChannel.addListener("minetest-info", () => this.onMinetestUpdate());
+    wsChannel.addListener("minetest-info", () => this.onMinetestUpdate());
     this.reDraw();
   },
 
   onRemove: function(/*map*/) {
     this.clearLayers();
-    this.layerMgr.removeListener(() => this.reDraw());
-    this.wsChannel.removeListener("minetest-info", () => this.onMinetestUpdate());
+    wsChannel.removeListener("minetest-info", () => this.onMinetestUpdate());
   }
 });

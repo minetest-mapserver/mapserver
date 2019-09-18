@@ -9,8 +9,8 @@ var TechnicQuarryIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicquarry", TechnicQuarryIcon);
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "technicquarry", TechnicQuarryIcon);
   },
 
   createPopup: function(quarry){

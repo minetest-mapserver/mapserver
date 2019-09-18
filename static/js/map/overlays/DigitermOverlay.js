@@ -9,8 +9,8 @@ var DigitermIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "digiterm", DigitermIcon);
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "digiterm", DigitermIcon);
   },
 
   createPopup: function(lcd){

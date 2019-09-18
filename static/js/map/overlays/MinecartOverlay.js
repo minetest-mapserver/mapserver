@@ -1,21 +1,22 @@
+import wsChannel from '../../WebSocketChannel.js';
+import layerMgr from '../../LayerManager.js';
+
+let minecarts = [];
+
+//update minecarts all the time
+wsChannel.addListener("minetest-info", function(info){
+  minecarts = info.minecarts || [];
+});
+
 
 export default L.LayerGroup.extend({
-  initialize: function(wsChannel, layerMgr) {
+  initialize: function() {
     L.LayerGroup.prototype.initialize.call(this);
 
-    this.layerMgr = layerMgr;
-    this.wsChannel = wsChannel;
-
     this.currentObjects = {}; // name => marker
-    this.minecarts = [];
 
     this.reDraw = this.reDraw.bind(this);
     this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
-
-    //update players all the time
-    this.wsChannel.addListener("minetest-info", function(info){
-      this.minecarts = info.minecarts || [];
-    }.bind(this));
   },
 
   createMarker: function(cart){
@@ -38,7 +39,7 @@ export default L.LayerGroup.extend({
   },
 
   isCartInCurrentLayer: function(cart){
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
 
     return (cart.pos.y >= (mapLayer.from*16) && cart.pos.y <= (mapLayer.to*16));
   },
@@ -47,7 +48,7 @@ export default L.LayerGroup.extend({
   onMinetestUpdate: function(/*info*/){
     var self = this;
 
-    this.minecarts.forEach(function(cart){
+    minecarts.forEach(function(cart){
       var isInLayer = self.isCartInCurrentLayer(cart);
 
       if (!isInLayer){
@@ -76,7 +77,7 @@ export default L.LayerGroup.extend({
     });
 
     Object.keys(self.currentObjects).forEach(function(existingId){
-      var cartIsActive = self.minecarts.find(function(t){
+      var cartIsActive = minecarts.find(function(t){
         return t.id == existingId;
       });
 
@@ -92,9 +93,7 @@ export default L.LayerGroup.extend({
     this.currentObjects = {};
     this.clearLayers();
 
-    var mapLayer = this.layerMgr.getCurrentLayer();
-
-    this.minecarts.forEach(function(cart){
+    minecarts.forEach(function(cart){
       if (!self.isCartInCurrentLayer(cart)){
         //not in current layer
         return;
@@ -108,14 +107,12 @@ export default L.LayerGroup.extend({
   },
 
   onAdd: function(/*map*/) {
-    this.layerMgr.addListener(this.reDraw);
-    this.wsChannel.addListener("minetest-info", this.onMinetestUpdate);
+    wsChannel.addListener("minetest-info", this.onMinetestUpdate);
     this.reDraw();
   },
 
   onRemove: function(/*map*/) {
     this.clearLayers();
-    this.layerMgr.removeListener(this.reDraw);
-    this.wsChannel.removeListener("minetest-info", this.onMinetestUpdate);
+    wsChannel.removeListener("minetest-info", this.onMinetestUpdate);
   }
 });

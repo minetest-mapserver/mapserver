@@ -1,8 +1,8 @@
 import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
 
 export default AbstractGeoJsonOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractGeoJsonOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "protector");
+  initialize: function() {
+    AbstractGeoJsonOverlay.prototype.initialize.call(this, "protector");
   },
 
   getMaxDisplayedZoom: function(){

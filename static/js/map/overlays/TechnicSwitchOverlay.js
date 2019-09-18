@@ -9,8 +9,8 @@ var TechnicSwitchIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicswitch", TechnicSwitchIcon);
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "technicswitch", TechnicSwitchIcon);
   },
 
   createPopup: function(sw){

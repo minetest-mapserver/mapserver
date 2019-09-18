@@ -9,8 +9,8 @@ var TechnicAnchorIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "technicanchor", TechnicAnchorIcon);
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "technicanchor", TechnicAnchorIcon);
   },
 
   createPopup: function(lcd){

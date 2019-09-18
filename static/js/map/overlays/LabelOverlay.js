@@ -1,8 +1,8 @@
 import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "label");
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "label");
   },
 
   getMaxDisplayedZoom: function(){

@@ -9,8 +9,8 @@ var TravelnetIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "travelnet", TravelnetIcon);
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "travelnet", TravelnetIcon);
   },
 
   createPopup: function(travelnet){

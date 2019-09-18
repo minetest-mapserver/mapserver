@@ -1,3 +1,5 @@
+import wsChannel from '../../WebSocketChannel.js';
+import layerMgr from '../../LayerManager.js';
 
 var IconOn = L.icon({
   iconUrl: "pics/advtrains/advtrains_signal_on.png",
@@ -13,25 +15,18 @@ var IconOff = L.icon({
   popupAnchor:  [0, -16]
 });
 
+let signals = [];
 
+//update signals all the time
+wsChannel.addListener("minetest-info", function(info){
+  signals = info.signals || [];
+});
 
 export default L.LayerGroup.extend({
-  initialize: function(wsChannel, layerMgr) {
+  initialize: function() {
     L.LayerGroup.prototype.initialize.call(this);
 
-    this.layerMgr = layerMgr;
-    this.wsChannel = wsChannel;
-
     this.currentObjects = {}; // name => marker
-    this.signals = [];
-
-    this.reDraw = this.reDraw.bind(this);
-    this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
-
-    //update players all the time
-    this.wsChannel.addListener("minetest-info", function(info){
-      this.signals = info.signals || [];
-    }.bind(this));
   },
 
   createPopup: function(signal){
@@ -61,7 +56,7 @@ export default L.LayerGroup.extend({
   },
 
   isSignalInCurrentLayer: function(signal){
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
 
     return (signal.pos.y >= (mapLayer.from*16) && signal.pos.y <= (mapLayer.to*16));
   },
@@ -127,7 +122,7 @@ export default L.LayerGroup.extend({
       return;
     }
 
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
 
     this.signals.forEach(signal => {
       if (!this.isSignalInCurrentLayer(signal)){
@@ -145,14 +140,12 @@ export default L.LayerGroup.extend({
 
   onAdd: function(map) {
     this.map = map;
-    this.layerMgr.addListener(() => this.reDraw());
-    this.wsChannel.addListener("minetest-info", () => this.onMinetestUpdate());
+    wsChannel.addListener("minetest-info", () => this.onMinetestUpdate());
     this.reDraw();
   },
 
   onRemove: function(/*map*/) {
     this.clearLayers();
-    this.layerMgr.removeListener(() => this.reDraw());
-    this.wsChannel.removeListener("minetest-info", () => this.onMinetestUpdate());
+    wsChannel.removeListener("minetest-info", () => this.onMinetestUpdate());
   }
 });

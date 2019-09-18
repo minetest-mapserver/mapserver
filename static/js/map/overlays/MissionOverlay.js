@@ -9,8 +9,8 @@ var MissionIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "mission", MissionIcon);
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "mission", MissionIcon);
   },
 
   createPopup: function(mission){
