@@ -3,6 +3,7 @@ import SimpleCRS from './SimpleCRS.js';
 import CoordinatesDisplay from './CoordinatesDisplay.js';
 import WorldInfoDisplay from './WorldInfoDisplay.js';
 import SearchControl from './SearchControl.js';
+import LayerControl from './LayerControl.js';
 import Overlaysetup from './Overlaysetup.js';
 import CustomOverlay from './CustomOverlay.js';
 import layerManager from './LayerManager.js';
@@ -37,6 +38,8 @@ export function createMap(node, layerId, zoom, lat, lon){
   if (cfg.enablesearch){
     new SearchControl(wsChannel, { position: 'topright' }).addTo(map);
   }
+
+  new LayerControl({ position: 'topright' }).addTo(map);
 
   //layer control
   L.control.layers(layerManager.layerObjects, overlays, { position: "topright" }).addTo(map);
