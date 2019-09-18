@@ -53,6 +53,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 ## Planned Features
 
 * Isometric view
+* Skin support
 * Route planning (via travelnets / trains)
 
 # Supported map-databases
