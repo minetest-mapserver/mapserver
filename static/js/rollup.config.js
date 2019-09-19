@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
 	input: 'main.js',
 	output: {
 		file :'bundle.js',
