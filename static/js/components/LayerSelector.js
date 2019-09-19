@@ -15,7 +15,7 @@ export default {
       "option",
       { value: layer.id, selected: layer.id == LayerManager.getCurrentLayer().id },
       layer.name
-    ))
+    ));
 
     return m("select", { class: "form-control", onchange: onchange },layers);
   }

@@ -9,9 +9,9 @@ const Component = {
     return m("div", [
       cfg.enablesearch ? m(SearchInput) : null,
       m(LayerSelector)
-    ])
+    ]);
   }
-}
+};
 
 
 export default L.Control.extend({

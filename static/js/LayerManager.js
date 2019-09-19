@@ -1,4 +1,3 @@
-import RealtimeTileLayer from './map/RealtimeTileLayer.js';
 
 class LayerManager {
 
