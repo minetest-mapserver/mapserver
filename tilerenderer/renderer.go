@@ -15,7 +15,6 @@ import (
 	"strconv"
 	"time"
 	"github.com/sirupsen/logrus"
-
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -73,35 +72,30 @@ const (
 	SUB_IMG_SIZE = IMG_SIZE >> 1
 )
 
-func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
+func (tr *TileRenderer) Render(tc *coords.TileCoords) (error) {
 	//No tile in db
-	img, data, err := tr.renderImage(tc, 2)
+	_, err := tr.renderImage(tc, 2)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	if img == nil {
-		//empty tile
-		return nil, nil
-	}
-
-	return data, nil
+	return nil
 }
 
-func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, []byte, error) {
+func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, error) {
 
 	if recursionDepth < 2 {
 		cachedtile, err := tr.tdb.GetTile(tc)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 
 		if cachedtile != nil {
 			reader := bytes.NewReader(cachedtile)
 			cachedimg, err := png.Decode(reader)
 			if err != nil {
-				return nil, nil, err
+				return nil, err
 			}
 
 			rect := image.Rectangle{
@@ -113,14 +107,14 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 			draw.Draw(img, rect, cachedimg, image.ZP, draw.Src)
 
 			log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Cached image")
-			return img, cachedtile, nil
+			return img, nil
 		}
 	}
 
 	if recursionDepth <= 1 && tc.Zoom < 13 {
 		//non-cached layer and not in "origin" zoom, skip tile
 		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Skip image")
-		return nil, nil, nil
+		return nil, nil
 	}
 
 	log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
@@ -132,11 +126,11 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 	currentLayer := layer.FindLayerById(tr.layers, tc.LayerId)
 
 	if currentLayer == nil {
-		return nil, nil, errors.New("No layer found")
+		return nil, errors.New("No layer found")
 	}
 
 	if tc.Zoom > 13 || tc.Zoom < 1 {
-		return nil, nil, errors.New("Invalid zoom")
+		return nil, errors.New("Invalid zoom")
 	}
 
 	if tc.Zoom == 13 {
@@ -155,17 +149,17 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 			}
 			log.WithFields(fields).Debug("mapblock render from tilerender")
 
-			return nil, nil, err
+			return nil, err
 		}
 
 		if img == nil {
-			return nil, nil, nil
+			return nil, nil
 		}
 
 		buf := new(bytes.Buffer)
 		png.Encode(buf, img)
 
-		return img, buf.Bytes(), nil
+		return img, nil
 	}
 
 	//zoom 1-12
@@ -181,24 +175,24 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 
 	start := time.Now()
 
-	upperLeft, _, err := tr.renderImage(quads.UpperLeft, recursionDepth-1)
+	upperLeft, err := tr.renderImage(quads.UpperLeft, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	upperRight, _, err := tr.renderImage(quads.UpperRight, recursionDepth-1)
+	upperRight, err := tr.renderImage(quads.UpperRight, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	lowerLeft, _, err := tr.renderImage(quads.LowerLeft, recursionDepth-1)
+	lowerLeft, err := tr.renderImage(quads.LowerLeft, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	lowerRight, _, err := tr.renderImage(quads.LowerRight, recursionDepth-1)
+	lowerRight, err := tr.renderImage(quads.LowerRight, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	t := time.Now()
@@ -249,5 +243,5 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 
 	tr.Eventbus.Emit(eventbus.TILE_RENDERED, tc)
 
-	return img, buf.Bytes(), nil
+	return img, nil
 }
