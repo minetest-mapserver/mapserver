@@ -116,12 +116,6 @@ func ParseConfig(filename string) (*Config, error) {
 			From: -1,
 			To:   10,
 		},
-		&layer.Layer{
-			Id:   1,
-			Name: "Sky",
-			From: 11,
-			To:   24,
-		},
 	}
 
 	mapobjs := MapObjectConfig{
