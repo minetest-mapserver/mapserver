@@ -4,7 +4,6 @@ import (
 	"errors"
 	"image"
 	"image/color"
-	"image/draw"
 	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/mapblockaccessor"
@@ -209,18 +208,27 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 					imgX := x * IMG_SCALE
 					imgY := (15 - z) * IMG_SCALE
 
-					rect := image.Rect(
-						imgX, imgY,
-						imgX+IMG_SCALE, imgY+IMG_SCALE,
-					)
+					r32, g32, b32, a32 := c.RGBA()
+					r8, g8, b8, a8 := uint8(r32), uint8(g32), uint8(b32), uint8(a32)
+					for Y := imgY; Y < imgY + IMG_SCALE; Y++ {
+						ix := (Y * IMG_SIZE + imgX) << 2
+						for X := 0; X < IMG_SCALE; X++ {
+							img.Pix[ix] = r8
+							ix++
+							img.Pix[ix] = g8
+							ix++
+							img.Pix[ix] = b8
+							ix++
+							img.Pix[ix] = a8
+							ix++
+						}
+					}
 
 					if c.A != 0xFF || !r.enableTransparency {
 						//not transparent, mark as rendered
 						foundBlocks++
 						xzOccupationMap[x][z] = true
 					}
-
-					draw.Draw(img, rect, &image.Uniform{c}, image.ZP, draw.Src)
 
 					if foundBlocks == EXPECTED_BLOCKS_PER_FLAT_MAPBLOCK {
 						return img, nil

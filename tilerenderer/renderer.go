@@ -14,10 +14,7 @@ import (
 	"mapserver/tiledb"
 	"strconv"
 	"time"
-
-	"github.com/disintegration/imaging"
 	"github.com/sirupsen/logrus"
-
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -27,6 +24,33 @@ type TileRenderer struct {
 	tdb              *tiledb.TileDB
 	dba              db.DBAccessor
 	Eventbus         *eventbus.Eventbus
+}
+
+func resizeImage(src *image.NRGBA, tgt *image.NRGBA, xoffset int, yoffset int) {
+	if src == nil {
+		return
+	}
+	w := src.Bounds().Dy() >> 1
+	h := src.Bounds().Dx() >> 1
+	sinc := src.Bounds().Dy() * 4
+	tinc := tgt.Bounds().Dx() * 4
+
+	for y := 0; y < h; y++ {
+		six := y * sinc * 2
+		tix := 4 * xoffset + (yoffset + y) * tinc
+		for x := 0; x < w; x++ {
+			r := (uint16(src.Pix[six]) + uint16(src.Pix[six+4]) + uint16(src.Pix[six+sinc]) + uint16(src.Pix[six+sinc+4])) >> 2
+			g := (uint16(src.Pix[six+1]) + uint16(src.Pix[six+5]) + uint16(src.Pix[six+sinc+1]) + uint16(src.Pix[six+sinc+5])) >> 2
+			b := (uint16(src.Pix[six+2]) + uint16(src.Pix[six+6]) + uint16(src.Pix[six+sinc+2]) + uint16(src.Pix[six+sinc+6])) >> 2
+			a := (uint16(src.Pix[six+3]) + uint16(src.Pix[six+7]) + uint16(src.Pix[six+sinc+3]) + uint16(src.Pix[six+sinc+7])) >> 2
+			tgt.Pix[tix] = uint8(r)
+			tgt.Pix[tix+1] = uint8(g)
+			tgt.Pix[tix+2] = uint8(b)
+			tgt.Pix[tix+3] = uint8(a)
+			tix+=4
+			six+=8
+		}
+	}
 }
 
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
@@ -45,37 +69,33 @@ func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 
 const (
 	IMG_SIZE = 256
+	SUB_IMG_SIZE = IMG_SIZE >> 1
 )
 
-func (tr *TileRenderer) Render(tc *coords.TileCoords) ([]byte, error) {
+func (tr *TileRenderer) Render(tc *coords.TileCoords) (error) {
 	//No tile in db
-	img, data, err := tr.renderImage(tc, 2)
+	_, err := tr.renderImage(tc, 2)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	if img == nil {
-		//empty tile
-		return nil, nil
-	}
-
-	return data, nil
+	return nil
 }
 
-func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, []byte, error) {
+func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, error) {
 
 	if recursionDepth < 2 {
 		cachedtile, err := tr.tdb.GetTile(tc)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 
 		if cachedtile != nil {
 			reader := bytes.NewReader(cachedtile)
 			cachedimg, err := png.Decode(reader)
 			if err != nil {
-				return nil, nil, err
+				return nil, err
 			}
 
 			rect := image.Rectangle{
@@ -87,14 +107,14 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 			draw.Draw(img, rect, cachedimg, image.ZP, draw.Src)
 
 			log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Cached image")
-			return img, cachedtile, nil
+			return img, nil
 		}
 	}
 
 	if recursionDepth <= 1 && tc.Zoom < 13 {
 		//non-cached layer and not in "origin" zoom, skip tile
 		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("Skip image")
-		return nil, nil, nil
+		return nil, nil
 	}
 
 	log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
@@ -106,11 +126,11 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 	currentLayer := layer.FindLayerById(tr.layers, tc.LayerId)
 
 	if currentLayer == nil {
-		return nil, nil, errors.New("No layer found")
+		return nil, errors.New("No layer found")
 	}
 
 	if tc.Zoom > 13 || tc.Zoom < 1 {
-		return nil, nil, errors.New("Invalid zoom")
+		return nil, errors.New("Invalid zoom")
 	}
 
 	if tc.Zoom == 13 {
@@ -129,17 +149,20 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 			}
 			log.WithFields(fields).Debug("mapblock render from tilerender")
 
-			return nil, nil, err
+			return nil, err
 		}
 
 		if img == nil {
-			return nil, nil, nil
+			return nil, nil
 		}
 
 		buf := new(bytes.Buffer)
 		png.Encode(buf, img)
 
-		return img, buf.Bytes(), nil
+		tile := buf.Bytes()
+		tr.tdb.SetTile(tc, tile)
+
+		return img, nil
 	}
 
 	//zoom 1-12
@@ -155,24 +178,24 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 
 	start := time.Now()
 
-	upperLeft, _, err := tr.renderImage(quads.UpperLeft, recursionDepth-1)
+	upperLeft, err := tr.renderImage(quads.UpperLeft, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	upperRight, _, err := tr.renderImage(quads.UpperRight, recursionDepth-1)
+	upperRight, err := tr.renderImage(quads.UpperRight, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	lowerLeft, _, err := tr.renderImage(quads.LowerLeft, recursionDepth-1)
+	lowerLeft, err := tr.renderImage(quads.LowerLeft, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	lowerRight, _, err := tr.renderImage(quads.LowerRight, recursionDepth-1)
+	lowerRight, err := tr.renderImage(quads.LowerRight, recursionDepth-1)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	t := time.Now()
@@ -186,29 +209,10 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 		},
 	)
 
-	rect := image.Rect(0, 0, 128, 128)
-	if upperLeft != nil {
-		resizedImg := imaging.Resize(upperLeft, 128, 128, imaging.Lanczos)
-		draw.Draw(img, rect, resizedImg, image.ZP, draw.Src)
-	}
-
-	rect = image.Rect(128, 0, 256, 128)
-	if upperRight != nil {
-		resizedImg := imaging.Resize(upperRight, 128, 128, imaging.Lanczos)
-		draw.Draw(img, rect, resizedImg, image.ZP, draw.Src)
-	}
-
-	rect = image.Rect(0, 128, 128, 256)
-	if lowerLeft != nil {
-		resizedImg := imaging.Resize(lowerLeft, 128, 128, imaging.Lanczos)
-		draw.Draw(img, rect, resizedImg, image.ZP, draw.Src)
-	}
-
-	rect = image.Rect(128, 128, 256, 256)
-	if lowerRight != nil {
-		resizedImg := imaging.Resize(lowerRight, 128, 128, imaging.Lanczos)
-		draw.Draw(img, rect, resizedImg, image.ZP, draw.Src)
-	}
+	resizeImage(upperLeft, img, 0, 0)
+	resizeImage(upperRight, img, SUB_IMG_SIZE, 0)
+	resizeImage(lowerLeft, img, 0, SUB_IMG_SIZE)
+	resizeImage(lowerRight, img, SUB_IMG_SIZE, SUB_IMG_SIZE)
 
 	t = time.Now()
 	quadresize := t.Sub(start)
@@ -242,5 +246,5 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 
 	tr.Eventbus.Emit(eventbus.TILE_RENDERED, tc)
 
-	return img, buf.Bytes(), nil
+	return img, nil
 }
