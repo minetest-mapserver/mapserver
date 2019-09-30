@@ -1,5 +1,28 @@
-import layerManager from '../map/LayerManager.js';
+import layerManager from '../LayerManager.js';
 import { createMap } from '../map/MapFactory.js';
+
+function setupMap(vnode){
+  const map = createMap(
+    vnode.dom,
+    layerManager.getCurrentLayer().id,
+    +vnode.attrs.zoom,
+    +vnode.attrs.lat,
+    +vnode.attrs.lon
+  );
+
+  vnode.state.map = map;
+
+  function updateHash(){
+    const center = map.getCenter();
+    const layerId = layerManager.getCurrentLayer().id;
+
+    m.route.set(`/map/${layerId}/${map.getZoom()}/` +
+      `${Math.floor(center.lng)}/${Math.floor(center.lat)}`);
+  }
+
+  map.on('zoomend', updateHash);
+  map.on('moveend', updateHash);
+}
 
 export default {
   view(){
@@ -7,27 +30,7 @@ export default {
   },
 
   oncreate(vnode){
-
-    const map = createMap(
-      vnode.dom,
-      +vnode.attrs.layerId,
-      +vnode.attrs.zoom,
-      +vnode.attrs.lat,
-      +vnode.attrs.lon
-    );
-
-    vnode.state.map = map;
-
-    function updateHash(){
-      const center = map.getCenter();
-      const layerId = layerManager.getCurrentLayer().id;
-
-      m.route.set(`/map/${layerId}/${map.getZoom()}/${center.lng}/${center.lat}`);
-    }
-
-    map.on('zoomend', updateHash);
-    map.on('moveend', updateHash);
-    map.on('baselayerchange', updateHash);
+    setupMap(vnode);
   },
 
   onbeforeupdate(newVnode) {
@@ -36,13 +39,22 @@ export default {
 
     return newAattrs.layerId != layerManager.getCurrentLayer().id ||
       newAattrs.zoom != newVnode.state.map.getZoom() ||
-      Math.abs(newAattrs.lat - center.lat) > 0.1 ||
-      Math.abs(newAattrs.lat - center.lat) > 0.1;
+      Math.abs(newAattrs.lat - center.lat) > 2 ||
+      Math.abs(newAattrs.lat - center.lat) > 2;
   },
 
   onupdate(vnode){
-    layerManager.switchLayer(+vnode.attrs.layerId);
-    vnode.state.map.setView([+vnode.attrs.lat, +vnode.attrs.lon], +vnode.attrs.zoom);
+    if (vnode.attrs.layerId != layerManager.getCurrentLayer().id){
+      //layer changed, recreate map
+      vnode.state.map.remove();
+      layerManager.setLayerId(vnode.attrs.layerId);
+      setupMap(vnode);
+
+    } else {
+      //position/zoom change
+      vnode.state.map.setView([+vnode.attrs.lat, +vnode.attrs.lon], +vnode.attrs.zoom);
+
+    }
   },
 
   onremove(vnode){

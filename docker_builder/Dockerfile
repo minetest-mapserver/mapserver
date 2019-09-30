@@ -17,3 +17,6 @@ RUN luarocks install luacheck
 # jshint
 RUN apt-get install -y nodejs npm
 RUN npm install -g jshint
+
+# rollup
+RUN npm install -g rollup

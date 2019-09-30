@@ -9,8 +9,8 @@ var LcdIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "digilinelcd", LcdIcon);
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "digilinelcd", LcdIcon);
   },
 
   createPopup: function(lcd){

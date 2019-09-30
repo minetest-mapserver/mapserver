@@ -1,21 +1,16 @@
 import debounce from '../../util/debounce.js';
+import layerMgr from '../../LayerManager.js';
+
 import { getMapObjects } from '../../api.js';
 
 export default L.LayerGroup.extend({
-  initialize: function(wsChannel, layerMgr, type) {
+  initialize: function(type) {
     L.LayerGroup.prototype.initialize.call(this);
-
-    this.layerMgr = layerMgr;
-    this.wsChannel = wsChannel;
     this.type = type;
 
-    this.onLayerChange = this.onLayerChange.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
   },
 
-  onLayerChange: function(){
-    this.reDraw();
-  },
 
   onMapMove: function(){
     this.reDraw();
@@ -61,7 +56,7 @@ export default L.LayerGroup.extend({
       return;
     }
 
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
     var min = this._map.getBounds().getSouthWest();
     var max = this._map.getBounds().getNorthEast();
 
@@ -90,7 +85,6 @@ export default L.LayerGroup.extend({
     this.map = map;
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
-    this.layerMgr.addListener(this.onLayerChange);
     this.reDraw(true);
   },
 
@@ -98,7 +92,6 @@ export default L.LayerGroup.extend({
     this.clearLayers();
     map.off("zoomend", this.onMapMove);
     map.off("moveend", this.onMapMove);
-    this.layerMgr.removeListener(this.onLayerChange);
   }
 
 });

@@ -17,8 +17,8 @@ var LuacontrollerBurntIcon = L.icon({
 });
 
 export default AbstractIconOverlay.extend({
-  initialize: function(wsChannel, layerMgr) {
-    AbstractIconOverlay.prototype.initialize.call(this, wsChannel, layerMgr, "luacontroller");
+  initialize: function() {
+    AbstractIconOverlay.prototype.initialize.call(this, "luacontroller");
   },
 
   getIcon: function(ctrl){

@@ -1,4 +1,4 @@
-import layerMgr from '../map/LayerManager.js';
+import layerMgr from '../LayerManager.js';
 
 export default {
   view: function(vnode){

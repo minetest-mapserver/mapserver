@@ -1,12 +1,13 @@
 import debounce from '../../util/debounce.js';
+import wsChannel from '../../WebSocketChannel.js';
+import layerMgr from '../../LayerManager.js';
+
 import { getMapObjects } from '../../api.js';
 
 export default L.LayerGroup.extend({
-  initialize: function(wsChannel, layerMgr, type, icon) {
+  initialize: function(type, icon) {
     L.LayerGroup.prototype.initialize.call(this);
 
-    this.layerMgr = layerMgr;
-    this.wsChannel = wsChannel;
     this.type = type;
     this.icon = icon;
 
@@ -74,7 +75,7 @@ export default L.LayerGroup.extend({
       this.currentObjects = {};
     }
 
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
     var min = this.map.getBounds().getSouthWest();
     var max = this.map.getBounds().getNorthEast();
 
@@ -159,8 +160,7 @@ export default L.LayerGroup.extend({
     this.map = map;
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
-    this.layerMgr.addListener(this.onLayerChange);
-    this.wsChannel.addListener("mapobject-created", this.onMapObjectUpdated);
+    wsChannel.addListener("mapobject-created", this.onMapObjectUpdated);
     this.reDraw(true);
   },
 
@@ -168,8 +168,7 @@ export default L.LayerGroup.extend({
     this.clearLayers();
     map.off("zoomend", this.onMapMove);
     map.off("moveend", this.onMapMove);
-    this.layerMgr.removeListener(this.onLayerChange);
-    this.wsChannel.removeListener("mapobject-created", this.onMapObjectUpdated);
+    wsChannel.removeListener("mapobject-created", this.onMapObjectUpdated);
   }
 
 });

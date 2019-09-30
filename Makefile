@@ -15,6 +15,7 @@ BINARIES += $(OUT_DIR)/mapserver-windows-x86.exe
 BINARIES += $(OUT_DIR)/mapserver-windows-x86-64.exe
 BINARIES += $(OUT_DIR)/mapserver-linux-arm
 
+JS_BUNDLE = static/js/bundle.js
 
 all: $(STATIC_VFS)
 	go build
@@ -32,13 +33,16 @@ test: $(OUT_DIR)
 	$(ENV) go test ./...
 
 clean:
-	rm -rf $(STATIC_VFS) test-output
+	rm -rf $(STATIC_VFS) $(JS_BUNDLE) test-output
 	rm -rf $(OUT_DIR)
 
 jshint:
 	jshint static/js/*.js static/js/components static/js/map static/js/util
 
-$(STATIC_VFS):
+$(JS_BUNDLE):
+	cd static/js && rollup -c rollup.config.js
+
+$(STATIC_VFS): $(JS_BUNDLE)
 	go generate
 
 $(OUT_DIR)/mapserver-linux-x86_64: $(OUT_DIR)

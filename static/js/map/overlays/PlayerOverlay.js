@@ -1,3 +1,12 @@
+import wsChannel from '../../WebSocketChannel.js';
+import layerMgr from '../../LayerManager.js';
+
+let players = [];
+
+//update players all the time
+wsChannel.addListener("minetest-info", function(info){
+  players = info.players || [];
+});
 
 var PlayerIcon = L.icon({
   iconUrl: 'pics/sam.png',
@@ -8,22 +17,13 @@ var PlayerIcon = L.icon({
 });
 
 export default L.LayerGroup.extend({
-  initialize: function(wsChannel, layerMgr) {
+  initialize: function() {
     L.LayerGroup.prototype.initialize.call(this);
 
-    this.layerMgr = layerMgr;
-    this.wsChannel = wsChannel;
-
     this.currentObjects = {}; // name => marker
-    this.players = [];
 
     this.reDraw = this.reDraw.bind(this);
     this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
-
-    //update players all the time
-    this.wsChannel.addListener("minetest-info", function(info){
-      this.players = info.players || [];
-    }.bind(this));
   },
 
   createPopup: function(player){
@@ -62,14 +62,14 @@ export default L.LayerGroup.extend({
   },
 
   isPlayerInCurrentLayer: function(player){
-    var mapLayer = this.layerMgr.getCurrentLayer();
+    var mapLayer = layerMgr.getCurrentLayer();
 
     return (player.pos.y >= (mapLayer.from*16) && player.pos.y <= (mapLayer.to*16));
   },
 
   onMinetestUpdate: function(/*info*/){
 
-    this.players.forEach(player => {
+    players.forEach(player => {
       var isInLayer = this.isPlayerInCurrentLayer(player);
 
       if (!isInLayer){
@@ -99,7 +99,7 @@ export default L.LayerGroup.extend({
     });
 
     Object.keys(this.currentObjects).forEach(existingName => {
-      var playerIsActive = this.players.find(function(p){
+      var playerIsActive = players.find(function(p){
         return p.name == existingName;
       });
 
@@ -115,9 +115,7 @@ export default L.LayerGroup.extend({
     this.currentObjects = {};
     this.clearLayers();
 
-    var mapLayer = this.layerMgr.getCurrentLayer();
-
-    this.players.forEach(player => {
+    players.forEach(player => {
       if (!this.isPlayerInCurrentLayer(player)){
         //not in current layer
         return;
@@ -131,14 +129,12 @@ export default L.LayerGroup.extend({
   },
 
   onAdd: function(/*map*/) {
-    this.layerMgr.addListener(this.reDraw);
-    this.wsChannel.addListener("minetest-info", this.onMinetestUpdate);
+    wsChannel.addListener("minetest-info", this.onMinetestUpdate);
     this.reDraw();
   },
 
   onRemove: function(/*map*/) {
     this.clearLayers();
-    this.layerMgr.removeListener(this.reDraw);
-    this.wsChannel.removeListener("minetest-info", this.onMinetestUpdate);
+    wsChannel.removeListener("minetest-info", this.onMinetestUpdate);
   }
 });

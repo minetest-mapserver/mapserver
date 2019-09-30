@@ -19,6 +19,7 @@ Demo: [Pandorabox Server map](https://pandorabox.io/map/#-1782.25/493.5/10)
 * [Parameters](doc/params.md)
 * [Search](doc/search.md)
 * [Configuration](doc/config.md)
+* [Recommended specs](doc/recommended_specs.md)
 * [Contribution](doc/contrib.md)
 * [Development](doc/dev.md)
 * [License](doc/license.md)
@@ -52,6 +53,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 ## Planned Features
 
 * Isometric view
+* Skin support
 * Route planning (via travelnets / trains)
 
 # Supported map-databases

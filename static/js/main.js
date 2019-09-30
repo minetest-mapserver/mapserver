@@ -4,7 +4,7 @@ import routes from './routes.js';
 import wsChannel from './WebSocketChannel.js';
 import config from './config.js';
 import { hashCompat } from './compat.js';
-import layerManager from './map/LayerManager.js';
+import layerManager from './LayerManager.js';
 
 // hash route compat
 hashCompat();

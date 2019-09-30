@@ -13,3 +13,5 @@ require (
 	github.com/yuin/gopher-lua v0.0.0-20190206043414-8bfc7677f583
 	golang.org/x/image v0.0.0-20190118043309-183bebdce1b2 // indirect
 )
+
+go 1.13

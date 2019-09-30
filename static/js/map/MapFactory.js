@@ -2,10 +2,11 @@ import wsChannel from '../WebSocketChannel.js';
 import SimpleCRS from './SimpleCRS.js';
 import CoordinatesDisplay from './CoordinatesDisplay.js';
 import WorldInfoDisplay from './WorldInfoDisplay.js';
-import SearchControl from './SearchControl.js';
+import TopRightControl from './TopRightControl.js';
 import Overlaysetup from './Overlaysetup.js';
 import CustomOverlay from './CustomOverlay.js';
-import layerManager from './LayerManager.js';
+import RealtimeTileLayer from './RealtimeTileLayer.js';
+
 import config from '../config.js';
 
 
@@ -23,23 +24,20 @@ export function createMap(node, layerId, zoom, lat, lon){
 
   map.attributionControl.addAttribution('<a href="https://github.com/minetest-tools/mapserver">Minetest Mapserver</a>');
 
-  var overlays = {};
-
-  layerManager.setupMap(wsChannel, map, layerId);
+  var tileLayer = new RealtimeTileLayer(wsChannel, layerId, map);
+  tileLayer.addTo(map);
 
   //All overlays
-  Overlaysetup(cfg, map, overlays, wsChannel, layerManager);
+  var overlays = {};
+  Overlaysetup(cfg, map, overlays);
   CustomOverlay(map, overlays);
 
   new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
   new WorldInfoDisplay(wsChannel, { position: 'bottomright' }).addTo(map);
-
-  if (cfg.enablesearch){
-    new SearchControl(wsChannel, { position: 'topright' }).addTo(map);
-  }
+  new TopRightControl({ position: 'topright' }).addTo(map);
 
   //layer control
-  L.control.layers(layerManager.layerObjects, overlays, { position: "topright" }).addTo(map);
+  L.control.layers({}, overlays, { position: "topright" }).addTo(map);
 
   return map;
 }
