@@ -633,3 +633,15 @@
 	margin-left: -12px;
 	border-right-color: #fff;
 	}
+
+.tooltip-textonly {
+  background:rgba(0, 0, 0, 0);
+	box-shadow:none;
+  border:none;
+	font-size: 18px;
+	color:white;
+}
+
+.tooltip-textonly:before {
+    border: none;
+}

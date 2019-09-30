@@ -162,5 +162,10 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("locator:beacon_3", loc)
 	}
 
+	//symbols
+	if ctx.Config.MapObjects.Symbols {
+		l.AddMapObject("ign:symbol", &SymbolBlock{})
+	}
+
 	ctx.MapBlockAccessor.Eventbus.AddListener(&l)
 }
