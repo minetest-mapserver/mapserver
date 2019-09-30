@@ -24,9 +24,17 @@ export default L.LayerGroup.extend({
 
     if (marker) {
       //marker exists
-      var popup = this.createPopup(obj);
-      if (popup)
-        marker.setPopupContent(popup);
+      if (self.createPopup) {
+        popup = self.createPopup(obj);
+        if (popup)
+          marker.setPopupContent(popup);
+      }
+
+      if (self.createTooltip) {
+        tooltip = self.createTooltip(obj);
+        if (tooltip)
+          marker.setTooltipContent(tooltip);
+      }
 
       marker.setIcon(this.getIcon(obj));
     }
@@ -88,7 +96,7 @@ export default L.LayerGroup.extend({
       objects.forEach(function(obj){
         var hash = self.hashPos(obj.x, obj.y, obj.z);
         var marker = self.currentObjects[hash];
-        var popup, icon;
+        var popup, icon, tooltip;
 
         if (marker) {
           //marker exists
@@ -100,9 +108,17 @@ export default L.LayerGroup.extend({
             return;
           }
           //set popup, if changed
-          popup = self.createPopup(obj);
-          if (popup)
-            marker.setPopupContent(popup);
+          if (self.createPopup) {
+            popup = self.createPopup(obj);
+            if (popup)
+              marker.setPopupContent(popup);
+          }
+
+          if (self.createTooltip) {
+            tooltip = self.createTooltip(obj);
+            if (tooltip)
+              marker.setTooltipContent(tooltip);
+          }
 
           //redraw icon, if changed
           marker.setIcon(icon);
@@ -117,11 +133,20 @@ export default L.LayerGroup.extend({
           }
 
           marker = L.marker([obj.z, obj.x], {icon: icon});
-          popup = self.createPopup(obj);
-          if (popup)
-            marker.bindPopup(popup);
-          marker.addTo(self);
 
+          if (self.createPopup) {
+            popup = self.createPopup(obj);
+            if (popup)
+              marker.bindPopup(popup, self.popupOptions);
+          }
+
+          if (self.createTooltip) {
+            tooltip = self.createTooltip(obj);
+            if (tooltip)
+              marker.bindTooltip(tooltip, self.tooltipOptions);
+          }
+
+          marker.addTo(self);
           self.currentObjects[hash] = marker;
 
         }
