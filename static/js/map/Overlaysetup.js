@@ -193,7 +193,7 @@ export default function(cfg, map, overlays, wsChannel){
   }
 
 	if (cfg.mapobjects.symbols) {
-    overlays.Symbols = new SymbolsOverlay(wsChannel, layerMgr);
+    overlays.Symbols = new SymbolsOverlay();
     if (isDefault("symbols")) {
       map.addLayer(overlays.Symbols);
     }
