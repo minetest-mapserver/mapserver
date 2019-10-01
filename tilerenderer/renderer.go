@@ -159,9 +159,6 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 		buf := new(bytes.Buffer)
 		png.Encode(buf, img)
 
-		tile := buf.Bytes()
-		tr.tdb.SetTile(tc, tile)
-
 		return img, nil
 	}
 
