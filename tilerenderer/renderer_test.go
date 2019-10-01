@@ -1,7 +1,6 @@
 package tilerenderer
 
 import (
-	"bytes"
 	"io/ioutil"
 	"mapserver/colormapping"
 	"mapserver/coords"
@@ -69,30 +68,16 @@ func TestTileRender(t *testing.T) {
 	}
 
 	coord := coords.NewTileCoords(0, 0, 12, 0)
-	data, err := tr.Render(coord)
+	err = tr.Render(coord)
 	if err != nil {
 		panic(err)
 	}
-
-	if data == nil {
-		panic("no data")
-	}
-
-	f, _ := os.Create("../test-output/0_0_12.png")
-	bytes.NewReader(data).WriteTo(f)
 
 	coord1 := coord.GetZoomedOutTile()
 
-	data, err = tr.Render(coord1)
+	err = tr.Render(coord1)
 	if err != nil {
 		panic(err)
 	}
-
-	if data == nil {
-		panic("no data")
-	}
-
-	f, _ = os.Create("../test-output/0_0_13.png")
-	bytes.NewReader(data).WriteTo(f)
 
 }

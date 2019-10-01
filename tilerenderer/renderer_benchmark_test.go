@@ -72,14 +72,11 @@ func BenchmarkTileRender(b *testing.B) {
 
 	for n := 0; n < b.N; n++ {
 
-		data, err := tr.Render(coord)
+		err := tr.Render(coord)
 		if err != nil {
 			panic(err)
 		}
 
-		if data == nil {
-			panic("no data")
-		}
 	}
 
 }
