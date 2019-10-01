@@ -3,6 +3,8 @@ package tilerenderer
 import (
 	"bytes"
 	"errors"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/sirupsen/logrus"
 	"image"
 	"image/draw"
 	"image/png"
@@ -14,8 +16,6 @@ import (
 	"mapserver/tiledb"
 	"strconv"
 	"time"
-	"github.com/sirupsen/logrus"
-	"github.com/prometheus/client_golang/prometheus"
 )
 
 type TileRenderer struct {
@@ -37,7 +37,7 @@ func resizeImage(src *image.NRGBA, tgt *image.NRGBA, xoffset int, yoffset int) {
 
 	for y := 0; y < h; y++ {
 		six := y * sinc * 2
-		tix := 4 * xoffset + (yoffset + y) * tinc
+		tix := 4*xoffset + (yoffset+y)*tinc
 		for x := 0; x < w; x++ {
 			r := (uint16(src.Pix[six]) + uint16(src.Pix[six+4]) + uint16(src.Pix[six+sinc]) + uint16(src.Pix[six+sinc+4])) >> 2
 			g := (uint16(src.Pix[six+1]) + uint16(src.Pix[six+5]) + uint16(src.Pix[six+sinc+1]) + uint16(src.Pix[six+sinc+5])) >> 2
@@ -47,8 +47,8 @@ func resizeImage(src *image.NRGBA, tgt *image.NRGBA, xoffset int, yoffset int) {
 			tgt.Pix[tix+1] = uint8(g)
 			tgt.Pix[tix+2] = uint8(b)
 			tgt.Pix[tix+3] = uint8(a)
-			tix+=4
-			six+=8
+			tix += 4
+			six += 8
 		}
 	}
 }
@@ -68,11 +68,11 @@ func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 }
 
 const (
-	IMG_SIZE = 256
+	IMG_SIZE     = 256
 	SUB_IMG_SIZE = IMG_SIZE >> 1
 )
 
-func (tr *TileRenderer) Render(tc *coords.TileCoords) (error) {
+func (tr *TileRenderer) Render(tc *coords.TileCoords) error {
 	//No tile in db
 	_, err := tr.renderImage(tc, 2)
 

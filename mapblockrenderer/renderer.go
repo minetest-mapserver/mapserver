@@ -210,8 +210,8 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 
 					r32, g32, b32, a32 := c.RGBA()
 					r8, g8, b8, a8 := uint8(r32), uint8(g32), uint8(b32), uint8(a32)
-					for Y := imgY; Y < imgY + IMG_SCALE; Y++ {
-						ix := (Y * IMG_SIZE + imgX) << 2
+					for Y := imgY; Y < imgY+IMG_SCALE; Y++ {
+						ix := (Y*IMG_SIZE + imgX) << 2
 						for X := 0; X < IMG_SCALE; X++ {
 							img.Pix[ix] = r8
 							ix++
