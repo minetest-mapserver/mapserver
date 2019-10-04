@@ -5,8 +5,11 @@ import (
 	"mapserver/coords"
 	"mapserver/mapblockparser"
 	"strconv"
-
 	"github.com/sirupsen/logrus"
+)
+
+const(
+	MAX_UNZOOM = 13
 )
 
 func getTileKey(tc *coords.TileCoords) string {
@@ -15,50 +18,29 @@ func getTileKey(tc *coords.TileCoords) string {
 }
 
 func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
-	tileRenderedMap := make(map[string]bool)
 	tilecount := 0
 	totalRenderedMapblocks.Add(float64(len(mblist)))
 
-	for i := 12; i >= 1; i-- {
+	for _, mb := range mblist {
+		tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
+		ctx.TileDB.MarkOutdated(tc)
+	}
 
+	for uz := 0; uz <= MAX_UNZOOM; uz++ {
 		//Spin up workers
-		jobs := make(chan *coords.TileCoords, ctx.Config.RenderingQueue)
+		jobs := make(chan coords.TileCoords, ctx.Config.RenderingQueue)
 		done := make(chan bool, 1)
 
 		for j := 0; j < ctx.Config.RenderingJobs; j++ {
 			go worker(ctx, jobs, done)
 		}
 
-		for _, mb := range mblist {
-			//13
-
+		for _, tc := range ctx.TileDB.GetOutdatedByZoom(uz) {
 			fields := logrus.Fields{
-				"pos":    mb.Pos,
+				"pos":    tc,
 				"prefix": "tilerenderjob",
 			}
 			logrus.WithFields(fields).Debug("Tile render job mapblock")
-
-			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
-
-			if tc == nil {
-				fields := logrus.Fields{
-					"pos":  mb.Pos,
-					"zoom": i,
-				}
-				logrus.WithFields(fields).Error("mapblock outside of layer!")
-				panic("mapblock outside of layer!")
-			}
-
-			//12-1
-			tc = tc.ZoomOut(13 - i)
-
-			key := getTileKey(tc)
-
-			if tileRenderedMap[key] {
-				continue
-			}
-
-			tileRenderedMap[key] = true
 
 			tilecount++
 
@@ -74,7 +56,6 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 			//dispatch re-render
 			jobs <- tc
 		}
-
 		//spin down worker pool
 		close(jobs)
 

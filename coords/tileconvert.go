@@ -2,15 +2,10 @@ package coords
 
 import (
 	"mapserver/layer"
-	"math"
-)
-
-const (
-	MAX_ZOOM = 13
 )
 
 func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []*layer.Layer) *TileCoords {
-	tc := TileCoords{X: mbc.X, Y: (mbc.Z + 1) * -1, Zoom: MAX_ZOOM}
+	tc := TileCoords{X: mbc.X, Y: (mbc.Z + 1) * -1, Zoom: 0}
 
 	currentLayer := layer.FindLayerByY(layers, mbc.Y)
 
@@ -24,14 +19,16 @@ func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []*layer.Layer) *Tile
 }
 
 func GetMapBlockRangeFromTile(tc *TileCoords, y int) *MapBlockRange {
-	scaleDiff := float64(MAX_ZOOM - tc.Zoom)
-	scale := int(math.Pow(2, scaleDiff))
+	scale := 1
+	if tc.Zoom > 0 {
+		scale = 2 << (tc.Zoom - 1)
+	}
 
 	mapBlockX1 := tc.X * scale
-	mapBlockZ1 := (tc.Y * scale * -1) - 1
+	mapBlockZ1 := -(tc.Y * scale) - 1
 
 	mapBlockX2 := mapBlockX1 + scale - 1
-	mapBlockZ2 := (mapBlockZ1 + ((scale - 1) * -1))
+	mapBlockZ2 := (mapBlockZ1 - (scale - 1))
 
 	return &MapBlockRange{
 		Pos1: NewMapBlockCoords(mapBlockX1, y, mapBlockZ1),

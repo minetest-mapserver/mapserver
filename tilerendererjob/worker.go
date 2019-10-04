@@ -6,7 +6,7 @@ import (
 	"mapserver/coords"
 )
 
-func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
+func worker(ctx *app.App, coords <-chan coords.TileCoords, done chan bool) {
 	for tc := range coords {
 		//render tile
 
@@ -18,8 +18,7 @@ func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
 			"prefix":  "tilerenderjob",
 		}
 		logrus.WithFields(fields).Debug("Tile render job tile")
-
-		err := ctx.Tilerenderer.Render(tc)
+		err := ctx.Tilerenderer.Render(&tc)
 		if err != nil {
 			fields := logrus.Fields{
 				"X":       tc.X,

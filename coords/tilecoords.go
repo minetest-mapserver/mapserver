@@ -32,12 +32,12 @@ func (tc *TileCoords) GetZoomedOutTile() *TileCoords {
 	return &TileCoords{
 		X:       int(math.Floor(float64(tc.X) / 2.0)),
 		Y:       int(math.Floor(float64(tc.Y) / 2.0)),
-		Zoom:    tc.Zoom - 1,
+		Zoom:    tc.Zoom + 1,
 		LayerId: tc.LayerId}
 }
 
 func (tc *TileCoords) GetZoomedQuadrantsFromTile() TileQuadrants {
-	nextZoom := tc.Zoom + 1
+	nextZoom := tc.Zoom - 1
 
 	nextZoomX := tc.X * 2
 	nextZoomY := tc.Y * 2
