@@ -137,8 +137,8 @@ func (this *TileDB) GetOutdatedByZoom(zoom int) []coords.TileCoords {
 		return tiles
 	}
 	for layerId, layerContent := range this.outdated[zoom] {
-		for y, yContent := range layerContent {
-			for x, outdated := range yContent {
+		for x, xContent := range layerContent {
+			for y, outdated := range xContent {
 				if outdated {
 					tiles = append(tiles,
 							coords.TileCoords{X:x, Y:y, Zoom:zoom, LayerId:layerId})
