@@ -4,18 +4,8 @@ import (
 	"mapserver/app"
 	"mapserver/coords"
 	"mapserver/mapblockparser"
-	"strconv"
 	"github.com/sirupsen/logrus"
 )
-
-const(
-	MAX_UNZOOM = 13
-)
-
-func getTileKey(tc *coords.TileCoords) string {
-	return strconv.Itoa(tc.X) + "/" + strconv.Itoa(tc.Y) + "/" +
-		strconv.Itoa(tc.Zoom) + "/" + strconv.Itoa(tc.LayerId)
-}
 
 func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 	tilecount := 0
@@ -26,7 +16,7 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 		ctx.TileDB.MarkOutdated(tc)
 	}
 
-	for uz := 0; uz <= MAX_UNZOOM; uz++ {
+	for z := coords.MAX_ZOOM; z >= coords.MIN_ZOOM; z-- {
 		//Spin up workers
 		jobs := make(chan coords.TileCoords, ctx.Config.RenderingQueue)
 		done := make(chan bool, 1)
@@ -35,7 +25,7 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 			go worker(ctx, jobs, done)
 		}
 
-		for _, tc := range ctx.TileDB.GetOutdatedByZoom(uz) {
+		for _, tc := range ctx.TileDB.GetOutdatedByZoom(z) {
 			fields := logrus.Fields{
 				"pos":    tc,
 				"prefix": "tilerenderjob",
@@ -56,6 +46,7 @@ func renderMapblocks(ctx *app.App, mblist []*mapblockparser.MapBlock) int {
 			//dispatch re-render
 			jobs <- tc
 		}
+
 		//spin down worker pool
 		close(jobs)
 

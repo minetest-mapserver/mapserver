@@ -124,7 +124,7 @@ func (tr *TileRenderer) getCachedImage(tc *coords.TileCoords) (image.Image, erro
 }
 
 func (tr *TileRenderer) renderImage(tc *coords.TileCoords) (error) {
-	if tc.Zoom < 0 {
+	if tc.Zoom < coords.MIN_ZOOM || tc.Zoom > coords.MAX_ZOOM {
 		return errors.New("Invalid zoom")
 	}
 
@@ -145,7 +145,7 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords) (error) {
 	defer timer.ObserveDuration()
 
 	// Origin zoom
-	if tc.Zoom == 0 {
+	if tc.Zoom == coords.MAX_ZOOM {
 		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderMapblock")
 
 		//max zoomed in on mapblock level
@@ -179,9 +179,10 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords) (error) {
 		tr.Eventbus.Emit(eventbus.TILE_RENDERED, tc)
 
 		return nil
-	} else {
 
-		// Unzoomed (1-->X)
+	} else {
+		// Unzoomed
+
 		log.WithFields(logrus.Fields{"x": tc.X, "y": tc.Y, "zoom": tc.Zoom}).Debug("RenderImage")
 
 		quads := tc.GetZoomedQuadrantsFromTile()

@@ -99,7 +99,7 @@ func (this *TileDB) MarkOutdated(pos *coords.TileCoords) {
 	mutex.RLock()
 	defer mutex.RUnlock()
 
-	for npos.Zoom <= 13 && !this.IsOutdated(npos) {
+	for npos.Zoom >= coords.MIN_ZOOM && !this.IsOutdated(npos) {
 		this.setOutdated(npos, true)
 		npos = npos.GetZoomedOutTile()
 	}
