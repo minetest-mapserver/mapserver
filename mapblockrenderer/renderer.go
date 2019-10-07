@@ -68,7 +68,7 @@ func addColorComponent(c *color.RGBA, value int) *color.RGBA {
 		R: clamp(int(c.R) + value),
 		G: clamp(int(c.G) + value),
 		B: clamp(int(c.B) + value),
-		A: clamp(int(c.A) + value),
+		A: c.A,
 	}
 }
 
@@ -179,7 +179,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 							if neighbourMapblock != nil && err == nil {
 								top = neighbourMapblock.GetNodeName(x, y, 0)
 								if y < 15 {
-									topAbove = neighbourMapblock.GetNodeName(x, y+1, z+0)
+									topAbove = neighbourMapblock.GetNodeName(x, y+1, 0)
 								}
 							}
 						}
