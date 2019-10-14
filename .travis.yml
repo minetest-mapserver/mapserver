@@ -1,14 +1,13 @@
-language: go
-sudo: false
-
-go:
- - 1.11.x
-
-os:
- - linux
-
-script:
- - env GO111MODULE=on go get github.com/mjibson/esc
- - env GO111MODULE=on go generate
- - env GO111MODULE=on go build
- - env GO111MODULE=on go test ./...
+matrix:
+  include:
+    - language: go
+      sudo: false
+      go:
+       - 1.11.x
+      os:
+       - linux
+      script:
+       - env GO111MODULE=on go get github.com/mjibson/esc
+       - env GO111MODULE=on go generate
+       - env GO111MODULE=on go build
+       - env GO111MODULE=on go test ./...
