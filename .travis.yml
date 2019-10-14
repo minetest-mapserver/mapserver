@@ -1,22 +1,30 @@
 matrix:
   include:
-    - stage: test
-      language: go
-      sudo: false
-      go:
-       - 1.11.x
-      os:
-       - linux
-      script:
-       - env GO111MODULE=on go get github.com/mjibson/esc
-       - env GO111MODULE=on go generate
-       - env GO111MODULE=on go build
-       - env GO111MODULE=on go test ./...
+  - stage: test
+    language: go
+    sudo: false
+    go:
+    - 1.11.x
+    os:
+    - linux
+    script:
+    - env GO111MODULE=on go get github.com/mjibson/esc
+    - env GO111MODULE=on go generate
+    - env GO111MODULE=on go build
+    - env GO111MODULE=on go test ./...
 
-    - stage: dockerhub push
-      language: ruby
-      services:
-        - docker
-      script:
-        - docker build -t buckaroobanzay/mapserver:latest .
-        - docker tag buckaroobanzay/mapserver:latest buckaroobanzay/mapserver:$TRAVIS_TAG
+  - stage: dockerhub push
+    if: tag IS present
+    language: ruby
+    services:
+    - docker
+    script:
+    - docker build -t buckaroobanzay/mapserver:latest .
+    - docker tag buckaroobanzay/mapserver:latest buckaroobanzay/mapserver:$TRAVIS_TAG
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - docker push buckaroobanzay/mapserver
+
+env:
+  global:
+  - secure: inZHDCtFNXwlvNld6E95uh4rbDUwHswbPu4vtiYT+6hB3FNYDXST7Ss+nngzorQZpxlnR8w1sP+haek9cFBS7vaYJpzNNIIKOyikHKiUOzOzsf8SH3FbFteg+2w+mEIwG7ngh15mtqQBQgji6bEhVkBtd4D2N0PUTAJPsqjRFB+KonhxrDrpu6lkgTGXgDxs/SakOXvZ4EGE6O9BHAk0lYUPQyCh4H10HV2fuyGRafAy8FVAf8y83asED20OMplCnKzlKKtY77fp7FIfZblSsyXdOiRgmO4OYbBNhm2AvSYwW5N8hg1ebreyr5AmmrPEjiMcMUfynSw3B90zfeIZvMin21pfd5+LBcDIFPWnUdplOMeSKCWgVvvImTFg8atFYBSrcBFnibwSbYvSevvI5V3oj9JOuhU2QqzCyqOFli6oTf6dJEep/+flKT9z8I4HmMJFPFL79tU/WGafv4moVBtGhQcCZxcFe+MYwBvRgtpA7by70/GU2CrvpS2zAOJIKrM5lwyxhXp0csbXEJm7/CEP/1fcq5SsI9GIfC2rgx3RcjeAxBf2vWx61kPbMYJyHdihXX1sax4YUzIUN4Mnxdl2YGveyYIPIn2+Ko2XfvIrcBkz/pxopqWMwS2ChQkeGqhrKhP400m2jhoALXPE0qavCDn9pQBoDTuI5JrkENM=
+  - secure: TIPiev/FZwueQ813/jAZJ8Pcg6mgC6jNsjfk4inkCUQOqcz2GyWSdd6ff9hWr9UqFovCiht1kFZuZ3NeVixD+2s57j0TCQYMsZKEx3HCVavp/rA0nPyNXrkgv6xBA68PPT5VVXYjDoepMo0L/cmj4f9QRgjDSum0L8YzYyuWGjItIno8UCqX6AtQ3FLNS5WGijxFB0LzKXdHyQjPuD8yAuEF8GOKrltI1UCLR4bplS3ujxOM30ido+BmydCOXQ6x9buzdxnOhqEWcT2Q4IXbViSj3mDTi8ewuv98U8336ptW1qnRpZutv/hxLYdtueEKC2mC8l0XZv6+H6vw3BzCm0Na0eI+hxRvXgZF060h12BdB8ZQLBDe5NEYdm7sujPZV6bP/la37FyjjYfTUxGoZ4XLZEqjDO5cWdT3JD0ankUdToruQ7dcO4XuDPou+9p6yQwfv9ETrqG/z3qPvh7rBp57wGTE5SoyjRcorwWyVy08bN5YVR8WG0fbAxZdIv399/vpU8VUivzuHLCxCbAenJUveI9+DxhZQlKjsCOHCK32n5DXLp4F+NYj90EUUHfHrHPWHKDw58GXOO319lZ4GKQAA1R4DakYq9lAf9wC0pkdwomuw7ckz622CyDJYhltzlb0N0vjZyKZ+GjD93KjIbWWJhxVIHWpzo5+/m9DeUU=
