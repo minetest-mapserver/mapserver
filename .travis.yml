@@ -24,6 +24,16 @@ matrix:
     - docker login -u $DOCKER_USER -p $DOCKER_PASS
     - docker push buckaroobanzay/mapserver
 
+  - stage: build release binaries
+    if: tag IS present
+    language: ruby
+    skip_cleanup: true
+    services:
+    - docker
+    script:
+    - cd docker_builder && docker build -t docker_builder .
+    - docker run --rm -it -v $(shell pwd):/app -w /app docker_builder make release-all VERSION=$TRAVIS_TAG
+
 env:
   global:
   - secure: inZHDCtFNXwlvNld6E95uh4rbDUwHswbPu4vtiYT+6hB3FNYDXST7Ss+nngzorQZpxlnR8w1sP+haek9cFBS7vaYJpzNNIIKOyikHKiUOzOzsf8SH3FbFteg+2w+mEIwG7ngh15mtqQBQgji6bEhVkBtd4D2N0PUTAJPsqjRFB+KonhxrDrpu6lkgTGXgDxs/SakOXvZ4EGE6O9BHAk0lYUPQyCh4H10HV2fuyGRafAy8FVAf8y83asED20OMplCnKzlKKtY77fp7FIfZblSsyXdOiRgmO4OYbBNhm2AvSYwW5N8hg1ebreyr5AmmrPEjiMcMUfynSw3B90zfeIZvMin21pfd5+LBcDIFPWnUdplOMeSKCWgVvvImTFg8atFYBSrcBFnibwSbYvSevvI5V3oj9JOuhU2QqzCyqOFli6oTf6dJEep/+flKT9z8I4HmMJFPFL79tU/WGafv4moVBtGhQcCZxcFe+MYwBvRgtpA7by70/GU2CrvpS2zAOJIKrM5lwyxhXp0csbXEJm7/CEP/1fcq5SsI9GIfC2rgx3RcjeAxBf2vWx61kPbMYJyHdihXX1sax4YUzIUN4Mnxdl2YGveyYIPIn2+Ko2XfvIrcBkz/pxopqWMwS2ChQkeGqhrKhP400m2jhoALXPE0qavCDn9pQBoDTuI5JrkENM=
