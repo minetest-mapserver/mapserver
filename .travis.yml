@@ -11,3 +11,9 @@ matrix:
        - env GO111MODULE=on go generate
        - env GO111MODULE=on go build
        - env GO111MODULE=on go test ./...
+
+    - language: ruby
+      services:
+        - docker
+      before_install:
+        - docker build -t buckaroobanzay/mapserver .
