@@ -1,4 +1,4 @@
-matrix:
+jobs:
   include:
   - stage: test
     language: go
@@ -34,15 +34,16 @@ matrix:
   - stage: public release binaries
     if: tag IS present
     script: skip
-    provider: releases
-    api_key:
-      secure: EWKXiaAcMGN8qaKYfGpzYaet4C1pJgtkaWRzROEI1oPWBc5bTZjPG2HvWn6RuvB0zJtC8eaD2NfQ0Kze4hf/RbVNwJcr9zwih1JiZAl61lT0tvDVy8jLSRKolqX/7UXjLuUD6fZF3WJweNcNsGIn+D82khtow1iUWZGTARQcnPcqhKj+O2tgdD7mNLgREvPEpfqqQKYexCjPJt4g3t4t6omwrwu586JISpsxjAlXQDq+g/In18mG1eqBL/eUvsJi7LXL9vI9zdbOGyv0PqEGKZSBruOLMTvVETyxZ0NZSwtJ5SOxy2Ga4oPZsX3ddi9K74vtMkwoP2XhTVr/whTuP+20C6YNy+AfYrv0hVMsEpYoJOzs2PR48m2TRe5CZnfqhqn49ky4LdQUp+zEZDYf194XLcm7TBQ/cwVeSLX4p2GhxyXKzv/+opvsFkvZ9DpN5ERFJDawb4V3q1YTOJOqGp/qHg6z5S7KonIluG+6S35Yuo6kXLhkCTS+qsOUN+5Yh6nMGVj6QNfwGHYlCts0KxhWJmiic79Cvmmb1danMVCdq7ZVuyi9wfKiqTDtY31F+OVXGiddTaDsb24QpAyZJRULHxHmqIriVVr9ZyEqL8Q/IPREmy2zMEsW4d7zu2EeAZiIPMr3XyuoGjlpfHjGHL/tHf16RDYdPaZHiDERBkY=
-    file_glob: true
-    file: output/mapserver-*
-    skip_cleanup: true
-    on:
-      repo: minetest-tools/mapserver
-      tags: true
+    deploy:
+      provider: releases
+      api_key:
+        secure: EWKXiaAcMGN8qaKYfGpzYaet4C1pJgtkaWRzROEI1oPWBc5bTZjPG2HvWn6RuvB0zJtC8eaD2NfQ0Kze4hf/RbVNwJcr9zwih1JiZAl61lT0tvDVy8jLSRKolqX/7UXjLuUD6fZF3WJweNcNsGIn+D82khtow1iUWZGTARQcnPcqhKj+O2tgdD7mNLgREvPEpfqqQKYexCjPJt4g3t4t6omwrwu586JISpsxjAlXQDq+g/In18mG1eqBL/eUvsJi7LXL9vI9zdbOGyv0PqEGKZSBruOLMTvVETyxZ0NZSwtJ5SOxy2Ga4oPZsX3ddi9K74vtMkwoP2XhTVr/whTuP+20C6YNy+AfYrv0hVMsEpYoJOzs2PR48m2TRe5CZnfqhqn49ky4LdQUp+zEZDYf194XLcm7TBQ/cwVeSLX4p2GhxyXKzv/+opvsFkvZ9DpN5ERFJDawb4V3q1YTOJOqGp/qHg6z5S7KonIluG+6S35Yuo6kXLhkCTS+qsOUN+5Yh6nMGVj6QNfwGHYlCts0KxhWJmiic79Cvmmb1danMVCdq7ZVuyi9wfKiqTDtY31F+OVXGiddTaDsb24QpAyZJRULHxHmqIriVVr9ZyEqL8Q/IPREmy2zMEsW4d7zu2EeAZiIPMr3XyuoGjlpfHjGHL/tHf16RDYdPaZHiDERBkY=
+      file_glob: true
+      file: output/mapserver-*
+      skip_cleanup: true
+      on:
+        repo: minetest-tools/mapserver
+        tags: true
 
 env:
   global:
