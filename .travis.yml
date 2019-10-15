@@ -12,7 +12,6 @@ matrix:
     - env GO111MODULE=on go generate
     - env GO111MODULE=on go build
     - env GO111MODULE=on go test ./...
-
   - stage: dockerhub push
     if: tag IS present
     language: ruby
@@ -23,7 +22,6 @@ matrix:
     - docker tag buckaroobanzay/mapserver:latest buckaroobanzay/mapserver:$TRAVIS_TAG
     - docker login -u $DOCKER_USER -p $DOCKER_PASS
     - docker push buckaroobanzay/mapserver
-
   - stage: build release binaries
     if: tag IS present
     language: ruby
@@ -31,10 +29,16 @@ matrix:
     services:
     - docker
     script:
-    - cd docker_builder && docker build -t docker_builder .
-    - ls `pwd`
-    - pwd
+    - cd docker_builder && docker build -t docker_builder . && cd ..
     - docker run --rm -it -v `pwd`:/app -w /app docker_builder make release-all VERSION=$TRAVIS_TAG
+  - stage: public release binaries
+    provider: releases
+    api_key:
+      secure: EWKXiaAcMGN8qaKYfGpzYaet4C1pJgtkaWRzROEI1oPWBc5bTZjPG2HvWn6RuvB0zJtC8eaD2NfQ0Kze4hf/RbVNwJcr9zwih1JiZAl61lT0tvDVy8jLSRKolqX/7UXjLuUD6fZF3WJweNcNsGIn+D82khtow1iUWZGTARQcnPcqhKj+O2tgdD7mNLgREvPEpfqqQKYexCjPJt4g3t4t6omwrwu586JISpsxjAlXQDq+g/In18mG1eqBL/eUvsJi7LXL9vI9zdbOGyv0PqEGKZSBruOLMTvVETyxZ0NZSwtJ5SOxy2Ga4oPZsX3ddi9K74vtMkwoP2XhTVr/whTuP+20C6YNy+AfYrv0hVMsEpYoJOzs2PR48m2TRe5CZnfqhqn49ky4LdQUp+zEZDYf194XLcm7TBQ/cwVeSLX4p2GhxyXKzv/+opvsFkvZ9DpN5ERFJDawb4V3q1YTOJOqGp/qHg6z5S7KonIluG+6S35Yuo6kXLhkCTS+qsOUN+5Yh6nMGVj6QNfwGHYlCts0KxhWJmiic79Cvmmb1danMVCdq7ZVuyi9wfKiqTDtY31F+OVXGiddTaDsb24QpAyZJRULHxHmqIriVVr9ZyEqL8Q/IPREmy2zMEsW4d7zu2EeAZiIPMr3XyuoGjlpfHjGHL/tHf16RDYdPaZHiDERBkY=
+    file: output/mapserver-linux-x86_64
+    on:
+      repo: minetest-tools/mapserver
+      tags: true
 
 env:
   global:
