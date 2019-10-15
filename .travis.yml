@@ -32,6 +32,8 @@ matrix:
     - docker
     script:
     - cd docker_builder && docker build -t docker_builder .
+    - ls `pwd`
+    - pwd
     - docker run --rm -it -v `pwd`:/app -w /app docker_builder make release-all VERSION=$TRAVIS_TAG
 
 env:
