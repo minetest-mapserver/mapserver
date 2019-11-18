@@ -1,7 +1,7 @@
 module mapserver
 
 require (
-	github.com/disintegration/imaging v1.6.1
+	github.com/disintegration/imaging v1.6.2
 	github.com/gorilla/websocket v1.4.1
 	github.com/lib/pq v1.2.0
 	github.com/mattn/go-sqlite3 v1.12.0
