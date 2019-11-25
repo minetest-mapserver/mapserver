@@ -7,9 +7,11 @@ function onchange(e){
   m.route.set("/map/:layerId/:zoom/:lon/:lat", params);
 }
 
-
 export default {
   view: function(){
+    // Display layer selector only if there is choice
+    if (LayerManager.layers.length <= 1)
+      return null;
 
     const layers = LayerManager.layers.map(layer => m(
       "option",
