@@ -27,9 +27,9 @@ jobs:
     services:
     - docker
     script:
-    - docker build -t buckaroobanzay/mapserver:latest .
+    - docker build -t minetesttools/mapserver:latest .
     - docker login -u $DOCKER_USER -p $DOCKER_PASS
-    - docker push buckaroobanzay/mapserver
+    - docker push minetesttools/mapserver
 
   - stage: dockerhub push tag
     if: tag IS present
@@ -37,10 +37,10 @@ jobs:
     services:
     - docker
     script:
-    - docker build -t buckaroobanzay/mapserver:latest .
-    - docker tag buckaroobanzay/mapserver:latest buckaroobanzay/mapserver:$TRAVIS_TAG
+    - docker build -t minetesttools/mapserver:latest .
+    - docker tag minetesttools/mapserver:latest minetesttools/mapserver:$TRAVIS_TAG
     - docker login -u $DOCKER_USER -p $DOCKER_PASS
-    - docker push buckaroobanzay/mapserver
+    - docker push minetesttools/mapserver
 
 env:
   global:

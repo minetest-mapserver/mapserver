@@ -14,10 +14,10 @@ For additional infos (lag,time,players => active mode) on the mapserver interfac
 
 ## Docker image
 
-Simple docker run example:
+Simple docker run example to run in the world-directory:
 
 ```
-docker run --rm --it -p 8080:8080 -v $(pwd):/minetest -w /minetest buckaroobanzay/mapserver
+docker run --rm --it -p 8080:8080 -v $(pwd):/minetest -w /minetest minetesttools/mapserver
 ```
 
 ## Docker compose
@@ -27,7 +27,7 @@ Examplary `docker-compose` config:
 ```yml
 services:
   mapserver:
-   image: buckaroobanzay/mapserver
+   image: minetesttools/mapserver
    restart: always
    networks:
     - default
