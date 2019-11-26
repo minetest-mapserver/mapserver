@@ -37,7 +37,7 @@ clean:
 	rm -rf $(OUT_DIR)
 
 jshint:
-	jshint static/js/*.js static/js/components static/js/map static/js/util
+	cd static/js && jshint .
 
 $(JS_BUNDLE):
 	cd static/js && rollup -c rollup.config.js
