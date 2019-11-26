@@ -49,7 +49,7 @@ export default {
     }
   },
 
-  onremove(vnode){
+  onremove(){
     this.map.remove();
   }
 };
