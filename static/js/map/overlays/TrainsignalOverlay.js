@@ -70,7 +70,7 @@ export default L.LayerGroup.extend({
       return;
     }
 
-    this.signals.forEach(signal => {
+    signals.forEach(signal => {
       var isInLayer = this.isSignalInCurrentLayer(signal);
       var signalId = this.hashPos(signal.pos.x, signal.pos.y, signal.pos.z);
 
@@ -102,7 +102,7 @@ export default L.LayerGroup.extend({
     });
 
     Object.keys(this.currentObjects).forEach(existingId => {
-      var signalIsActive = this.signals.find((t) => {
+      var signalIsActive = signals.find((t) => {
 	var hash = this.hashPos(t.pos.x, t.pos.y, t.pos.z);
         return hash == existingId;
       });
@@ -124,7 +124,7 @@ export default L.LayerGroup.extend({
 
     var mapLayer = layerMgr.getCurrentLayer();
 
-    this.signals.forEach(signal => {
+    signals.forEach(signal => {
       if (!this.isSignalInCurrentLayer(signal)){
         //not in current layer
         return;
