@@ -22,6 +22,8 @@ function setupMap(vnode){
 
   map.on('zoomend', updateHash);
   map.on('moveend', updateHash);
+
+  return map;
 }
 
 export default {
@@ -30,34 +32,24 @@ export default {
   },
 
   oncreate(vnode){
-    setupMap(vnode);
-  },
-
-  onbeforeupdate(newVnode) {
-    const center = newVnode.state.map.getCenter();
-    const newAattrs = newVnode.attrs;
-
-    return newAattrs.layerId != layerManager.getCurrentLayer().id ||
-      newAattrs.zoom != newVnode.state.map.getZoom() ||
-      Math.abs(newAattrs.lat - center.lat) > 2 ||
-      Math.abs(newAattrs.lat - center.lat) > 2;
+    this.map = setupMap(vnode);
   },
 
   onupdate(vnode){
     if (vnode.attrs.layerId != layerManager.getCurrentLayer().id){
       //layer changed, recreate map
-      vnode.state.map.remove();
+      this.map.remove();
       layerManager.setLayerId(vnode.attrs.layerId);
       setupMap(vnode);
 
     } else {
       //position/zoom change
-      vnode.state.map.setView([+vnode.attrs.lat, +vnode.attrs.lon], +vnode.attrs.zoom);
+      //this.map.setView([+vnode.attrs.lat, +vnode.attrs.lon], +vnode.attrs.zoom);
 
     }
   },
 
   onremove(vnode){
-    vnode.state.map.remove();
+    this.map.remove();
   }
 };
