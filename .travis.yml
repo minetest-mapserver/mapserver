@@ -22,11 +22,23 @@ jobs:
     - cd static/js && jshint
 
   - stage: dockerhub push
+    if: tag IS NOT present
     language: ruby
     services:
     - docker
     script:
     - docker build -t buckaroobanzay/mapserver:latest .
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - docker push buckaroobanzay/mapserver
+
+  - stage: dockerhub push tag
+    if: tag IS present
+    language: ruby
+    services:
+    - docker
+    script:
+    - docker build -t buckaroobanzay/mapserver:latest .
+    - docker tag buckaroobanzay/mapserver:latest buckaroobanzay/mapserver:$TRAVIS_TAG
     - docker login -u $DOCKER_USER -p $DOCKER_PASS
     - docker push buckaroobanzay/mapserver
 
