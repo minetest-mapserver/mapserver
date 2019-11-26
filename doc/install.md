@@ -14,6 +14,8 @@ For additional infos (lag,time,players => active mode) on the mapserver interfac
 
 ## Docker image
 
+* Docker-hub: https://hub.docker.com/repository/docker/minetesttools/mapserver
+
 Simple docker run example to run in the world-directory:
 
 ```
