@@ -1,6 +1,6 @@
 jobs:
   include:
-  - stage: test
+  - stage: go-test
     language: go
     sudo: false
     go:
@@ -12,3 +12,11 @@ jobs:
     - env GO111MODULE=on go generate
     - env GO111MODULE=on go build
     - env GO111MODULE=on go test ./...
+
+  - stage: jshint
+    language: node_js
+    os:
+    - linux
+    script:
+    - npm i -g jshint
+    - cd static/js && jshint .
