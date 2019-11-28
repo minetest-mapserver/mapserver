@@ -1,4 +1,4 @@
-name: push-latest
+name: docker
 
 on: [push]
 
@@ -15,4 +15,5 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tag_names: true
+        cache: true
 
