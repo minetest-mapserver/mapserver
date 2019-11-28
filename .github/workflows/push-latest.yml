@@ -8,7 +8,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - name: docker publiss
+    - name: docker publish
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: minetestmapserver/mapserver
