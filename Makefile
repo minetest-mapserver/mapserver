@@ -67,11 +67,11 @@ $(OUT_DIR)/mapserver-linux-arm: $(OUT_DIR)
 
 release: builder_image $(OUT_DIR) $(MOD_ZIP)
 	# build all with the docker image
-	sudo docker run --rm -it\
-	 -v $(shell pwd):/app\
-	 -v mapserver-volume:/root/go\
-	 -w /app\
-	 mapserver-builder\
+	sudo docker run --rm -i \
+	 -v $(shell pwd):/app \
+	 -v mapserver-volume:/root/go \
+	 -w /app \
+	 mapserver-builder \
 	 make test jshint release-all VERSION=$(VERSION)
 	# copy generated files to output dir
 
