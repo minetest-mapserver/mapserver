@@ -1,11 +1,14 @@
 Minetest mapserver
 =======
 
-<img src="./doc/pics/General_map_preview.png">
 
-[![Build Status](https://travis-ci.org/minetest-tools/mapserver.svg?branch=master)](https://travis-ci.org/minetest-tools/mapserver)
+![](https://github.com/minetest-mapserver/mapserver/workflows/jshint/badge.svg)
+![](https://github.com/minetest-mapserver/mapserver/workflows/go-test/badge.svg)
+
 ![GitHub repo size](https://img.shields.io/github/repo-size/minetest-tools/mapserver.svg)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-tools/mapserver.svg)
+
+<img src="./doc/pics/General_map_preview.png">
 
 Realtime mapserver for [Minetest](https://minetest.net)
 
