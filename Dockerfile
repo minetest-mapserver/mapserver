@@ -15,7 +15,7 @@ RUN cd /server &&\
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
-COPY --from=builder /server/mapserver /bin/mapserver
+COPY --from=builder /server/output/mapserver-linux-x86_64 /bin/mapserver
 
 EXPOSE 8080
 CMD ["/bin/mapserver"]

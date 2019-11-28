@@ -17,8 +17,7 @@ BINARIES += $(OUT_DIR)/mapserver-linux-arm
 
 JS_BUNDLE = static/js/bundle.js
 
-all: $(STATIC_VFS)
-	$(GO_BUILD)
+all: $(STATIC_VFS) $(OUT_DIR)/mapserver-linux-x86_64
 
 $(OUT_DIR):
 	mkdir $@
