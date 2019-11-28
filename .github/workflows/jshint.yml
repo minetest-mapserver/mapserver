@@ -17,4 +17,4 @@ jobs:
       run: npm i -g jshint
 
     - name: jshint run
-    - run: cd static/js && jshint
+      run: cd static/js && jshint
