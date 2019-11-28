@@ -45,7 +45,7 @@ $(STATIC_VFS): $(JS_BUNDLE)
 
 $(OUT_DIR)/mapserver-linux-x86_64: $(OUT_DIR)
 	# native (linux x86_64)
-	GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
+	GOOS=linux GOARCH=amd64 CC=gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
 
 $(OUT_DIR)/mapserver-linux-x86: $(OUT_DIR)
 	# apt install gcc-8-i686-linux-gnu

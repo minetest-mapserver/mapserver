@@ -1,10 +1,6 @@
-FROM ubuntu as builder
+FROM golang:1.13-alpine as builder
 
-RUN apt-get update &&\
-	apt-get install -y software-properties-common git &&\
-	add-apt-repository ppa:longsleep/golang-backports &&\
-	apt-get update &&\
-	apt-get install -y golang-go npm nodejs git
+RUN apk --no-cache add ca-certificates gcc libc-dev nodejs npm git make
 
 VOLUME /root/go
 COPY ./ /server
