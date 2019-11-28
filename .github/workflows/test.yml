@@ -11,5 +11,5 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: test
-      run: docker --version
+      run: make release
 
