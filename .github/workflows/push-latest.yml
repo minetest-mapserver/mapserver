@@ -7,8 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: erray/publish-docker-action@master
+    - uses: actions/checkout@master
+    - name: docker publiss
+      uses: elgohr/Publish-Docker-Github-Action@master
       with:
+        name: minetest-mapserver/mapserver
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
