@@ -1,0 +1,20 @@
+name: jshint
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: apt
+      run: sudo apt-get install -y nodejs npm
+
+    - name: jshint install
+      run: npm i -g jshint
+
+    - name: jshint run
+    - run: cd static/js && jshint
