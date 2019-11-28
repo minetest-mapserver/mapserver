@@ -28,7 +28,6 @@ fmt:
 
 test: $(OUT_DIR)
 	go generate
-	go build
 	go vet ./...
 	$(ENV) go test ./...
 
