@@ -14,7 +14,7 @@ jobs:
       run: sudo apt-get install -y nodejs npm
 
     - name: jshint install
-      run: npm i -g jshint
+      run: sudo npm i -g jshint
 
     - name: jshint run
       run: cd static/js && jshint
