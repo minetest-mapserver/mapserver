@@ -44,7 +44,7 @@ export default L.LayerGroup.extend({
 
     this.currentObjects = {}; // name => marker
 
-    this.reDraw = this.reDraw.bind(this);
+    this.onMinetestUpdate = this.onMinetestUpdate.bind(this);
   },
 
   createPopup: function(train){
@@ -67,7 +67,7 @@ export default L.LayerGroup.extend({
 
 
   getMaxDisplayedZoom: function(){
-    return 8;
+    return 10;
   },
 
   createMarker: function(train){
@@ -180,12 +180,12 @@ export default L.LayerGroup.extend({
 
   onAdd: function(map) {
     this.map = map;
-    wsChannel.addListener("minetest-info", () => this.onMinetestUpdate());
+    wsChannel.addListener("minetest-info", this.onMinetestUpdate);
     this.reDraw();
   },
 
   onRemove: function(/*map*/) {
     this.clearLayers();
-    wsChannel.removeListener("minetest-info", () => this.onMinetestUpdate());
+    wsChannel.removeListener("minetest-info", this.onMinetestUpdate);
   }
 });
