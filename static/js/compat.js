@@ -20,12 +20,13 @@ export function hashCompat(){
     }
 
     if (parts.length == 3){
-      //#1799.5/399/10
+      // #1799.5/399/10
       window.location.hash = `#!/map/0/${parts[0]}/${parts[1]}/${parts[2]}`;
     }
 
     if (parts.length == 4) {
-      //#0/-1799.5/399/10
+      // #0/-1799.5/399/10
+      // #0/5405.875/11148/12
       window.location.hash = `#!/map/${parts[0]}/${parts[3]}/${parts[1]}/${parts[2]}`;
     }
   }
