@@ -16,7 +16,7 @@ export function createMap(node, layerId, zoom, lat, lon){
 
   const map = L.map(node, {
     minZoom: 2,
-    maxZoom: 11,
+    maxZoom: 12,
     center: [lat, lon],
     zoom: zoom,
     crs: SimpleCRS
