@@ -22,7 +22,7 @@ export function createMap(node, layerId, zoom, lat, lon){
     crs: SimpleCRS
   });
 
-  map.attributionControl.addAttribution('<a href="https://github.com/minetest-tools/mapserver">Minetest Mapserver</a>');
+  map.attributionControl.addAttribution('<a href="https://github.com/minetest-mapserver/mapserver">Minetest Mapserver</a>');
 
   var tileLayer = new RealtimeTileLayer(wsChannel, layerId, map);
   tileLayer.addTo(map);
