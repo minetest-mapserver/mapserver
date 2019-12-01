@@ -64,7 +64,10 @@ export default L.LayerGroup.extend({
   isPlayerInCurrentLayer: function(player){
     var mapLayer = layerMgr.getCurrentLayer();
 
-    return (player.pos.y >= (mapLayer.from*16) && player.pos.y <= (mapLayer.to*16));
+    return (
+      player.pos.y >= (mapLayer.from*16) &&
+      player.pos.y <= ((mapLayer.to*16) + 15)
+    );
   },
 
   onMinetestUpdate: function(/*info*/){
