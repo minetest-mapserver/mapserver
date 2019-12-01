@@ -40,13 +40,14 @@ export default {
       //layer changed, recreate map
       this.map.remove();
       layerManager.setLayerId(vnode.attrs.layerId);
-      setupMap(vnode);
+      this.map = setupMap(vnode);
 
     } else {
       //position/zoom change
       //this.map.setView([+vnode.attrs.lat, +vnode.attrs.lon], +vnode.attrs.zoom);
 
     }
+    return false;
   },
 
   onremove(){
