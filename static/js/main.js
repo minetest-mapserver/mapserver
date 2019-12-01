@@ -9,10 +9,13 @@ import layerManager from './LayerManager.js';
 // hash route compat
 hashCompat();
 
-getConfig().then(cfg => {
-
+getConfig()
+.then(cfg => {
   layerManager.setup(cfg.layers);
   config.set(cfg);
   wsChannel.connect();
   m.route(document.getElementById("app"), "/map/0/12/0/0", routes);
+})
+.catch(e => {
+  document.getElementById("app").innerHTML = JSON.stringify(e);
 });
