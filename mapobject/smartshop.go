@@ -15,6 +15,7 @@ func (this *SmartShopBlock) onMapObject(x, y, z int, block *mapblockparser.MapBl
 	md := block.Metadata.GetMetadata(x, y, z)
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
 	mainInv := invMap["main"]
+	isCreative := md["type"] == "0"
 
 	if mainInv.IsEmpty() {
 		return list
@@ -27,7 +28,7 @@ func (this *SmartShopBlock) onMapObject(x, y, z int, block *mapblockparser.MapBl
 		pay := invMap[payInvName]
 		give := invMap[giveInvName]
 
-		if pay.IsEmpty() || give.IsEmpty() {
+		if len(pay.Items) == 0 || len(give.Items) == 0 {
 			continue
 		}
 
@@ -43,10 +44,16 @@ func (this *SmartShopBlock) onMapObject(x, y, z int, block *mapblockparser.MapBl
 
 		stock := 0
 
-		for _, item := range mainInv.Items {
-			if item.Name == out_item {
-				stock += item.Count
+		if isCreative {
+			stock = 999
+
+		} else {
+			for _, item := range mainInv.Items {
+				if item.Name == out_item {
+					stock += item.Count
+				}
 			}
+
 		}
 
 		//multiples of out_count

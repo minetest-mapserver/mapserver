@@ -66,7 +66,7 @@ func getNodePos(x, y, z int) int {
 }
 
 func (inv *Inventory) IsEmpty() bool {
-	if inv.Size == 0 || len(inv.Items) == 0 {
+	if len(inv.Items) == 0 {
 		return true
 	}
 
