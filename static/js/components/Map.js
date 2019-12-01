@@ -1,9 +1,9 @@
 import layerManager from '../LayerManager.js';
 import { createMap } from '../map/MapFactory.js';
 
-function setupMap(vnode){
+function setupMap(vnode, id){
   const map = createMap(
-    vnode.dom,
+    id,
     layerManager.getCurrentLayer().id,
     +vnode.attrs.zoom,
     +vnode.attrs.lat,
@@ -27,12 +27,17 @@ function setupMap(vnode){
 }
 
 export default {
+
+  oninit(){
+    this.id = "map_" + Math.floor(Math.random() * 10000);
+  },
+
   view(){
-    return m("div", { class: "full-screen" });
+    return m("div", { class: "full-screen", id: this.id });
   },
 
   oncreate(vnode){
-    this.map = setupMap(vnode);
+    this.map = setupMap(vnode, this.id);
   },
 
   onupdate(vnode){
@@ -40,7 +45,7 @@ export default {
       //layer changed, recreate map
       this.map.remove();
       layerManager.setLayerId(vnode.attrs.layerId);
-      this.map = setupMap(vnode);
+      this.map = setupMap(vnode, this.id);
 
     } else {
       //position/zoom change

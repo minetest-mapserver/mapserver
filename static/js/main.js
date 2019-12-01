@@ -17,5 +17,5 @@ getConfig()
   m.route(document.getElementById("app"), "/map/0/12/0/0", routes);
 })
 .catch(e => {
-  document.getElementById("app").innerHTML = JSON.stringify(e);
+  document.getElementById("app").innerHTML = e;
 });
