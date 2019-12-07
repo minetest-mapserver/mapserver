@@ -21,7 +21,7 @@ export function hashCompat(){
 
     if (parts.length == 3){
       // #1799.5/399/10
-      window.location.hash = `#!/map/0/${parts[0]}/${parts[1]}/${parts[2]}`;
+      window.location.hash = `#!/map/0/${parts[2]}/${parts[0]}/${parts[1]}`;
     }
 
     if (parts.length == 4) {
