@@ -15,9 +15,9 @@ BINARIES += $(OUT_DIR)/mapserver-windows-x86.exe
 BINARIES += $(OUT_DIR)/mapserver-windows-x86-64.exe
 BINARIES += $(OUT_DIR)/mapserver-linux-arm
 
+JS_BUNDLE = static/js/bundle.js
 
-all: $(STATIC_VFS)
-	go build
+all: $(STATIC_VFS) $(OUT_DIR)/mapserver-linux-x86_64
 
 $(OUT_DIR):
 	mkdir $@
@@ -27,23 +27,25 @@ fmt:
 
 test: $(OUT_DIR)
 	go generate
-	go build
 	go vet ./...
 	$(ENV) go test ./...
 
 clean:
-	rm -rf $(STATIC_VFS) test-output
+	rm -rf $(STATIC_VFS) $(JS_BUNDLE) test-output
 	rm -rf $(OUT_DIR)
 
 jshint:
-	jshint static/js/*.js static/js/util static/js/overlays static/js/search
+	cd static/js && jshint .
 
-$(STATIC_VFS):
+$(JS_BUNDLE):
+	cd static/js && rollup -c rollup.config.js
+
+$(STATIC_VFS): $(JS_BUNDLE)
 	go generate
 
 $(OUT_DIR)/mapserver-linux-x86_64: $(OUT_DIR)
 	# native (linux x86_64)
-	GOOS=linux GOARCH=amd64 CC=x86_64-linux-gnu-gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
+	GOOS=linux GOARCH=amd64 CC=gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
 
 $(OUT_DIR)/mapserver-linux-x86: $(OUT_DIR)
 	# apt install gcc-8-i686-linux-gnu
@@ -63,11 +65,11 @@ $(OUT_DIR)/mapserver-linux-arm: $(OUT_DIR)
 
 release: builder_image $(OUT_DIR) $(MOD_ZIP)
 	# build all with the docker image
-	sudo docker run --rm -it\
-	 -v $(shell pwd):/app\
-	 -v mapserver-volume:/root/go\
-	 -w /app\
-	 mapserver-builder\
+	sudo docker run --rm -i \
+	 -v $(shell pwd):/app \
+	 -v mapserver-volume:/root/go \
+	 -w /app \
+	 mapserver-builder \
 	 make test jshint release-all VERSION=$(VERSION)
 	# copy generated files to output dir
 

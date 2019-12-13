@@ -1,12 +1,14 @@
 Minetest mapserver
 =======
 
-<img src="./doc/pics/General_map_preview.png">
 
-[![Dependencies](https://img.shields.io/librariesio/github/minetest-tools/mapserver.svg)](https://github.com/minetest-tools/mapserver)
-[![Build Status](https://travis-ci.org/minetest-tools/mapserver.svg?branch=master)](https://travis-ci.org/minetest-tools/mapserver)
+![](https://github.com/minetest-mapserver/mapserver/workflows/jshint/badge.svg)
+![](https://github.com/minetest-mapserver/mapserver/workflows/go-test/badge.svg)
+
 ![GitHub repo size](https://img.shields.io/github/repo-size/minetest-tools/mapserver.svg)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-tools/mapserver.svg)
+
+<img src="./doc/pics/General_map_preview.png">
 
 Realtime mapserver for [Minetest](https://minetest.net)
 
@@ -20,6 +22,7 @@ Demo: [Pandorabox Server map](https://pandorabox.io/map/#-1782.25/493.5/10)
 * [Parameters](doc/params.md)
 * [Search](doc/search.md)
 * [Configuration](doc/config.md)
+* [Recommended specs](doc/recommended_specs.md)
 * [Contribution](doc/contrib.md)
 * [Development](doc/dev.md)
 * [License](doc/license.md)
@@ -53,6 +56,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 ## Planned Features
 
 * Isometric view
+* Skin support
 * Route planning (via travelnets / trains)
 
 # Supported map-databases

@@ -19,7 +19,7 @@ func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
 		}
 		logrus.WithFields(fields).Debug("Tile render job tile")
 
-		_, err := ctx.Tilerenderer.Render(tc)
+		err := ctx.Tilerenderer.Render(tc)
 		if err != nil {
 			fields := logrus.Fields{
 				"X":       tc.X,

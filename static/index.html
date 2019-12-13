@@ -15,8 +15,10 @@
     <title>Minetest Mapserver</title>
   </head>
   <body>
-    <div id="image-map"></div>
-    <div id="search-content"></div>
+    <div id="app">
+      <br>
+      <h5 style="text-align: center;">Starting mapserver...</h5>
+    </div>
 
     <!-- libraries -->
     <script src="js/lib/mithril.min.js"></script>
@@ -25,9 +27,9 @@
     <script src="js/lib/moment.min.js"></script>
 
     <!-- main module -->
-    <script src="js/main.js" type="module"></script>
+    <script src="js/main.js?v=1.0" type="module"></script>
 
-    <!-- unsupported -->
-    <script src="js/nomodule.js" nomodule></script>
+    <!-- no modules -->
+    <script src="js/bundle.js?v=1.0" nomodule></script>
   </body>
 </html>
