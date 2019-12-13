@@ -1,13 +1,13 @@
 var camera, scene, renderer;
-var colormapping, geometry;
+var geometry;
 
 init();
 animate();
 
 function getNodePos(x,y,z){ return x + (y * 16) + (z * 256); }
 
-function drawMapblock(posx,posy,posz){
-  m.request("api/mapblock/"+posx+"/"+posy+"/"+posz)
+function drawMapblock(posx,posy,posz,colormapping){
+  m.request("api/viewblock/"+posx+"/"+posy+"/"+posz)
   .then(function(mapblock){
     if (!mapblock)
       return;
@@ -16,7 +16,7 @@ function drawMapblock(posx,posy,posz){
       for (var y=0; y<16; y++){
         for (var z=0; z<16; z++){
           var i = getNodePos(x,y,z);
-          var contentId = mapblock.mapdata.contentid[i];
+          var contentId = mapblock.contentid[i];
           var nodeName = mapblock.blockmapping[contentId]
           var colorObj = colormapping[nodeName];
 
@@ -50,12 +50,12 @@ function init() {
 	geometry = new THREE.BoxGeometry( 3, 3, 3 );
 
   m.request("api/colormapping")
-  .then(function(_colormapping){
-    colormapping = _colormapping;
-    for (var x=-4; x<4; x++){
+  .then(function(colormapping){
+
+    for (var x=0; x<14; x++){
       for (var y=0; y<2; y++){
         for (var z=-4; z<4; z++){
-          drawMapblock(x,y,z);
+          drawMapblock(x,y,z,colormapping);
         }
       }
     }
