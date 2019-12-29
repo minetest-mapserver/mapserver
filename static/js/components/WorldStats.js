@@ -46,4 +46,4 @@ export default function(info){
     getHour(), ":", getMinute()
   ]);
 
-};
+}
