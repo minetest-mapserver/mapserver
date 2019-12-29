@@ -12,7 +12,7 @@ export default function(info){
 
   function getMinute(){
     var min = Math.floor((info.time % 1000) / 1000 * 60);
-    return min > 10 ? min : "0" + min;
+    return min >= 10 ? min : "0" + min;
   }
 
   function getLag(){
