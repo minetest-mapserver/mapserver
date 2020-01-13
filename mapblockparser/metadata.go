@@ -69,10 +69,6 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 		return cr.Count, nil
 	}
 
-	if version != 2 {
-		return 0, errors.New("Wrong metadata version: " + strconv.Itoa(int(version)))
-	}
-
 	offset++
 	count := readU16(metadata, offset)
 
@@ -106,7 +102,15 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 
 			pairsMap[key] = value
 
-			offset++
+			priv := 0
+			if version >=2 { /* private tag doesn't exist in version=1 */
+				priv = readU8(metadata, offset)
+				offset ++
+			}
+			if priv != 0 {
+				// do something usefull
+				logrus.Info ("Private items in Inventory")
+			}
 		}
 
 		var currentInventoryName *string
