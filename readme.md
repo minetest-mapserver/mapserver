@@ -5,8 +5,16 @@ Minetest mapserver
 ![](https://github.com/minetest-mapserver/mapserver/workflows/jshint/badge.svg)
 ![](https://github.com/minetest-mapserver/mapserver/workflows/go-test/badge.svg)
 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/minetest-mapserver/mapserver)
 ![GitHub repo size](https://img.shields.io/github/repo-size/minetest-tools/mapserver.svg)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-tools/mapserver.svg)
+![GitHub issues](https://img.shields.io/github/issues/minetest-mapserver/mapserver)
+
+![GitHub All Releases](https://img.shields.io/github/downloads/minetest-mapserver/mapserver/total)
+![Docker Pulls](https://img.shields.io/docker/pulls/minetestmapserver/mapserver)
+
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/minetest-mapserver/mapserver)
+
 
 <img src="./doc/pics/General_map_preview.png">
 
