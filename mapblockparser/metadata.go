@@ -103,13 +103,13 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 			pairsMap[key] = value
 
 			priv := 0
-			if version >=2 { /* private tag doesn't exist in version=1 */
+			if version >= 2 { /* private tag doesn't exist in version=1 */
 				priv = readU8(metadata, offset)
-				offset ++
+				offset++
 			}
 			if priv != 0 {
 				// do something usefull
-				logrus.Info ("Private items in Inventory")
+				logrus.Info("Private items in Inventory")
 			}
 		}
 
