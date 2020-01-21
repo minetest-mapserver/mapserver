@@ -14,6 +14,7 @@ Minetest mapserver
 ![Docker Pulls](https://img.shields.io/docker/pulls/minetestmapserver/mapserver)
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/minetest-mapserver/mapserver)
+[![Go Report Card](https://goreportcard.com/badge/github.com/minetest-mapserver/mapserver)](https://goreportcard.com/report/github.com/minetest-mapserver/mapserver)
 
 
 <img src="./doc/pics/General_map_preview.png">
