@@ -1,0 +1,151 @@
+mcl_minecarts:golden_rail 154 136 81
+mcl_minecarts:golden_rail_on 154 136 81
+mcl_minecarts:rail 143 123 90
+mcl_core:acacialeaves 108 147 67
+mcl_core:acaciatree 188 109 90
+mcl_core:birchleaves 70 104 27
+mcl_core:birchtree 218 197 166
+mcl_core:cactus 52 116 15
+mcl_colorblocks:hardened_clay 182 182 182
+mcl_core:cobble 88 84 82
+mcl_core:redsand 206 165 98
+mcl_core:dirt 95 64 39
+mcl_core:dirt_with_dry_grass 107 65 51
+mcl_core:dirt_with_grass 66 112 31
+mcl_core:podzol 74 38 8
+mcl_core:dirt_with_snow 224 225 238
+mcl_core:dirt_with_grass_snow 224 225 238
+mcl_fences:fence 129 100 55
+mcl_core:glass 194 194 227 64 16
+mcl_core:gravel 131 131 131
+mcl_core:packed_ice 167 206 247
+mcl_core:jungleleaves 20 28 15
+mcl_core:junglesapling 48 38 14
+mcl_core:jungletree 105 76 41
+mcl_core:junglewood 54 37 11
+mcl_core:ladder 123 90 34
+mcl_core:lava_flowing 255 100 0
+mcl_core:lava_source 255 100 0
+mcl_core:leaves 34 52 29
+mcl_core:mossycobble 86 90 68
+mcl_core:obsidian 19 21 24
+mcl_core:reeds 94 132 33
+mclx_core:river_water_flowing 39 66 106 128 224
+mclx_core:river_water_source 39 66 106 128 224
+mcl_core:sand 214 207 158
+mcl_core:sandstone 197 193 143
+mcl_core:sandstonesmooth 197 193 143
+mcl_core:sandstonesmooth2 197 193 143
+mcl_core:snow 224 225 238
+mcl_core:stone 97 94 93
+mcl_core:stone_with_coal 97 94 93
+mcl_core:stone_with_diamond 97 94 93
+mcl_core:stone_with_gold 97 94 93
+mcl_core:stone_with_iron 97 94 93
+mcl_torches:torch 120 98 67
+mcl_torches:torch_wall 120 98 67
+mcl_core:tree 164 131 88
+mcl_core:water_flowing 39 66 106 128 224
+mcl_core:water_source 39 66 106 128 224
+mcl_core:wood 128 99 55
+mcl_core:void 0 0 0
+mcl_doors:trapdoor 128 99 50
+mcl_doors:trapdoor_open 225 217 206
+mcl_farming:soil 95 64 39
+mcl_farming:soil_wet 95 64 39
+mcl_farming:wheat_1 107 174 32
+mcl_farming:wheat_2 133 175 50
+mcl_farming:wheat_3 162 182 82
+mcl_farming:wheat_4 169 187 93
+mcl_farming:wheat_5 169 178 94
+mcl_farming:wheat_6 172 176 85
+mcl_farming:wheat_7 192 181 81
+mcl_farming:wheat 186 161 35
+mcl_fences:fence 128 99 55
+mcl_fire:fire 218 120 36
+mcl_fire:eternal_fire 218 120 36
+mcl_stairs:slab_cobble 88 84 82
+mcl_stairs:slab_cobble_top 88 84 82
+mcl_stairs:slab_wood 128 99 55
+mcl_stairs:slab_wood_top 128 99 55
+mcl_stairs:stair_cobble 88 84 82
+mcl_stairs:slab_sprucewood 92 60 18
+mcl_stairs:slab_sprucewood_double 92 60 18
+mcl_stairs:slab_sprucewood_top 92 60 18
+mcl_wool:black 29 29 29
+mcl_wool:blue 0 72 145
+#mcl_wool:light_blue 0 72 145
+mcl_wool:brown 86 42 0
+mcl_wool:cyan 0 130 139
+mcl_wool:green 32 102 0
+mcl_wool:grey 59 59 59
+mcl_wool:lime 92 216 28
+mcl_wool:silver 131 131 131
+mcl_wool:magenta 200 3 109
+mcl_wool:orange 213 81 21
+mcl_wool:pink 255 131 131
+mcl_wool:red 168 17 17
+mcl_wool:purple 92 2 169
+mcl_wool:white 220 220 220
+mcl_wool:yellow 254 225 15
+mcl_nether:glowstone 211 213 139
+mcl_colorblocks:hardened_clay 107 65 51
+mcl_colorblocks:hardened_clay_black 32 32 32
+mcl_colorblocks:hardened_clay_blue 59 68 93
+# mcl_colorblocks:hardened_clay_light_blue 59 68 93
+mcl_colorblocks:hardened_clay_brown 48 39 31
+mcl_colorblocks:hardened_clay_cyan 60 96 100
+mcl_colorblocks:hardened_clay_green 45 70 42
+mcl_colorblocks:hardened_clay_grey 64 64 64
+mcl_colorblocks:hardened_clay_lime 93 112 70
+mcl_colorblocks:hardened_clay_silver 152 150 151
+mcl_colorblocks:hardened_clay_magenta 118 93 119
+mcl_colorblocks:hardened_clay_orange 156 118 77
+mcl_colorblocks:hardened_clay_pink 183 150 160
+mcl_colorblocks:hardened_clay_red 109 56 55
+mcl_colorblocks:hardened_clay_purple 70 52 83
+mcl_colorblocks:hardened_clay_white 231 223 225
+mcl_colorblocks:hardened_clay_yellow 155 136 75
+#mcl_cauldrons:cauldron
+#mcl_core:andesite
+#mcl_core:deadbush
+#mcl_core:diorite
+#mcl_core:granite
+#mcl_core:ice
+#mcl_core:sapling
+#mcl_core:snowblock
+#mcl_core:spruceleaves
+#mcl_core:sprucetree
+#mcl_core:sprucewood
+#mcl_core:vine
+#mcl_crafting_table:crafting_table
+#mcl_flowerpots:flower_pot
+#mcl_flowers:allium
+#mcl_flowers:azure_bluet
+#mcl_flowers:blue_orchid
+#mcl_flowers:dandelion
+#mcl_flowers:double_fern
+#mcl_flowers:double_fern_top
+#mcl_flowers:double_grass
+#mcl_flowers:double_grass_top
+#mcl_flowers:fern
+#mcl_flowers:lilac
+#mcl_flowers:lilac_top
+#mcl_flowers:oxeye_daisy
+#mcl_flowers:peony
+#mcl_flowers:peony_top
+#mcl_flowers:poppy
+#mcl_flowers:rose_bush
+#mcl_flowers:rose_bush_top
+#mcl_flowers:sunflower
+#mcl_flowers:sunflower_top
+#mcl_flowers:tallgrass
+#mcl_flowers:tulip_orange
+#mcl_flowers:tulip_pink
+#mcl_flowers:tulip_red
+#mcl_flowers:tulip_white
+#mcl_flowers:waterlily
+#mcl_mushrooms:mushroom_brown
+#mcl_mushrooms:mushroom_red
+mcl_stairs:stair_sprucewood 92 60 18
+mcl_stairs:stair_sprucewood_outer 92 60 18
