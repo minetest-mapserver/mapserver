@@ -29,7 +29,7 @@ function getMaterial(nodeName){
 }
 
 function isNodeHidden(mapblock,x,y,z){
-  if (x==0 || x>=15 || y==0 || y>=15 || z==0 || z>=15){
+  if (x<=1 || x>=14 || y<=1 || y>=14 || z<=1 || z>=14){
     // not sure, may be visible
     return false;
   }
@@ -67,17 +67,17 @@ function drawMapblock(posx,posy,posz){
 
     var nodenameGeometriesMap = {}; // nodeName => [geo, geo, ...]
 
-    for (var x=0; x<16; x++){
-      for (var y=0; y<16; y++){
-        for (var z=0; z<16; z++){
+		for (var x=0; x<16; x++){
+			for (var y=0; y<16; y++){
+	      for (var z=0; z<16; z++){
           if (isNodeHidden(mapblock, x,y,z)){
             //skip hidden node
             continue;
           }
 
+					var i = getNodePos(x,y,z);
           var contentId = mapblock.contentid[i];
           var nodeName = mapblock.blockmapping[contentId];
-          var i = getNodePos(x,y,z);
 
           var geo = geometry.clone();
           var matrix = new THREE.Matrix4()
@@ -119,7 +119,7 @@ function init() {
 
 	scene = new THREE.Scene();
 
-  var min = -3, max = 3;
+  var min = -7, max = 7;
   var x = min, y = -1, z = min;
 
   function increment(){
@@ -143,7 +143,7 @@ function init() {
     .then(function(){
       render();
       increment();
-      setTimeout(drawLoop, 100);
+      setTimeout(drawLoop, 50);
     });
   };
 
@@ -158,7 +158,7 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	controls = new THREE.TrackballControls( camera, renderer.domElement );
-	controls.rotateSpeed = 1.0;
+	controls.rotateSpeed = 2.0;
 	controls.zoomSpeed = 1.2;
 	controls.panSpeed = 0.8;
 
