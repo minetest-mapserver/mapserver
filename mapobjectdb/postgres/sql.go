@@ -11,6 +11,7 @@ where o.type = $1
 and o.posx >= $2 and o.posy >= $3 and o.posz >= $4
 and o.posx <= $5 and o.posy <= $6 and o.posz <= $7
 order by o.id
+limit $8
 `
 const getMapDataWithAttributeLikePosQuery = `
 select o.id, o.type, o.mtime,
@@ -26,6 +27,7 @@ and o.type = $1
 and o.posx >= $2 and o.posy >= $3 and o.posz >= $4
 and o.posx <= $5 and o.posy <= $6 and o.posz <= $7
 order by o.id
+limit $10
 `
 
 const removeMapDataQuery = `

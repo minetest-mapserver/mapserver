@@ -11,12 +11,18 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 	var rows *sql.Rows
 	var err error
 
+	var limit = 1000
+	if q.Limit != nil {
+		limit = *q.Limit
+	}
+
 	if q.AttributeLike == nil {
 		//plain pos search
 		rows, err = db.db.Query(getMapDataPosQuery,
 			q.Type,
 			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+			limit,
 		)
 
 	} else {
@@ -26,6 +32,7 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 			q.Type,
 			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+			limit,
 		)
 	}
 

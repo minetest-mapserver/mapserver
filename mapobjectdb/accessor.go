@@ -68,6 +68,7 @@ type SearchQuery struct {
 	Pos2          *coords.MapBlockCoords `json:"pos2"`
 	Type          string                 `json:"type"`
 	AttributeLike *SearchAttributeLike   `json:"attributelike"`
+	Limit         *int                   `json:"limit"`
 }
 
 type DBAccessor interface {

@@ -11,6 +11,7 @@ where o.type = ?
 and o.posx >= ? and o.posy >= ? and o.posz >= ?
 and o.posx <= ? and o.posy <= ? and o.posz <= ?
 order by o.id
+limit ?
 `
 
 const getMapDataWithAttributeLikePosQuery = `
@@ -27,6 +28,7 @@ and o.type = ?
 and o.posx >= ? and o.posy >= ? and o.posz >= ?
 and o.posx <= ? and o.posy <= ? and o.posz <= ?
 order by o.id
+limit ?
 `
 
 const removeMapDataQuery = `
