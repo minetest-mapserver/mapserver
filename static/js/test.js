@@ -6,8 +6,29 @@ animate();
 
 function getNodePos(x,y,z){ return x + (y * 16) + (z * 256); }
 
-function drawMapblock(posx,posy,posz,colormapping){
-  m.request("api/viewblock/"+posx+"/"+posy+"/"+posz)
+var colormapping;
+var nodeCount = 0;
+
+var materialCache = {};
+function getMaterial(nodeName){
+  var material = materialCache[nodeName];
+  if (!material) {
+    var colorObj = colormapping[nodeName];
+
+    if (!colorObj){
+      return;
+    }
+
+    var color = new THREE.Color( colorObj.r/256, colorObj.g/256, colorObj.b/256 );
+    material = new THREE.MeshBasicMaterial( { color: color } );
+    materialCache[nodeName] = material;
+  }
+
+  return material;
+}
+
+function drawMapblock(posx,posy,posz){
+  return m.request("api/viewblock/"+posx+"/"+posy+"/"+posz)
   .then(function(mapblock){
     if (!mapblock)
       return;
@@ -18,21 +39,17 @@ function drawMapblock(posx,posy,posz,colormapping){
           var i = getNodePos(x,y,z);
           var contentId = mapblock.contentid[i];
           var nodeName = mapblock.blockmapping[contentId]
-          var colorObj = colormapping[nodeName];
 
-          if (!colorObj)
-            continue;
+          var material = getMaterial(nodeName);
 
-          var color = new THREE.Color( colorObj.r/256, colorObj.g/256, colorObj.b/256 );
-          var material = new THREE.MeshBasicMaterial( { color: color } );
-
-          var mesh = new THREE.Mesh( geometry, material );
-          mesh.position.x = (x*3) + (posx*3*16);
-          mesh.position.y = (y*3) + (posy*3*16);
-          mesh.position.z = (z*3) + (posz*3*16);
-        	scene.add( mesh );
-
-
+          if (material) {
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.position.x = (x*3) + (posx*3*16);
+            mesh.position.y = (y*3) + (posy*3*16);
+            mesh.position.z = (z*3) + (posz*3*16);
+          	scene.add( mesh );
+            nodeCount++;
+          }
         }
       }
     }
@@ -50,16 +67,22 @@ function init() {
 	geometry = new THREE.BoxGeometry( 3, 3, 3 );
 
   m.request("api/colormapping")
-  .then(function(colormapping){
+  .then(function(_colormapping){
+    colormapping = _colormapping;
+    var drawPromises = [];
 
-    for (var x=0; x<14; x++){
+    for (var x=-12; x<-10; x++){
       for (var y=0; y<2; y++){
-        for (var z=-4; z<4; z++){
-          drawMapblock(x,y,z,colormapping);
+        for (var z=-4; z<-2; z++){
+          drawPromises.push(drawMapblock(x,y,z));
         }
       }
     }
 
+    return Promise.all(drawPromises);
+  })
+  .then(function(){
+    console.log("Node-count: " + nodeCount);
   });
 
 	renderer = new THREE.WebGLRenderer();
