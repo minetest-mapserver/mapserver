@@ -91,30 +91,44 @@ function drawMapblock(posx,posy,posz){
 function init() {
 
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 2, 2000 );
-	camera.position.z = 30;
+	camera.position.z = -30;
 	camera.position.y = 10;
 
 	scene = new THREE.Scene();
 
 	geometry = new THREE.BoxGeometry( 1, 1, 1 );
 
+  var min = -10, max = 10;
+  var x = min, y = -1, z = min;
+
+  function increment(){
+    x++;
+    if (x >= max){
+      z++;
+      x = 0;
+    }
+    if (z >= max){
+      y++;
+      z = 0;
+    }
+  }
+
+  var drawLoop = function(){
+    if (y >= 3){
+      return;
+    }
+
+    drawMapblock(x,y,z);
+    render();
+
+    increment();
+    setTimeout(drawLoop, 100);
+  };
+
   m.request("api/colormapping")
   .then(function(_colormapping){
     colormapping = _colormapping;
-    var drawPromises = [];
-
-    for (var x=-12; x<3; x++){
-      for (var y=-1; y<2; y++){
-        for (var z=-4; z<2; z++){
-          drawPromises.push(drawMapblock(x,y,z));
-        }
-      }
-    }
-
-    return Promise.all(drawPromises);
-  })
-  .then(function(){
-    console.log("Node-count: " + nodeCount);
+    drawLoop();
   });
 
 	renderer = new THREE.WebGLRenderer();
