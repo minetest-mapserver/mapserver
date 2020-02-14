@@ -1,7 +1,6 @@
 var camera, scene, renderer;
-var geometry = new THREE.BufferGeometry().fromGeometry(
-  new THREE.BoxGeometry(1,1,1)
-);
+var geometry = new THREE.BufferGeometry()
+	.fromGeometry(new THREE.BoxGeometry(1,1,1));
 
 init();
 animate();
@@ -42,7 +41,7 @@ function isNodeHidden(mapblock,x,y,z){
 
   function isTransparent(contentId){
     var nodeName = mapblock.blockmapping[contentId];
-    return nodeName == "air";
+    return nodeName == "air" || nodeName == "default:water_source";
   }
 
   if (isTransparent(mapblock.contentid[getNodePos(x-1,y,z)]))
@@ -120,8 +119,9 @@ function drawMapblock(posx,posy,posz){
 function init() {
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 2, 2000 );
-	camera.position.z = -50;
-	camera.position.y = 10;
+	camera.position.z = -150;
+	camera.position.x = -150;
+	camera.position.y = 100;
 
 	scene = new THREE.Scene();
 
