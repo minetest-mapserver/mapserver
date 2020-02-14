@@ -5,6 +5,8 @@
   "browser": true,
   "globals": {
     "L": true,
-    "m": true
+    "m": true,
+    "THREE": true,
+    "console": true
   }
 }

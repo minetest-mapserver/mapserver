@@ -6,7 +6,7 @@ animate();
 
 function getNodePos(x,y,z){ return x + (y * 16) + (z * 256); }
 
-var colormapping;
+var colormapping, controls;
 var nodeCount = 0;
 
 var materialCache = {};
@@ -27,6 +27,32 @@ function getMaterial(nodeName){
   return material;
 }
 
+function isNodeHidden(mapblock,x,y,z){
+  if (x==0 && x>=15 && y==0 && y>=15 && z==0 && z>=15){
+    // not sure, may be visible
+    return false;
+  }
+
+  function isTransparent(contentId){
+    var nodeName = mapblock.blockmapping[contentId];
+    return nodeName == "air";
+  }
+
+  if (isTransparent(mapblock[getNodePos(x-1,y,z)]))
+    return false;
+  if (isTransparent(mapblock[getNodePos(x,y-1,z)]))
+    return false;
+  if (isTransparent(mapblock[getNodePos(x,y,z-1)]))
+    return false;
+  if (isTransparent(mapblock[getNodePos(x+1,y,z)]))
+    return false;
+  if (isTransparent(mapblock[getNodePos(x,y+1,z)]))
+    return false;
+  if (isTransparent(mapblock[getNodePos(x,y,z+1)]))
+    return false;
+
+}
+
 function drawMapblock(posx,posy,posz){
   return m.request("api/viewblock/"+posx+"/"+posy+"/"+posz)
   .then(function(mapblock){
@@ -36,17 +62,22 @@ function drawMapblock(posx,posy,posz){
     for (var x=0; x<16; x++){
       for (var y=0; y<16; y++){
         for (var z=0; z<16; z++){
+          if (isNodeHidden(mapblock, x,y,z)){
+            //skip hidden node
+            continue;
+          }
+
           var i = getNodePos(x,y,z);
           var contentId = mapblock.contentid[i];
-          var nodeName = mapblock.blockmapping[contentId]
+          var nodeName = mapblock.blockmapping[contentId];
 
           var material = getMaterial(nodeName);
 
           if (material) {
             var mesh = new THREE.Mesh( geometry, material );
-            mesh.position.x = (x*3) + (posx*3*16);
-            mesh.position.y = (y*3) + (posy*3*16);
-            mesh.position.z = (z*3) + (posz*3*16);
+            mesh.position.x = (x*1) + (posx*1*16);
+            mesh.position.y = (y*1) + (posy*1*16);
+            mesh.position.z = (z*1) + (posz*1*16);
           	scene.add( mesh );
             nodeCount++;
           }
@@ -64,16 +95,16 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	geometry = new THREE.BoxGeometry( 3, 3, 3 );
+	geometry = new THREE.BoxGeometry( 1, 1, 1 );
 
   m.request("api/colormapping")
   .then(function(_colormapping){
     colormapping = _colormapping;
     var drawPromises = [];
 
-    for (var x=-12; x<-10; x++){
+    for (var x=-12; x<3; x++){
       for (var y=0; y<2; y++){
-        for (var z=-4; z<-2; z++){
+        for (var z=-4; z<2; z++){
           drawPromises.push(drawMapblock(x,y,z));
         }
       }
