@@ -28,7 +28,7 @@ function getMaterial(nodeName){
 }
 
 function isNodeHidden(mapblock,x,y,z){
-  if (x==0 && x>=15 && y==0 && y>=15 && z==0 && z>=15){
+  if (x==0 || x>=15 || y==0 || y>=15 || z==0 || z>=15){
     // not sure, may be visible
     return false;
   }
@@ -51,6 +51,7 @@ function isNodeHidden(mapblock,x,y,z){
   if (isTransparent(mapblock[getNodePos(x,y,z+1)]))
     return false;
 
+  return true;
 }
 
 function drawMapblock(posx,posy,posz){
@@ -75,9 +76,9 @@ function drawMapblock(posx,posy,posz){
 
           if (material) {
             var mesh = new THREE.Mesh( geometry, material );
-            mesh.position.x = (x*1) + (posx*1*16);
-            mesh.position.y = (y*1) + (posy*1*16);
-            mesh.position.z = (z*1) + (posz*1*16);
+            mesh.position.x = x + (posx*16);
+            mesh.position.y = y + (posy*16);
+            mesh.position.z = z + (posz*16);
           	scene.add( mesh );
             nodeCount++;
           }
