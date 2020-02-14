@@ -38,17 +38,17 @@ function isNodeHidden(mapblock,x,y,z){
     return nodeName == "air";
   }
 
-  if (isTransparent(mapblock[getNodePos(x-1,y,z)]))
+  if (isTransparent(mapblock.contentid[getNodePos(x-1,y,z)]))
     return false;
-  if (isTransparent(mapblock[getNodePos(x,y-1,z)]))
+  if (isTransparent(mapblock.contentid[getNodePos(x,y-1,z)]))
     return false;
-  if (isTransparent(mapblock[getNodePos(x,y,z-1)]))
+  if (isTransparent(mapblock.contentid[getNodePos(x,y,z-1)]))
     return false;
-  if (isTransparent(mapblock[getNodePos(x+1,y,z)]))
+  if (isTransparent(mapblock.contentid[getNodePos(x+1,y,z)]))
     return false;
-  if (isTransparent(mapblock[getNodePos(x,y+1,z)]))
+  if (isTransparent(mapblock.contentid[getNodePos(x,y+1,z)]))
     return false;
-  if (isTransparent(mapblock[getNodePos(x,y,z+1)]))
+  if (isTransparent(mapblock.contentid[getNodePos(x,y,z+1)]))
     return false;
 
   return true;
@@ -90,15 +90,15 @@ function drawMapblock(posx,posy,posz){
 
 function init() {
 
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 2, 2000 );
-	camera.position.z = -30;
+	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 2, 2000 );
+	camera.position.z = -50;
 	camera.position.y = 10;
 
 	scene = new THREE.Scene();
 
 	geometry = new THREE.BoxGeometry( 1, 1, 1 );
 
-  var min = -10, max = 10;
+  var min = -3, max = 3;
   var x = min, y = -1, z = min;
 
   function increment(){
@@ -118,11 +118,12 @@ function init() {
       return;
     }
 
-    drawMapblock(x,y,z);
-    render();
-
-    increment();
-    setTimeout(drawLoop, 100);
+    drawMapblock(x,y,z)
+    .then(function(){
+      render();
+      increment();
+      setTimeout(drawLoop, 100);
+    });
   };
 
   m.request("api/colormapping")
