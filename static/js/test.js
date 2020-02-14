@@ -104,7 +104,7 @@ function init() {
     var drawPromises = [];
 
     for (var x=-12; x<3; x++){
-      for (var y=0; y<2; y++){
+      for (var y=-1; y<2; y++){
         for (var z=-4; z<2; z++){
           drawPromises.push(drawMapblock(x,y,z));
         }
