@@ -25,8 +25,7 @@ function getMaterial(nodeName){
 
 		if (nodeName == "default:water_source"){
 			material.transparent = true;
-			material.opacity = 0.8;
-			material.clipIntersection = true;
+			material.opacity = 0.5;
 		}
 
     materialCache[nodeName] = material;
@@ -43,7 +42,7 @@ function isNodeHidden(mapblock,x,y,z){
 
   function isTransparent(contentId){
     var nodeName = mapblock.blockmapping[contentId];
-    return nodeName == "air" || nodeName == "default:water_source";
+    return nodeName == "air";
   }
 
   if (isTransparent(mapblock.contentid[getNodePos(x-1,y,z)]))
