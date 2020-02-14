@@ -1,5 +1,7 @@
 var camera, scene, renderer;
-var geometry;
+var geometry = new THREE.BufferGeometry().fromGeometry(
+  new THREE.BoxGeometry(1,1,1)
+);
 
 init();
 animate();
@@ -7,7 +9,6 @@ animate();
 function getNodePos(x,y,z){ return x + (y * 16) + (z * 256); }
 
 var colormapping, controls;
-var nodeCount = 0;
 
 var materialCache = {};
 function getMaterial(nodeName){
@@ -60,6 +61,12 @@ function drawMapblock(posx,posy,posz){
     if (!mapblock)
       return;
 
+    if (mapblock.blockmapping.length == 1 && mapblock.blockmapping[0] == "air"){
+      return;
+    }
+
+    var nodenameGeometriesMap = {}; // nodeName => [geo, geo, ...]
+
     for (var x=0; x<16; x++){
       for (var y=0; y<16; y++){
         for (var z=0; z<16; z++){
@@ -68,23 +75,39 @@ function drawMapblock(posx,posy,posz){
             continue;
           }
 
-          var i = getNodePos(x,y,z);
           var contentId = mapblock.contentid[i];
           var nodeName = mapblock.blockmapping[contentId];
+          var i = getNodePos(x,y,z);
 
-          var material = getMaterial(nodeName);
+          var geo = geometry.clone();
+          var matrix = new THREE.Matrix4()
+            .makeTranslation(
+              x + (posx*16),
+              y + (posy*16),
+              z + (posz*16)
+            );
+          geo.applyMatrix4(matrix);
 
-          if (material) {
-            var mesh = new THREE.Mesh( geometry, material );
-            mesh.position.x = x + (posx*16);
-            mesh.position.y = y + (posy*16);
-            mesh.position.z = z + (posz*16);
-          	scene.add( mesh );
-            nodeCount++;
+          var list = nodenameGeometriesMap[nodeName];
+          if (!list){
+            list = [];
+            nodenameGeometriesMap[nodeName] = list;
           }
+
+          list.push(geo);
         }
       }
     }
+
+    Object.keys(nodenameGeometriesMap).forEach(function(nodeName){
+      var material = getMaterial(nodeName);
+
+      if (material){
+        var list = THREE.BufferGeometryUtils.mergeBufferGeometries(nodenameGeometriesMap[nodeName]);
+        var mesh = new THREE.Mesh(list, material);
+        scene.add( mesh );
+      }
+    });
   });
 }
 
@@ -96,20 +119,18 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	geometry = new THREE.BoxGeometry( 1, 1, 1 );
-
   var min = -3, max = 3;
   var x = min, y = -1, z = min;
 
   function increment(){
     x++;
-    if (x >= max){
+    if (x > max){
       z++;
-      x = 0;
+      x = min;
     }
-    if (z >= max){
+    if (z > max){
       y++;
-      z = 0;
+      z = min;
     }
   }
 
