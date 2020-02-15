@@ -1,6 +1,4 @@
 var camera, scene, renderer;
-var geometry = new THREE.BufferGeometry()
-	.fromGeometry(new THREE.BoxGeometry(1,1,1));
 
 init();
 animate();
@@ -84,14 +82,12 @@ function drawMapblock(posx,posy,posz){
           var contentId = mapblock.contentid[i];
           var nodeName = mapblock.blockmapping[contentId];
 
-          var geo = geometry.clone();
           var matrix = new THREE.Matrix4()
             .makeTranslation(
               x + (posx*16),
               y + (posy*16),
               z + (posz*16)
             );
-          geo.applyMatrix4(matrix);
 
           var list = nodenameGeometriesMap[nodeName];
           if (!list){
@@ -99,7 +95,7 @@ function drawMapblock(posx,posy,posz){
             nodenameGeometriesMap[nodeName] = list;
           }
 
-          list.push(geo);
+          list.push(matrix);
         }
       }
     }
@@ -108,8 +104,13 @@ function drawMapblock(posx,posy,posz){
       var material = getMaterial(nodeName);
 
       if (material){
-        var list = THREE.BufferGeometryUtils.mergeBufferGeometries(nodenameGeometriesMap[nodeName]);
-        var mesh = new THREE.Mesh(list, material);
+				var list = nodenameGeometriesMap[nodeName];
+				var geometry = new THREE.BoxGeometry(1,1,1);
+				var mesh = new THREE.InstancedMesh( geometry, material, list.length );
+				for (var i=0; i<list.length; i++){
+					mesh.setMatrixAt(i, list[i]);
+				}
+
         scene.add( mesh );
       }
     });
@@ -159,7 +160,8 @@ function init() {
     drawLoop();
   });
 
-	renderer = new THREE.WebGLRenderer();
+	renderer = new THREE.WebGLRenderer({ antialias: false });
+	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
