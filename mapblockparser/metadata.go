@@ -107,10 +107,13 @@ func parseMetadata(mapblock *MapBlock, data []byte) (int, error) {
 				priv = readU8(metadata, offset)
 				offset++
 			}
-			if priv != 0 {
-				// do something usefull
-				logrus.Info("Private items in Inventory")
-			}
+
+			/*
+				if priv != 0 {
+					// do something usefull
+					logrus.Info("Private items in Inventory")
+				}
+			*/
 		}
 
 		var currentInventoryName *string
