@@ -10,8 +10,8 @@ import (
 )
 
 type ViewBlock struct {
-	BlockMapping map[int]string         `json:"blockmapping"`
-	ContentId []int `json:"contentid"`
+	BlockMapping map[int]string `json:"blockmapping"`
+	ContentId    []int          `json:"contentid"`
 }
 
 type ViewMapblockHandler struct {
