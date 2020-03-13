@@ -6,8 +6,8 @@ Minetest mapserver
 ![](https://github.com/minetest-mapserver/mapserver/workflows/go-test/badge.svg)
 
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/minetest-mapserver/mapserver)
-![GitHub repo size](https://img.shields.io/github/repo-size/minetest-tools/mapserver.svg)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-tools/mapserver.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/minetest-mapserver/mapserver.svg)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/minetest-mapserver/mapserver.svg)
 ![GitHub issues](https://img.shields.io/github/issues/minetest-mapserver/mapserver)
 
 ![GitHub All Releases](https://img.shields.io/github/downloads/minetest-mapserver/mapserver/total)
