@@ -68,6 +68,8 @@ type Minetest struct {
 	ctx *app.App
 }
 
+var LastStats *MinetestInfo
+
 func (this *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	if req.Header.Get("Authorization") != this.ctx.Config.WebApi.SecretKey {
 		resp.WriteHeader(403)
@@ -91,6 +93,7 @@ func (this *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	mintestPlayers.Set(float64(len(data.Players)))
 	mintestMaxLag.Set(data.MaxLag)
 
+	LastStats = data
 	this.ctx.WebEventbus.Emit("minetest-info", data)
 
 	json.NewEncoder(resp).Encode("stub")

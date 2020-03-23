@@ -10,3 +10,7 @@ export function getMapObjects(query){
 export function getConfig(){
   return m.request("api/config");
 }
+
+export function getStats(){
+	return m.request("api/stats");
+}

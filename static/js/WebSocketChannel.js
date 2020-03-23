@@ -1,4 +1,6 @@
 
+import { getStats } from './api.js';
+
 class WebSocketChannel {
   constructor(){
     this.wsUrl = window.location.protocol.replace("http", "ws") +
@@ -44,9 +46,26 @@ class WebSocketChannel {
       }
     };
 
+		function fallbackPolling(){
+			getStats()
+			.then(function(stats){
+				if (!stats){
+					// no stats (yet)
+					return;
+				}
+
+				var listeners = self.listenerMap["minetest-info"];
+				if (listeners){
+					listeners.forEach(function(listener){
+						listener(stats);
+					});
+				}
+			});
+		}
+
     ws.onerror = function(){
-      //reconnect after some time
-      setTimeout(self.connect.bind(self), 1000);
+      //fallback to polling stats
+      setInterval(fallbackPolling, 2000);
     };
   }
 }
