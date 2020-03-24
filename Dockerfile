@@ -8,7 +8,7 @@ RUN cd /server &&\
  npm install -g jshint rollup &&\
  make test jshint all
 
-FROM alpine:3.11.3
+FROM alpine:3.11.5
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY --from=builder /server/output/mapserver-linux-x86_64 /bin/mapserver
