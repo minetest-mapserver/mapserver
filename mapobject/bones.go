@@ -20,7 +20,15 @@ func (this *BonesBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock)
 
 	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "bones")
 	o.Attributes["time"] = md["time"]
-	o.Attributes["owner"] = md["owner"]
+
+	if _, ok := md["owner"]; ok {
+		o.Attributes["owner"] = md["owner"]
+	} else if _, ok := md["_owner"]; ok {
+		o.Attributes["owner"] = md["_owner"]
+	} else {
+		o.Attributes["owner"] = "unknown"
+	}
+
 	o.Attributes["info"] = md["infotext"]
 
 	itemCount := 0
