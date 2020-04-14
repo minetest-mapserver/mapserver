@@ -13,8 +13,8 @@ RUN apk --no-cache add ca-certificates curl
 WORKDIR /app
 COPY --from=builder /server/output/mapserver-linux-x86_64 /bin/mapserver
 
-HEALTHCHECK --interval=15s --timeout=3s \
-  CMD curl -f http://localhost:8080/ || exit 1
+HEALTHCHECK --interval=5s --timeout=3s \
+  CMD curl -f http://localhost:8080/api/config || exit 1
 
 EXPOSE 8080
 CMD ["/bin/mapserver"]

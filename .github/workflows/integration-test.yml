@@ -1,0 +1,15 @@
+name: integration-test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: integration-test
+      run: ./integration-test.sh
