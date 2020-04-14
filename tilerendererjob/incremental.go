@@ -31,7 +31,11 @@ func incrementalRender(ctx *app.App) {
 		}
 
 		if len(result.List) == 0 && !result.HasMore {
-			time.Sleep(5 * time.Second)
+			renderingDuration, err := time.ParseDuration(ctx.Config.IncrementalRenderingTimer)
+			if err != nil {
+				panic(err)
+			}
+			time.Sleep(renderingDuration)
 			continue
 		}
 

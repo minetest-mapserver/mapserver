@@ -43,6 +43,7 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 	"renderingfetchlimit": 1000,
 	"renderingjobs": 2,
 	"renderingqueue": 100,
+	"incrementalrenderingtimer": "5s",
 	"mapobjects": {
 		"bones": true,
 		"protector": true,
@@ -109,6 +110,9 @@ Number of mapblocks to collect at once while rendering:
 
 For a small system (Raspberry PI) a setting of 1000 is ok.
 Faster system can use the default (10'000)
+
+#### incrementalrenderingtimer
+Duration to let pass between incremental rendering executions.
 
 #### enableprometheus
 Enables the [Prometheus](./prometheus.md) metrics endpoint

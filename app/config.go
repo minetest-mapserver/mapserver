@@ -10,23 +10,24 @@ import (
 )
 
 type Config struct {
-	ConfigVersion          int                     `json:"configversion"`
-	Port                   int                     `json:"port"`
-	EnablePrometheus       bool                    `json:"enableprometheus"`
-	EnableRendering        bool                    `json:"enablerendering"`
-	EnableSearch           bool                    `json:"enablesearch"`
-	EnableInitialRendering bool                    `json:"enableinitialrendering"`
-	EnableTransparency     bool                    `json:"enabletransparency"`
-	EnableMediaRepository  bool                    `json:"enablemediarepository"`
-	Webdev                 bool                    `json:"webdev"`
-	WebApi                 *WebApiConfig           `json:"webapi"`
-	Layers                 []*layer.Layer          `json:"layers"`
-	RenderingFetchLimit    int                     `json:"renderingfetchlimit"`
-	RenderingJobs          int                     `json:"renderingjobs"`
-	RenderingQueue         int                     `json:"renderingqueue"`
-	MapObjects             *MapObjectConfig        `json:"mapobjects"`
-	MapBlockAccessorCfg    *MapBlockAccessorConfig `json:"mapblockaccessor"`
-	DefaultOverlays        []string                `json:"defaultoverlays"`
+	ConfigVersion             int                     `json:"configversion"`
+	Port                      int                     `json:"port"`
+	EnablePrometheus          bool                    `json:"enableprometheus"`
+	EnableRendering           bool                    `json:"enablerendering"`
+	EnableSearch              bool                    `json:"enablesearch"`
+	EnableInitialRendering    bool                    `json:"enableinitialrendering"`
+	EnableTransparency        bool                    `json:"enabletransparency"`
+	EnableMediaRepository     bool                    `json:"enablemediarepository"`
+	Webdev                    bool                    `json:"webdev"`
+	WebApi                    *WebApiConfig           `json:"webapi"`
+	Layers                    []*layer.Layer          `json:"layers"`
+	RenderingFetchLimit       int                     `json:"renderingfetchlimit"`
+	RenderingJobs             int                     `json:"renderingjobs"`
+	RenderingQueue            int                     `json:"renderingqueue"`
+	IncrementalRenderingTimer string                  `json:"incrementalrenderingtimer"`
+	MapObjects                *MapObjectConfig        `json:"mapobjects"`
+	MapBlockAccessorCfg       *MapBlockAccessorConfig `json:"mapblockaccessor"`
+	DefaultOverlays           []string                `json:"defaultoverlays"`
 }
 
 type MapBlockAccessorConfig struct {
@@ -168,23 +169,24 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	cfg := Config{
-		ConfigVersion:          1,
-		Port:                   8080,
-		EnableRendering:        true,
-		EnablePrometheus:       true,
-		EnableSearch:           true,
-		EnableInitialRendering: true,
-		EnableTransparency:     false,
-		EnableMediaRepository:  false,
-		Webdev:                 false,
-		WebApi:                 &webapi,
-		Layers:                 layers,
-		RenderingFetchLimit:    10000,
-		RenderingJobs:          runtime.NumCPU(),
-		RenderingQueue:         100,
-		MapObjects:             &mapobjs,
-		MapBlockAccessorCfg:    &mapblockaccessor,
-		DefaultOverlays:        defaultoverlays,
+		ConfigVersion:             1,
+		Port:                      8080,
+		EnableRendering:           true,
+		EnablePrometheus:          true,
+		EnableSearch:              true,
+		EnableInitialRendering:    true,
+		EnableTransparency:        false,
+		EnableMediaRepository:     false,
+		Webdev:                    false,
+		WebApi:                    &webapi,
+		Layers:                    layers,
+		RenderingFetchLimit:       10000,
+		RenderingJobs:             runtime.NumCPU(),
+		RenderingQueue:            100,
+		IncrementalRenderingTimer: "5s",
+		MapObjects:                &mapobjs,
+		MapBlockAccessorCfg:       &mapblockaccessor,
+		DefaultOverlays:           defaultoverlays,
 	}
 
 	info, err := os.Stat(filename)
