@@ -18,7 +18,16 @@ export default AbstractIconOverlay.extend({
   },
 
   createPopup: function(poi){
-    return "<h4>" + poi.attributes.name + "</h4><hr>" +
+    if (poi.attributes.url)
+    {
+      return "<a href=\"" + poi.attributes.url + "\">" +
+      "<h4>" + poi.attributes.name + "</h4></a><hr>" +
       "<b>Owner: </b> " + poi.attributes.owner + "<br>";
+    }
+    else
+    {
+      return "<h4>" + poi.attributes.name + "</h4><hr>" +
+      "<b>Owner: </b> " + poi.attributes.owner + "<br>";
+    }
   }
 });
