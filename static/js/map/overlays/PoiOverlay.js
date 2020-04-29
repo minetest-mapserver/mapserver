@@ -1,4 +1,6 @@
 import AbstractIconOverlay from './AbstractIconOverlay.js';
+import {HtmlSanitizer} from '../../lib/HtmlSanitizer.js';
+
 
 export default AbstractIconOverlay.extend({
   initialize: function() {
@@ -18,16 +20,19 @@ export default AbstractIconOverlay.extend({
   },
 
   createPopup: function(poi){
+
     if (poi.attributes.url)
     {
-      return "<a href=\"" + poi.attributes.url + "\">" +
-      "<h4>" + poi.attributes.name + "</h4></a><hr>" +
-      "<b>Owner: </b> " + poi.attributes.owner + "<br>";
+      return "<a href=\"" + HtmlSanitizer.SanitizeHtml(poi.attributes.url) + "\">" +
+      "<h4>" + HtmlSanitizer.SanitizeHtml(poi.attributes.name) + "</h4></a><hr>" +
+      "<b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
     }
     else
     {
-      return "<h4>" + poi.attributes.name + "</h4><hr>" +
-      "<b>Owner: </b> " + poi.attributes.owner + "<br>";
+      return "<h4>" + HtmlSanitizer.SanitizeHtml(poi.attributes.name) + "</h4><hr>" +
+      "<b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
     }
   }
+
+
 });
