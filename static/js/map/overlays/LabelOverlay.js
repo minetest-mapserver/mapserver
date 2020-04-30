@@ -1,4 +1,5 @@
 import AbstractIconOverlay from './AbstractIconOverlay.js';
+import { HtmlSanitizer } from '../../lib/HtmlSanitizer.js';
 
 export default AbstractIconOverlay.extend({
   initialize: function() {
@@ -27,7 +28,7 @@ export default AbstractIconOverlay.extend({
           fill='${lbl.attributes.color}'
           dominant-baseline="central"
           transform="rotate(${lbl.attributes.direction}, 100, 100)">
-          ${lbl.attributes.text}
+          ${HtmlSanitizer.SanitizeHtml(lbl.attributes.text)}
         </text>
       </svg>
     `;

@@ -1,4 +1,5 @@
 import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
+import { HtmlSanitizer } from '../../lib/HtmlSanitizer.js';
 
 export default AbstractGeoJsonOverlay.extend({
   initialize: function() {
@@ -80,7 +81,7 @@ export default AbstractGeoJsonOverlay.extend({
         "properties":{
             "name": bordername,
             "color": borderColors[bordername],
-            "popupContent": "<b>Border (" + bordername + ")</b>"
+            "popupContent": "<b>Border (" + HtmlSanitizer.SanitizeHtml(bordername) + ")</b>"
         }
       };
 
