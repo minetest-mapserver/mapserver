@@ -13,7 +13,7 @@ You can use the `mapserver-mod` either passive or active:
 * *Passive* Makes some additional markers available (POI, Labels, etc)
 * *Active* Communicates with the mapserver and sends realtime data (players, lag, time)
 
-## Installing and configuring the bridge-mod
+## Installing and configuring the mapserver mod
 
 Download or clone from https://github.com/minetest-mapserver/mapserver_mod
 
