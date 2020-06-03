@@ -3,3 +3,4 @@ unifiedbricks:clayblock
 unifiedbricks:brickblock_multicolor_dark
 unifiedbricks:brickblock_multicolor_medium
 unifiedbricks:brickblock_multicolor_light
+prefab:concrete_colored
