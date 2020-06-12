@@ -1,10 +1,9 @@
-.releasetoken
 mapserver
 mapserver_mod
-./world.mt
+world.mt
 output
 test-output
-./map.sqlite
+map.sqlite
 mapserver.tiles
 mapserver.sqlite
 mapserver.sqlite-journal

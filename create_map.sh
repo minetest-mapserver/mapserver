@@ -8,6 +8,13 @@ WORLDMODDIR=${WORLDDIR}/worldmods
 rm -rf ${WORLDDIR}
 mkdir -p ${WORLDMODDIR}/mapgen
 
+cat <<EOF > world.mt
+gameid = minetest
+backend = sqlite3
+creative_mode = false
+enable_damage = false
+player_backend = files
+EOF
 
 cat <<EOF > ${WORLDMODDIR}/mapgen/init.lua
 local function execute_mapgen(callback)
