@@ -2,6 +2,8 @@
 export default L.TileLayer.extend({
 
   initialize: function(wsChannel, layerId, map) {
+    L.TileLayer.prototype.initialize.call(this);
+
     var self = this;
     this.layerId = layerId;
 
