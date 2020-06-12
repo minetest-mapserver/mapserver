@@ -36,10 +36,15 @@ export default L.TileLayer.extend({
       return "tile-" + this.layerId + "/" + x + "/" + y + "/" + zoom;
   },
 
-  createTile: function(coords){
+  createTile: function(coords, done){
     var tile = document.createElement('img');
     tile.src = this.getTileSource(coords.x, coords.y, coords.z, true);
     tile.id = this.getImageId(coords.x, coords.y, coords.z);
+
+    // trigger callbacks
+    tile.onload = () => done(null, tile);
+    tile.onerror = e => done(e, tile);
+
     return tile;
   }
 });
