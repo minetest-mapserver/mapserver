@@ -35,6 +35,6 @@ chmod 777 ${MTDIR} -R
 docker run --rm -i \
 	-v ${CFG}:/etc/minetest/minetest.conf:ro \
   -v ${MTDIR}:/var/lib/minetest/.minetest \
-	registry.gitlab.com/minetest/minetest/server:5.0.1
+	registry.gitlab.com/minetest/minetest/server:5.2.0
 
 cp ${WORLDDIR}/map.sqlite .
