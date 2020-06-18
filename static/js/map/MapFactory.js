@@ -19,7 +19,11 @@ export function createMap(node, layerId, zoom, lat, lon){
     maxZoom: 12,
     center: [lat, lon],
     zoom: zoom,
-    crs: SimpleCRS
+    crs: SimpleCRS,
+    maxBounds: L.latLngBounds(
+      L.latLng(-31000, -31000),
+      L.latLng(31000, 31000)
+    )
   });
 
   map.attributionControl.addAttribution('<a href="https://github.com/minetest-mapserver/mapserver">Minetest Mapserver</a>');
