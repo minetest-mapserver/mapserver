@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"github.com/sirupsen/logrus"
+	"unicode/utf8"
 )
 
 func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
@@ -94,6 +96,20 @@ func (db *PostgresAccessor) RemoveMapData(pos *coords.MapBlockCoords) error {
 }
 
 func (db *PostgresAccessor) AddMapData(data *mapobjectdb.MapObject) error {
+
+	for k, v := range data.Attributes {
+		if !utf8.Valid([]byte(v)) {
+			// invalid utf8, skip insert into db
+			fields := logrus.Fields{
+				"type": data.Type,
+				"value": v,
+				"key": k,
+			}
+			log.WithFields(fields).Info("Migration completed")
+			return nil
+		}
+	}
+
 	res := db.db.QueryRow(addMapDataQuery,
 		data.X, data.Y, data.Z,
 		data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
