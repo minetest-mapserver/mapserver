@@ -16,3 +16,9 @@ func TestValidUtf8(t *testing.T) {
 		t.Error("should be valid")
 	}
 }
+
+func TestEmptyString(t *testing.T) {
+	if !utf8.Valid([]byte("")) {
+		t.Error("should be valid")
+	}
+}
