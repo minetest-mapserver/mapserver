@@ -1,4 +1,4 @@
-FROM golang:1.14.6-alpine as builder
+FROM golang:1.14.7-alpine as builder
 
 RUN apk --no-cache add ca-certificates gcc libc-dev nodejs npm git make
 
