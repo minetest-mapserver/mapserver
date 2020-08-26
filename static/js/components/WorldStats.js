@@ -1,10 +1,11 @@
+import html from "./html.js";
 
 export default function(info){
 
-  var timeIcon = m("span", { class: "fa fa-sun", style: "color: orange;" });
+  var timeIcon = html`<span class="fa fa-sun style="color: orange;"/>`;
 
   if (info.time < 5500 || info.time > 19000) //0 - 24'000
-    timeIcon = m("span", { class: "fa fa-moon", style: "color: blue;" });
+    timeIcon = html`<span class="fa fa-moon style="color: blue;"/>`;
 
   function getHour(){
     return Math.floor(info.time/1000);
@@ -22,28 +23,17 @@ export default function(info){
     else if (info.max_lag > 1.2)
       color = "red";
 
-    return [
-      m("span", { class: "fa fa-wifi", style: "color: " + color }),
-      parseInt(info.max_lag*1000),
-      " ms"
-    ];
+    return html`<span class="fa fa-wifi" style="color: ${color}"/> ${parseInt(info.max_lag*1000)} ms`;
   }
 
   function getPlayers(){
-    return [
-      m("span", { class: "fa fa-users" }),
-      info.players ? info.players.length : "0"
-    ];
+    return html`<span class="fa fa-users"/> ${info.players ? info.player.length : "0"}`;
   }
 
-  return m("div", [
-    getPlayers(),
-    " ",
-    getLag(),
-    " ",
-    m("span", { class: "fa fa-clock" }),
-    timeIcon,
-    getHour(), ":", getMinute()
-  ]);
-
+  return html`<div>
+    ${getPlayers()}
+    ${getLag()}
+    <span class="fa fa-clock">${timeIcon}</span>
+    ${getHour(), ":", getMinute()}
+  </div>`;
 }

@@ -1,4 +1,5 @@
 import LayerManager from '../LayerManager.js';
+import html from "./html.js";
 
 function onchange(e){
   const params = m.route.param();
@@ -8,15 +9,14 @@ function onchange(e){
 }
 
 
+const layerOption = layer => html`
+  <option value=${layer.id} selected=${layer.id == LayerManager.getCurrentLayer()}>
+    ${layer.name}
+  </option>
+`;
+
 export default {
-  view: function(){
-
-    const layers = LayerManager.layers.map(layer => m(
-      "option",
-      { value: layer.id, selected: layer.id == LayerManager.getCurrentLayer().id },
-      layer.name
-    ));
-
-    return m("select", { class: "form-control", onchange: onchange },layers);
-  }
+  view: () => html`<select class="form-control" onchange=${onchange}>
+      ${LayerManager.layers.map(layerOption)}
+    </select>`
 };

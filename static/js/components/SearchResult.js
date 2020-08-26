@@ -1,4 +1,5 @@
 import layerMgr from '../LayerManager.js';
+import html from "./html.js";
 
 export default {
   view: function(vnode){
@@ -12,7 +13,7 @@ export default {
     function getPos(obj){
       var text = obj.x + "/" + obj.y + "/" + obj.z;
 
-      return m("span", {class:"badge badge-success"}, text);
+      return html`<span class="badge badge-success">${text}</span>`;
     }
 
     var rows = result.map(function(obj){
@@ -23,48 +24,47 @@ export default {
 
       // train-line result
       if (obj.type == "train"){
-        description = [
-          m("span", obj.attributes.station),
-          " ",
-          m("span", {class:"badge badge-info"}, obj.attributes.line)
-        ];
+        description = html`
+          <span>${obj.attributes.station}</span>
+          <span class="badge badge-info">${obj.attributes.line}</span>
+        `;
 
-        type = m("i", { class: "fa fa-subway" });
+        type = html`<i class="fa fa-subway"/>`;
       }
 
       // travelnet
       if (obj.type == "travelnet"){
-        description = m("span", obj.attributes.station_name);
-        type = m("img", { src: "pics/travelnet_inv.png" });
+        description = html`<span>${obj.attributes.station_name}</span>`;
+        type = html`<img src="pics/travelnet_inv.png"/>`;
       }
 
       // bones
       if (obj.type == "bones"){
-        description = m("span", obj.attributes.owner);
-        type = m("img", { src: "pics/bones_top.png" });
+        description = html`<span>${obj.attributes.owner}</span>`;
+        type = html`<img src="pics/bones_top.png"/>`;
       }
 
       // label
       if (obj.type == "label"){
-        description = m("span", obj.attributes.text);
-        type = m("img", { src: "pics/mapserver_label.png" });
+        description = html`<span>${obj.attributes.text}</span>`;
+        type = html`<img src="pics/mapserver_label.png"/>`;
       }
 
       // digiterm
       if (obj.type == "digiterm"){
-        description = m("span", obj.attributes.display_text);
-        type = m("img", { src: "pics/digiterms_beige_front.png" });
+        description = html`<span>${obj.attributes.display_text}</span>`;
+        type = html`<img src="pics/digiterms_beige_front.png"/>`;
       }
 
       // digiline lcd
       if (obj.type == "digilinelcd"){
-        description = m("span", obj.attributes.text);
-        type = m("img", { src: "pics/lcd_lcd.png" });
+        description = html`<span>${obj.attributes.text}</span>`;
+        type = html`<img src="pics/lcd_lcd.png"/>`;
       }
 
       // locator
       if (obj.type == "locator"){
-        description = m("span", obj.attributes.name);
+        description = html`<span>${obj.attributes.name}</span>`;
 
         var img = "pics/locator_beacon_level1.png";
 
@@ -73,48 +73,47 @@ export default {
         else if (obj.attributes.level == "3")
           img = "pics/locator_beacon_level3.png";
 
-        type = m("img", { src: img });
+          type = html`<img src=${img}/>`;
       }
 
       // poi marker
       if (obj.type == "poi"){
-        description = m("span", obj.attributes.name);
+        description = html`<span>${obj.attributes.name}</span>`;
 
         var color = obj.attributes.color || "blue";
         var icon = obj.attributes.icon || "home";
 
-        type = m("div", { style: "position: relative", class: "awesome-marker awesome-marker-icon-" + color }, [
-          m("i", { class: "fa fa-" + icon })
-        ]);
+        type = html`<div class="awesome-marker awesome-marker-icon-${color}" style="position: relative;">
+          <i class="fa fa-${icon}"/>
+        </div>`;
       }
 
       //shop
       if (obj.type == "shop") {
         if (obj.attributes.stock == 0){
           row_classes += "table-warning";
-          type = m("img", { src: "pics/shop_empty.png" });
+          type = html`<img src="pics/shop_empty.png"/>`;
         } else {
-          type = m("img", { src: "pics/shop.png" });
+          type = html`<img src="pics/shop.png"/>`;
         }
 
-        description = m("span", [
-          "Shop, trading ",
-          m("span", {class:"badge badge-primary"},
-            obj.attributes.out_count,
-            "x",
-            m("i", {class:"fa fa-cart-arrow-down"})
-          ),
-          m("span", {class:"badge badge-info"}, obj.attributes.out_item),
-          " for ",
-          m("span", {class:"badge badge-primary"},
-            obj.attributes.in_count,
-            "x",
-            m("i", {class:"fa fa-money-bill"})
-          ),
-          m("span", {class:"badge badge-info"},  obj.attributes.in_item),
-          " Stock: ",
-          m("span", {class:"badge badge-info"}, obj.attributes.stock)
-        ]);
+        description = html`<span>
+          Shop, trading
+          <span class="badge badge-primary">
+            ${obj.attributes.out_count}
+            x
+            <i class="fa fa-cart-arrow-down"/>
+          </span>
+          for
+          <span class="badge badge-primary">
+            ${obj.attributes.in_count}
+            x
+            <i class="fa fa-money-bill"/>
+          </span>
+          <span class="badge badge-info">${obj.attributes.in_item}</span>
+          Stock:
+          <span class="badge badge-info">${obj.attributes.stock}</span>
+        </span>`;
       }
 
       function onclick(){
@@ -122,31 +121,35 @@ export default {
         m.route.set(`/map/${layer.id}/${12}/${obj.x}/${obj.z}`);
       }
 
-      return m("tr", {"class": row_classes}, [
-        m("td", type),
-        m("td", obj.attributes.owner),
-        m("td", getLayer(obj)),
-        m("td", getPos(obj)),
-        m("td", description),
-        m("button[type=button]", {class: "btn btn-secondary", onclick: onclick }, [
-          "Goto ",
-          m("i", { class: "fas fa-play" })
-        ])
-      ]);
+      return html`<tr class="${row_classes}">
+        <td>${type}</td>
+        <td>${obj.attributes.owner}</td>
+        <td>${getLayer(obj)}</td>
+        <td>${getPos(obj)}</td>
+        <td>${description}</td>
+        <td>
+          <button type="button" class="btn btn-secondary" onclick=${onclick}>
+            Goto <i class="fas fa-play"/>
+          </button>
+        </td>
+        <td></td>
+      </tr>`;
     });
 
-    return m("table", {class:"table table-striped"}, [
-      m("thead", [
-        m("tr", [
-          m("th", "Type"),
-          m("th", "Owner"),
-          m("th", "Layer"),
-          m("th", "Position"),
-          m("th", "Description"),
-          m("th", "Action")
-        ])
-      ]),
-      m("tbody", rows)
-    ]);
+    return html`<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Owner</th>
+          <th>Layer</th>
+          <th>Position</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+      </tbody>
+    </table>`;
   }
 };
