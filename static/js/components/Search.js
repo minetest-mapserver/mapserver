@@ -3,7 +3,7 @@ import { getMapObjects } from '../api.js';
 
 const state = {
   busy: false,
-  result: []
+  result: null
 };
 
 function searchFor(type, key, valuelike){
@@ -19,8 +19,6 @@ function searchFor(type, key, valuelike){
 }
 
 function search(query){
-  state.result = [];
-
   var prom_list = [
     searchFor("shop", "out_item", query),
     searchFor("poi", "name", query),
@@ -52,9 +50,11 @@ export default {
     search(vnode.attrs.query);
   },
 
-  view(vnode){
-    if (state.result.length == 0) {
-      return m("div", vnode.attrs.query);
+  view(){
+    if (state.result == null){
+      return "Searching...";
+    } else if (state.result.length == 0) {
+      return "No results :(";
     } else {
       return m(SearchResult, { result: state.result });
     }
