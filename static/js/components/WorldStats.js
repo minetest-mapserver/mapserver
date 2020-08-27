@@ -27,7 +27,7 @@ export default function(info){
   }
 
   function getPlayers(){
-    return html`<span class="fa fa-users"/> ${info.players ? info.player.length : "0"}`;
+    return html`<span class="fa fa-users"/> ${info.players ? info.players.length : "0"}`;
   }
 
   return html`<div>
