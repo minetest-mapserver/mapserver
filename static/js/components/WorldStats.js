@@ -33,7 +33,8 @@ export default function(info){
   return html`<div>
     ${getPlayers()}
     ${getLag()}
-    <span class="fa fa-clock">${timeIcon}</span>
-    ${getHour(), ":", getMinute()}
+    <span class="fa fa-clock"></span>
+    ${timeIcon}
+    ${getHour()}:${getMinute()}
   </div>`;
 }
