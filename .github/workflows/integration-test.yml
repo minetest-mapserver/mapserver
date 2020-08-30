@@ -13,3 +13,18 @@ jobs:
 
     - name: integration-test
       run: ./integration-test.sh
+
+    - name: 📧 Discord success notification
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.discord_webhook }}
+      uses: Ilshidur/action-discord@master
+      with:
+        args: '☑️ Integration test passed for branch `${{ github.ref }}` and commit `${{ github.sha }}`'
+
+    - name: 📧 Discord failure notification
+      if: failure()
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.discord_webhook }}
+      uses: Ilshidur/action-discord@master
+      with:
+        args: '🚫 Integration test failed for branch `${{ github.ref }}` and commit `${{ github.sha }}`'
