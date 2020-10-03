@@ -14,3 +14,5 @@ default:stone_with_gold 255 228 0
 default:stone_with_iron 146 73 36
 default:stone_with_mese 186 194 0
 default:stone_with_tin 202 202 202
+
+technic:sulfur_block 189 251 00
