@@ -1,3 +1,14 @@
+
+# farming cabbage
+
+farming:cabbage_1 28 36 25
+farming:cabbage_2 40 50 32
+farming:cabbage_3 51 59 40
+farming:cabbage_4 55 65 44
+farming:cabbage_5 70 78 56
+farming:cabbage_6 83 87 73
+
+
 # flowers
 flowers:chrysanthemum_green 118 152 44
 flowers:dandelion_white 199 191 176
@@ -11779,7 +11790,7 @@ default:aspen_sapling 85 123 45
 default:aspen_tree 218 198 168
 default:aspen_wood 210 199 170
 default:blueberry_bush_leaves 63 99 22
-default:blueberry_bush_leaves_with_berries 63 99 22
+default:blueberry_bush_leaves_with_berries 24 17 71
 default:blueberry_bush_sapling 81 112 33
 default:bookshelf 131 102 57
 default:brick 123 99 95
