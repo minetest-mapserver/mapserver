@@ -1,9 +1,9 @@
 module mapserver
 
 require (
-	github.com/disintegration/imaging v1.6.2
+	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/gorilla/websocket v1.4.2
-	github.com/lib/pq v1.8.0
+	github.com/lib/pq v1.9.0
 	github.com/mattn/go-sqlite3 v1.14.4
 	github.com/mjibson/esc v0.1.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible
