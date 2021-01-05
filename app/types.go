@@ -60,6 +60,7 @@ type MapObjectConfig struct {
 	TrainSignal        bool `json:"trainsignal"`
 	Minecart           bool `json:"minecart"`
 	Locator            bool `json:"locator"`
+	Signs              bool `json:"signs"`
 }
 
 type WebApiConfig struct {
