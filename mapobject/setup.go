@@ -162,5 +162,11 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("locator:beacon_3", loc)
 	}
 
+	//signs
+	if ctx.Config.MapObjects.Signs {
+		l.AddMapObject("default:sign_wall_wood", &SignBlock{Material: "wood"})
+		l.AddMapObject("default:sign_wall_steel", &SignBlock{Material: "steel"})
+	}
+
 	ctx.MapBlockAccessor.Eventbus.AddListener(&l)
 }

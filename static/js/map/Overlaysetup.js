@@ -21,6 +21,7 @@ import LocatorOverlay from './overlays/LocatorOverlay.js';
 import BorderOverlay from './overlays/BorderOverlay.js';
 import TrainOverlay from './overlays/TrainOverlay.js';
 import TrainsignalOverlay from './overlays/TrainsignalOverlay.js';
+import SignOverlay from './overlays/SignOverlay.js';
 
 export default function(cfg, map, overlays, wsChannel){
 
@@ -188,6 +189,13 @@ export default function(cfg, map, overlays, wsChannel){
     overlays.Locator = new LocatorOverlay();
     if (isDefault("locator")) {
       map.addLayer(overlays.Locator);
+    }
+  }
+
+  if (cfg.mapobjects.signs) {
+    overlays.Signs = new SignOverlay();
+    if (isDefault("signs")) {
+      map.addLayer(overlays.Signs);
     }
   }
 
