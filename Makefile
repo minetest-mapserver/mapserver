@@ -49,7 +49,7 @@ $(OUT_DIR)/mapserver-linux-x86_64: $(OUT_DIR)
 
 $(OUT_DIR)/mapserver-linux-x86: $(OUT_DIR)
 	# apt install gcc-8-i686-linux-gnu
-	GOOS=linux GOARCH=386 CC=i686-linux-gnu-gcc-7 $(GO_BUILD) $(GO_LDFLAGS) -o $@
+	GOOS=linux GOARCH=386 CC=i686-linux-gnu-gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
 
 $(OUT_DIR)/mapserver-windows-x86.exe: $(OUT_DIR)
 	# apt install gcc-mingw-w64
@@ -60,7 +60,7 @@ $(OUT_DIR)/mapserver-windows-x86-64.exe: $(OUT_DIR)
 
 $(OUT_DIR)/mapserver-linux-arm: $(OUT_DIR)
 	# apt install gcc-5-arm-linux-gnueabihf
-	GOARCH=arm GOARM=7 CC=arm-linux-gnueabihf-gcc-5 $(GO_BUILD) $(GO_LDFLAGS) -o $@
+	GOARCH=arm GOARM=7 CC=arm-linux-gnueabihf-gcc-8 $(GO_BUILD) $(GO_LDFLAGS) -o $@
 
 
 release: builder_image $(OUT_DIR) $(MOD_ZIP)
