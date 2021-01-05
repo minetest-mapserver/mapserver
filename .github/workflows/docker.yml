@@ -26,10 +26,3 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         tag_names: true
         cache: true
-
-    - name: Update pandorabox deployment
-      uses: peter-evans/repository-dispatch@v1
-      with:
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
-        repository: pandorabox-io/pandorabox.io
-        event-type: update_deployment
