@@ -17,4 +17,4 @@ jobs:
       run: sudo npm i -g jshint
 
     - name: jshint run
-      run: cd static/js && jshint
+      run: cd public/js && jshint

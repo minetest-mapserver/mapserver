@@ -1,4 +1,3 @@
-STATIC_VFS=vfs/static.go
 OUT_DIR=output
 VERSION=git-$(shell git rev-parse HEAD)
 
@@ -14,9 +13,9 @@ BINARIES += $(OUT_DIR)/mapserver-windows-x86.exe
 BINARIES += $(OUT_DIR)/mapserver-windows-x86-64.exe
 BINARIES += $(OUT_DIR)/mapserver-linux-arm
 
-JS_BUNDLE = static/js/bundle.js
+JS_BUNDLE = public/js/bundle.js
 
-all: $(STATIC_VFS) $(OUT_DIR)/mapserver-linux-x86_64
+all: $(OUT_DIR)/mapserver-linux-x86_64
 
 $(OUT_DIR):
 	mkdir $@
@@ -25,22 +24,18 @@ fmt:
 	go fmt ./...
 
 test: $(OUT_DIR)
-	go generate
 	go vet ./...
 	go test ./...
 
 clean:
-	rm -rf $(STATIC_VFS) $(JS_BUNDLE) test-output
+	rm -rf $(JS_BUNDLE) test-output
 	rm -rf $(OUT_DIR)
 
 jshint:
-	cd static/js && jshint .
+	cd public/js && jshint .
 
 $(JS_BUNDLE):
-	cd static/js && rollup -c rollup.config.js
-
-$(STATIC_VFS): $(JS_BUNDLE)
-	go generate
+	cd public/js && rollup -c rollup.config.js
 
 $(OUT_DIR)/mapserver-linux-x86_64: $(OUT_DIR)
 	# native (linux x86_64)
@@ -76,4 +71,4 @@ builder_image:
 	# build the docker image with all dependencies
 	$(MAKE) -C docker_builder build
 
-release-all: $(STATIC_VFS) $(BINARIES)
+release-all: $(BINARIES)

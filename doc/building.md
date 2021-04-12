@@ -15,16 +15,12 @@ Ubuntu install: https://github.com/golang/go/wiki/Ubuntu
 
 Generate the js bundle for the frontend:
 ```
-cd static/js
+cd public/js
 rollup -c rollup.config.js
 ```
 
 Generate the `mapserver` binary:
 ```bash
-# generate the static web files
-# this step embeds the generated js/css/html files for inclusion in the resulting binary
-go generate
-
 # build the binary for the current playtform
 go build
 
