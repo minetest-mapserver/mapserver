@@ -2,7 +2,7 @@ package web
 
 import (
 	"mapserver/app"
-	"mapserver/vfs"
+	"mapserver/public"
 	"net/http"
 	"strings"
 )
@@ -26,7 +26,12 @@ func (h *MediaHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	content := h.ctx.MediaRepo[filename]
 
 	if content == nil && hasfallback && len(fallback) > 0 {
-		content, _ = vfs.FSByte(h.ctx.Config.Webdev, "/pics/"+fallback[0])
+		var err error
+		content, err = public.Files.ReadFile("pics/" + fallback[0])
+		if err != nil {
+			resp.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	}
 
 	if content != nil {

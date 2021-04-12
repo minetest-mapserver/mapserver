@@ -1,9 +1,11 @@
 package web
 
 import (
+	"embed"
 	"mapserver/app"
-	"mapserver/vfs"
+	"mapserver/public"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -19,7 +21,8 @@ func Serve(ctx *app.App) {
 
 	mux := http.NewServeMux()
 
-	mux.Handle("/", http.FileServer(vfs.FS(ctx.Config.Webdev)))
+	// static files
+	mux.Handle("/", http.FileServer(getFileSystem(ctx.Config.Webdev, public.Files)))
 
 	tiles := &Tiles{ctx: ctx}
 	tiles.Init()
@@ -51,26 +54,20 @@ func Serve(ctx *app.App) {
 		mux.Handle("/api/mapblock/", &MapblockHandler{ctx: ctx})
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		uri := r.RequestURI
-
-		if len(uri) >= 3 {
-			suffix := uri[len(uri)-3:]
-
-			switch suffix {
-			case "css":
-				w.Header().Set("Content-Type", "text/css")
-			case ".js":
-				w.Header().Set("Content-Type", "application/javascript")
-			case "png":
-				w.Header().Set("Content-Type", "image/png")
-			}
-		}
-		mux.ServeHTTP(w, r)
-	})
+	http.HandleFunc("/", mux.ServeHTTP)
 
 	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), nil)
 	if err != nil {
 		panic(err)
 	}
+}
+
+func getFileSystem(useLocalfs bool, content embed.FS) http.FileSystem {
+	if useLocalfs {
+		log.Print("using live mode")
+		return http.FS(os.DirFS("public"))
+	}
+
+	log.Print("using embed mode")
+	return http.FS(content)
 }

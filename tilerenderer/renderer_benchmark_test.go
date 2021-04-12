@@ -40,7 +40,7 @@ func BenchmarkTileRender(b *testing.B) {
 
 	cache := mapblockaccessor.NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond, 1000)
 	c := colormapping.NewColorMapping()
-	_, err = c.LoadVFSColors(false, "/colors/vanessa.txt")
+	_, err = c.LoadVFSColors("colors/vanessa.txt")
 	if err != nil {
 		b.Fatal(err)
 	}

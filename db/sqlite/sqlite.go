@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/vfs"
+	"mapserver/public"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -38,9 +38,17 @@ func (db *Sqlite3Accessor) Migrate() error {
 	}
 
 	if !hasMtime {
-		log.WithFields(logrus.Fields{"filename": db.filename}).Info("Migrating database")
+		log.WithFields(logrus.Fields{
+			"filename": db.filename,
+		}).Info("Migrating database, this might take a while depending on the mapblock-count")
 		start := time.Now()
-		_, err = rwdb.Exec(vfs.FSMustString(false, "/sql/sqlite_mapdb_migrate.sql"))
+
+		sql, err := public.Files.ReadFile("sql/sqlite_mapdb_migrate.sql")
+		if err != nil {
+			return err
+		}
+
+		_, err = rwdb.Exec(string(sql))
 		if err != nil {
 			return err
 		}
@@ -57,10 +65,10 @@ func convertRows(pos int64, data []byte, mtime int64) *db.Block {
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-func (this *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
+func (a *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
 
-	rows, err := this.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
+	rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
 	if err != nil {
 		return nil, err
 	}

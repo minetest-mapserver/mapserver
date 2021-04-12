@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"errors"
 	"image/color"
-	"mapserver/vfs"
+	"mapserver/public"
 	"strconv"
 	"strings"
 
@@ -93,27 +93,36 @@ func (m *ColorMapping) LoadBytes(buffer []byte) (int, error) {
 	return count, nil
 }
 
-func (m *ColorMapping) LoadVFSColors(useLocal bool, filename string) (int, error) {
-	buffer, err := vfs.FSByte(useLocal, filename)
+func (m *ColorMapping) LoadVFSColors(filename string) (int, error) {
+	buffer, err := public.Files.ReadFile(filename)
 	if err != nil {
 		return 0, err
 	}
 
 	log.WithFields(logrus.Fields{"size": len(buffer),
 		"filename": filename,
-		"useLocal": useLocal}).Info("Loading colors")
+	}).Info("Loading colors")
 
 	return m.LoadBytes(buffer)
 }
 
 func NewColorMapping() *ColorMapping {
-	extendedpalette, err := NewPalette(vfs.FSMustByte(false, "/pics/unifieddyes_palette_extended.png"))
-
+	data, err := public.Files.ReadFile("pics/unifieddyes_palette_extended.png")
 	if err != nil {
 		panic(err)
 	}
 
-	scanner := bufio.NewScanner(bytes.NewReader(vfs.FSMustByte(false, "/extended_palette.txt")))
+	extendedpalette, err := NewPalette(data)
+	if err != nil {
+		panic(err)
+	}
+
+	data, err = public.Files.ReadFile("extended_palette.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	scanner := bufio.NewScanner(bytes.NewReader(data))
 	extendedpaletteblock := make(map[string]bool)
 
 	if err != nil {

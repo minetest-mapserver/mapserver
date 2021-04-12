@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/vfs"
+	"mapserver/public"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -23,9 +23,15 @@ func (db *PostgresAccessor) Migrate() error {
 	}
 
 	if !hasMtime {
-		log.Info("Migrating database")
+		log.Info("Migrating database, this might take a while depending on the mapblock-count")
 		start := time.Now()
-		_, err = db.db.Exec(vfs.FSMustString(false, "/sql/postgres_mapdb_migrate.sql"))
+
+		sql, err := public.Files.ReadFile("sql/postgres_mapdb_migrate.sql")
+		if err != nil {
+			return err
+		}
+
+		_, err = db.db.Exec(string(sql))
 		if err != nil {
 			return err
 		}

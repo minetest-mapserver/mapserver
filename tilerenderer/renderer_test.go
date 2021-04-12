@@ -40,14 +40,14 @@ func TestTileRender(t *testing.T) {
 
 	cache := mapblockaccessor.NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond, 1000)
 	c := colormapping.NewColorMapping()
-	_, err = c.LoadVFSColors(false, "/colors/vanessa.txt")
+	_, err = c.LoadVFSColors("colors/vanessa.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	r := mapblockrenderer.NewMapBlockRenderer(cache, c)
 
-	tiletmpdir, err := ioutil.TempDir("", "TestTileRenderTiles.*.sqlite")
+	tiletmpdir, _ := ioutil.TempDir("", "TestTileRenderTiles.*.sqlite")
 	defer os.RemoveAll(tiletmpdir)
 
 	tdb, _ := tiledb.New(tiletmpdir)
