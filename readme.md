@@ -1,10 +1,8 @@
 Minetest mapserver
 =======
 
-
 ![](https://github.com/minetest-mapserver/mapserver/workflows/jshint/badge.svg)
 ![](https://github.com/minetest-mapserver/mapserver/workflows/go-test/badge.svg)
-![](https://github.com/minetest-mapserver/mapserver/workflows/integration-test/badge.svg)
 
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/minetest-mapserver/mapserver)
 ![GitHub repo size](https://img.shields.io/github/repo-size/minetest-mapserver/mapserver.svg)
