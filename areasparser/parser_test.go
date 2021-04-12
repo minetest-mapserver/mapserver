@@ -1,25 +1,20 @@
 package areasparser
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestParse(t *testing.T) {
+	a, err := ParseFile("testdata/areas.json")
+	assert.NoError(t, err)
+	assert.True(t, len(a) > 1)
 
-	a, err := ParseFile("testdata/areas.dat")
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	j, err := json.MarshalIndent(a, "", " ")
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	fmt.Println(string(j[:]))
-
+	area := a[0]
+	assert.Equal(t, "ilai_house", area.Name)
+	assert.Equal(t, "ilai", area.Owner)
+	assert.NotNil(t, area.Pos1)
+	assert.NotNil(t, area.Pos2)
+	assert.Equal(t, 4970, area.Pos1.X)
 }
