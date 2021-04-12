@@ -16,6 +16,7 @@ Minetest mapserver
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/minetest-mapserver/mapserver)
 [![Go Report Card](https://goreportcard.com/badge/github.com/minetest-mapserver/mapserver)](https://goreportcard.com/report/github.com/minetest-mapserver/mapserver)
+[![Coverage Status](https://coveralls.io/repos/github/minetest-mapserver/mapserver/badge.svg)](https://coveralls.io/github/minetest-mapserver/mapserver)
 
 <img src="./doc/pics/General_map_preview.png">
 
