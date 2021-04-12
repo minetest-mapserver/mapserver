@@ -2,10 +2,8 @@ name: docker
 
 on:
   push:
-    branches-ignore:
-      - 'dependabot/*'
-    tags:
-    - '*'
+    branches:
+     - master
 
 jobs:
   build:
