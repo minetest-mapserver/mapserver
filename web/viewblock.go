@@ -2,7 +2,6 @@ package web
 
 import (
 	"encoding/json"
-	"mapserver/app"
 	"mapserver/coords"
 	"net/http"
 	"strconv"
@@ -14,11 +13,7 @@ type ViewBlock struct {
 	ContentId    []int          `json:"contentid"`
 }
 
-type ViewMapblockHandler struct {
-	ctx *app.App
-}
-
-func (h *ViewMapblockHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+func (api *Api) GetBlockData(resp http.ResponseWriter, req *http.Request) {
 	str := strings.TrimPrefix(req.URL.Path, "/api/viewblock/")
 	parts := strings.Split(str, "/")
 	if len(parts) != 3 {
@@ -32,7 +27,7 @@ func (h *ViewMapblockHandler) ServeHTTP(resp http.ResponseWriter, req *http.Requ
 	z, _ := strconv.Atoi(parts[2])
 
 	c := coords.NewMapBlockCoords(x, y, z)
-	mb, err := h.ctx.MapBlockAccessor.GetMapBlock(c)
+	mb, err := api.Context.MapBlockAccessor.GetMapBlock(c)
 
 	if err != nil {
 		resp.WriteHeader(500)

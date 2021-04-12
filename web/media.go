@@ -1,17 +1,12 @@
 package web
 
 import (
-	"mapserver/app"
 	"mapserver/public"
 	"net/http"
 	"strings"
 )
 
-type MediaHandler struct {
-	ctx *app.App
-}
-
-func (h *MediaHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+func (api *Api) GetMedia(resp http.ResponseWriter, req *http.Request) {
 	str := strings.TrimPrefix(req.URL.Path, "/api/media/")
 	parts := strings.Split(str, "/")
 	if len(parts) != 1 {
@@ -23,7 +18,7 @@ func (h *MediaHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	filename := parts[0]
 	fallback, hasfallback := req.URL.Query()["fallback"]
 
-	content := h.ctx.MediaRepo[filename]
+	content := api.Context.MediaRepo[filename]
 
 	if content == nil && hasfallback && len(fallback) > 0 {
 		var err error

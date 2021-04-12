@@ -16,19 +16,15 @@ type PublicConfig struct {
 	EnableSearch    bool                 `json:"enablesearch"`
 }
 
-type ConfigHandler struct {
-	ctx *app.App
-}
-
-func (h *ConfigHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+func (api *Api) GetConfig(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Add("content-type", "application/json")
 
 	webcfg := PublicConfig{}
-	webcfg.Layers = h.ctx.Config.Layers
-	webcfg.MapObjects = h.ctx.Config.MapObjects
+	webcfg.Layers = api.Context.Config.Layers
+	webcfg.MapObjects = api.Context.Config.MapObjects
 	webcfg.Version = app.Version
-	webcfg.DefaultOverlays = h.ctx.Config.DefaultOverlays
-	webcfg.EnableSearch = h.ctx.Config.EnableSearch
+	webcfg.DefaultOverlays = api.Context.Config.DefaultOverlays
+	webcfg.EnableSearch = api.Context.Config.EnableSearch
 
 	json.NewEncoder(resp).Encode(webcfg)
 }

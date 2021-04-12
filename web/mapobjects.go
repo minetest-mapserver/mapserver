@@ -2,18 +2,13 @@ package web
 
 import (
 	"encoding/json"
-	"mapserver/app"
 	"mapserver/mapobjectdb"
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-type MapObjects struct {
-	ctx *app.App
-}
-
-func (t *MapObjects) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+func (api *Api) QueryMapobjects(resp http.ResponseWriter, req *http.Request) {
 
 	timer := prometheus.NewTimer(mapobjectServeDuration)
 	defer timer.ObserveDuration()
@@ -28,7 +23,7 @@ func (t *MapObjects) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	objects, err := t.ctx.Objectdb.GetMapData(&q)
+	objects, err := api.Context.Objectdb.GetMapData(&q)
 	if err != nil {
 		resp.WriteHeader(500)
 		resp.Write([]byte(err.Error()))

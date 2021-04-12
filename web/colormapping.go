@@ -2,13 +2,8 @@ package web
 
 import (
 	"encoding/json"
-	"mapserver/app"
 	"net/http"
 )
-
-type ColorMappingHandler struct {
-	ctx *app.App
-}
 
 type Color struct {
 	R uint8 `json:"r"`
@@ -16,11 +11,11 @@ type Color struct {
 	B uint8 `json:"b"`
 }
 
-func (h *ColorMappingHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+func (api *Api) GetColorMapping(resp http.ResponseWriter, req *http.Request) {
 
 	cm := make(map[string]Color)
 
-	for k, v := range h.ctx.Colormapping.GetColors() {
+	for k, v := range api.Context.Colormapping.GetColors() {
 		cm[k] = Color{R: v.R, G: v.G, B: v.B}
 	}
 

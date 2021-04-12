@@ -19,6 +19,7 @@ func Serve(ctx *app.App) {
 	}
 	logrus.WithFields(fields).Info("Starting http server")
 
+	api := NewApi(ctx)
 	mux := http.NewServeMux()
 
 	// static files
@@ -27,13 +28,13 @@ func Serve(ctx *app.App) {
 	tiles := &Tiles{ctx: ctx}
 	tiles.Init()
 	mux.Handle("/api/tile/", tiles)
-	mux.Handle("/api/config", &ConfigHandler{ctx: ctx})
-	mux.Handle("/api/stats", &StatsHandler{ctx: ctx})
-	mux.Handle("/api/media/", &MediaHandler{ctx: ctx})
-	mux.Handle("/api/minetest", &Minetest{ctx: ctx})
-	mux.Handle("/api/mapobjects/", &MapObjects{ctx: ctx})
-	mux.Handle("/api/colormapping", &ColorMappingHandler{ctx: ctx})
-	mux.Handle("/api/viewblock/", &ViewMapblockHandler{ctx: ctx})
+	mux.HandleFunc("/api/config", api.GetConfig)
+	mux.HandleFunc("/api/stats", api.GetStats)
+	mux.HandleFunc("/api/media/", api.GetMedia)
+	mux.HandleFunc("/api/minetest", api.PostMinetestData)
+	mux.HandleFunc("/api/mapobjects/", api.QueryMapobjects)
+	mux.HandleFunc("/api/colormapping", api.GetColorMapping)
+	mux.HandleFunc("/api/viewblock/", api.GetBlockData)
 
 	if ctx.Config.MapObjects.Areas {
 		mux.Handle("/api/areas", &AreasHandler{ctx: ctx})
@@ -51,11 +52,11 @@ func Serve(ctx *app.App) {
 
 	if ctx.Config.WebApi.EnableMapblock {
 		//mapblock endpoint
-		mux.Handle("/api/mapblock/", &MapblockHandler{ctx: ctx})
+		mux.HandleFunc("/api/mapblock/", api.GetMapBlockData)
 	}
 
+	// main entry point
 	http.HandleFunc("/", mux.ServeHTTP)
-
 	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), nil)
 	if err != nil {
 		panic(err)

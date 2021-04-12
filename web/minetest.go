@@ -2,7 +2,6 @@ package web
 
 import (
 	"encoding/json"
-	"mapserver/app"
 	"net/http"
 
 	"github.com/sirupsen/logrus"
@@ -64,14 +63,10 @@ type MinetestInfo struct {
 	Uptime    float64     `json:"uptime"`
 }
 
-type Minetest struct {
-	ctx *app.App
-}
-
 var LastStats *MinetestInfo
 
-func (this *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
-	if req.Header.Get("Authorization") != this.ctx.Config.WebApi.SecretKey {
+func (api *Api) PostMinetestData(resp http.ResponseWriter, req *http.Request) {
+	if req.Header.Get("Authorization") != api.Context.Config.WebApi.SecretKey {
 		resp.WriteHeader(403)
 		resp.Write([]byte("invalid key!"))
 		return
@@ -94,7 +89,7 @@ func (this *Minetest) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	mintestMaxLag.Set(data.MaxLag)
 
 	LastStats = data
-	this.ctx.WebEventbus.Emit("minetest-info", data)
+	api.Context.WebEventbus.Emit("minetest-info", data)
 
 	json.NewEncoder(resp).Encode("stub")
 }
