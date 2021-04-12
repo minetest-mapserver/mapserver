@@ -1,6 +1,5 @@
 STATIC_VFS=vfs/static.go
 OUT_DIR=output
-ENV=GO111MODULE=on
 VERSION=git-$(shell git rev-parse HEAD)
 
 
@@ -28,7 +27,7 @@ fmt:
 test: $(OUT_DIR)
 	go generate
 	go vet ./...
-	$(ENV) go test ./...
+	go test ./...
 
 clean:
 	rm -rf $(STATIC_VFS) $(JS_BUNDLE) test-output
