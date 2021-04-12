@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:hirsute
 
 # for tzdata
 ENV DEBIAN_FRONTEND=noninteractive
