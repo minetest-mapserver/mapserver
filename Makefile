@@ -15,7 +15,7 @@ BINARIES += $(OUT_DIR)/mapserver-linux-arm
 
 JS_BUNDLE = public/js/bundle.js
 
-all: $(OUT_DIR)/mapserver-linux-x86_64
+all: $(JS_BUNDLE) $(OUT_DIR)/mapserver-linux-x86_64
 
 $(OUT_DIR):
 	mkdir $@
