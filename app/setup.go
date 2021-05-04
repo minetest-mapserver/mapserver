@@ -40,12 +40,22 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	switch a.Worldconfig[worldconfig.CONFIG_BACKEND] {
 	case worldconfig.BACKEND_SQLITE3:
-		a.Blockdb, err = sqlite.New("map.sqlite")
+		map_path := "map.sqlite"
+
+		// check if the database exists, otherwise abort (nothing to render/display)
+		_, err := os.Stat(map_path)
+		if os.IsNotExist(err) {
+			panic("world-map does not exist, aborting")
+		}
+
+		// create a new sqlite-based blockdb instance
+		a.Blockdb, err = sqlite.New(map_path)
 		if err != nil {
 			panic(err)
 		}
 
 	case worldconfig.BACKEND_POSTGRES:
+		// create a new postgres based blockdb
 		a.Blockdb, err = postgres.New(a.Worldconfig[worldconfig.CONFIG_PSQL_CONNECTION])
 		if err != nil {
 			panic(err)
