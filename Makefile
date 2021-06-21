@@ -8,8 +8,6 @@ GO_LDFLAGS_WIN=-ldflags "-X mapserver/app.Version=$(VERSION)"
 GO_BUILD=CGO_ENABLED=1 go build
 
 BINARIES =  $(OUT_DIR)/mapserver-linux-x86_64
-BINARIES += $(OUT_DIR)/mapserver-linux-x86
-BINARIES += $(OUT_DIR)/mapserver-windows-x86.exe
 BINARIES += $(OUT_DIR)/mapserver-windows-x86-64.exe
 BINARIES += $(OUT_DIR)/mapserver-linux-arm
 
@@ -40,14 +38,6 @@ $(JS_BUNDLE):
 $(OUT_DIR)/mapserver-linux-x86_64: $(OUT_DIR)
 	# native (linux x86_64)
 	GOOS=linux GOARCH=amd64 CC=gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
-
-$(OUT_DIR)/mapserver-linux-x86: $(OUT_DIR)
-	# apt install gcc-8-i686-linux-gnu
-	GOOS=linux GOARCH=386 CC=i686-linux-gnu-gcc $(GO_BUILD) $(GO_LDFLAGS) -o $@
-
-$(OUT_DIR)/mapserver-windows-x86.exe: $(OUT_DIR)
-	# apt install gcc-mingw-w64
-	GOARCH=386 GOOS=windows CC=i686-w64-mingw32-gcc $(GO_BUILD) $(GO_LDFLAGS_WIN) -o $@
 
 $(OUT_DIR)/mapserver-windows-x86-64.exe: $(OUT_DIR)
 	GOARCH=amd64 GOOS=windows CC=x86_64-w64-mingw32-gcc $(GO_BUILD) $(GO_LDFLAGS_WIN) -o $@
