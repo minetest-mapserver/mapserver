@@ -163,8 +163,6 @@ export default L.LayerGroup.extend({
       return;
     }
 
-    var mapLayer = layerMgr.getCurrentLayer();
-
     trains.forEach(train => {
       if (!this.isTrainInCurrentLayer(train)){
         //not in current layer

@@ -123,8 +123,6 @@ export default L.LayerGroup.extend({
       return;
     }
 
-    var mapLayer = layerMgr.getCurrentLayer();
-
     signals.forEach(signal => {
       if (!this.isSignalInCurrentLayer(signal)){
         //not in current layer
