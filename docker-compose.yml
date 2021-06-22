@@ -1,10 +1,19 @@
 version: "3.6"
 
 services:
+ mapserver_frontend:
+  image: node:alpine3.13
+  volumes:
+   - "dev_home:/root"
+   - ".:/data"
+  working_dir: /data/public
+  command: ["npm", "i"]
+ 
  mapserver:
   image: golang:1.16.0
   depends_on:
    - minetest
+   - mapserver_frontend
   volumes:
    - "dev_home:/root"
    - "world_data:/data/world"
