@@ -1,0 +1,74 @@
+{
+	"configversion": 1,
+	"port": 8080,
+	"enableprometheus": true,
+	"enablerendering": true,
+	"enablesearch": true,
+	"enableinitialrendering": true,
+	"enabletransparency": false,
+	"enablemediarepository": false,
+	"webdev": false,
+	"webapi": {
+		"enablemapblock": false,
+		"secretkey": "bUpZTaxtjnXbNUbA"
+	},
+	"layers": [
+		{
+			"id": 0,
+			"name": "Ground",
+			"from": -1,
+			"to": 10
+		},
+		{
+			"id": 1,
+			"name": "Sky",
+			"from": 11,
+			"to": 24
+		}
+	],
+	"renderingfetchlimit": 10000,
+	"renderingjobs": 8,
+	"renderingqueue": 100,
+	"incrementalrenderingtimer": "5s",
+	"mapobjects": {
+		"areas": true,
+		"bones": true,
+		"protector": true,
+		"xpprotector": true,
+		"privprotector": true,
+		"technic_quarry": true,
+		"technic_switch": true,
+		"technic_anchor": true,
+		"technic_reactor": true,
+		"luacontroller": true,
+		"digiterms": true,
+		"digilines": true,
+		"travelnet": true,
+		"mapserver_player": true,
+		"mapserver_poi": true,
+		"mapserver_label": true,
+		"mapserver_trainline": true,
+		"mapserver_border": true,
+		"tileserverlegacy": true,
+		"mission": true,
+		"jumpdrive": true,
+		"smartshop": true,
+		"fancyvend": true,
+		"atm": true,
+		"train": true,
+		"trainsignal": true,
+		"minecart": false,
+		"locator": false,
+		"signs": true
+	},
+	"mapblockaccessor": {
+		"expiretime": "15s",
+		"purgetime": "30s",
+		"maxitems": 500
+	},
+	"defaultoverlays": [
+		"mapserver_poi",
+		"mapserver_label",
+		"mapserver_player"
+	]
+}
