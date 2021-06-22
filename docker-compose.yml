@@ -9,6 +9,7 @@ services:
    - "dev_home:/root"
    - "world_data:/data/world"
    - ".:/data"
+   - "./public:/data/world/public"
    - "./dev/mapserver.json:/data/world/mapserver.json"
   ports:
    - "8080:8080"

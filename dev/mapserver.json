@@ -7,7 +7,7 @@
 	"enableinitialrendering": true,
 	"enabletransparency": false,
 	"enablemediarepository": false,
-	"webdev": false,
+	"webdev": true,
 	"webapi": {
 		"enablemapblock": false,
 		"secretkey": "bUpZTaxtjnXbNUbA"
