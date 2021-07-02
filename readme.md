@@ -90,4 +90,4 @@ See:  [mapobjects](doc/mapobjects.md)
 
 # Bugs
 
-There will be bugs, please file them in the [issues](./issues) page.
+There will be bugs, please file them in the [issues](https://github.com/minetest-mapserver/mapserver/issues) page.
