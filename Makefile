@@ -61,4 +61,4 @@ builder_image:
 	# build the docker image with all dependencies
 	$(MAKE) -C docker_builder build
 
-release-all: $(BINARIES)
+release-all: $(JS_BUNDLE) $(BINARIES)
