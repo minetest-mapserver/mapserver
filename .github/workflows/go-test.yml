@@ -16,6 +16,6 @@ jobs:
     - name: test
       run: go test ./... -coverprofile=profile.cov
 
-    - uses: shogo82148/actions-goveralls@v1.4.6
+    - uses: shogo82148/actions-goveralls@v1.4.7
       with:
         path-to-profile: profile.cov
