@@ -42,6 +42,20 @@ func Setup(ctx *app.App) {
 	//travelnet
 	if ctx.Config.MapObjects.Travelnet {
 		l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_red", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_orange", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_blue", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_cyan", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_green", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_dark_green", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_violet", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_pink", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_magenta", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_brown", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_grey", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_dark_grey", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_black", &TravelnetBlock{})
+		l.AddMapObject("travelnet:travelnet_white", &TravelnetBlock{})
 	}
 
 	//protector

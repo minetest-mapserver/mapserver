@@ -8,7 +8,7 @@ import (
 
 type TravelnetBlock struct{}
 
-func (this *TravelnetBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (tn *TravelnetBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	// ignore (P) prefixed stations
@@ -21,6 +21,7 @@ func (this *TravelnetBlock) onMapObject(x, y, z int, block *mapblockparser.MapBl
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["station_name"] = md["station_name"]
 	o.Attributes["station_network"] = md["station_network"]
+	o.Attributes["nodename"] = block.GetNodeName(x, y, z)
 
 	return o
 }
