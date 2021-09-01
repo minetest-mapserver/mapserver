@@ -7,8 +7,6 @@ on:
      - 'dependabot/*'
     tags:
      - '*'
-    branches:
-     - master
 
 jobs:
   build:
