@@ -2,6 +2,11 @@ name: docker
 
 on:
   push:
+    branches-ignore:
+     - 'renovate/*'
+     - 'dependabot/*'
+    tags:
+     - '*'
     branches:
      - master
 
