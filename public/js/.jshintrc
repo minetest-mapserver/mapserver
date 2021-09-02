@@ -4,9 +4,7 @@
   "esversion": 6,
   "browser": true,
   "globals": {
-    "L": true,
-    "m": true,
-    "THREE": true,
+    "Vue": true,
     "console": true
   }
 }

@@ -1,16 +1,18 @@
 
 export function getMapObjects(query){
-  return m.request({
+  return fetch("api/mapobjects/", {
     method: "POST",
-    url: "api/mapobjects/",
-    data: query
-  });
+    body: JSON.stringify(query)
+  })
+  .then(r => this.json());
 }
 
 export function getConfig(){
-  return m.request("api/config");
+  return fetch("api/config")
+    .then(r => r.json());
 }
 
 export function getStats(){
-	return m.request("api/stats");
+	return fetch("api/stats")
+    .then(r => r.json());
 }

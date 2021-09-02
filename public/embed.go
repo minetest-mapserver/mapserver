@@ -2,7 +2,7 @@ package public
 
 import "embed"
 
-//go:embed colors/* css/* pics/* sql/* webfonts/* *.html *.txt js/*
+//go:embed colors/* css/* pics/* sql/* *.html *.txt js/*
 //go:embed node_modules/bootstrap/dist/css/bootstrap.min.css
 //go:embed node_modules/vue/dist/vue.min.js
 //go:embed node_modules/vue-router/dist/vue-router.min.js
