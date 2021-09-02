@@ -4,6 +4,7 @@
   "esversion": 6,
   "browser": true,
   "globals": {
+    "L": true,
     "Vue": true,
     "VueRouter": true,
     "console": true

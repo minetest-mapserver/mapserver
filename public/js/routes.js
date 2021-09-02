@@ -1,5 +1,5 @@
 
-import Map from './components/Map.js';
+import Map from './pages/Map.js';
 
 export default [{
   path: "/",

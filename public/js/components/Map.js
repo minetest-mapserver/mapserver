@@ -1,7 +1,7 @@
+
 export default {
-	template: /*html*/`
-		<div>
-			Map
-		</div>
-	`
-};
+    template: /*html*/`
+    <div>
+    </div>
+`
+}
