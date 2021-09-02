@@ -1,5 +1,6 @@
 import { getConfig } from './api.js';
 import routes from './routes.js';
+import './components/App.js';
 
 getConfig()
 .then(cfg => {
