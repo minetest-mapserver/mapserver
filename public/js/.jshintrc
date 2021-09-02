@@ -5,6 +5,7 @@
   "browser": true,
   "globals": {
     "Vue": true,
+    "VueRouter": true,
     "console": true
   }
 }
