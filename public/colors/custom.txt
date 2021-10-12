@@ -1,4 +1,7 @@
 
+# Assorted node-colors
+# move them to their own file if the list gets bigger
+
 # planetoidgen
 planetoidgen:sun 255 100 0
 
@@ -15,4 +18,16 @@ default:stone_with_iron 146 73 36
 default:stone_with_mese 186 194 0
 default:stone_with_tin 202 202 202
 
+# technic
 technic:sulfur_block 189 169 00
+
+# planet_mars
+planet_mars:blackmarble 32 32 32
+planet_mars:blackmarble_bricks 32 32 32
+planet_mars:blackmarble_polished 32 32 32
+planet_mars:bluemarble 59 68 93
+planet_mars:bluemarble_bricks 59 68 93
+planet_mars:bluemarble_polished 59 68 93
+planet_mars:redmarble 107 55 54
+planet_mars:redmarble_bricks 107 55 54
+planet_mars:redmarble_polished 107 55 54
