@@ -22,12 +22,12 @@ default:stone_with_tin 202 202 202
 technic:sulfur_block 189 169 00
 
 # planet_mars
-planet_mars:blackmarble 32 32 32
-planet_mars:blackmarble_bricks 32 32 32
-planet_mars:blackmarble_polished 32 32 32
-planet_mars:bluemarble 59 68 93
-planet_mars:bluemarble_bricks 59 68 93
-planet_mars:bluemarble_polished 59 68 93
-planet_mars:redmarble 107 55 54
-planet_mars:redmarble_bricks 107 55 54
-planet_mars:redmarble_polished 107 55 54
+planet_mars:blackmarble 50 50 50
+planet_mars:blackmarble_bricks 57 57 57
+planet_mars:blackmarble_polished 43 43 43
+planet_mars:bluemarble 59 77 101
+planet_mars:bluemarble_bricks 64 79 99
+planet_mars:bluemarble_polished 99 128 167
+planet_mars:redmarble 167 74 63
+planet_mars:redmarble_bricks 170 81 73
+planet_mars:redmarble_polished 166 75 65
