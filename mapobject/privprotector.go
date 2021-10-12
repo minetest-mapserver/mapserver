@@ -1,16 +1,18 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type PrivProtectorBlock struct{}
 
-func (this *PrivProtectorBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *PrivProtectorBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "privprotector")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "privprotector")
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["priv"] = md["priv"]
 

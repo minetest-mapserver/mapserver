@@ -1,20 +1,22 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type MissionBlock struct{}
 
-func (this *MissionBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *MissionBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	if md["hidden"] == "1" {
 		return nil
 	}
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "mission")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "mission")
 	o.Attributes["name"] = md["name"]
 	o.Attributes["time"] = md["time"]
 	o.Attributes["owner"] = md["owner"]

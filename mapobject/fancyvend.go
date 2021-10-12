@@ -1,18 +1,19 @@
 package mapobject
 
 import (
+	"mapserver/coords"
 	"mapserver/luaparser"
-	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
 	"math"
 	"strconv"
 
+	"github.com/minetest-go/mapparser"
 	"github.com/sirupsen/logrus"
 )
 
 type FancyVend struct{}
 
-func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *FancyVend) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
@@ -46,7 +47,7 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 			"x":   x,
 			"y":   y,
 			"z":   z,
-			"pos": block.Pos,
+			"pos": mbpos,
 			"err": err,
 		}
 		log.WithFields(fields).Error("Fancyvend setting error")
@@ -84,7 +85,7 @@ func (this *FancyVend) onMapObject(x, y, z int, block *mapblockparser.MapBlock) 
 
 	stock_factor := int(float64(stock) / float64(out_count))
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "shop")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "shop")
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["type"] = "fancyvend"
 

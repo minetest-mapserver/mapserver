@@ -1,15 +1,17 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
 	"math"
 	"strconv"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type SmartShopBlock struct{}
 
-func (this *SmartShopBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) []*mapobjectdb.MapObject {
+func (this *SmartShopBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject {
 	list := make([]*mapobjectdb.MapObject, 0)
 
 	md := block.Metadata.GetMetadata(x, y, z)
@@ -32,7 +34,7 @@ func (this *SmartShopBlock) onMapObject(x, y, z int, block *mapblockparser.MapBl
 			continue
 		}
 
-		o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "shop")
+		o := mapobjectdb.NewMapObject(mbpos, x, y, z, "shop")
 		o.Attributes["type"] = "smartshop"
 		o.Attributes["owner"] = md["owner"]
 

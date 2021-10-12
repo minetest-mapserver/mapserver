@@ -1,13 +1,15 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type Locator struct{}
 
-func (this *Locator) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *Locator) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 
@@ -19,7 +21,7 @@ func (this *Locator) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *m
 		level = "3"
 	}
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "locator")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "locator")
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["name"] = md["name"]
 	o.Attributes["active"] = md["active"]

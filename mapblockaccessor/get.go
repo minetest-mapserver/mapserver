@@ -3,9 +3,9 @@ package mapblockaccessor
 import (
 	"mapserver/coords"
 	"mapserver/eventbus"
-	"mapserver/mapblockparser"
 	"sync"
 
+	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
@@ -13,7 +13,7 @@ import (
 
 var lock = &sync.RWMutex{}
 
-func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockparser.MapBlock, error) {
+func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapparser.MapBlock, error) {
 	key := getKey(pos)
 
 	//maintenance
@@ -40,7 +40,7 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 		if cachedblock == nil {
 			return nil, nil
 		} else {
-			return cachedblock.(*mapblockparser.MapBlock), nil
+			return cachedblock.(*mapparser.MapBlock), nil
 		}
 	}
 
@@ -61,7 +61,7 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 		if cachedblock == nil {
 			return nil, nil
 		} else {
-			return cachedblock.(*mapblockparser.MapBlock), nil
+			return cachedblock.(*mapparser.MapBlock), nil
 		}
 	}
 
@@ -79,7 +79,7 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapblockpar
 
 	getCacheMissCount.Inc()
 
-	mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, pos)
+	mapblock, err := mapparser.Parse(block.Data)
 	if err != nil {
 		return nil, err
 	}

@@ -3,16 +3,16 @@ package mapblockaccessor
 import (
 	"mapserver/eventbus"
 	"mapserver/layer"
-	"mapserver/mapblockparser"
 	"mapserver/settings"
 
+	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
 )
 
 type FindNextLegacyBlocksResult struct {
 	HasMore         bool
-	List            []*mapblockparser.MapBlock
+	List            []*mapparser.MapBlock
 	UnfilteredCount int
 	Progress        float64
 	LastMtime       int64
@@ -29,7 +29,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*l
 	blocks := nextResult.List
 	result := FindNextLegacyBlocksResult{}
 
-	mblist := make([]*mapblockparser.MapBlock, 0)
+	mblist := make([]*mapparser.MapBlock, 0)
 	result.HasMore = nextResult.HasMore
 	result.UnfilteredCount = nextResult.UnfilteredCount
 	result.Progress = nextResult.Progress
@@ -46,7 +46,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*l
 
 		key := getKey(block.Pos)
 
-		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
+		mapblock, err := mapparser.Parse(block.Data)
 		if err != nil {
 			fields := logrus.Fields{
 				"x":   block.Pos.X,

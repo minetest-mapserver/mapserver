@@ -4,8 +4,8 @@ import (
 	"mapserver/coords"
 	"mapserver/eventbus"
 	"mapserver/layer"
-	"mapserver/mapblockparser"
 
+	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
@@ -15,7 +15,7 @@ type FindMapBlocksByMtimeResult struct {
 	HasMore         bool
 	LastPos         *coords.MapBlockCoords
 	LastMtime       int64
-	List            []*mapblockparser.MapBlock
+	List            []*mapparser.MapBlock
 	UnfilteredCount int
 }
 
@@ -39,7 +39,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 
 	result := FindMapBlocksByMtimeResult{}
 
-	mblist := make([]*mapblockparser.MapBlock, 0)
+	mblist := make([]*mapparser.MapBlock, 0)
 	var newlastpos *coords.MapBlockCoords
 	result.HasMore = len(blocks) == limit
 	result.UnfilteredCount = len(blocks)
@@ -65,7 +65,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 
 		key := getKey(block.Pos)
 
-		mapblock, err := mapblockparser.Parse(block.Data, block.Mtime, block.Pos)
+		mapblock, err := mapparser.Parse(block.Data)
 		if err != nil {
 			fields := logrus.Fields{
 				"x":   block.Pos.X,

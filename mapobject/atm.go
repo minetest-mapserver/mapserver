@@ -1,16 +1,18 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type ATM struct{}
 
-func (this *ATM) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *ATM) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	nodename := block.GetNodeName(x, y, z)
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "atm")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "atm")
 
 	if nodename == "atm:wtt" {
 		o.Attributes["type"] = "wiretransfer"

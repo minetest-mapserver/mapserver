@@ -1,18 +1,20 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type PoiBlock struct {
 	Color string
 }
 
-func (this *PoiBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *PoiBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "poi")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "poi")
 	o.Attributes["name"] = md["name"]
 	o.Attributes["category"] = md["category"]
 	o.Attributes["url"] = md["url"]

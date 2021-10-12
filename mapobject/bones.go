@@ -1,14 +1,16 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
 	"strconv"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type BonesBlock struct{}
 
-func (this *BonesBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *BonesBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
@@ -18,7 +20,7 @@ func (this *BonesBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock)
 		return nil
 	}
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "bones")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "bones")
 	o.Attributes["time"] = md["time"]
 
 	if _, ok := md["owner"]; ok {

@@ -1,16 +1,18 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type TechnicSwitchBlock struct{}
 
-func (this *TechnicSwitchBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *TechnicSwitchBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "technicswitch")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "technicswitch")
 	o.Attributes["active"] = md["active"]
 	o.Attributes["channel"] = md["channel"]
 	o.Attributes["supply"] = md["supply"]

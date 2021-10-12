@@ -2,12 +2,12 @@ package mapblockaccessor
 
 import (
 	"mapserver/coords"
-	"mapserver/mapblockparser"
 
+	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
 )
 
-func (a *MapBlockAccessor) Update(pos *coords.MapBlockCoords, mb *mapblockparser.MapBlock) {
+func (a *MapBlockAccessor) Update(pos *coords.MapBlockCoords, mb *mapparser.MapBlock) {
 	key := getKey(pos)
 	cacheBlockCount.Inc()
 	a.blockcache.Set(key, mb, cache.DefaultExpiration)

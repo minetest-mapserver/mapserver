@@ -1,17 +1,19 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type LuaControllerBlock struct{}
 
-func (this *LuaControllerBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (this *LuaControllerBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	//md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "luacontroller")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "luacontroller")
 	//o.Attributes["code"] = md["code"]
 	//o.Attributes["lc_memory"] = md["lc_memory"]
 

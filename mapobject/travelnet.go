@@ -1,14 +1,16 @@
 package mapobject
 
 import (
-	"mapserver/mapblockparser"
+	"mapserver/coords"
 	"mapserver/mapobjectdb"
 	"strings"
+
+	"github.com/minetest-go/mapparser"
 )
 
 type TravelnetBlock struct{}
 
-func (tn *TravelnetBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject {
+func (tn *TravelnetBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	// ignore (P) prefixed stations
@@ -17,7 +19,7 @@ func (tn *TravelnetBlock) onMapObject(x, y, z int, block *mapblockparser.MapBloc
 		return nil
 	}
 
-	o := mapobjectdb.NewMapObject(block.Pos, x, y, z, "travelnet")
+	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "travelnet")
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["station_name"] = md["station_name"]
 	o.Attributes["station_network"] = md["station_network"]
