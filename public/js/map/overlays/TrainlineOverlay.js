@@ -1,4 +1,5 @@
 import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
+import { getMapObjects } from '../../api.js';
 
 export default AbstractGeoJsonOverlay.extend({
   initialize: function() {
@@ -9,8 +10,9 @@ export default AbstractGeoJsonOverlay.extend({
   },
   
   createGeoJson: function(objects){
+    var self = this;
     // which unique lines do objects belong to?
-    let lines = [];
+    var lines = [];
     objects.forEach(function(obj){
       if (obj.attributes.line && lines.indexOf(obj.attributes.line) > -1) {
         lines.push(obj.attributes.line);
@@ -39,7 +41,7 @@ export default AbstractGeoJsonOverlay.extend({
             // this will only happen if anything changed since it runs only after we completed a query
             self.clearLayers();
 
-            var geoJsonLayer = self.createGeoJsonInternal(this.cache.flat());
+            var geoJsonLayer = self.createGeoJsonInternal(this.cache);
             geoJsonLayer.addTo(self);
           }
         });
@@ -49,7 +51,7 @@ export default AbstractGeoJsonOverlay.extend({
     return this.lastLayer;
   },
 
-  createGeoJsonInternal: function(objects){
+  createGeoJsonInternal: function(lines){
 
     var geoJsonLayer = L.geoJSON([], {
       onEachFeature: function(feature, layer){
@@ -74,28 +76,21 @@ export default AbstractGeoJsonOverlay.extend({
       }
     });
 
-    var lines = {}; // { "A1":[] }
     var lineColors = {}; // { "A1": "red" }
 
-    //Sort and add lines
-    objects.forEach(function(obj){
-      if (!obj.attributes.line)
-        return;
-
-      var line = lines[obj.attributes.line];
-      if (!line){
-        line = [];
-        lines[obj.attributes.line] = line;
-        //default or new color
-        lineColors[obj.attributes.line] = "#ff7800";
+    // already sorted, determine color
+    Object.keys(lines).forEach(function(linename){
+      if (!lineColors[linename]){
+        lineColors[linename] = "#ff7800";
+        for (var i = lines[linename].length-1; i >= 0; i--) {
+          // find the last element specifying a color
+          // as was previous behaviour, but be more efficient
+          if (lines[linename][i].attributes.color){
+            lineColors[linename] = lines[linename][i].attributes.color;
+            break;
+          }
+        }
       }
-
-      if (obj.attributes.color){
-        //new color
-        lineColors[obj.attributes.line] = obj.attributes.color;
-      }
-
-      line.push(obj);
     });
 
     //Order by index and display
