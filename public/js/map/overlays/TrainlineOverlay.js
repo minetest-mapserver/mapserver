@@ -14,41 +14,41 @@ export default AbstractGeoJsonOverlay.extend({
     // which unique lines do objects belong to?
     var lines = [];
     objects.forEach(function(obj){
-      if (obj.attributes.line && lines.indexOf(obj.attributes.line) > -1) {
+      if (obj.attributes.line && lines.indexOf(obj.attributes.line) == -1) {
         lines.push(obj.attributes.line);
       }
     });
     // query for each line, add to cache
     lines.forEach(function(l){
-      if (!this.cache[l]){
+      if (!self.cache[l]){
         // only request if not in cache.
         // if someone changed the train lines, the user has to reload. sorry.
-        this.pendingQueries.push(l);
+        self.pendingQueries.push(l);
         getMapObjects({
-          type: this.type,
+          type: self.type,
           attributelike: {
             key: "line",
             value: l
           }
         })
         .then(function(objects){
-          this.cache[l] = objects;
-          this.pendingQueries = this.pendingQueries.filter(function(e){
+          self.cache[l] = objects;
+          self.pendingQueries = self.pendingQueries.filter(function(e){
             return e != l;
           });
-          if (this.pendingQueries.length == 0) {
+          if (self.pendingQueries.length == 0) {
             // trigger a redraw
             // this will only happen if anything changed since it runs only after we completed a query
             self.clearLayers();
 
-            var geoJsonLayer = self.createGeoJsonInternal(this.cache);
+            var geoJsonLayer = self.createGeoJsonInternal(self.cache);
             geoJsonLayer.addTo(self);
           }
         });
       }
     });
     
-    return this.lastLayer;
+    return self.lastLayer;
   },
 
   createGeoJsonInternal: function(lines){
