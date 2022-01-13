@@ -3,9 +3,53 @@ import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
 export default AbstractGeoJsonOverlay.extend({
   initialize: function() {
     AbstractGeoJsonOverlay.prototype.initialize.call(this, "train");
+    this.cache = {}; // { "A1":[] }
+    this.pendingQueries = [];
+    this.lastLayer = L.geoJSON([], {}); // empty dummy, will be replaced later
+  },
+  
+  createGeoJson: function(objects){
+    // which unique lines do objects belong to?
+    let lines = [];
+    objects.forEach(function(obj){
+      if (obj.attributes.line && lines.indexOf(obj.attributes.line) > -1) {
+        lines.push(obj.attributes.line);
+      }
+    });
+    // query for each line, add to cache
+    lines.forEach(function(l){
+      if (!this.cache[l]){
+        // only request if not in cache.
+        // if someone changed the train lines, the user has to reload. sorry.
+        this.pendingQueries.push(l);
+        getMapObjects({
+          type: this.type,
+          attributelike: {
+            key: "line",
+            value: l
+          }
+        })
+        .then(function(objects){
+          this.cache[l] = objects;
+          this.pendingQueries = this.pendingQueries.filter(function(e){
+            return e != l;
+          });
+          if (this.pendingQueries.length == 0) {
+            // trigger a redraw
+            // this will only happen if anything changed since it runs only after we completed a query
+            self.clearLayers();
+
+            var geoJsonLayer = self.createGeoJsonInternal(this.cache.flat());
+            geoJsonLayer.addTo(self);
+          }
+        });
+      }
+    });
+    
+    return this.lastLayer;
   },
 
-  createGeoJson: function(objects){
+  createGeoJsonInternal: function(objects){
 
     var geoJsonLayer = L.geoJSON([], {
       onEachFeature: function(feature, layer){
@@ -108,6 +152,7 @@ export default AbstractGeoJsonOverlay.extend({
 
     });
 
+    this.lastLayer = geoJsonLayer;
     return geoJsonLayer;
   }
 
