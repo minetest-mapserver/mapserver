@@ -19,6 +19,15 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 	}
 
 	if q.AttributeLike == nil {
+		//plain pos search
+		rows, err = db.db.Query(getMapDataPosQuery,
+			q.Type,
+			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
+			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+			limit,
+		)
+
+	} else {
 		if (q.Pos1 == nil || q.Pos2 == nil) {
 			//global attribute like search
 			rows, err = db.db.Query(getMapDataWithAttributeLikeGlobalQuery,
@@ -27,24 +36,15 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 				limit,
 			)
 		} else {
-			//plain pos search
-			rows, err = db.db.Query(getMapDataPosQuery,
+			//attribute like search
+			rows, err = db.db.Query(getMapDataWithAttributeLikePosQuery,
 				q.Type,
 				q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 				q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+				q.AttributeLike.Key, q.AttributeLike.Value,
 				limit,
 			)
 		}
-
-	} else {
-		//attribute like search
-		rows, err = db.db.Query(getMapDataWithAttributeLikePosQuery,
-			q.Type,
-			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
-			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
-			q.AttributeLike.Key, q.AttributeLike.Value,
-			limit,
-		)
 	}
 
 	if err != nil {
