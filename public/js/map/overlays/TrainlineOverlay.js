@@ -5,6 +5,7 @@ var string_to_pos = function(str){
   if (typeof(str) == "string" && str.length > 0 &&
     str[0] == '(' && str[str.length-1] == ')') {
     var a = str.slice(1, -1).split(',');
+    a = a.map(parseFloat);
     if (a.length == 3 && a.indexOf(NaN) < 0) {
       return {
         x: a[0],
@@ -114,7 +115,7 @@ export default AbstractGeoJsonOverlay.extend({
                 if (pos == null) {
                   console.warn("[Trainlines][linepath_from_prv]", "line "+linename, "block "+pos_to_string(entry), "index "+entry.attributes.index, "Invalid point:", p);
                 } else {
-                  feat.coords.push([p.x, p.z]);
+                  feat.coords.push([pos.x, pos.z]);
                 }
               });
             } else if (rail_pos) {
@@ -134,7 +135,7 @@ export default AbstractGeoJsonOverlay.extend({
                 },
                 "geometry": {
                   "type": "Point",
-                  "coordinates": [entry.x, entry.z]
+                  "coordinates": feat.coords[feat.coords.length-1]
                 }
               });
             }
