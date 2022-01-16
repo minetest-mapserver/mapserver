@@ -16,6 +16,8 @@ func (this *TrainBlock) onMapObject(x, y, z int, block *mapblockparser.MapBlock)
 	o.Attributes["index"] = md["index"]
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["color"] = md["color"]
+	o.Attributes["rail_pos"] = md["rail_pos"]
+	o.Attributes["linepath_from_prv"] = md["linepath_from_prv"]
 
 	return o
 }
