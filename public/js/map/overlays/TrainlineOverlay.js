@@ -1,6 +1,30 @@
 import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
 import { getMapObjects } from '../../api.js';
 
+var string_to_pos = function(str){
+  if (typeof(str) == "string" && str.length > 0 &&
+    str[0] == '(' && str[str.length-1] == ')') {
+    var a = str.slice(1, -1).split(',');
+    if (a.length == 3 && a.indexOf(NaN) < 0) {
+      return {
+        x: a[0],
+        y: a[1],
+        z: a[2]
+      };
+    }
+  }
+  return null;
+};
+
+var pos_to_string = function(pos){
+  if (isNaN(parseFloat(pos.x)) ||
+    isNaN(parseFloat(pos.y)) ||
+    isNaN(parseFloat(pos.z))) {
+      return null;
+  }
+  return "("+[pos.x, pos.y, pos.z].join(',')+")";
+};
+
 export default AbstractGeoJsonOverlay.extend({
   initialize: function() {
     AbstractGeoJsonOverlay.prototype.initialize.call(this, "train");
@@ -82,7 +106,22 @@ export default AbstractGeoJsonOverlay.extend({
           };
           //Add stations
           objects.forEach(function(entry){
-            feat.coords.push([entry.x, entry.z]);
+            var rail_pos = string_to_pos(entry.attributes.rail_pos);
+            if (entry.attributes.linepath_from_prv) {
+              var points = entry.attributes.linepath_from_prv.split(';');
+              points.forEach(function(p) {
+                var pos = string_to_pos(p);
+                if (pos == null) {
+                  console.warn("[Trainlines][linepath_from_prv]", "line "+linename, "block "+pos_to_string(entry), "index "+entry.attributes.index, "Invalid point:", p);
+                } else {
+                  feat.coords.push([p.x, p.z]);
+                }
+              });
+            } else if (rail_pos) {
+              feat.coords.push([rail_pos.x, rail_pos.z]);
+            } else {
+              feat.coords.push([entry.x, entry.z]);
+            }
 
             if (entry.attributes.station) {
               feat.stations.push({
