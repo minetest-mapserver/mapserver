@@ -26,7 +26,7 @@ func (api *Api) QueryMapobjects(resp http.ResponseWriter, req *http.Request) {
 
 	// apply defaults
 	limit := 1000
-	if q.Limit != nil {
+	if q.Limit == nil {
 		q.Limit = &limit
 	}
 
