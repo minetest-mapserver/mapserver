@@ -65,10 +65,12 @@ func TestMapObjects(t *testing.T) {
 		panic(err)
 	}
 
+	limit := 1000
 	q := mapobjectdb.SearchQuery{
-		Pos1: pos,
-		Pos2: pos,
-		Type: "xy",
+		Pos1:  pos,
+		Pos2:  pos,
+		Type:  "xy",
+		Limit: &limit,
 	}
 
 	objs, err := db.GetMapData(&q)
@@ -120,6 +122,7 @@ func TestMapObjectsQueryWithAttribute(t *testing.T) {
 		panic(err)
 	}
 
+	limit := 1000
 	q := mapobjectdb.SearchQuery{
 		Pos1: pos,
 		Pos2: pos,
@@ -128,6 +131,7 @@ func TestMapObjectsQueryWithAttribute(t *testing.T) {
 			Key:   "X",
 			Value: "%y",
 		},
+		Limit: &limit,
 	}
 
 	objs, err := db.GetMapData(&q)
@@ -182,6 +186,7 @@ func TestMapObjectsQueryWithAttributeIgnoreCase(t *testing.T) {
 		panic(err)
 	}
 
+	limit := 1000
 	q := mapobjectdb.SearchQuery{
 		Pos1: pos,
 		Pos2: pos,
@@ -190,6 +195,7 @@ func TestMapObjectsQueryWithAttributeIgnoreCase(t *testing.T) {
 			Key:   "X",
 			Value: "%bc",
 		},
+		Limit: &limit,
 	}
 
 	objs, err := db.GetMapData(&q)
