@@ -31,21 +31,6 @@ order by o.id
 limit ?
 `
 
-const getMapDataWithAttributeLikeGlobalQuery = `
-select o.id, o.type, o.mtime,
- o.x, o.y, o.z,
- o.posx, o.posy, o.posz,
- oa.key, oa.value
-from objects o
-left join object_attributes oa on o.id = oa.objectid
-where o.id in (
-  select objectid from object_attributes where key = ? and value like ?
-)
-and o.type = ?
-order by o.id
-limit ?
-`
-
 const removeMapDataQuery = `
 delete from objects where posx = ? and posy = ? and posz = ?
 `

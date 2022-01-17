@@ -4,8 +4,9 @@ import (
 	"database/sql"
 	"mapserver/coords"
 	"mapserver/mapobjectdb"
-	"github.com/sirupsen/logrus"
 	"unicode/utf8"
+
+	"github.com/sirupsen/logrus"
 )
 
 func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
@@ -13,38 +14,24 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 	var rows *sql.Rows
 	var err error
 
-	var limit = 1000
-	if q.Limit != nil {
-		limit = *q.Limit
-	}
-
 	if q.AttributeLike == nil {
 		//plain pos search
 		rows, err = db.db.Query(getMapDataPosQuery,
 			q.Type,
 			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
-			limit,
+			*q.Limit,
 		)
 
 	} else {
-		if (q.Pos1 == nil || q.Pos2 == nil) {
-			//global attribute like search
-			rows, err = db.db.Query(getMapDataWithAttributeLikeGlobalQuery,
-				q.AttributeLike.Key, q.AttributeLike.Value,
-				q.Type,
-				limit,
-			)
-		} else {
-			//attribute like search
-			rows, err = db.db.Query(getMapDataWithAttributeLikePosQuery,
-				q.AttributeLike.Key, q.AttributeLike.Value,
-				q.Type,
-				q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
-				q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
-				limit,
-			)
-		}
+		//attribute like search
+		rows, err = db.db.Query(getMapDataWithAttributeLikePosQuery,
+			q.AttributeLike.Key, q.AttributeLike.Value,
+			q.Type,
+			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
+			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
+			*q.Limit,
+		)
 	}
 
 	if err != nil {
@@ -110,9 +97,9 @@ func (db *Sqlite3Accessor) AddMapData(data *mapobjectdb.MapObject) error {
 		if !utf8.Valid([]byte(v)) {
 			// invalid utf8, skip insert into db
 			fields := logrus.Fields{
-				"type": data.Type,
+				"type":  data.Type,
 				"value": v,
-				"key": k,
+				"key":   k,
 			}
 			log.WithFields(fields).Info("Migration completed")
 			return nil
