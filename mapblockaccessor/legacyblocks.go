@@ -54,7 +54,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*l
 				"z":   block.Pos.Z,
 				"err": err,
 			}
-			logrus.WithFields(fields).Error("mapblock-pars")
+			logrus.WithFields(fields).Error("mapblock-parse")
 
 			return nil, err
 		}
