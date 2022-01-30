@@ -4,6 +4,7 @@ import (
 	"mapserver/coords"
 	"mapserver/eventbus"
 	"mapserver/layer"
+	"mapserver/types"
 
 	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
@@ -15,7 +16,7 @@ type FindMapBlocksByMtimeResult struct {
 	HasMore         bool
 	LastPos         *coords.MapBlockCoords
 	LastMtime       int64
-	List            []*mapparser.MapBlock
+	List            []*types.ParsedMapblock
 	UnfilteredCount int
 }
 
@@ -39,7 +40,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 
 	result := FindMapBlocksByMtimeResult{}
 
-	mblist := make([]*mapparser.MapBlock, 0)
+	mblist := make([]*types.ParsedMapblock, 0)
 	var newlastpos *coords.MapBlockCoords
 	result.HasMore = len(blocks) == limit
 	result.UnfilteredCount = len(blocks)
@@ -77,11 +78,11 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 			continue
 		}
 
-		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
+		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
 
 		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
 		cacheBlockCount.Inc()
-		mblist = append(mblist, mapblock)
+		mblist = append(mblist, types.NewParsedMapblock(mapblock, block.Pos))
 
 	}
 

@@ -4,6 +4,7 @@ import (
 	"mapserver/eventbus"
 	"mapserver/layer"
 	"mapserver/settings"
+	"mapserver/types"
 
 	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
@@ -12,7 +13,7 @@ import (
 
 type FindNextLegacyBlocksResult struct {
 	HasMore         bool
-	List            []*mapparser.MapBlock
+	List            []*types.ParsedMapblock
 	UnfilteredCount int
 	Progress        float64
 	LastMtime       int64
@@ -29,7 +30,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*l
 	blocks := nextResult.List
 	result := FindNextLegacyBlocksResult{}
 
-	mblist := make([]*mapparser.MapBlock, 0)
+	mblist := make([]*types.ParsedMapblock, 0)
 	result.HasMore = nextResult.HasMore
 	result.UnfilteredCount = nextResult.UnfilteredCount
 	result.Progress = nextResult.Progress
@@ -59,11 +60,11 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*l
 			return nil, err
 		}
 
-		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
+		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
 
 		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
 		cacheBlockCount.Inc()
-		mblist = append(mblist, mapblock)
+		mblist = append(mblist, types.NewParsedMapblock(mapblock, block.Pos))
 
 	}
 

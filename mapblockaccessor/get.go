@@ -3,6 +3,7 @@ package mapblockaccessor
 import (
 	"mapserver/coords"
 	"mapserver/eventbus"
+	"mapserver/types"
 	"sync"
 
 	"github.com/minetest-go/mapparser"
@@ -84,7 +85,7 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapparser.M
 		return nil, err
 	}
 
-	a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, mapblock)
+	a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, pos))
 
 	cacheBlockCount.Inc()
 	a.blockcache.Set(key, mapblock, cache.DefaultExpiration)

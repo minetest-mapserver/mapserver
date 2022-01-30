@@ -2,19 +2,21 @@ package mapobject
 
 import (
 	"mapserver/app"
+	"mapserver/coords"
 	"mapserver/eventbus"
-	"mapserver/mapblockparser"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 
+	"github.com/minetest-go/mapparser"
 	"github.com/sirupsen/logrus"
 )
 
 type MapObjectListener interface {
-	onMapObject(x, y, z int, block *mapblockparser.MapBlock) *mapobjectdb.MapObject
+	onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject
 }
 
 type MapMultiObjectListener interface {
-	onMapObject(x, y, z int, block *mapblockparser.MapBlock) []*mapobjectdb.MapObject
+	onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject
 }
 
 type Listener struct {
@@ -36,26 +38,26 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 		return
 	}
 
-	block := o.(*mapblockparser.MapBlock)
+	pmb := o.(*types.ParsedMapblock)
 
-	err := this.ctx.Objectdb.RemoveMapData(block.Pos)
+	err := this.ctx.Objectdb.RemoveMapData(pmb.Pos)
 	if err != nil {
 		panic(err)
 	}
 
-	this.ctx.WebEventbus.Emit("mapobjects-cleared", block.Pos)
+	this.ctx.WebEventbus.Emit("mapobjects-cleared", pmb.Pos)
 
 	//TODO: refactor into single loop
-	for id, name := range block.BlockMapping {
+	for id, name := range pmb.Mapblock.BlockMapping {
 
 		for k, v := range this.multiobjectlisteners {
 			if k == name {
 				//block matches
-				mapblockparser.IterateMapblock(func(x, y, z int) {
-					nodeid := block.GetNodeId(x, y, z)
+				coords.IterateMapblock(func(x, y, z int) {
+					nodeid := pmb.Mapblock.GetNodeId(x, y, z)
 					if nodeid == id {
 						fields := logrus.Fields{
-							"mbpos":  block.Pos,
+							"mbpos":  pmb.Pos,
 							"x":      x,
 							"y":      y,
 							"z":      z,
@@ -64,14 +66,14 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 						}
 						log.WithFields(fields).Debug("OnEvent()")
 
-						objs := v.onMapObject(x, y, z, block)
+						objs := v.onMapObject(pmb.Pos, x, y, z, pmb.Mapblock)
 
 						if len(objs) > 0 {
 							for _, obj := range objs {
 								err := this.ctx.Objectdb.AddMapData(obj)
 								if err != nil {
 									fields = logrus.Fields{
-										"mbpos": block.Pos,
+										"mbpos": pmb.Pos,
 										"x":     x,
 										"y":     y,
 										"z":     z,
@@ -95,11 +97,11 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 		for k, v := range this.objectlisteners {
 			if k == name {
 				//block matches
-				mapblockparser.IterateMapblock(func(x, y, z int) {
-					nodeid := block.GetNodeId(x, y, z)
+				coords.IterateMapblock(func(x, y, z int) {
+					nodeid := pmb.Mapblock.GetNodeId(x, y, z)
 					if nodeid == id {
 						fields := logrus.Fields{
-							"mbpos":  block.Pos,
+							"mbpos":  pmb.Pos,
 							"x":      x,
 							"y":      y,
 							"z":      z,
@@ -108,13 +110,13 @@ func (this *Listener) OnEvent(eventtype string, o interface{}) {
 						}
 						log.WithFields(fields).Debug("OnEvent()")
 
-						obj := v.onMapObject(x, y, z, block)
+						obj := v.onMapObject(pmb.Pos, x, y, z, pmb.Mapblock)
 
 						if obj != nil {
 							err := this.ctx.Objectdb.AddMapData(obj)
 							if err != nil {
 								fields = logrus.Fields{
-									"mbpos": block.Pos,
+									"mbpos": pmb.Pos,
 									"x":     x,
 									"y":     y,
 									"z":     z,

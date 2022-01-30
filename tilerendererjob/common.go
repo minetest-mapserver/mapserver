@@ -3,9 +3,9 @@ package tilerendererjob
 import (
 	"mapserver/app"
 	"mapserver/coords"
+	"mapserver/types"
 	"strconv"
 
-	"github.com/minetest-go/mapparser"
 	"github.com/sirupsen/logrus"
 )
 
@@ -14,7 +14,7 @@ func getTileKey(tc *coords.TileCoords) string {
 		strconv.Itoa(tc.Zoom) + "/" + strconv.Itoa(tc.LayerId)
 }
 
-func renderMapblocks(ctx *app.App, mblist []*mapparser.MapBlock) int {
+func renderMapblocks(ctx *app.App, mblist []*types.ParsedMapblock) int {
 	tileRenderedMap := make(map[string]bool)
 	tilecount := 0
 	totalRenderedMapblocks.Add(float64(len(mblist)))
