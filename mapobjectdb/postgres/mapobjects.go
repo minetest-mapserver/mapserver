@@ -4,19 +4,15 @@ import (
 	"database/sql"
 	"mapserver/coords"
 	"mapserver/mapobjectdb"
-	"github.com/sirupsen/logrus"
 	"unicode/utf8"
+
+	"github.com/sirupsen/logrus"
 )
 
 func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
 
 	var rows *sql.Rows
 	var err error
-	var limit = 1000
-
-	if q.Limit != nil {
-		limit = *q.Limit
-	}
 
 	if q.AttributeLike == nil {
 		//plain pos search
@@ -24,7 +20,7 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 			q.Type,
 			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
-			limit,
+			*q.Limit,
 		)
 
 	} else {
@@ -34,7 +30,7 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
 			q.AttributeLike.Key, q.AttributeLike.Value,
-			limit,
+			*q.Limit,
 		)
 	}
 
@@ -101,9 +97,9 @@ func (db *PostgresAccessor) AddMapData(data *mapobjectdb.MapObject) error {
 		if !utf8.Valid([]byte(v)) {
 			// invalid utf8, skip insert into db
 			fields := logrus.Fields{
-				"type": data.Type,
+				"type":  data.Type,
 				"value": v,
-				"key": k,
+				"key":   k,
 			}
 			log.WithFields(fields).Info("Migration completed")
 			return nil

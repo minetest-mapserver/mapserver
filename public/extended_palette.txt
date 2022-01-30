@@ -4,3 +4,7 @@ unifiedbricks:brickblock_multicolor_dark
 unifiedbricks:brickblock_multicolor_medium
 unifiedbricks:brickblock_multicolor_light
 prefab:concrete_colored
+scifi_nodes:white2_colored
+scifi_nodes:white_colored
+scifi_nodes:whiteoct_colored
+scifi_nodes:whitetile_colored

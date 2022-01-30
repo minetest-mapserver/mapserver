@@ -1,4 +1,4 @@
-FROM golang:1.17.0-alpine as builder
+FROM golang:1.17.6-alpine as builder
 
 RUN apk --no-cache add ca-certificates gcc libc-dev nodejs npm git make
 
@@ -8,7 +8,7 @@ RUN cd /server &&\
  npm install -g jshint rollup &&\
  make test jshint all
 
-FROM alpine:3.14.2
+FROM alpine:3.15.0
 RUN apk --no-cache add ca-certificates curl
 WORKDIR /app
 COPY --from=builder /server/output/mapserver-linux-x86_64 /bin/mapserver

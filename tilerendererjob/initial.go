@@ -21,7 +21,8 @@ func initialRender(ctx *app.App) {
 		result, err := ctx.MapBlockAccessor.FindNextLegacyBlocks(ctx.Settings, ctx.Config.Layers, ctx.Config.RenderingFetchLimit)
 
 		if err != nil {
-			panic(err)
+			logrus.Error("Error in initial rendering run, trying to continue: " + err.Error())
+			continue
 		}
 
 		if len(result.List) == 0 && !result.HasMore {

@@ -99,7 +99,8 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		"colors/vanessa.txt",
 		"colors/advtrains.txt",
 		"colors/scifi_nodes.txt",
-		"colors/mcl2_colors.txt",
+		"colors/mc2.txt",
+		"colors/mtg.txt",
 		"colors/miles.txt",
 		"colors/custom.txt",
 	}
