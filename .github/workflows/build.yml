@@ -26,6 +26,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '17'
+      
+      - name: Create frontend bundle
         run: cd public && npm ci && npm run bundle
 
       - name: Cache Go modules
