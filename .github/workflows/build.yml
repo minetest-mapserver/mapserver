@@ -40,7 +40,7 @@ jobs:
 
       - name: Tests
         run: |
-          go test -v ./...
+          go test ./...
 
       - name: Docker Login
         uses: docker/login-action@v1

@@ -1,6 +1,5 @@
-mapserver
 world.mt
-output
+dist
 map.sqlite
 mapserver.tiles
 mapserver.sqlite
