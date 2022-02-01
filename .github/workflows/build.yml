@@ -49,9 +49,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Push image
+        if: success() && github.ref == 'refs/heads/master'
+        run: docker push buckaroobanzay/minetest:latest
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
-        if: success() && (startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master')
+        if: success() && startsWith(github.ref, 'refs/tags/')
         with:
           version: latest
           args: release --rm-dist
