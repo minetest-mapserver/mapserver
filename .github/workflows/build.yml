@@ -40,7 +40,6 @@ jobs:
 
       - name: Tests
         run: |
-          go mod tidy
           go test -v ./...
 
       - name: Docker Login
