@@ -60,5 +60,6 @@ jobs:
       - name: Build and push latest docker image
         if: success() && github.ref == 'refs/heads/master'
         run: |
+          go build .
           docker build . -t minetestmapserver/mapserver:latest
           docker push minetestmapserver/mapserver:latest
