@@ -10,11 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: apt
-      run: sudo apt-get install -y nodejs npm
-
-    - name: jshint install
-      run: sudo npm i -g jshint
-
-    - name: jshint run
-      run: cd public/js && jshint
+    - name: Set up nodejs
+      uses: actions/setup-node@v2
+      with:
+        node-version: '17'
+    
+    - name: Run jshint
+      run: cd public && npm ci && npm run jshint

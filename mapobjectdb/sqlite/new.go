@@ -2,11 +2,12 @@ package sqlite
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
+
+	_ "modernc.org/sqlite"
 )
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite3", filename+"?_timeout=500")
+	db, err := sql.Open("sqlite", filename+"?_timeout=500")
 	db.SetMaxOpenConns(1)
 
 	if err != nil {

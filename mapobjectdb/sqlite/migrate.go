@@ -5,8 +5,8 @@ import (
 	"mapserver/public"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
+	_ "modernc.org/sqlite"
 )
 
 type Sqlite3Accessor struct {

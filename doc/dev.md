@@ -5,17 +5,17 @@
 
 # Build dependencies
 
-## Basic
-* go >= 1.11
-* make
+* go >= 1.16
+* nodejs >= v17.4.0
+* npm >= 8.3.0
 
-## With crosscompiling (optional)
-Either apt-get:
-* gcc-mingw-w64
-* gcc-5-arm-linux-gnueabihf
-* gcc-i686-linux-gnu
+# Create the frontend bundle
 
-Or use the docker-builder image in `/docker-builder`
+```bash
+cd public
+npm ci
+npm run bundle
+```
 
 # Development setup
 
@@ -56,23 +56,3 @@ pgsql_player_connection = host=localhost port=5432 user=postgres password=enter 
 * Change the value `webdev` in the `mapserver.json` to `true`
 * Start the server with `go run .` or with debug output: `go run . -debug`
 * The web files in `public/` can now be changed on the fly without restarting the server
-
-# All platform build
-
-Prerequisites:
-* docker
-* make
-
-Building:
-* Run `make clean all` to build for all supported targets
-
-The artifacts should now be in the `output` directory
-
-# Release build
-
-Prerequisites:
-* docker
-* make
-
-Building:
-* Run `make all VERSION=X.Y.Z` in the root directory

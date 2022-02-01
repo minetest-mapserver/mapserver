@@ -7,8 +7,8 @@ import (
 	"mapserver/public"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/sirupsen/logrus"
+	_ "modernc.org/sqlite"
 )
 
 /*
@@ -24,7 +24,7 @@ type Sqlite3Accessor struct {
 func (db *Sqlite3Accessor) Migrate() error {
 
 	//RW connection
-	rwdb, err := sql.Open("sqlite3", db.filename+"?mode=rw")
+	rwdb, err := sql.Open("sqlite", db.filename+"?mode=rw")
 	if err != nil {
 		return err
 	}
@@ -164,7 +164,7 @@ func (db *Sqlite3Accessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, erro
 }
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite3", filename+"?mode=ro&_timeout=2000")
+	db, err := sql.Open("sqlite", filename+"?mode=ro&_timeout=2000")
 	if err != nil {
 		return nil, err
 	}
