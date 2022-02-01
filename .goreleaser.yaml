@@ -18,5 +18,7 @@ changelog:
       - '^docs:'
       - '^test:'
 dockers:
-- image_templates: ["minetestmapserver/mapserver:{{ .Version }}"]
+- image_templates:
+    - "minetestmapserver/mapserver:{{ .Version }}"
+    - "minetestmapserver/mapserver:latest"
   dockerfile: Dockerfile
