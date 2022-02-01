@@ -4,14 +4,11 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
-    goos:
-      - linux
-      - windows
-      - darwin
-    goarch:
-      - amd64
-      - arm64
-      - arm
+    targets:
+      - linux_amd64
+      - windows_amd64
+      - darwin_arm64
+      - linux_arm_6
     ldflags:
       - -s -w -X mapserver/app.Version={{.Version}}
 changelog:

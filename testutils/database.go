@@ -3,11 +3,12 @@ package testutils
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3"
 	"io"
 	"os"
 	"path/filepath"
 	"runtime"
+
+	_ "modernc.org/sqlite"
 )
 
 const emptyBlocksScript = `
@@ -49,7 +50,7 @@ func CreateTestDatabase2(filename string) error {
 }
 
 func CreateEmptyDatabase(filename string) {
-	db, err := sql.Open("sqlite3", filename)
+	db, err := sql.Open("sqlite", filename)
 	if err != nil {
 		panic(err)
 	}
