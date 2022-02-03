@@ -63,6 +63,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "shrimpza",
+      "name": "Kenneth Watson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6191747?v=4",
+      "profile": "https://shrimpworks.za.net/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
