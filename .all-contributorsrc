@@ -1,6 +1,25 @@
 {
-  "files": ["readme.md"],
+  "files": [
+    "readme.md"
+  ],
   "contributorsPerLine": 7,
   "contributorsSortAlphabetically": false,
-  "skipCi": "true"
+  "skipCi": true,
+  "projectName": "mapserver",
+  "projectOwner": "minetest-mapserver",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "contributors": [
+    {
+      "login": "BuckarooBanzay",
+      "name": "Buckaroo Banzai",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39065740?v=4",
+      "profile": "https://github.com/BuckarooBanzay",
+      "contributions": [
+        "code",
+        "infra",
+        "maintenance"
+      ]
+    }
+  ]
 }
