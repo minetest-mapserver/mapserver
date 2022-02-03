@@ -18,6 +18,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "pyrollo",
+      "name": "Pierre-Yves Rollo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13189280?v=4",
+      "profile": "http://photo.pyrollo.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
