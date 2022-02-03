@@ -1,0 +1,6 @@
+{
+  "files": ["readme.md"],
+  "contributorsPerLine": 7,
+  "contributorsSortAlphabetically": false,
+  "skipCi": "true"
+}
