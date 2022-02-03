@@ -1,6 +1,6 @@
 Minetest mapserver
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 =======
 
@@ -112,6 +112,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://arvados.org/"><img src="https://avatars.githubusercontent.com/u/149135?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ward Vandewege</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=cure" title="Code">💻</a></td>
     <td align="center"><a href="https://blog.bmarwell.de/"><img src="https://avatars.githubusercontent.com/u/1413391?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Marwell</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=bmarwell" title="Documentation">📖</a></td>
     <td align="center"><a href="https://shrimpworks.za.net/"><img src="https://avatars.githubusercontent.com/u/6191747?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kenneth Watson</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=shrimpza" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/catz85"><img src="https://avatars.githubusercontent.com/u/5050513?v=4?s=100" width="100px;" alt=""/><br /><sub><b>3C</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=catz85" title="Code">💻</a></td>
   </tr>
 </table>
 
