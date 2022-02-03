@@ -1,6 +1,6 @@
 Minetest mapserver
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 =======
 
@@ -108,6 +108,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/BuckarooBanzay"><img src="https://avatars.githubusercontent.com/u/39065740?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Buckaroo Banzai</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=BuckarooBanzay" title="Code">💻</a></td>
     <td align="center"><a href="http://photo.pyrollo.com/"><img src="https://avatars.githubusercontent.com/u/13189280?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Pierre-Yves Rollo</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=pyrollo" title="Code">💻</a></td>
     <td align="center"><a href="http://peter.nerlich4u.de/"><img src="https://avatars.githubusercontent.com/u/10530729?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Peter Nerlich</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=PeterNerlich" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/crocsg"><img src="https://avatars.githubusercontent.com/u/34553036?v=4?s=100" width="100px;" alt=""/><br /><sub><b>StephaneG</b></sub></a><br /><a href="https://github.com/BuckarooBanzay/mapserver/commits?author=crocsg" title="Code">💻</a></td>
   </tr>
 </table>
 
