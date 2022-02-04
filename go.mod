@@ -9,7 +9,7 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0
 	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9
-	modernc.org/sqlite v1.14.5
+	modernc.org/sqlite v1.14.6
 )
 
 go 1.16
