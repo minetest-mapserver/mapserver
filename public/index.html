@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html >
   <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'self'; style-src 'self'; script-src 'self';report-uri /csp-reports">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000">
@@ -28,6 +27,14 @@
     <script src="js/lib/moment.min.js"></script>
 
     <!-- bootstrap script -->
-    <script src="js/bootstrap.js"></script>
+    <script>
+      function dev_fallback(){
+        var s = document.createElement("script");
+        s.setAttribute("src", "js/main.js");
+        s.setAttribute("type", "module");
+        document.body.appendChild(s);
+      };
+    </script>
+    <script src="js/bundle.js" onerror="dev_fallback()"></script>
   </body>
 </html>
