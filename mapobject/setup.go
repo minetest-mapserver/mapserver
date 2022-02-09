@@ -41,21 +41,23 @@ func Setup(ctx *app.App) {
 
 	//travelnet
 	if ctx.Config.MapObjects.Travelnet {
-		l.AddMapObject("travelnet:travelnet", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_red", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_orange", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_blue", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_cyan", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_green", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_dark_green", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_violet", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_pink", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_magenta", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_brown", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_grey", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_dark_grey", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_black", &TravelnetBlock{})
-		l.AddMapObject("travelnet:travelnet_white", &TravelnetBlock{})
+		tb := &TravelnetBlock{}
+		l.AddMapObject("travelnet:travelnet", tb)
+		l.AddMapObject("travelnet:travelnet_red", tb)
+		l.AddMapObject("travelnet:travelnet_orange", tb)
+		l.AddMapObject("travelnet:travelnet_blue", tb)
+		l.AddMapObject("travelnet:travelnet_cyan", tb)
+		l.AddMapObject("travelnet:travelnet_green", tb)
+		l.AddMapObject("travelnet:travelnet_dark_green", tb)
+		l.AddMapObject("travelnet:travelnet_violet", tb)
+		l.AddMapObject("travelnet:travelnet_pink", tb)
+		l.AddMapObject("travelnet:travelnet_magenta", tb)
+		l.AddMapObject("travelnet:travelnet_brown", tb)
+		l.AddMapObject("travelnet:travelnet_grey", tb)
+		l.AddMapObject("travelnet:travelnet_dark_grey", tb)
+		l.AddMapObject("travelnet:travelnet_black", tb)
+		l.AddMapObject("travelnet:travelnet_white", tb)
+		l.AddMapObject("fancy_travelnet:fancy_travelnet", tb)
 	}
 
 	//protector
