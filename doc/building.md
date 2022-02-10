@@ -21,7 +21,7 @@ rollup -c rollup.config.js
 
 Generate the `mapserver` binary:
 ```bash
-# build the binary for the current playtform
+# build the binary for the current platform
 go build
 
 # (optionally) run the unit-tests
