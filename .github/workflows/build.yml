@@ -23,7 +23,7 @@ jobs:
           go-version: 1.16
 
       - name: Set up nodejs
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '17'
       
