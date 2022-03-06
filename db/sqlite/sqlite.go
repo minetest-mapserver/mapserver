@@ -164,7 +164,14 @@ func (db *Sqlite3Accessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, erro
 }
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite", filename+"?mode=ro&_timeout=2000")
+	db, err := sql.Open("sqlite", filename+"?mode=ro")
+	if err != nil {
+		return nil, err
+	}
+
+	// limit connection and set a busy-timeout to prevent errors if the db should be locked sometimes
+	db.SetMaxOpenConns(1)
+	_, err = db.Exec("pragma busy_timeout = 5000;")
 	if err != nil {
 		return nil, err
 	}
