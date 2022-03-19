@@ -26,15 +26,7 @@
     <script src="js/lib/leaflet.awesome-markers.js"></script>
     <script src="js/lib/moment.min.js"></script>
 
-    <!-- bootstrap script -->
-    <script>
-      function dev_fallback(){
-        var s = document.createElement("script");
-        s.setAttribute("src", "js/main.js");
-        s.setAttribute("type", "module");
-        document.body.appendChild(s);
-      };
-    </script>
-    <script src="js/bundle.js" onerror="dev_fallback()"></script>
+    <!-- main script -->
+    <script src="js/bundle.js" onerror="import('./js/main.js')"></script>
   </body>
 </html>
