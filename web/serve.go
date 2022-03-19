@@ -23,7 +23,16 @@ func Serve(ctx *app.App) {
 	mux := http.NewServeMux()
 
 	// static files
-	mux.Handle("/", http.FileServer(getFileSystem(ctx.Config.Webdev, public.Files)))
+	if ctx.Config.Webdev {
+		logrus.Print("using live mode")
+		fs := http.FileServer(http.FS(os.DirFS("public")))
+		mux.HandleFunc("/", fs.ServeHTTP)
+
+	} else {
+		logrus.Print("using embed mode")
+		fs := http.FileServer(http.FS(public.Files))
+		mux.HandleFunc("/", CachedServeFunc(fs.ServeHTTP))
+	}
 
 	tiles := &Tiles{ctx: ctx}
 	tiles.Init()
