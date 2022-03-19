@@ -4,9 +4,9 @@
   "esversion": 6,
   "browser": true,
   "globals": {
-    "Vue": true,
-    "VueRouter": true,
-    "console": true,
-    "L": true
+    "L": true,
+    "m": true,
+    "THREE": true,
+    "console": true
   }
 }

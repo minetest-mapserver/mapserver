@@ -1,21 +1,13 @@
-
-import { getConfig } from './api.js';
+import App from './app.js';
 import routes from './routes.js';
-import wsChannel from './WebSocketChannel.js';
-import config from './config.js';
-import { hashCompat } from './compat.js';
-import layerManager from './LayerManager.js';
 
-// hash route compat
-hashCompat();
-
-getConfig()
-.then(cfg => {
-  layerManager.setup(cfg.layers);
-  config.set(cfg);
-  wsChannel.connect();
-  m.route(document.getElementById("app"), "/map/0/12/0/0", routes);
-})
-.catch(e => {
-  document.getElementById("app").innerHTML = e;
+// create router instance
+const router = VueRouter.createRouter({
+	history: VueRouter.createWebHashHistory(),
+	routes: routes
 });
+
+// start vue
+const app = Vue.createApp(App);
+app.use(router);
+app.mount("#app");
