@@ -18,8 +18,32 @@ export default {
             )
         });
 
+
+        const updateLink = () => {
+            const center = map.getCenter();
+            const lon = Math.floor(center.lng);
+            const lat = Math.floor(center.lat);
+            console.log("Map::updateLink", map.getZoom(), lon, lat);
+            // change hash route
+            this.$router.push({
+                name: "map",
+                params: {
+                    lat: lat,
+                    lon: lon,
+                    zoom: map.getZoom(),
+                    layerId: this.layerId
+                }
+            });
+        };
+
+        // listen for route change
+        map.on('zoomend', updateLink);
+        map.on('moveend', updateLink);
+
+        // add attribution
         map.attributionControl.addAttribution('<a href="https://github.com/minetest-mapserver/mapserver">Minetest Mapserver</a>');
 
+        // TODO: all layers
         var tileLayer = new RealtimeTileLayer(ws, this.layerId, map);
         tileLayer.addTo(map);
       
