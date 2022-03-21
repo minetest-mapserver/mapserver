@@ -1,11 +1,14 @@
 import SimpleCRS from "../utils/SimpleCRS.js";
 import RealtimeTileLayer from '../utils/RealtimeTileLayer.js';
 import ws from '../service/ws.js';
+import { getLayerById } from "../service/layer.js";
 
 export default {
     props: ["lat", "lon", "zoom", "layerId"],
     mounted: function() {
-        console.log("Map::mounted", this.lat, this.lon, this.zoom, this.layerId);
+        const layer = getLayerById(this.layerId);
+        console.log("Map::mounted", this.lat, this.lon, this.zoom, this.layerId, layer);
+
         const map = L.map(this.$refs.target, {
             minZoom: 2,
             maxZoom: 12,
@@ -51,7 +54,8 @@ export default {
     },
     methods: {
         updateMap: function() {
-            console.log("Map::updateMap", this.lat, this.lon, this.zoom, this.layerId);
+            const layer = getLayerById(this.layerId);
+            console.log("Map::updateMap", this.lat, this.lon, this.zoom, this.layerId, layer);
         }
     },
     watch: {
