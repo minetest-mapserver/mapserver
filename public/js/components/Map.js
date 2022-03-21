@@ -3,6 +3,7 @@ import RealtimeTileLayer from '../utils/RealtimeTileLayer.js';
 import ws from '../service/ws.js';
 import { getLayerById } from "../service/layer.js";
 import CoordinatesDisplay from "../../old/js/map/CoordinatesDisplay.js";
+import WorldInfoDisplay from "../utils/WorldInfoDisplay.js";
 
 export default {
     props: ["lat", "lon", "zoom", "layerId"],
@@ -53,6 +54,7 @@ export default {
       
         // various map tools
         new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
+        new WorldInfoDisplay(ws, { position: 'bottomright' }).addTo(map);
 
         console.log(map);
     },
