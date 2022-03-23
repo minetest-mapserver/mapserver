@@ -24,7 +24,7 @@ type Sqlite3Accessor struct {
 func (db *Sqlite3Accessor) Migrate() error {
 
 	//RW connection
-	rwdb, err := sql.Open("sqlite", db.filename+"?mode=rw")
+	rwdb, err := sql.Open("sqlite", "file:"+db.filename+"?mode=rw")
 	if err != nil {
 		return err
 	}
@@ -164,13 +164,11 @@ func (db *Sqlite3Accessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, erro
 }
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite", filename+"?mode=ro")
+	db, err := sql.Open("sqlite", "file:"+filename+"?mode=ro")
 	if err != nil {
 		return nil, err
 	}
 
-	// limit connection and set a busy-timeout to prevent errors if the db should be locked sometimes
-	db.SetMaxOpenConns(1)
 	_, err = db.Exec("pragma busy_timeout = 5000;")
 	if err != nil {
 		return nil, err
