@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"errors"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/public"
@@ -164,7 +165,7 @@ func (db *Sqlite3Accessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, erro
 }
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite", "file:"+filename+"?mode=ro")
+	db, err := sql.Open("sqlite", "file:"+filename)
 	if err != nil {
 		return nil, err
 	}
@@ -172,6 +173,11 @@ func New(filename string) (*Sqlite3Accessor, error) {
 	_, err = db.Exec("pragma busy_timeout = 5000;")
 	if err != nil {
 		return nil, err
+	}
+
+	_, err = db.Exec("pragma journal_mode = wal;")
+	if err != nil {
+		return nil, errors.New("could not set db to wal-mode, please stop the minetest-server to allow this one-time fixup")
 	}
 
 	sq := &Sqlite3Accessor{db: db, filename: filename}
