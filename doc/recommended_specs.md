@@ -11,7 +11,7 @@ but it will be in the region of several gigabytes (5 to 10 GB for "older" server
 
 ## Memory
 
-Memory depedends on the amount of caching (see: [Configuration](./config.md))
+Memory depends on the amount of caching (see: [Configuration](./config.md))
 Per default there will be around 500 mapblocks cached for quicker access.
 This will be around 5 to 10 megabytes depending on the contents.
 
