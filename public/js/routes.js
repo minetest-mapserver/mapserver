@@ -1,8 +1,8 @@
+import MapPage from "./pages/MapPage.js";
 
-import Map from './components/Map.js';
-import Search from './components/Search.js';
 
-export default {
-  "/map/:layerId/:zoom/:lon/:lat": Map,
-  "/search/:query": Search
-};
+export default [{
+	path: "/map/:layerId/:zoom/:lon/:lat", name: "map", component: MapPage
+},{
+	path: "/", redirect: "/map/0/13/0/0"
+}];

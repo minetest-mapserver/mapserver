@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#000">
 
     <!-- styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/fontawesome.min.css"/>
-    <link rel="stylesheet" href="css/leaflet.css"/>
-    <link rel="stylesheet" href="css/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="node_modules/bootswatch/dist/cyborg/bootstrap.min.css"/>
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="node_modules/leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
     <link rel="stylesheet" href="css/custom.css"/>
 
     <title>Minetest Mapserver</title>
@@ -21,10 +21,9 @@
     </div>
 
     <!-- libraries -->
-    <script src="js/lib/mithril.min.js"></script>
-    <script src="js/lib/leaflet.js"></script>
-    <script src="js/lib/leaflet.awesome-markers.js"></script>
-    <script src="js/lib/moment.min.js"></script>
+    <script src="node_modules/vue/dist/vue.global.prod.js"></script>
+    <script src="node_modules/vue-router/dist/vue-router.global.prod.js"></script>
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
 
     <!-- main script -->
     <script src="js/bundle.js" onerror="import('./js/main.js')"></script>
