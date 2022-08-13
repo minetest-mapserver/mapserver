@@ -8,6 +8,7 @@ you get more realtime-data from within your minetest-world:
 
 * Current players with their positions
 * Current time and max lag
+* Planes using the [Airutils library](https://github.com/APercy/airutils) by APercy, if installed
 
 You can use the `mapserver-mod` either passive or active:
 * *Passive* Makes some additional markers available (POI, Labels, etc)

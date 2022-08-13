@@ -53,14 +53,27 @@ type Player struct {
 	//TODO: stamina, skin, etc
 }
 
+type AirUtilsPlane struct {
+	Id        string     `json:"id"`
+	Entity    string     `json:"entity"`
+	Name      string     `json:"name"`
+	Pos       GenericPos `json:"pos"`
+	Owner     string     `json:"owner"`
+	Driver    string     `json:"driver"`
+	Passenger string     `json:"passenger"`
+	Color     string     `json:"color"`
+	Yaw       float64    `json:"yaw"`
+}
+
 type MinetestInfo struct {
-	MaxLag    float64     `json:"max_lag"`
-	Players   []*Player   `json:"players"`
-	Trains    []*Train    `json:"trains"`
-	Signals   []*Signal   `json:"signals"`
-	Minecarts []*Minecart `json:"minecarts"`
-	Time      float64     `json:"time"`
-	Uptime    float64     `json:"uptime"`
+	MaxLag         float64          `json:"max_lag"`
+	Players        []*Player        `json:"players"`
+	Trains         []*Train         `json:"trains"`
+	Signals        []*Signal        `json:"signals"`
+	Minecarts      []*Minecart      `json:"minecarts"`
+	AirUtilsPlanes []*AirUtilsPlane `json:"airutils_planes"`
+	Time           float64          `json:"time"`
+	Uptime         float64          `json:"uptime"`
 }
 
 var LastStats *MinetestInfo
