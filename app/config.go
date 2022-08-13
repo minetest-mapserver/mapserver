@@ -89,6 +89,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Minecart:           false,
 		Locator:            false,
 		Signs:              true,
+		MapserverAirutils:  true,
 	}
 
 	mapblockaccessor := MapBlockAccessorConfig{

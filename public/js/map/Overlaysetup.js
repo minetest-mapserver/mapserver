@@ -22,6 +22,7 @@ import BorderOverlay from './overlays/BorderOverlay.js';
 import TrainOverlay from './overlays/TrainOverlay.js';
 import TrainsignalOverlay from './overlays/TrainsignalOverlay.js';
 import SignOverlay from './overlays/SignOverlay.js';
+import AirUtilsPlanesOverlay from "./overlays/AirUtilsPlanesOverlay.js";
 
 export default function(cfg, map, overlays, wsChannel){
 
@@ -196,6 +197,13 @@ export default function(cfg, map, overlays, wsChannel){
     overlays.Signs = new SignOverlay();
     if (isDefault("signs")) {
       map.addLayer(overlays.Signs);
+    }
+  }
+
+  if (cfg.mapobjects.mapserver_airutils) {
+    overlays.Planes = new AirUtilsPlanesOverlay();
+    if (isDefault("mapserver_airutils")) {
+      map.addLayer(overlays.Planes);
     }
   }
 
