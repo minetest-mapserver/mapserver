@@ -11,12 +11,16 @@ function getTrainImageUrlForType(type){
       return  "pics/advtrains/advtrains_wagon_japan_inv.png";
     case "advtrains:engine_steam":
       return  "pics/advtrains/advtrains_engine_steam_inv.png";
+    case "advtrains:detailed_steam_engine":
+      return  "pics/advtrains/advtrains_detailed_engine_steam_inv.png";
     case "advtrains:engine_industrial":
       return  "pics/advtrains/advtrains_engine_industrial_inv.png";
     case "advtrains:wagon_wood":
       return  "pics/advtrains/advtrains_wagon_wood_inv.png";
     case "advtrains:wagon_box":
       return  "pics/advtrains/advtrains_wagon_box_inv.png";
+    case "advtrains:wagon_default":
+      return  "pics/advtrains/advtrains_wagon_inv.png";
 
     case "advtrains:subway_wagon_blue":
       return "pics/advtrains/advtrains_subway_wagon_inv_blue.png";
