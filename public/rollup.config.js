@@ -1,8 +1,8 @@
 
-export default {
-	input: 'main.js',
+module.exports = {
+	input: 'js/main.js',
 	output: {
-		file :'bundle.js',
+		file :'js/bundle.js',
 		format: 'iife',
 		sourcemap: true,
 		compact: true
