@@ -104,6 +104,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 		"colors/miles.txt",
 		"colors/custom.txt",
 		"colors/nodecore.txt",
+		"colors/naturalbiomes.txt",
 	}
 
 	for _, colorfile := range colorfiles {
