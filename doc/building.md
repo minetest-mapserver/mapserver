@@ -15,7 +15,7 @@ Ubuntu install: https://github.com/golang/go/wiki/Ubuntu
 
 Generate the js bundle for the frontend:
 ```
-cd public/js
+cd public
 rollup -c rollup.config.js
 ```
 
