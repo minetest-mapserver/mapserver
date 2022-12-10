@@ -1,3 +1,69 @@
+# heath
+
+naturalbiomes:heath_litter 133 126 85
+naturalbiomes:heath_litter2 164 127 119
+naturalbiomes:heath_litter3 153 128 115
+naturalbiomes:heath_grass 218 173 94
+naturalbiomes:heath_grass2 135 115 66
+naturalbiomes:heath_grass3 162 169 127
+naturalbiomes:heatherflower 166 97 147
+naturalbiomes:heatherflower2 190 104 133
+naturalbiomes:heatherflower3 136 99 127
+naturalbiomes:heatherflower4 162 112 136
+naturalbiomes:swampgrass 111 111 50
+naturalbiomes:swampgrass2 125 119 26
+naturalbiomes:heath_willow_trunk 127 109 78
+naturalbiomes:heath_willow_wood 144 119 86
+naturalbiomes:heath_willow_leaves 102 110 34
+naturalbiomes:heath_willow_leaves2 126 134 34
+naturalbiomes:willow_sapling 105 108 64
+stairs:slab_naturalbiomes_heath_willow_wood 144 119 86
+stairs:stair_naturalbiomes_heath_willow_wood 144 119 86
+stairs:stair_outer_naturalbiomes_heath_willow_wood 144 119 86
+stairs:stair_inner_naturalbiomes_heath_willow_wood 144 119 86
+stairs:slab_naturalbiomes_heath_willow_trunk 127 109 78
+stairs:stair_naturalbiomes_heath_willow_trunk 127 109 78
+stairs:stair_outer_naturalbiomes_heath_willow_trunk 127 109 78
+stairs:stair_inner_naturalbiomes_heath_willow_trunk 127 109 78
+naturalbiomes:gate_willow_wood 144 119 86
+naturalbiomes:fence_willow_wood 138 121 83
+naturalbiomes:fence_rail_willow_wood 146 120 86
+naturalbiomes:heath_juniper_trunk 125 105 85
+naturalbiomes:heath_juniper_wood 136 100 73
+naturalbiomes:heath_juniper_leaves 95 116 58
+naturalbiomes:juniper_sapling 79 86 43
+stairs:slab_naturalbiomes_heath_juniper_wood 136 100 73
+stairs:stair_naturalbiomes_heath_juniper_wood 136 100 73
+stairs:stair_outer_naturalbiomes_heath_juniper_wood 136 100 73
+stairs:stair_inner_naturalbiomes_heath_juniper_wood 136 100 73
+stairs:slab_naturalbiomes_heath_juniper_trunk 125 105 85
+stairs:stair_naturalbiomes_heath_juniper_trunk 125 105 85
+stairs:stair_outer_naturalbiomes_heath_juniper_trunk 125 105 85
+stairs:stair_inner_naturalbiomes_heath_juniper_trunk 125 105 85
+naturalbiomes:gate_juniper_wood 136 100 73
+naturalbiomes:fence_juniper_wood 138 121 83
+naturalbiomes:fence_rail_juniper_wood 134 98 72
+naturalbiomes:heath_birch_trunk 137 120 104
+naturalbiomes:heath_birch_wood 118 103 92
+naturalbiomes:heath_birch_leaves 127 138 58
+naturalbiomes:birch_sapling 133 131 79
+stairs:slab_naturalbiomes_heath_birch_wood 118 103 92
+stairs:stair_naturalbiomes_heath_birch_wood 118 103 92
+stairs:stair_outer_naturalbiomes_heath_birch_wood 118 103 92
+stairs:stair_inner_naturalbiomes_heath_birch_wood 118 103 92
+stairs:slab_naturalbiomes_heath_birch_trunk 137 120 104
+stairs:stair_naturalbiomes_heath_birch_trunk 137 120 104
+stairs:stair_outer_naturalbiomes_heath_birch_trunk 137 120 104
+stairs:stair_inner_naturalbiomes_heath_birch_trunk 137 120 104
+naturalbiomes:gate_birch_wood 118 103 92
+naturalbiomes:fence_birch_wood 138 121 83
+naturalbiomes:fence_rail_birch_wood 114 100 89
+naturalbiomes:heatherflowernode 194 149 186
+naturalbiomes:heatherflower2node 206 125 133
+naturalbiomes:heatherflower3node 109 68 98
+naturalbiomes:heatherflower4node 216 148 171
+
+
 # crafting
 
 stairs:slab_naturalbiomes_adler_reed_bundle 94 76 57
@@ -38,7 +104,7 @@ naturalbiomes:bambooforest_litter 70 94 16
 naturalbiomes:bamboo_trunk 98 86 57
 naturalbiomes:bamboo_wood 123 126 51
 naturalbiomes:bamboo_leaves 113 145 10
-naturalbiomes:bamboo_sapling 17 19 8
+naturalbiomes:bamboo_sapling 92 100 43
 stairs:slab_naturalbiomes_bambooforest_bamboo_wood2 123 126 51
 stairs:stair_naturalbiomes_bambooforest_bamboo_wood2 123 126 51
 stairs:stair_outer_naturalbiomes_bambooforest_bamboo_wood2 123 126 51
@@ -50,14 +116,14 @@ stairs:stair_inner_naturalbiomes_bambooforest_bamboo_trunk 98 86 57
 naturalbiomes:gate_bamboo_wood 123 126 51
 naturalbiomes:fence_bamboo_wood 120 123 51
 naturalbiomes:fence_rail_bamboo_wood 120 123 51
-naturalbiomes:smallbamboo 21 23 13
+naturalbiomes:smallbamboo 84 95 54
 naturalbiomes:bambooforest_rock 148 106 69
-naturalbiomes:bambooforest_groundgrass 48 65 28
-naturalbiomes:bambooforest_groundgrass2 46 62 27
+naturalbiomes:bambooforest_groundgrass 83 112 49
+naturalbiomes:bambooforest_groundgrass2 83 111 49
 naturalbiomes:banana_trunk 107 95 35
 naturalbiomes:banana_wood 108 92 48
 naturalbiomes:banana_leaves 107 145 67
-naturalbiomes:banana_sapling 47 58 17
+naturalbiomes:banana_sapling 105 129 38
 stairs:slab_naturalbiomes_banana_wood 108 92 48
 stairs:stair_naturalbiomes_banana_wood 108 92 48
 stairs:stair_outer_naturalbiomes_banana_wood 108 92 48
@@ -79,7 +145,7 @@ naturalbiomes:outback_ground 186 103 72
 naturalbiomes:outback_trunk 181 160 143
 naturalbiomes:outback_wood 136 109 88
 naturalbiomes:outback_leaves 111 118 84
-naturalbiomes:outback_sapling 91 96 86
+naturalbiomes:outback_sapling 141 148 133
 stairs:slab_naturalbiomes_outback_eukalyptus_wood 136 109 88
 stairs:stair_naturalbiomes_outback_eukalyptus_wood 136 109 88
 stairs:stair_outer_naturalbiomes_outback_eukalyptus_wood 136 109 88
@@ -91,15 +157,15 @@ stairs:stair_inner_naturalbiomes_outbackeucalyptus_trunk 181 160 143
 naturalbiomes:gate_outback_wood 136 109 88
 naturalbiomes:fence_outback_wood 136 109 88
 naturalbiomes:fence_rail_outback_wood 136 109 88
-naturalbiomes:outback_bush_stem 63 63 62
+naturalbiomes:outback_bush_stem 190 189 187
 naturalbiomes:outback_bush_leaves 139 127 86
-naturalbiomes:outback_bush_sapling 63 63 62
-naturalbiomes:outback_grass 90 61 18
-naturalbiomes:outback_grass2 46 47 30
-naturalbiomes:outback_grass3 96 68 33
-naturalbiomes:outback_grass4 56 51 16
-naturalbiomes:outback_grass5 97 100 85
-naturalbiomes:outback_grass6 96 53 15
+naturalbiomes:outback_bush_sapling 190 189 187
+naturalbiomes:outback_grass 197 134 40
+naturalbiomes:outback_grass2 97 98 63
+naturalbiomes:outback_grass3 182 129 63
+naturalbiomes:outback_grass4 144 132 43
+naturalbiomes:outback_grass5 187 192 164
+naturalbiomes:outback_grass6 206 114 32
 naturalbiomes:outback_rockformation1 186 150 101
 
 
@@ -110,7 +176,7 @@ naturalbiomes:alderswamp_dirt 79 70 67
 naturalbiomes:alder_trunk 138 125 92
 naturalbiomes:alder_wood 135 118 81
 naturalbiomes:alder_leaves 91 116 44
-naturalbiomes:alder_sapling 38 43 31
+naturalbiomes:alder_sapling 95 108 77
 stairs:slab_naturalbiomes_alderswamp_alder_wood 135 118 81
 stairs:stair_naturalbiomes_alderswamp_alder_wood 135 118 81
 stairs:stair_outer_naturalbiomes_alderswamp_alder_wood 135 118 81
@@ -122,13 +188,13 @@ stairs:stair_inner_naturalbiomes_alderswamp_alder_trunk 138 125 92
 naturalbiomes:gate_alder_wood 135 118 81
 naturalbiomes:fence_alder_wood 138 121 83
 naturalbiomes:fence_rail_alder_wood 138 121 83
-naturalbiomes:alderswamp_reed 58 73 12
-naturalbiomes:alderswamp_reed 58 73 12
-naturalbiomes:alderswamp_reed2 68 87 13
-naturalbiomes:alderswamp_reed3 80 99 17
-naturalbiomes:waterlily 92 98 56
-naturalbiomes:alderswamp_yellowflower 49 73 17
-naturalbiomes:alderswamp_brownreed 27 32 8
+naturalbiomes:alderswamp_reed 128 162 27
+naturalbiomes:alderswamp_reed 128 162 27
+naturalbiomes:alderswamp_reed2 130 165 26
+naturalbiomes:alderswamp_reed3 133 167 28
+naturalbiomes:waterlily 123 131 76
+naturalbiomes:alderswamp_yellowflower 88 131 32
+naturalbiomes:alderswamp_brownreed 111 131 33
 
 
 # palmbeach
@@ -138,7 +204,7 @@ naturalbiomes:palmbeach_rock 186 150 101
 naturalbiomes:palm_trunk 84 57 23
 naturalbiomes:palm_wood 119 81 41
 naturalbiomes:palm_leaves 89 110 44
-naturalbiomes:palm_sapling 72 72 31
+naturalbiomes:palm_sapling 115 114 50
 stairs:slab_naturalbiomes_savannapalm_wood 119 81 41
 stairs:stair_naturalbiomes_savannapalm_wood 119 81 41
 stairs:stair_outer_naturalbiomes_savannapalm_wood 119 81 41
@@ -150,26 +216,26 @@ stairs:stair_inner_naturalbiomes_savannapalm_trunk 84 57 23
 naturalbiomes:gate_palm_wood 119 81 41
 naturalbiomes:fence_palm_wood 120 81 41
 naturalbiomes:fence_rail_palm_wood 120 81 41
-naturalbiomes:beach_bush_stem 56 44 23
+naturalbiomes:beach_bush_stem 128 101 54
 naturalbiomes:beach_bush_leaves 109 124 21
-naturalbiomes:beach_bush_sapling 56 44 23
-naturalbiomes:palmbeach_grass1 61 73 13
-naturalbiomes:palmbeach_grass2 59 72 11
-naturalbiomes:palmbeach_grass3 69 76 30
-naturalbiomes:banana_bunch 57 57 7
-naturalbiomes:banana 43 40 0
-naturalbiomes:coconut_slice 43 35 28
-naturalbiomes:coconut 87 57 32
+naturalbiomes:beach_bush_sapling 128 101 54
+naturalbiomes:palmbeach_grass1 147 176 31
+naturalbiomes:palmbeach_grass2 130 156 25
+naturalbiomes:palmbeach_grass3 112 123 49
+naturalbiomes:banana_bunch 158 157 19
+naturalbiomes:banana 178 167 1
+naturalbiomes:coconut_slice 163 132 106
+naturalbiomes:coconut 130 85 48
 
 
 # alpine
 
 naturalbiomes:alpine_litter 110 144 25
-naturalbiomes:alpine_rock 160 169 180
+naturalbiomes:alpine_rock 121 128 140
 naturalbiomes:alppine1_trunk 188 160 118
 naturalbiomes:alppine1_wood 155 118 72
 naturalbiomes:alppine1_leaves 63 78 25
-naturalbiomes:alppine1_sapling 25 29 19
+naturalbiomes:alppine1_sapling 69 79 52
 stairs:slab_naturalbiomes_alpine_pine1_wood 155 118 72
 stairs:stair_naturalbiomes_alpine_pine1_wood 155 118 72
 stairs:stair_outer_naturalbiomes_alpine_pine1_wood 155 118 72
@@ -184,7 +250,7 @@ naturalbiomes:fence_rail_alppine1_wood 162 123 76
 naturalbiomes:alppine2_trunk 153 124 84
 naturalbiomes:alppine2_wood 173 132 87
 naturalbiomes:alppine2_leaves 85 104 36
-naturalbiomes:alppine2_sapling 35 41 13
+naturalbiomes:alppine2_sapling 84 100 32
 stairs:slab_naturalbiomes_alpine_pine2_wood 173 132 87
 stairs:stair_naturalbiomes_alpine_pine2_wood 173 132 87
 stairs:stair_outer_naturalbiomes_alpine_pine2_wood 173 132 87
@@ -196,12 +262,16 @@ stairs:stair_inner_naturalbiomes_alpine_pine2_trunk 153 124 84
 naturalbiomes:gate_alppine2_wood 173 132 87
 naturalbiomes:fence_pine2_wood 177 136 89
 naturalbiomes:fence_rail_pine2_wood 177 136 89
-naturalbiomes:alpine_mushroom 100 80 26
-naturalbiomes:alpine_grass1 50 62 6
-naturalbiomes:alpine_grass2 50 63 6
-naturalbiomes:alpine_grass3 61 76 7
-naturalbiomes:alpine_dandelion 54 65 17
-naturalbiomes:alpine_edelweiss 85 88 76
+naturalbiomes:alpine_cowberrybush_stem 93 89 87
+naturalbiomes:alpine_cowberrybush_leaves 102 127 50
+naturalbiomes:alpine_cowberrybush_sapling 129 166 67
+naturalbiomes:cowberry 186 55 50
+naturalbiomes:alpine_mushroom 176 140 47
+naturalbiomes:alpine_grass1 127 159 15
+naturalbiomes:alpine_grass2 128 161 15
+naturalbiomes:alpine_grass3 121 152 14
+naturalbiomes:alpine_dandelion 113 135 35
+naturalbiomes:alpine_edelweiss 192 198 172
 
 
 # mediterranean
@@ -213,7 +283,7 @@ naturalbiomes:mediterran_ruin2 158 138 115
 naturalbiomes:olive_trunk 144 116 70
 naturalbiomes:olive_wood 175 133 70
 naturalbiomes:olive_leaves 94 97 71
-naturalbiomes:olive_sapling 39 36 26
+naturalbiomes:olive_sapling 93 86 63
 stairs:slab_naturalbiomes_mediterran_olive_wood 175 133 70
 stairs:stair_naturalbiomes_mediterran_olive_wood 175 133 70
 stairs:stair_outer_naturalbiomes_mediterran_olive_wood 175 133 70
@@ -228,7 +298,7 @@ naturalbiomes:fence_rail_olive_wood 174 131 67
 naturalbiomes:pine_trunk 188 152 106
 naturalbiomes:pine_wood 204 168 107
 naturalbiomes:pine_leaves 79 89 20
-naturalbiomes:pine_sapling 25 25 13
+naturalbiomes:pine_sapling 63 63 32
 stairs:slab_naturalbiomes_mediterran_pine_wood 204 168 107
 stairs:stair_naturalbiomes_mediterran_pine_wood 204 168 107
 stairs:stair_outer_naturalbiomes_mediterran_pine_wood 204 168 107
@@ -240,16 +310,15 @@ stairs:stair_inner_naturalbiomes_mediterran_pine_trunk 188 152 106
 naturalbiomes:gate_pine_wood 204 168 107
 naturalbiomes:fence_pine_wood 196 161 102
 naturalbiomes:fence_rail_pine_wood 196 161 102
-naturalbiomes:med_bush_stem 32 25 20
+naturalbiomes:med_bush_stem 80 63 50
 naturalbiomes:med_bush_leaves 95 107 0
-naturalbiomes:med_bush_sapling 32 25 20
-naturalbiomes:med_flower1 53 57 32
-naturalbiomes:med_flower2 44 45 29
-naturalbiomes:med_flower3 45 43 32
-naturalbiomes:med_grass1 45 45 24
-naturalbiomes:med_grass2 43 43 23
-naturalbiomes:olives 54 51 41
-
+naturalbiomes:med_bush_sapling 80 63 50
+naturalbiomes:med_flower1 126 135 75
+naturalbiomes:med_flower2 70 72 47
+naturalbiomes:med_flower3 79 76 57
+naturalbiomes:med_grass1 93 93 50
+naturalbiomes:med_grass2 96 96 51
+naturalbiomes:olives 88 83 67
 
 # wetsavanna
 
@@ -257,7 +326,7 @@ naturalbiomes:savannalitter 109 112 41
 naturalbiomes:acacia_trunk 81 67 49
 naturalbiomes:acacia_wood 94 73 52
 naturalbiomes:acacia_leaves 92 97 60
-naturalbiomes:acacia_sapling 49 50 34
+naturalbiomes:acacia_sapling 77 78 54
 stairs:slab_naturalbiomes_savannaacacia_wood 94 73 52
 stairs:stair_naturalbiomes_savannaacacia_wood 94 73 52
 stairs:stair_outer_naturalbiomes_savannaacacia_wood 94 73 52
@@ -269,8 +338,8 @@ stairs:stair_inner_naturalbiomes_savannaacacia_trunk 81 67 49
 naturalbiomes:gate_acacia_wood 94 73 52
 naturalbiomes:fence_acacia_wood 98 77 54
 naturalbiomes:fence_rail_acacia_wood 98 77 54
-naturalbiomes:savannagrass 51 55 16
-naturalbiomes:savannagrasssmall 51 55 16
-naturalbiomes:savanna_flowergrass 50 48 30
-naturalbiomes:savanna_grass2 49 55 21
-naturalbiomes:savanna_grass3 50 56 23
+naturalbiomes:savannagrass 112 120 36
+naturalbiomes:savannagrasssmall 112 120 36
+naturalbiomes:savanna_flowergrass 111 108 68
+naturalbiomes:savanna_grass2 100 114 43
+naturalbiomes:savanna_grass3 109 122 50
