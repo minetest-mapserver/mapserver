@@ -27,7 +27,7 @@ export default L.LayerGroup.extend({
   },
 
   createPopup: function(player){
-    var html = "<b>" + player.name + "</b>";
+    let html = "<b>" + player.name + "</b>";
     html += "<hr>";
 
     for (let i=0; i<Math.floor(player.hp / 2); i++)
@@ -55,14 +55,36 @@ export default L.LayerGroup.extend({
   },
 
   createMarker: function(player){
-    var marker = L.marker([player.pos.z, player.pos.x], {icon: PlayerIcon});
+    const marker = L.marker([player.pos.z, player.pos.x], {icon: this.getIcon(player)});
 
     marker.bindPopup(this.createPopup(player));
     return marker;
   },
 
+  getIcon: function(player) {
+    /*
+      compatibility with mapserver_mod without `yaw` attribute - value will be 0.
+      if a player manages to look exactly north, the indicator will also disappear
+      but aligning view at 0.0 is difficult/unlikely during normal gameplay.
+    */
+    if (player.yaw === 0) return PlayerIcon;
+
+    const icon = 'pics/sam.png';
+    const indicator = player.velocity.x !== 0 || player.velocity.z !== 0 ? 'pics/sam_dir_move.png' : 'pics/sam_dir.png';
+    return L.divIcon({
+      html: `<div style="display:inline-block;width:48px;height:48px">
+          <img src="${icon}" style="position:absolute;top:8px;left:16px;width:16px;height:32px;" alt="${player.name}">
+          <img src="${indicator}" style="position:absolute;top:0;left:0;width:48px;height:48px;transform:rotate(${player.yaw*-1}rad)" alt="${player.name}">
+        </div>`,
+      className: '', // don't use leaflet default of a white block
+      iconSize:     [48, 48],
+      iconAnchor:   [24, 24],
+      popupAnchor:  [0, -24]
+    });
+  },
+
   isPlayerInCurrentLayer: function(player){
-    var mapLayer = layerMgr.getCurrentLayer();
+    const mapLayer = layerMgr.getCurrentLayer();
 
     return (
       player.pos.y >= (mapLayer.from*16) &&
@@ -73,7 +95,7 @@ export default L.LayerGroup.extend({
   onMinetestUpdate: function(/*info*/){
 
     players.forEach(player => {
-      var isInLayer = this.isPlayerInCurrentLayer(player);
+      const isInLayer = this.isPlayerInCurrentLayer(player);
 
       if (!isInLayer){
         if (this.currentObjects[player.name]){
@@ -88,13 +110,14 @@ export default L.LayerGroup.extend({
 
       if (this.currentObjects[player.name]){
         //marker exists
-        let marker = this.currentObjects[player.name];
+        const marker = this.currentObjects[player.name];
         marker.setLatLng([player.pos.z, player.pos.x]);
+        marker.setIcon(this.getIcon(player));
         marker.setPopupContent(this.createPopup(player));
 
       } else {
         //marker does not exist
-        let marker = this.createMarker(player);
+        const marker = this.createMarker(player);
         marker.addTo(this);
 
         this.currentObjects[player.name] = marker;
@@ -102,7 +125,7 @@ export default L.LayerGroup.extend({
     });
 
     Object.keys(this.currentObjects).forEach(existingName => {
-      var playerIsActive = players.find(function(p){
+      const playerIsActive = players.find(function(p){
         return p.name == existingName;
       });
 
@@ -124,7 +147,7 @@ export default L.LayerGroup.extend({
         return;
       }
 
-      var marker = this.createMarker(player);
+      const marker = this.createMarker(player);
       marker.addTo(this);
       this.currentObjects[player.name] = marker;
     });
