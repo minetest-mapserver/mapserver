@@ -58,7 +58,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 * Initial and incremental map rendering
 * Param2 coloring
 * Realtime rendering and map-updating
-* Realtime player and world stats
+* Realtime player and world stats, with SkinsDB support
 * [Search](doc/search.md) bar
 * Configurable layers (default: "Base" from y -16 to 160)
 * POI [markers](doc/mapobjects.md) / [mod](doc/mod.md) integration
@@ -69,7 +69,6 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 ## Planned Features
 
 * Isometric view
-* Skin support
 * Route planning (via travelnets / trains)
 
 # Supported map-databases

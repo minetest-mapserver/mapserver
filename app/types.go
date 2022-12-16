@@ -23,6 +23,7 @@ type Config struct {
 	MapObjects                *MapObjectConfig        `json:"mapobjects"`
 	MapBlockAccessorCfg       *MapBlockAccessorConfig `json:"mapblockaccessor"`
 	DefaultOverlays           []string                `json:"defaultoverlays"`
+	Skins                     *SkinsConfig            `json:"skins"`
 }
 
 type MapBlockAccessorConfig struct {
@@ -70,4 +71,9 @@ type WebApiConfig struct {
 
 	//mod http bridge secret
 	SecretKey string `json:"secretkey"`
+}
+
+type SkinsConfig struct {
+	EnableSkinsDB bool   `json:"enableskinsdb"`
+	SkinsPath     string `json:"skinspath"`
 }

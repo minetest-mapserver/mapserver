@@ -104,6 +104,11 @@ func ParseConfig(filename string) (*Config, error) {
 		"mapserver_player",
 	}
 
+	skins := SkinsConfig{
+		EnableSkinsDB: false,
+		SkinsPath:     "",
+	}
+
 	cfg := Config{
 		ConfigVersion:             1,
 		Port:                      8080,
@@ -123,6 +128,7 @@ func ParseConfig(filename string) (*Config, error) {
 		MapObjects:                &mapobjs,
 		MapBlockAccessorCfg:       &mapblockaccessor,
 		DefaultOverlays:           defaultoverlays,
+		Skins:                     &skins,
 	}
 
 	info, err := os.Stat(filename)

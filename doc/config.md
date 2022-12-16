@@ -14,7 +14,7 @@ scifi_nodes:slope_vent 120 120 120
 scifi_nodes:white2 240 240 240
 ```
 
-Default colors, see: [colors.txt](../server/static/colors.txt)
+Default colors, see: [colors directory](../public/colors)
 
 ## Configuration json
 
@@ -63,7 +63,11 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 		"expiretime": "10s",
 		"purgetime": "15s",
 		"maxitems": 5000
-	}
+	},
+    "skins": {
+      "enableskinsdb": true,
+      "skinspath": "/path/to/minetest/mods/skinsdb/textures"
+    }
 }
 ```
 
@@ -119,3 +123,11 @@ Enables the [Prometheus](./prometheus.md) metrics endpoint
 
 #### mapblockaccessor.maxitems
 Number of mapblocks to keep in memory, dial this down if you have memory issues
+
+#### skins.enableskinsdb
+Enables support for serving/displaying custom player skins provided by the SkinsDB mod.
+
+#### skins.skinspath
+The path to where SkinsDB textures are stored. This should be the SkinsDB textures directory.
+
+Example: `/path/to/minetest/mods/skinsdb/textures`

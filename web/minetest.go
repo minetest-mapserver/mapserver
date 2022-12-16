@@ -51,7 +51,8 @@ type Player struct {
 	RTT             float64    `json:"rtt"`
 	ProtocolVersion float64    `json:"protocol_version"`
 	Yaw             float64    `json:"yaw"`
-	//TODO: stamina, skin, etc
+	Skin            string     `json:"skin"`
+	//TODO: stamina, armor, etc
 }
 
 type AirUtilsPlane struct {
