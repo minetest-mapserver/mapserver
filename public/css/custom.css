@@ -30,3 +30,21 @@ body {
   margin-left: -100px !important;
   margin-top: -100px !important;
 }
+
+.player-popup {
+  display: grid;
+  grid-template-columns: 64px auto;
+  grid-template-areas: 'img info';
+  grid-column-gap: 10px;
+}
+
+.player-popup img.portrait {
+  grid-area: img;
+  height: 128px;
+  width: 64px;
+  image-rendering: pixelated;
+}
+
+.player-popup div.info {
+  grid-area: info;
+}
