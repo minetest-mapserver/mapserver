@@ -8,7 +8,7 @@ require (
 	github.com/prometheus/client_golang v1.14.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.8.1
-	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9
+	github.com/yuin/gopher-lua v0.0.0-20221210110428-332342483e3f
 	modernc.org/sqlite v1.14.8
 )
 
