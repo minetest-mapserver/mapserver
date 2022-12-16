@@ -71,5 +71,9 @@
 		"mapserver_poi",
 		"mapserver_label",
 		"mapserver_player"
-	]
+	],
+	"skins": {
+		"enableskinsdb": false,
+		"skinspath": ""
+	}
 }
