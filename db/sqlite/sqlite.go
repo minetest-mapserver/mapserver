@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"errors"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/public"
@@ -169,13 +170,32 @@ func New(filename string) (*Sqlite3Accessor, error) {
 		return nil, err
 	}
 
-	// limit connection and set a busy-timeout to prevent errors if the db should be locked sometimes
+	// sqlite connection limit
 	db.SetMaxOpenConns(1)
-	_, err = db.Exec("pragma busy_timeout = 5000;")
+
+	err = EnableWAL(db)
 	if err != nil {
 		return nil, err
 	}
 
 	sq := &Sqlite3Accessor{db: db, filename: filename}
 	return sq, nil
+}
+
+func EnableWAL(db *sql.DB) error {
+	result := db.QueryRow("pragma journal_mode;")
+	var mode string
+	err := result.Scan(&mode)
+	if err != nil {
+		return err
+	}
+
+	if mode != "wal" {
+		_, err = db.Exec("pragma journal_mode = wal;")
+		if err != nil {
+			return errors.New("couldn't switch the db-journal to wal-mode, please stop the minetest-engine to allow doing this or do it manually: " + err.Error())
+		}
+	}
+
+	return nil
 }
