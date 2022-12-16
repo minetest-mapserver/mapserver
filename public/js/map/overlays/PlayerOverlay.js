@@ -23,24 +23,24 @@ export default L.LayerGroup.extend({
 
   createPopup: function(player) {
     // moderators get a small crown icon
-    let moderator = player.moderator ? `<img src="pics/crown.png">` : "";
+    let moderator = player.moderator ? `<img src="pics/crown.png" alt="moderator" title="moderator">` : "";
 
     let info = `<b>${moderator} ${player.name}</b>`;
     info += "<hr>";
 
     for (let i = 0; i < Math.floor(player.hp / 2); i++)
-      info += "<img src='pics/heart.png'>";
+      info += "<img src='pics/heart.png' alt='health'>";
 
     if (player.hp % 2 === 1)
-      info += "<img src='pics/heart_half.png'>";
+      info += "<img src='pics/heart_half.png' alt='health'>";
 
     info += "<br>";
 
     for (let i = 0; i < Math.floor(player.breath / 2); i++)
-      info += "<img src='pics/bubble.png'>";
+      info += "<img src='pics/bubble.png' alt='breath'>";
 
     if (player.breath % 2 === 1)
-      info += "<img src='pics/bubble_half.png'>";
+      info += "<img src='pics/bubble_half.png' alt='breath'>";
 
     info += `
       <br>
@@ -65,15 +65,12 @@ export default L.LayerGroup.extend({
 
   getIcon: function(player) {
     const icon = this.getSkin(player);
-    const indicator = player.yaw === 0 // compatibility with mapserver_mod without `yaw` attribute - value will be 0.
-        ? false
-        : player.velocity.x !== 0 || player.velocity.z !== 0 ? 'pics/sam_dir_move.png' : 'pics/sam_dir.png';
+    // compatibility with mapserver_mod without `yaw` attribute - value will be 0.
+    const indicator = player.yaw === 0 ? false : player.velocity.x !== 0 || player.velocity.z !== 0 ? 'pics/sam_dir_move.png' : 'pics/sam_dir.png';
     return L.divIcon({
       html: `<div style="display:inline-block;width:48px;height:48px">
           <img src="${icon}" style="position:absolute;top:8px;left:16px;width:16px;height:32px;" alt="${player.name}">
-          ${indicator 
-          ? `<img src="${indicator}" style="position:absolute;top:0;left:0;width:48px;height:48px;transform:rotate(${player.yaw*-1}rad)" alt="${player.name}">`
-          : ''}
+          ${indicator ? `<img src="${indicator}" style="position:absolute;top:0;left:0;width:48px;height:48px;transform:rotate(${player.yaw*-1}rad)" alt="${player.name}">` : ''}
         </div>`,
       className: '', // don't use leaflet default of a white block
       iconSize:     [48, 48],
@@ -120,7 +117,7 @@ export default L.LayerGroup.extend({
 
       // store the skin, so it gets used on next update
       playerSkins[skin] = canvas.toDataURL("image/png");
-    }
+    };
 
     // trigger source image load
     img.src = skin;
