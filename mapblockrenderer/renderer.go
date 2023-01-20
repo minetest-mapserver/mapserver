@@ -4,10 +4,11 @@ import (
 	"errors"
 	"image"
 	"image/color"
-	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/mapblockaccessor"
 	"time"
+
+	"github.com/minetest-go/colormapping"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"

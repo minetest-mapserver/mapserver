@@ -2,7 +2,6 @@ package tilerenderer
 
 import (
 	"io/ioutil"
-	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/db/sqlite"
 	"mapserver/layer"
@@ -13,6 +12,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/minetest-go/colormapping"
 
 	"github.com/sirupsen/logrus"
 )

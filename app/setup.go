@@ -2,7 +2,6 @@ package app
 
 import (
 	"mapserver/blockaccessor"
-	"mapserver/colormapping"
 	"mapserver/db/postgres"
 	"mapserver/db/sqlite"
 	"mapserver/eventbus"
@@ -17,6 +16,8 @@ import (
 	"mapserver/tilerenderer"
 	"mapserver/worldconfig"
 	"time"
+
+	"github.com/minetest-go/colormapping"
 
 	"io/ioutil"
 	"os"

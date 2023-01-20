@@ -2,7 +2,6 @@ package app
 
 import (
 	"mapserver/blockaccessor"
-	"mapserver/colormapping"
 	"mapserver/db"
 	"mapserver/eventbus"
 	"mapserver/mapblockaccessor"
@@ -12,6 +11,8 @@ import (
 	"mapserver/settings"
 	"mapserver/tiledb"
 	"mapserver/tilerenderer"
+
+	"github.com/minetest-go/colormapping"
 )
 
 type App struct {

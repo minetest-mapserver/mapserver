@@ -2,7 +2,6 @@ package mapblockrenderer
 
 import (
 	"io/ioutil"
-	"mapserver/colormapping"
 	"mapserver/coords"
 	"mapserver/db/sqlite"
 	"mapserver/mapblockaccessor"
@@ -10,6 +9,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/minetest-go/colormapping"
 
 	"github.com/sirupsen/logrus"
 )
