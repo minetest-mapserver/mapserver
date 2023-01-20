@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"mapserver/layer"
 	"os"
 	"runtime"
@@ -132,7 +131,7 @@ func ParseConfig(filename string) (*Config, error) {
 
 	info, err := os.Stat(filename)
 	if info != nil && err == nil {
-		data, err := ioutil.ReadFile(filename)
+		data, err := os.ReadFile(filename)
 		if err != nil {
 			return nil, err
 		}

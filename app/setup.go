@@ -19,7 +19,6 @@ import (
 
 	"github.com/minetest-go/colormapping"
 
-	"io/ioutil"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -104,7 +103,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	if info != nil && err == nil {
 		logrus.WithFields(logrus.Fields{"filename": "colors.txt"}).Info("Loading colors from filesystem")
 
-		data, err := ioutil.ReadFile("colors.txt")
+		data, err := os.ReadFile("colors.txt")
 		if err != nil {
 			panic(err)
 		}

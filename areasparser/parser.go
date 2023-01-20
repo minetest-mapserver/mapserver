@@ -3,7 +3,7 @@ package areasparser
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"os"
 )
 
 type GenericPos struct {
@@ -41,7 +41,7 @@ func (pos *GenericPos) UnmarshalJSON(data []byte) error {
 }
 
 func ParseFile(filename string) ([]*Area, error) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}

@@ -46,7 +46,7 @@ func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 	_, file := this.getDirAndFile(pos)
 	info, _ := os.Stat(file)
 	if info != nil {
-		content, err := ioutil.ReadFile(file)
+		content, err := os.ReadFile(file)
 		if err != nil {
 			panic(err)
 		}

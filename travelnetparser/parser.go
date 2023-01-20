@@ -3,8 +3,8 @@ package travelnetparser
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"mapserver/luaparser"
+	"os"
 )
 
 type GenericPos struct {
@@ -19,7 +19,7 @@ type Travelnet struct {
 }
 
 func ParseFile(filename string) (map[string]map[string]map[string]*Travelnet, error) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
