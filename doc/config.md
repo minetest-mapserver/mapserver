@@ -14,8 +14,6 @@ scifi_nodes:slope_vent 120 120 120
 scifi_nodes:white2 240 240 240
 ```
 
-Default colors, see: [colors directory](../public/colors)
-
 ## Configuration json
 
 All config options reside in the `mapserver.json` file with the default values

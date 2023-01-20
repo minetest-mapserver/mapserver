@@ -2,7 +2,6 @@ package public
 
 import "embed"
 
-//go:embed colors/*
 //go:embed css/*
 //go:embed pics/*
 //go:embed sql/*

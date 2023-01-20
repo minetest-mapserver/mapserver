@@ -94,25 +94,9 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 
 	//color mapping
 	a.Colormapping = colormapping.NewColorMapping()
-
-	colorfiles := []string{
-		//https://daconcepts.com/vanessa/hobbies/minetest/colors.txt
-		"colors/vanessa.txt",
-		"colors/advtrains.txt",
-		"colors/scifi_nodes.txt",
-		"colors/mc2.txt",
-		"colors/mtg.txt",
-		"colors/miles.txt",
-		"colors/custom.txt",
-		"colors/nodecore.txt",
-		"colors/naturalbiomes.txt",
-	}
-
-	for _, colorfile := range colorfiles {
-		_, err := a.Colormapping.LoadVFSColors(colorfile)
-		if err != nil {
-			panic(err.Error() + " file:" + colorfile)
-		}
+	err = a.Colormapping.LoadDefaults()
+	if err != nil {
+		panic(err)
 	}
 
 	//load provided colors, if available
