@@ -45,13 +45,12 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	layers := []*layer.Layer{
-		&layer.Layer{
+		{
 			Id:   0,
 			Name: "Ground",
 			From: -1,
 			To:   10,
-		},
-		&layer.Layer{
+		}, {
 			Id:   1,
 			Name: "Sky",
 			From: 11,
