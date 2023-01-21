@@ -184,6 +184,8 @@ github.com/matttproud/golang_protobuf_extensions v1.0.1 h1:4hp9jkHxhMHkqkrB3Ix0j
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
 github.com/minetest-go/colormapping v1.0.0 h1:kT2v8NG7kPf63p8cl/GPM6YSrxaT5O3zOW8HIs4xHjo=
 github.com/minetest-go/colormapping v1.0.0/go.mod h1:arMBjO6+z8+yhLvrsX4tCnYq5fzGcPFUOj/4Xb78Ktc=
+github.com/minetest-go/colormapping v1.0.1 h1:RF6sFd59QuTkm0G3iMXlj3Leg+ZHRps+fY/j+FXsD5Q=
+github.com/minetest-go/colormapping v1.0.1/go.mod h1:arMBjO6+z8+yhLvrsX4tCnYq5fzGcPFUOj/4Xb78Ktc=
 github.com/minetest-go/mapparser v0.1.1 h1:Ir7ChKX0lwnyr6Zg/Jd3ipQT1vPCAQYN6GWmQXK020Y=
 github.com/minetest-go/mapparser v0.1.1/go.mod h1:Rjv12WQ3Tn9BsOr0ohFguGWFol3vIfgQcTUy5wCACgo=
 github.com/minetest-go/mapparser v0.1.8 h1:tmkno1Qi8nIdjQXJLlnq38uVGygZWA8i3ilre/bB9W8=
