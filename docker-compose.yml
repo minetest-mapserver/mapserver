@@ -10,7 +10,7 @@ services:
   command: ["npm", "i"]
  
  mapserver:
-  image: golang:1.19.5
+  image: golang:1.20.2
   depends_on:
    - minetest
    - mapserver_frontend
