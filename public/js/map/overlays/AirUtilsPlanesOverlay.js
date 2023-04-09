@@ -32,6 +32,10 @@ let icons = {
     url: "pics/airutils_planes/blimp.png",
     size: 96
   },
+  "fishing_boat:boat": {
+    url: "pics/airutils_planes/fishingboat.png",
+    size: 72
+  },
 };
 
 // listening for realtime updates
