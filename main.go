@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"mapserver/app"
 	"mapserver/mapobject"
 	"mapserver/params"
@@ -13,11 +14,19 @@ import (
 )
 
 func main() {
-	//Parse command line
+	//get Env or Default value
+	env := func(key string, defaultVal string) string {
+		val, ok := os.LookupEnv(key)
+		if !ok {
+			return defaultVal
+		}
+		return val
+	}
 
+	//Parse command line
 	p := params.Parse()
 
-	if p.Debug {
+	if p.Debug || env("MT_LOGLEVEL", "INFO") == "DEBUG" {
 		logrus.SetLevel(logrus.DebugLevel)
 	} else {
 		logrus.SetLevel(logrus.InfoLevel)
@@ -39,15 +48,17 @@ func main() {
 	}
 
 	//parse Config
-	cfg, err := app.ParseConfig(app.ConfigFile)
+	cfg, err := app.ParseConfig(env("MT_CONFIG_PATH", app.ConfigFile))
 	if err != nil {
 		panic(err)
 	}
 
 	//write back config with all values
-	err = cfg.Save()
-	if err != nil {
-		panic(err)
+	if env("MT_READONLY", "false") != "true" {
+		err = cfg.Save()
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	//exit after creating the config
