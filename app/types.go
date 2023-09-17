@@ -24,6 +24,8 @@ type Config struct {
 	MapBlockAccessorCfg       *MapBlockAccessorConfig `json:"mapblockaccessor"`
 	DefaultOverlays           []string                `json:"defaultoverlays"`
 	Skins                     *SkinsConfig            `json:"skins"`
+	WorldPath                 string                  `json:"worldpath"`
+	DataPath                  string                  `json:"datapath"`
 }
 
 type MapBlockAccessorConfig struct {

@@ -127,6 +127,8 @@ func ParseConfig(filename string) (*Config, error) {
 		MapBlockAccessorCfg:       &mapblockaccessor,
 		DefaultOverlays:           defaultoverlays,
 		Skins:                     &skins,
+		WorldPath:                 "./",
+		DataPath:                  "./",
 	}
 
 	info, err := os.Stat(filename)
