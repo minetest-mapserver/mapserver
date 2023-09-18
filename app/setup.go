@@ -20,6 +20,7 @@ import (
 	"github.com/minetest-go/colormapping"
 
 	"os"
+	"path/filepath"
 
 	"github.com/sirupsen/logrus"
 
@@ -33,14 +34,14 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	a.WebEventbus = eventbus.New()
 
 	//Parse world config
-	a.Worldconfig = worldconfig.Parse("world.mt")
+	a.Worldconfig = worldconfig.Parse(filepath.Join(a.Config.WorldPath, "world.mt"))
 	logrus.WithFields(logrus.Fields{"version": Version}).Info("Starting mapserver")
 
 	var err error
 
 	switch a.Worldconfig[worldconfig.CONFIG_BACKEND] {
 	case worldconfig.BACKEND_SQLITE3:
-		map_path := "map.sqlite"
+		map_path := filepath.Join(a.Config.WorldPath, "map.sqlite")
 
 		// check if the database exists, otherwise abort (nothing to render/display)
 		_, err := os.Stat(map_path)
@@ -99,11 +100,11 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	}
 
 	//load provided colors, if available
-	info, err := os.Stat("colors.txt")
+	info, err := os.Stat(filepath.Join(a.Config.DataPath, "colors.txt"))
 	if info != nil && err == nil {
 		logrus.WithFields(logrus.Fields{"filename": "colors.txt"}).Info("Loading colors from filesystem")
 
-		data, err := os.ReadFile("colors.txt")
+		data, err := os.ReadFile(filepath.Join(a.Config.DataPath, "colors.txt"))
 		if err != nil {
 			panic(err)
 		}
@@ -124,7 +125,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	if a.Worldconfig[worldconfig.CONFIG_PSQL_MAPSERVER] != "" {
 		a.Objectdb, err = postgresobjdb.New(a.Worldconfig[worldconfig.CONFIG_PSQL_MAPSERVER])
 	} else {
-		a.Objectdb, err = sqliteobjdb.New("mapserver.sqlite")
+		a.Objectdb, err = sqliteobjdb.New(filepath.Join(a.Config.DataPath, "mapserver.sqlite"))
 	}
 
 	if err != nil {
@@ -139,7 +140,7 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	}
 
 	//create tiledb
-	a.TileDB, err = tiledb.New("./mapserver.tiles")
+	a.TileDB, err = tiledb.New(filepath.Join(a.Config.DataPath, "mapserver.tiles"))
 
 	if err != nil {
 		panic(err)
