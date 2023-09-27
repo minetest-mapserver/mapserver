@@ -26,6 +26,7 @@ type Config struct {
 	Skins                     *SkinsConfig            `json:"skins"`
 	WorldPath                 string                  `json:"worldpath"`
 	DataPath                  string                  `json:"datapath"`
+	ColorsTxtPath             string                  `json:colorstxtpath`
 }
 
 type MapBlockAccessorConfig struct {

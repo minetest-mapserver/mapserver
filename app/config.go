@@ -129,6 +129,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Skins:                     &skins,
 		WorldPath:                 "./",
 		DataPath:                  "./",
+		ColorsTxtPath:             "./",
 	}
 
 	info, err := os.Stat(filename)
