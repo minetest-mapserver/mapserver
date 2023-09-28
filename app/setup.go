@@ -100,11 +100,11 @@ func Setup(p params.ParamsType, cfg *Config) *App {
 	}
 
 	//load provided colors, if available
-	info, err := os.Stat(filepath.Join(a.Config.DataPath, "colors.txt"))
+	info, err := os.Stat(filepath.Join(a.Config.ColorsTxtPath, "colors.txt"))
 	if info != nil && err == nil {
 		logrus.WithFields(logrus.Fields{"filename": "colors.txt"}).Info("Loading colors from filesystem")
 
-		data, err := os.ReadFile(filepath.Join(a.Config.DataPath, "colors.txt"))
+		data, err := os.ReadFile(filepath.Join(a.Config.ColorsTxtPath, "colors.txt"))
 		if err != nil {
 			panic(err)
 		}
