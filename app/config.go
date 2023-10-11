@@ -91,9 +91,9 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	mapblockaccessor := MapBlockAccessorConfig{
-		Expiretime: "15s",
-		Purgetime:  "30s",
-		MaxItems:   500,
+		Expiretime: "10s",
+		Purgetime:  "15s",
+		MaxItems:   50,
 	}
 
 	defaultoverlays := []string{
@@ -119,9 +119,9 @@ func ParseConfig(filename string) (*Config, error) {
 		Webdev:                    false,
 		WebApi:                    &webapi,
 		Layers:                    layers,
-		RenderingFetchLimit:       10000,
+		RenderingFetchLimit:       500,
 		RenderingJobs:             runtime.NumCPU(),
-		RenderingQueue:            100,
+		RenderingQueue:            10,
 		IncrementalRenderingTimer: "5s",
 		MapObjects:                &mapobjs,
 		MapBlockAccessorCfg:       &mapblockaccessor,
