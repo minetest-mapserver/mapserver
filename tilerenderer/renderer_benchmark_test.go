@@ -54,7 +54,7 @@ func BenchmarkTileRender(b *testing.B) {
 	tdb, _ := tiledb.New(tiletmpdir)
 
 	layers := []*layer.Layer{
-		&layer.Layer{
+		{
 			Id:   0,
 			Name: "Base",
 			From: -16,
