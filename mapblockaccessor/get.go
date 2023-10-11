@@ -15,55 +15,60 @@ import (
 var lock = &sync.RWMutex{}
 
 func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapparser.MapBlock, error) {
+	cache_enabled := a.maxcount > 0
 	key := getKey(pos)
 
-	//maintenance
-	cacheBlocks.Set(float64(a.blockcache.ItemCount()))
-	if a.blockcache.ItemCount() > a.maxcount {
-		//flush cache
-		fields := logrus.Fields{
-			"cached items": a.blockcache.ItemCount(),
-			"maxcount":     a.maxcount,
+	if cache_enabled {
+
+		//maintenance
+		cacheBlocks.Set(float64(a.blockcache.ItemCount()))
+		if a.blockcache.ItemCount() > a.maxcount {
+			//flush cache
+			fields := logrus.Fields{
+				"cached items": a.blockcache.ItemCount(),
+				"maxcount":     a.maxcount,
+			}
+			logrus.WithFields(fields).Debug("Flushing cache")
+
+			a.blockcache.Flush()
 		}
-		logrus.WithFields(fields).Debug("Flushing cache")
 
-		a.blockcache.Flush()
-	}
+		//read section
+		lock.RLock()
 
-	//read section
-	lock.RLock()
+		cachedblock, found := a.blockcache.Get(key)
+		if found {
+			defer lock.RUnlock()
 
-	cachedblock, found := a.blockcache.Get(key)
-	if found {
-		defer lock.RUnlock()
-
-		getCacheHitCount.Inc()
-		if cachedblock == nil {
-			return nil, nil
-		} else {
-			return cachedblock.(*mapparser.MapBlock), nil
+			getCacheHitCount.Inc()
+			if cachedblock == nil {
+				return nil, nil
+			} else {
+				return cachedblock.(*mapparser.MapBlock), nil
+			}
 		}
-	}
 
-	//end read
-	lock.RUnlock()
+		//end read
+		lock.RUnlock()
 
-	timer := prometheus.NewTimer(dbGetDuration)
-	defer timer.ObserveDuration()
+		timer := prometheus.NewTimer(dbGetDuration)
+		defer timer.ObserveDuration()
 
-	//write section
-	lock.Lock()
-	defer lock.Unlock()
+		//write section
+		lock.Lock()
+		defer lock.Unlock()
 
-	//try read
-	cachedblock, found = a.blockcache.Get(key)
-	if found {
-		getCacheHitCount.Inc()
-		if cachedblock == nil {
-			return nil, nil
-		} else {
-			return cachedblock.(*mapparser.MapBlock), nil
+		//try read
+		cachedblock, found = a.blockcache.Get(key)
+		if found {
+			getCacheHitCount.Inc()
+			if cachedblock == nil {
+				return nil, nil
+			} else {
+				return cachedblock.(*mapparser.MapBlock), nil
+			}
 		}
+
 	}
 
 	block, err := a.accessor.GetBlock(pos)
@@ -73,12 +78,16 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapparser.M
 
 	if block == nil {
 		//no mapblock here
-		cacheBlockCount.Inc()
-		a.blockcache.Set(key, nil, cache.DefaultExpiration)
+		if cache_enabled {
+			cacheBlockCount.Inc()
+			a.blockcache.Set(key, nil, cache.DefaultExpiration)
+		}
 		return nil, nil
 	}
 
-	getCacheMissCount.Inc()
+	if cache_enabled {
+		getCacheMissCount.Inc()
+	}
 
 	mapblock, err := mapparser.Parse(block.Data)
 	if err != nil {
@@ -87,8 +96,10 @@ func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapparser.M
 
 	a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, pos))
 
-	cacheBlockCount.Inc()
-	a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
+	if cache_enabled {
+		cacheBlockCount.Inc()
+		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
+	}
 
 	return mapblock, nil
 }

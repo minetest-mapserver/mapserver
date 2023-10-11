@@ -65,7 +65,7 @@
 	"mapblockaccessor": {
 		"expiretime": "15s",
 		"purgetime": "30s",
-		"maxitems": 500
+		"maxitems": 0
 	},
 	"defaultoverlays": [
 		"mapserver_poi",
@@ -75,5 +75,8 @@
 	"skins": {
 		"enableskinsdb": false,
 		"skinspath": ""
-	}
+	},
+	"worldpath": "./",
+	"datapath": "./",
+	"ColorsTxtPath": "./"
 }
