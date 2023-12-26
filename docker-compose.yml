@@ -17,6 +17,8 @@ services:
   volumes:
    - "dev_home:/root"
    - "world_data:/data/world"
+   - "go_dir:/go"
+   - "go_cache:/.cache"
    - ".:/data"
    - "./public:/data/world/public"
    - "./dev/mapserver.json:/data/world/mapserver.json"
@@ -25,6 +27,19 @@ services:
   working_dir: /data/world
   command: ["go", "run", ".."]
 
+ minetest:
+  image: registry.gitlab.com/minetest/minetest/server:5.7.0
+  user: root
+  volumes:
+   - "world_data:/root/.minetest/worlds/world"
+   - "./dev/worldmods:/root/.minetest/worlds/world/worldmods"
+   - "./dev/minetest.conf:/etc/minetest/minetest.conf"
+   - "./dev/mapserver.json:/root/.minetest/worlds/world/mapserver.json"
+  ports:
+   - "30000:30000/udp"
+
 volumes:
   world_data: {}
   dev_home: {}
+  go_dir: {}
+  go_cache: {}
