@@ -8,8 +8,12 @@ import (
 
 func New(filename string) (*Sqlite3Accessor, error) {
 	db, err := sql.Open("sqlite", filename+"?_timeout=500")
-	db.SetMaxOpenConns(1)
+	if err != nil {
+		return nil, err
+	}
 
+	db.SetMaxOpenConns(1)
+	_, err = db.Exec("PRAGMA foreign_keys = ON")
 	if err != nil {
 		return nil, err
 	}
