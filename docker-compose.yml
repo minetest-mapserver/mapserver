@@ -2,15 +2,15 @@ version: "3.6"
 
 services:
  mapserver_frontend:
-  image: node:alpine3.13
+  image: node:21.5.0-alpine
   volumes:
    - "dev_home:/root"
    - ".:/data"
   working_dir: /data/public
-  command: ["npm", "i"]
+  command: ["npm", "ci"]
  
  mapserver:
-  image: golang:1.20.3
+  image: golang:1.21.5
   depends_on:
    - minetest
    - mapserver_frontend
@@ -24,17 +24,6 @@ services:
    - "8080:8080"
   working_dir: /data/world
   command: ["go", "run", ".."]
-
- minetest:
-  image: registry.gitlab.com/minetest/minetest/server:5.6.1
-  user: root
-  volumes:
-   - "world_data:/root/.minetest/worlds/world"
-   - "./dev/worldmods:/root/.minetest/worlds/world/worldmods"
-   - "./dev/minetest.conf:/etc/minetest/minetest.conf"
-   - "./dev/mapserver.json:/root/.minetest/worlds/world/mapserver.json"
-  ports:
-   - "30000:30000/udp"
 
 volumes:
   world_data: {}
