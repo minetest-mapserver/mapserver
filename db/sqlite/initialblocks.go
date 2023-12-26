@@ -5,8 +5,6 @@ import (
 	"mapserver/db"
 	"mapserver/layer"
 	"mapserver/settings"
-
-	_ "modernc.org/sqlite"
 )
 
 const (

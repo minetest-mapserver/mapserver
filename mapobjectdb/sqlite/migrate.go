@@ -45,15 +45,3 @@ func (a *Sqlite3Accessor) Migrate() error {
 
 	return nil
 }
-
-func (a *Sqlite3Accessor) EnableSpeedSafetyTradeoff(enableSpeed bool) error {
-	if enableSpeed {
-		_, err := a.db.Exec("PRAGMA journal_mode = MEMORY; PRAGMA synchronous = OFF;")
-		return err
-
-	} else {
-		_, err := a.db.Exec("PRAGMA journal_mode = TRUNCATE; PRAGMA synchronous = ON;")
-		return err
-
-	}
-}
