@@ -4,7 +4,6 @@ import "embed"
 
 //go:embed css/*
 //go:embed pics/*
-//go:embed sql/*
 //go:embed webfonts/*
 //go:embed *.html
 //go:embed *.txt

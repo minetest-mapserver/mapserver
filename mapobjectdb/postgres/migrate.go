@@ -2,33 +2,44 @@ package postgres
 
 import (
 	"database/sql"
-	"mapserver/public"
+	"embed"
 
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	"github.com/golang-migrate/migrate/v4/source/iofs"
 	"github.com/sirupsen/logrus"
-
-	"time"
 )
+
+//go:embed migrations/*.sql
+var migrations embed.FS
 
 type PostgresAccessor struct {
 	db *sql.DB
 }
 
-func (db *PostgresAccessor) Migrate() error {
-	log.Info("Migrating database")
-	start := time.Now()
-	sql, err := public.Files.ReadFile("sql/postgres_mapobjectdb_migrate.sql")
+func (a *PostgresAccessor) Migrate() error {
+	driver, err := postgres.WithInstance(a.db, &postgres.Config{})
 	if err != nil {
 		return err
 	}
 
-	_, err = db.db.Exec(string(sql))
+	d, err := iofs.New(migrations, "migrations")
 	if err != nil {
 		return err
 	}
 
-	t := time.Now()
-	elapsed := t.Sub(start)
-	log.WithFields(logrus.Fields{"elapsed": elapsed}).Info("Migration completed")
+	m, err := migrate.NewWithInstance("iofs", d, "postgres", driver)
+	if err != nil {
+		return err
+	}
+
+	err = m.Up()
+	if err != nil && err != migrate.ErrNoChange {
+		return err
+	}
+
+	v, _, _ := m.Version()
+	logrus.WithFields(logrus.Fields{"version": v}).Info("DB Migrated")
 
 	return nil
 }

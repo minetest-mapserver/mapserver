@@ -23,7 +23,7 @@ order by b.pos asc, b.mtime asc
 limit ?
 `
 
-func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
+func (a *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
 	result := &db.InitialBlocksResult{}
 
 	blocks := make([]*db.Block, 0)
@@ -33,7 +33,7 @@ func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers [
 	totallegacycount := s.GetInt64(SETTING_TOTAL_LEGACY_COUNT, -1)
 	if totallegacycount == -1 {
 		//Query from db
-		totallegacycount, err := this.CountBlocks()
+		totallegacycount, err := a.CountBlocks()
 
 		if err != nil {
 			panic(err)
@@ -42,7 +42,7 @@ func (this *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers [
 		s.SetInt64(SETTING_TOTAL_LEGACY_COUNT, int64(totallegacycount))
 	}
 
-	rows, err := this.db.Query(getLastBlockQuery, lastpos, limit)
+	rows, err := a.db.Query(getLastBlockQuery, lastpos, limit)
 	if err != nil {
 		return nil, err
 	}

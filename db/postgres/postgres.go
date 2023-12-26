@@ -2,9 +2,9 @@ package postgres
 
 import (
 	"database/sql"
+	"embed"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/public"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -14,6 +14,9 @@ import (
 type PostgresAccessor struct {
 	db *sql.DB
 }
+
+//go:embed migrations/*.sql
+var migrations embed.FS
 
 func (db *PostgresAccessor) Migrate() error {
 	hasMtime := true
@@ -26,7 +29,7 @@ func (db *PostgresAccessor) Migrate() error {
 		log.Info("Migrating database, this might take a while depending on the mapblock-count")
 		start := time.Now()
 
-		sql, err := public.Files.ReadFile("sql/postgres_mapdb_migrate.sql")
+		sql, err := migrations.ReadFile("migrations/postgres_mapdb_migrate.sql")
 		if err != nil {
 			return err
 		}
@@ -48,10 +51,10 @@ func convertRows(posx, posy, posz int, data []byte, mtime int64) *db.Block {
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
+func (a *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
 
-	rows, err := this.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
+	rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75,8 +78,8 @@ func (this *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db
 	return blocks, nil
 }
 
-func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error) {
-	rows, err := this.db.Query(countBlocksQuery, frommtime, tomtime)
+func (a *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error) {
+	rows, err := a.db.Query(countBlocksQuery, frommtime, tomtime)
 	if err != nil {
 		panic(err)
 	}
@@ -97,8 +100,8 @@ func (this *PostgresAccessor) CountBlocks(frommtime, tomtime int64) (int, error)
 	return 0, nil
 }
 
-func (db *PostgresAccessor) GetTimestamp() (int64, error) {
-	rows, err := db.db.Query(getTimestampQuery)
+func (a *PostgresAccessor) GetTimestamp() (int64, error) {
+	rows, err := a.db.Query(getTimestampQuery)
 	if err != nil {
 		return 0, err
 	}
@@ -119,8 +122,8 @@ func (db *PostgresAccessor) GetTimestamp() (int64, error) {
 	return 0, nil
 }
 
-func (this *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
-	rows, err := this.db.Query(getBlockQuery, pos.X, pos.Y, pos.Z)
+func (a *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
+	rows, err := a.db.Query(getBlockQuery, pos.X, pos.Y, pos.Z)
 	if err != nil {
 		return nil, err
 	}
