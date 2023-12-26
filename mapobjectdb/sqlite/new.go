@@ -11,6 +11,7 @@ func New(filename string) (*Sqlite3Accessor, error) {
 	if err != nil {
 		return nil, err
 	}
+	db.SetMaxOpenConns(1)
 
 	err = EnableWAL(db)
 	if err != nil {
