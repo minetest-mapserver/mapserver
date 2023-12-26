@@ -1,14 +1,14 @@
 
 create table if not exists objects(
 	id serial primary key,
-  x int,
-  y int,
+	x int,
+	y int,
 	z int,
 	posx int,
 	posy int,
 	posz int,
 	type varchar,
-  mtime bigint
+	mtime bigint
 );
 
 create index if not exists objects_pos on objects(posx,posy,posz);

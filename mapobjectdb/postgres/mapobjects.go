@@ -6,17 +6,18 @@ import (
 	"mapserver/mapobjectdb"
 	"unicode/utf8"
 
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 )
 
-func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
+func (a *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectdb.MapObject, error) {
 
 	var rows *sql.Rows
 	var err error
 
 	if q.AttributeLike == nil {
 		//plain pos search
-		rows, err = db.db.Query(getMapDataPosQuery,
+		rows, err = a.db.Query(getMapDataPosQuery,
 			q.Type,
 			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
@@ -25,7 +26,7 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 
 	} else {
 		//attribute like search
-		rows, err = db.db.Query(getMapDataWithAttributeLikePosQuery,
+		rows, err = a.db.Query(getMapDataWithAttributeLikePosQuery,
 			q.Type,
 			q.Pos1.X, q.Pos1.Y, q.Pos1.Z,
 			q.Pos2.X, q.Pos2.Y, q.Pos2.Z,
@@ -42,10 +43,10 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 
 	result := make([]*mapobjectdb.MapObject, 0)
 	var currentObj *mapobjectdb.MapObject
-	var currentId *int64
+	var currentUID string
 
 	for rows.Next() {
-		var id int64
+		var id string
 		var Type string
 		var mtime int64
 		var x, y, z int
@@ -61,7 +62,7 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 			return nil, err
 		}
 
-		if currentId == nil || *currentId != id {
+		if currentUID == "" || currentUID != id {
 			pos := coords.NewMapBlockCoords(posx, posy, posz)
 			mo := &mapobjectdb.MapObject{
 				MBPos:      pos,
@@ -74,7 +75,7 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 			}
 
 			currentObj = mo
-			currentId = &id
+			currentUID = id
 
 			result = append(result, currentObj)
 
@@ -86,12 +87,12 @@ func (db *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobject
 	return result, nil
 }
 
-func (db *PostgresAccessor) RemoveMapData(pos *coords.MapBlockCoords) error {
-	_, err := db.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
+func (a *PostgresAccessor) RemoveMapData(pos *coords.MapBlockCoords) error {
+	_, err := a.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
 	return err
 }
 
-func (db *PostgresAccessor) AddMapData(data *mapobjectdb.MapObject) error {
+func (a *PostgresAccessor) AddMapData(data *mapobjectdb.MapObject) error {
 
 	for k, v := range data.Attributes {
 		if !utf8.Valid([]byte(v)) {
@@ -106,22 +107,19 @@ func (db *PostgresAccessor) AddMapData(data *mapobjectdb.MapObject) error {
 		}
 	}
 
-	res := db.db.QueryRow(addMapDataQuery,
+	uid := uuid.NewString()
+	_, err := a.db.Exec(addMapDataQuery,
+		uid,
 		data.X, data.Y, data.Z,
 		data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
 		data.Type, data.Mtime)
-
-	lastInsertId := 0
-	err := res.Scan(&lastInsertId)
 
 	if err != nil {
 		return err
 	}
 
 	for k, v := range data.Attributes {
-		//TODO: batch insert
-		_, err := db.db.Exec(addMapDataAttributeQuery, lastInsertId, k, v)
-
+		_, err := a.db.Exec(addMapDataAttributeQuery, uid, k, v)
 		if err != nil {
 			return err
 		}
