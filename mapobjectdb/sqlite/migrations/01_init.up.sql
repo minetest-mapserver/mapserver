@@ -1,5 +1,3 @@
-PRAGMA journal_mode = MEMORY;
-
 create table if not exists objects(
 	id integer primary key autoincrement,
 	x int,

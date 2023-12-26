@@ -6,6 +6,7 @@ import (
 	"mapserver/mapobjectdb"
 	"unicode/utf8"
 
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 )
 
@@ -42,17 +43,17 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 
 	result := make([]*mapobjectdb.MapObject, 0)
 	var currentObj *mapobjectdb.MapObject
-	var currentId *int64
+	var currentUID string
 
 	for rows.Next() {
-		var id int64
+		var uid string
 		var Type string
 		var mtime int64
 		var x, y, z int
 		var posx, posy, posz int
 		var key, value string
 
-		err = rows.Scan(&id, &Type, &mtime,
+		err = rows.Scan(&uid, &Type, &mtime,
 			&x, &y, &z, &posx, &posy, &posz,
 			&key, &value,
 		)
@@ -61,7 +62,7 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 			return nil, err
 		}
 
-		if currentId == nil || *currentId != id {
+		if currentUID == "" || currentUID != uid {
 			pos := coords.NewMapBlockCoords(posx, posy, posz)
 			mo := &mapobjectdb.MapObject{
 				MBPos:      pos,
@@ -74,10 +75,9 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 			}
 
 			currentObj = mo
-			currentId = &id
+			currentUID = uid
 
 			result = append(result, currentObj)
-
 		}
 
 		currentObj.Attributes[key] = value
@@ -106,7 +106,9 @@ func (db *Sqlite3Accessor) AddMapData(data *mapobjectdb.MapObject) error {
 		}
 	}
 
-	res, err := db.db.Exec(addMapDataQuery,
+	uid := uuid.NewString()
+	_, err := db.db.Exec(addMapDataQuery,
+		uid,
 		data.X, data.Y, data.Z,
 		data.MBPos.X, data.MBPos.Y, data.MBPos.Z,
 		data.Type, data.Mtime)
@@ -115,16 +117,8 @@ func (db *Sqlite3Accessor) AddMapData(data *mapobjectdb.MapObject) error {
 		return err
 	}
 
-	id, err := res.LastInsertId()
-
-	if err != nil {
-		return err
-	}
-
 	for k, v := range data.Attributes {
-		//TODO: batch insert
-		_, err := db.db.Exec(addMapDataAttributeQuery, id, k, v)
-
+		_, err := db.db.Exec(addMapDataAttributeQuery, uid, k, v)
 		if err != nil {
 			return err
 		}
