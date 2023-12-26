@@ -86,8 +86,13 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 	return result, nil
 }
 
-func (db *Sqlite3Accessor) RemoveMapData(pos *coords.MapBlockCoords) error {
-	_, err := db.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
+func (a *Sqlite3Accessor) RemoveMapData(pos *coords.MapBlockCoords) error {
+	_, err := a.db.Exec(removeMapDataAttributesQuery, pos.X, pos.Y, pos.Z)
+	if err != nil {
+		return err
+	}
+
+	_, err = a.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
 	return err
 }
 

@@ -31,6 +31,10 @@ order by o.uid
 limit ?
 `
 
+const removeMapDataAttributesQuery = `
+delete from object_attributes where object_uid in (select uid from objects where posx = ? and posy = ? and posz = ?)
+`
+
 const removeMapDataQuery = `
 delete from objects where posx = ? and posy = ? and posz = ?
 `

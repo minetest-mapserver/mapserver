@@ -15,8 +15,7 @@ import (
 var migrations embed.FS
 
 type Sqlite3Accessor struct {
-	db       *sql.DB
-	filename string
+	db *sql.DB
 }
 
 func (a *Sqlite3Accessor) Migrate() error {
