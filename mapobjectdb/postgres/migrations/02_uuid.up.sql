@@ -8,7 +8,11 @@ alter table objects add constraint objects_uid_unique UNIQUE (uid);
 alter table object_attributes add object_uid uuid;
 update object_attributes set object_uid = (select uid from objects o where o.id = objectid);
 alter table object_attributes alter column object_uid set not null;
-alter table object_attributes add constraint object_attributes_object_uid_fk FOREIGN KEY (object_uid) REFERENCES objects(uid);
+alter table object_attributes
+    add constraint object_attributes_object_uid_fk
+    FOREIGN KEY (object_uid)
+    REFERENCES objects(uid)
+    on delete cascade;
 create index object_attributes_object_uid on object_attributes(object_uid);
 
 -- drop old id's
