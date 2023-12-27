@@ -7,11 +7,10 @@ import (
 )
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite", filename+"?busy_timeout=5000")
+	db, err := sql.Open("sqlite", filename+"?_pragma=busy_timeout(30000)")
 	if err != nil {
 		return nil, err
 	}
-	db.SetMaxOpenConns(1)
 
 	err = EnableWAL(db)
 	if err != nil {

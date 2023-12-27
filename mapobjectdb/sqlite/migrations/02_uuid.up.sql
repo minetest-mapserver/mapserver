@@ -32,3 +32,6 @@ drop table objects;
 -- rename tables
 alter table objects_ng rename to objects;
 alter table object_attributes_ng rename to object_attributes;
+
+-- journal mode, just in case
+pragma journal_mode=wal;
