@@ -7,13 +7,16 @@ import (
 )
 
 func New(filename string) (*Sqlite3Accessor, error) {
-	db, err := sql.Open("sqlite", filename+"?_timeout=500")
-	db.SetMaxOpenConns(1)
-
+	db, err := sql.Open("sqlite", filename+"?_pragma=busy_timeout(30000)")
 	if err != nil {
 		return nil, err
 	}
 
-	sq := &Sqlite3Accessor{db: db, filename: filename}
+	err = EnableWAL(db)
+	if err != nil {
+		return nil, err
+	}
+
+	sq := &Sqlite3Accessor{db: db}
 	return sq, nil
 }

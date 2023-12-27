@@ -2,10 +2,10 @@ package sqlite
 
 import (
 	"database/sql"
+	"embed"
 	"errors"
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/public"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -21,6 +21,9 @@ type Sqlite3Accessor struct {
 	db       *sql.DB
 	filename string
 }
+
+//go:embed migrations/*.sql
+var migrations embed.FS
 
 func (db *Sqlite3Accessor) Migrate() error {
 
@@ -44,7 +47,7 @@ func (db *Sqlite3Accessor) Migrate() error {
 		}).Info("Migrating database, this might take a while depending on the mapblock-count")
 		start := time.Now()
 
-		sql, err := public.Files.ReadFile("sql/sqlite_mapdb_migrate.sql")
+		sql, err := migrations.ReadFile("migrations/sqlite_mapdb_migrate.sql")
 		if err != nil {
 			return err
 		}

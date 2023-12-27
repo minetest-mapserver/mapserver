@@ -16,8 +16,8 @@ const (
 	SETTING_LAST_Y_BLOCK = "last_y_block"
 )
 
-func (this *PostgresAccessor) countBlocks(x1, y1, z1, x2, y2, z2 int) (int, error) {
-	rows, err := this.db.Query(getBlockCountByInitialTileQuery,
+func (a *PostgresAccessor) countBlocks(x1, y1, z1, x2, y2, z2 int) (int, error) {
+	rows, err := a.db.Query(getBlockCountByInitialTileQuery,
 		x1, y1, z1, x2, y2, z2,
 	)
 
@@ -27,7 +27,7 @@ func (this *PostgresAccessor) countBlocks(x1, y1, z1, x2, y2, z2 int) (int, erro
 
 	defer rows.Close()
 
-	for rows.Next() {
+	if rows.Next() {
 		var count int
 
 		err = rows.Scan(&count)
@@ -53,7 +53,7 @@ func (this *PostgresAccessor) countBlocks(x1, y1, z1, x2, y2, z2 int) (int, erro
 //Zoom 9:
 //10 mapblocks height * 16 * 16 == 2560
 
-func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
+func (a *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
 
 	lastlayer := s.GetInt(SETTING_LAST_LAYER, 0)
 	lastxblock := s.GetInt(SETTING_LAST_X_BLOCK, -129)
@@ -111,7 +111,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 
 	if lastxblock <= -128 {
 		//first x entry, check z stride
-		stridecount := this.intQuery(`
+		stridecount := a.intQuery(`
 			select count(*) from blocks
 			where posz >= $1 and posz <= $2
 			and posy >= $3 and posy <= $4`,
@@ -139,7 +139,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 		}
 	}
 
-	count, err := this.countBlocks(minX, minY, minZ, maxX, maxY, maxZ)
+	count, err := a.countBlocks(minX, minY, minZ, maxX, maxY, maxZ)
 
 	if err != nil {
 		return nil, err
@@ -150,7 +150,7 @@ func (this *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers 
 
 	if count > 0 {
 
-		rows, err := this.db.Query(getBlocksByInitialTileQuery,
+		rows, err := a.db.Query(getBlocksByInitialTileQuery,
 			minX, minY, minZ, maxX, maxY, maxZ,
 		)
 

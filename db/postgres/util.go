@@ -1,7 +1,7 @@
 package postgres
 
-func (this *PostgresAccessor) intQuery(q string, params ...interface{}) int {
-	rows, err := this.db.Query(q, params...)
+func (a *PostgresAccessor) intQuery(q string, params ...interface{}) int {
+	rows, err := a.db.Query(q, params...)
 	if err != nil {
 		panic(err)
 	}

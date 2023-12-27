@@ -2,21 +2,23 @@ version: "3.6"
 
 services:
  mapserver_frontend:
-  image: node:alpine3.13
+  image: node:21.5.0-alpine
   volumes:
    - "dev_home:/root"
    - ".:/data"
   working_dir: /data/public
-  command: ["npm", "i"]
+  command: ["npm", "ci"]
  
  mapserver:
-  image: golang:1.20.3
+  image: golang:1.21.5
   depends_on:
    - minetest
    - mapserver_frontend
   volumes:
    - "dev_home:/root"
    - "world_data:/data/world"
+   - "go_dir:/go"
+   - "go_cache:/.cache"
    - ".:/data"
    - "./public:/data/world/public"
    - "./dev/mapserver.json:/data/world/mapserver.json"
@@ -26,7 +28,7 @@ services:
   command: ["go", "run", ".."]
 
  minetest:
-  image: registry.gitlab.com/minetest/minetest/server:5.6.1
+  image: registry.gitlab.com/minetest/minetest/server:5.7.0
   user: root
   volumes:
    - "world_data:/root/.minetest/worlds/world"
@@ -39,3 +41,5 @@ services:
 volumes:
   world_data: {}
   dev_home: {}
+  go_dir: {}
+  go_cache: {}

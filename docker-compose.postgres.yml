@@ -1,0 +1,21 @@
+version: "3.6"
+
+services:
+ postgres:
+  image: postgres:16.1
+  restart: always
+  environment:
+   POSTGRES_PASSWORD: enter
+  volumes:
+   - "pg_data:/var/lib/postgresql/data"
+
+ mapserver:
+  volumes:
+   - "./dev/world.postgres.mt:/data/world/world.mt"
+
+ minetest:
+  volumes:
+   - "./dev/world.postgres.mt:/root/.minetest/worlds/world/world.mt"
+
+volumes:
+ pg_data: {}
