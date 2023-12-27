@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-go@v4.1.0
+    - uses: actions/setup-go@v5.0.0
       with:
         go-version: '1.21'
 
