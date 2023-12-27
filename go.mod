@@ -10,7 +10,7 @@ require (
 	github.com/minetest-go/mapparser v0.1.8
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/prometheus/client_golang v1.17.0
-	github.com/sirupsen/logrus v1.9.2
+	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.8.4
 	github.com/yuin/gopher-lua v1.1.0
 	modernc.org/sqlite v1.28.0
