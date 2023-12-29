@@ -1,8 +1,6 @@
 package app
 
-import (
-	"mapserver/layer"
-)
+import "mapserver/types"
 
 type Config struct {
 	ConfigVersion             int                     `json:"configversion"`
@@ -15,7 +13,7 @@ type Config struct {
 	EnableMediaRepository     bool                    `json:"enablemediarepository"`
 	Webdev                    bool                    `json:"webdev"`
 	WebApi                    *WebApiConfig           `json:"webapi"`
-	Layers                    []*layer.Layer          `json:"layers"`
+	Layers                    []*types.Layer          `json:"layers"`
 	RenderingFetchLimit       int                     `json:"renderingfetchlimit"`
 	RenderingJobs             int                     `json:"renderingjobs"`
 	RenderingQueue            int                     `json:"renderingqueue"`
@@ -26,7 +24,7 @@ type Config struct {
 	Skins                     *SkinsConfig            `json:"skins"`
 	WorldPath                 string                  `json:"worldpath"`
 	DataPath                  string                  `json:"datapath"`
-	ColorsTxtPath             string                  `json:colorstxtpath`
+	ColorsTxtPath             string                  `json:"colorstxtpath"`
 }
 
 type MapBlockAccessorConfig struct {

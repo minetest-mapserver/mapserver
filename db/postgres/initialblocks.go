@@ -3,8 +3,8 @@ package postgres
 import (
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/layer"
 	"mapserver/settings"
+	"mapserver/types"
 	"math"
 
 	"github.com/sirupsen/logrus"
@@ -53,7 +53,7 @@ func (a *PostgresAccessor) countBlocks(x1, y1, z1, x2, y2, z2 int) (int, error) 
 //Zoom 9:
 //10 mapblocks height * 16 * 16 == 2560
 
-func (a *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
+func (a *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*types.Layer, limit int) (*db.InitialBlocksResult, error) {
 
 	lastlayer := s.GetInt(SETTING_LAST_LAYER, 0)
 	lastxblock := s.GetInt(SETTING_LAST_X_BLOCK, -129)
@@ -88,7 +88,7 @@ func (a *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*
 	}
 
 	tc := coords.NewTileCoords(lastxblock, lastyblock, 9, lastlayer)
-	currentlayer := layer.FindLayerById(layers, lastlayer)
+	currentlayer := types.FindLayerById(layers, lastlayer)
 
 	tcr := coords.GetMapBlockRangeFromTile(tc, 0)
 	tcr.Pos1.Y = currentlayer.From

@@ -2,9 +2,9 @@ package mapblockaccessor
 
 import (
 	"fmt"
-	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/eventbus"
+	"mapserver/types"
 
 	"time"
 
@@ -18,7 +18,7 @@ type MapBlockAccessor struct {
 	maxcount   int
 }
 
-func getKey(pos *coords.MapBlockCoords) string {
+func getKey(pos *types.MapBlockCoords) string {
 	return fmt.Sprintf("Coord %d/%d/%d", pos.X, pos.Y, pos.Z)
 }
 

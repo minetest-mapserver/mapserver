@@ -1,8 +1,8 @@
 package mapobject
 
 import (
-	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"math"
 	"strconv"
 
@@ -11,7 +11,7 @@ import (
 
 type SmartShopBlock struct{}
 
-func (this *SmartShopBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject {
+func (this *SmartShopBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject {
 	list := make([]*mapobjectdb.MapObject, 0)
 
 	md := block.Metadata.GetMetadata(x, y, z)

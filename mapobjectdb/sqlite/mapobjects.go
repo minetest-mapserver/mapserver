@@ -2,8 +2,8 @@ package sqlite
 
 import (
 	"database/sql"
-	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"unicode/utf8"
 
 	"github.com/google/uuid"
@@ -63,7 +63,7 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 		}
 
 		if currentUID == "" || currentUID != uid {
-			pos := coords.NewMapBlockCoords(posx, posy, posz)
+			pos := types.NewMapBlockCoords(posx, posy, posz)
 			mo := &mapobjectdb.MapObject{
 				MBPos:      pos,
 				Type:       Type,
@@ -86,7 +86,7 @@ func (db *Sqlite3Accessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 	return result, nil
 }
 
-func (a *Sqlite3Accessor) RemoveMapData(pos *coords.MapBlockCoords) error {
+func (a *Sqlite3Accessor) RemoveMapData(pos *types.MapBlockCoords) error {
 	_, err := a.db.Exec(removeMapDataAttributesQuery, pos.X, pos.Y, pos.Z)
 	if err != nil {
 		return err

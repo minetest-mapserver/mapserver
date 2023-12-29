@@ -4,8 +4,8 @@ import (
 	"errors"
 	"image"
 	"image/color"
-	"mapserver/coords"
 	"mapserver/mapblockaccessor"
+	"mapserver/types"
 	"time"
 
 	"github.com/minetest-go/colormapping"
@@ -73,7 +73,7 @@ func addColorComponent(c *color.RGBA, value int) *color.RGBA {
 	}
 }
 
-func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRGBA, error) {
+func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGBA, error) {
 	if pos1.X != pos2.X {
 		return nil, errors.New("x does not line up")
 	}
@@ -111,7 +111,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 	}
 
 	for mapBlockY := maxY; mapBlockY >= minY; mapBlockY-- {
-		currentPos := coords.NewMapBlockCoords(pos1.X, mapBlockY, pos1.Z)
+		currentPos := types.NewMapBlockCoords(pos1.X, mapBlockY, pos1.Z)
 		mb, err := r.accessor.GetMapBlock(currentPos)
 
 		if err != nil {
@@ -154,7 +154,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 
 						} else {
 							//neighbouring mapblock
-							neighbourPos := coords.NewMapBlockCoords(currentPos.X-1, currentPos.Y, currentPos.Z)
+							neighbourPos := types.NewMapBlockCoords(currentPos.X-1, currentPos.Y, currentPos.Z)
 							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
 
 							if neighbourMapblock != nil && err == nil {
@@ -174,7 +174,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *coords.MapBlockCoords) (*image.NRG
 
 						} else {
 							//neighbouring mapblock
-							neighbourPos := coords.NewMapBlockCoords(currentPos.X, currentPos.Y, currentPos.Z+1)
+							neighbourPos := types.NewMapBlockCoords(currentPos.X, currentPos.Y, currentPos.Z+1)
 							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
 
 							if neighbourMapblock != nil && err == nil {

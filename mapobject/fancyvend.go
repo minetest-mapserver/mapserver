@@ -1,9 +1,9 @@
 package mapobject
 
 import (
-	"mapserver/coords"
 	"mapserver/luaparser"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"math"
 	"strconv"
 
@@ -13,7 +13,7 @@ import (
 
 type FancyVend struct{}
 
-func (this *FancyVend) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (this *FancyVend) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)

@@ -5,9 +5,9 @@ import (
 	"io/ioutil"
 	"mapserver/coords"
 	"mapserver/db/sqlite"
-	"mapserver/layer"
 	"mapserver/mapblockaccessor"
 	"mapserver/testutils"
+	"mapserver/types"
 	"os"
 	"testing"
 	"time"
@@ -20,7 +20,7 @@ import (
 func TestSimpleRender(t *testing.T) {
 	logrus.SetLevel(logrus.InfoLevel)
 
-	layers := []*layer.Layer{
+	layers := []*types.Layer{
 		{
 			Id:   0,
 			Name: "Base",
@@ -81,8 +81,8 @@ func TestSimpleRender(t *testing.T) {
 
 	for x := from; x < to; x++ {
 		for z := from; z < to; z++ {
-			pos1 := coords.NewMapBlockCoords(x, 10, z)
-			pos2 := coords.NewMapBlockCoords(x, -1, z)
+			pos1 := types.NewMapBlockCoords(x, 10, z)
+			pos2 := types.NewMapBlockCoords(x, -1, z)
 
 			jobs <- JobData{Pos1: pos1, Pos2: pos2}
 		}

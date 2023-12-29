@@ -2,10 +2,10 @@ package mapblockrenderer
 
 import (
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/db/sqlite"
 	"mapserver/mapblockaccessor"
 	"mapserver/testutils"
+	"mapserver/types"
 	"os"
 	"testing"
 	"time"
@@ -59,8 +59,8 @@ func BenchmarkRenderEmptySingle(b *testing.B) {
 
 	for n := 0; n < b.N; n++ {
 
-		pos1 := coords.NewMapBlockCoords(10, 0, 10)
-		pos2 := coords.NewMapBlockCoords(10, 0, 10)
+		pos1 := types.NewMapBlockCoords(10, 0, 10)
+		pos2 := types.NewMapBlockCoords(10, 0, 10)
 
 		_, err := r.Render(pos1, pos2)
 
@@ -76,8 +76,8 @@ func BenchmarkRenderSingle(b *testing.B) {
 
 	for n := 0; n < b.N; n++ {
 
-		pos1 := coords.NewMapBlockCoords(0, 0, 0)
-		pos2 := coords.NewMapBlockCoords(0, 0, 0)
+		pos1 := types.NewMapBlockCoords(0, 0, 0)
+		pos2 := types.NewMapBlockCoords(0, 0, 0)
 
 		_, err := r.Render(pos1, pos2)
 
@@ -93,8 +93,8 @@ func BenchmarkRenderStride(b *testing.B) {
 
 	for n := 0; n < b.N; n++ {
 
-		pos1 := coords.NewMapBlockCoords(0, 10, 0)
-		pos2 := coords.NewMapBlockCoords(0, -1, 0)
+		pos1 := types.NewMapBlockCoords(0, 10, 0)
+		pos2 := types.NewMapBlockCoords(0, -1, 0)
 
 		_, err := r.Render(pos1, pos2)
 
@@ -110,8 +110,8 @@ func BenchmarkRenderBigStride(b *testing.B) {
 
 	for n := 0; n < b.N; n++ {
 
-		pos1 := coords.NewMapBlockCoords(0, 1000, 0)
-		pos2 := coords.NewMapBlockCoords(0, -1000, 0)
+		pos1 := types.NewMapBlockCoords(0, 1000, 0)
+		pos2 := types.NewMapBlockCoords(0, -1000, 0)
 
 		_, err := r.Render(pos1, pos2)
 

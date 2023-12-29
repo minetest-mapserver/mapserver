@@ -3,12 +3,13 @@ package web
 import (
 	"encoding/json"
 	"mapserver/app"
-	"mapserver/areasparser"
 	"net/http"
 
 	"os"
 	"sync"
 	"time"
+
+	"github.com/minetest-go/areasparser"
 )
 
 type AreasHandler struct {

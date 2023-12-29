@@ -6,6 +6,7 @@ import (
 	"errors"
 	"mapserver/coords"
 	"mapserver/db"
+	"mapserver/types"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -140,7 +141,7 @@ func (db *Sqlite3Accessor) GetTimestamp() (int64, error) {
 	return 0, nil
 }
 
-func (db *Sqlite3Accessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
+func (db *Sqlite3Accessor) GetBlock(pos *types.MapBlockCoords) (*db.Block, error) {
 	ppos := coords.CoordToPlain(pos)
 
 	rows, err := db.db.Query(getBlockQuery, ppos)

@@ -1,9 +1,7 @@
 package mapblockaccessor
 
 import (
-	"mapserver/coords"
 	"mapserver/eventbus"
-	"mapserver/layer"
 	"mapserver/types"
 
 	"github.com/minetest-go/mapparser"
@@ -14,13 +12,13 @@ import (
 
 type FindMapBlocksByMtimeResult struct {
 	HasMore         bool
-	LastPos         *coords.MapBlockCoords
+	LastPos         *types.MapBlockCoords
 	LastMtime       int64
 	List            []*types.ParsedMapblock
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []*layer.Layer) (*FindMapBlocksByMtimeResult, error) {
+func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []*types.Layer) (*FindMapBlocksByMtimeResult, error) {
 
 	fields := logrus.Fields{
 		"lastmtime": lastmtime,
@@ -41,7 +39,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 	result := FindMapBlocksByMtimeResult{}
 
 	mblist := make([]*types.ParsedMapblock, 0)
-	var newlastpos *coords.MapBlockCoords
+	var newlastpos *types.MapBlockCoords
 	result.HasMore = len(blocks) == limit
 	result.UnfilteredCount = len(blocks)
 
@@ -51,7 +49,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 			result.LastMtime = block.Mtime
 		}
 
-		currentLayer := layer.FindLayerByY(layerfilter, block.Pos.Y)
+		currentLayer := types.FindLayerByY(layerfilter, block.Pos.Y)
 
 		if currentLayer == nil {
 			continue

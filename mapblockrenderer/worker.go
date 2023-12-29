@@ -3,12 +3,12 @@ package mapblockrenderer
 import (
 	"bytes"
 	"image/png"
-	"mapserver/coords"
+	"mapserver/types"
 	"time"
 )
 
 type JobData struct {
-	Pos1, Pos2 *coords.MapBlockCoords
+	Pos1, Pos2 *types.MapBlockCoords
 }
 
 type JobResult struct {

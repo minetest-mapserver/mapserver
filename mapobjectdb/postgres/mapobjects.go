@@ -2,8 +2,8 @@ package postgres
 
 import (
 	"database/sql"
-	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"unicode/utf8"
 
 	"github.com/google/uuid"
@@ -63,7 +63,7 @@ func (a *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 		}
 
 		if currentUID == "" || currentUID != id {
-			pos := coords.NewMapBlockCoords(posx, posy, posz)
+			pos := types.NewMapBlockCoords(posx, posy, posz)
 			mo := &mapobjectdb.MapObject{
 				MBPos:      pos,
 				Type:       Type,
@@ -87,7 +87,7 @@ func (a *PostgresAccessor) GetMapData(q *mapobjectdb.SearchQuery) ([]*mapobjectd
 	return result, nil
 }
 
-func (a *PostgresAccessor) RemoveMapData(pos *coords.MapBlockCoords) error {
+func (a *PostgresAccessor) RemoveMapData(pos *types.MapBlockCoords) error {
 	_, err := a.db.Exec(removeMapDataQuery, pos.X, pos.Y, pos.Z)
 	return err
 }

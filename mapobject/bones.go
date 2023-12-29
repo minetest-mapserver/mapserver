@@ -1,8 +1,8 @@
 package mapobject
 
 import (
-	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"strconv"
 
 	"github.com/minetest-go/mapparser"
@@ -10,7 +10,7 @@ import (
 
 type BonesBlock struct{}
 
-func (this *BonesBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (this *BonesBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)

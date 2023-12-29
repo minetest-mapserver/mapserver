@@ -3,14 +3,14 @@ package web
 import (
 	"encoding/json"
 	"mapserver/app"
-	"mapserver/layer"
+	"mapserver/types"
 	"net/http"
 )
 
-//Public facing config
+// Public facing config
 type PublicConfig struct {
 	Version         string               `json:"version"`
-	Layers          []*layer.Layer       `json:"layers"`
+	Layers          []*types.Layer       `json:"layers"`
 	MapObjects      *app.MapObjectConfig `json:"mapobjects"`
 	DefaultOverlays []string             `json:"defaultoverlays"`
 	EnableSearch    bool                 `json:"enablesearch"`

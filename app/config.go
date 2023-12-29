@@ -2,7 +2,7 @@ package app
 
 import (
 	"encoding/json"
-	"mapserver/layer"
+	"mapserver/types"
 	"os"
 	"runtime"
 	"sync"
@@ -43,7 +43,7 @@ func ParseConfig(filename string) (*Config, error) {
 		SecretKey:      RandStringRunes(16),
 	}
 
-	layers := []*layer.Layer{
+	layers := []*types.Layer{
 		{
 			Id:   0,
 			Name: "Ground",

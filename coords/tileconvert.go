@@ -1,7 +1,7 @@
 package coords
 
 import (
-	"mapserver/layer"
+	"mapserver/types"
 	"math"
 )
 
@@ -9,10 +9,10 @@ const (
 	MAX_ZOOM = 13
 )
 
-func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []*layer.Layer) *TileCoords {
+func GetTileCoordsFromMapBlock(mbc *types.MapBlockCoords, layers []*types.Layer) *TileCoords {
 	tc := TileCoords{X: mbc.X, Y: (mbc.Z + 1) * -1, Zoom: MAX_ZOOM}
 
-	currentLayer := layer.FindLayerByY(layers, mbc.Y)
+	currentLayer := types.FindLayerByY(layers, mbc.Y)
 
 	if currentLayer == nil {
 		return nil
@@ -23,7 +23,7 @@ func GetTileCoordsFromMapBlock(mbc *MapBlockCoords, layers []*layer.Layer) *Tile
 	return &tc
 }
 
-func GetMapBlockRangeFromTile(tc *TileCoords, y int) *MapBlockRange {
+func GetMapBlockRangeFromTile(tc *TileCoords, y int) *types.MapBlockRange {
 	scaleDiff := float64(MAX_ZOOM - tc.Zoom)
 	scale := int(math.Pow(2, scaleDiff))
 
@@ -33,8 +33,8 @@ func GetMapBlockRangeFromTile(tc *TileCoords, y int) *MapBlockRange {
 	mapBlockX2 := mapBlockX1 + scale - 1
 	mapBlockZ2 := (mapBlockZ1 + ((scale - 1) * -1))
 
-	return &MapBlockRange{
-		Pos1: NewMapBlockCoords(mapBlockX1, y, mapBlockZ1),
-		Pos2: NewMapBlockCoords(mapBlockX2, y, mapBlockZ2),
+	return &types.MapBlockRange{
+		Pos1: types.NewMapBlockCoords(mapBlockX1, y, mapBlockZ1),
+		Pos2: types.NewMapBlockCoords(mapBlockX2, y, mapBlockZ2),
 	}
 }

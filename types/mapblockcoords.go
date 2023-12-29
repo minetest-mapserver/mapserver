@@ -1,4 +1,4 @@
-package coords
+package types
 
 import (
 	"math"

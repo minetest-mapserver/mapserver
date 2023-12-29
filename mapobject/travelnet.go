@@ -1,8 +1,8 @@
 package mapobject
 
 import (
-	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"strings"
 
 	"github.com/minetest-go/mapparser"
@@ -10,7 +10,7 @@ import (
 
 type TravelnetBlock struct{}
 
-func (tn *TravelnetBlock) onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (tn *TravelnetBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	// ignore (P) prefixed stations

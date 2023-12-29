@@ -3,8 +3,8 @@ package postgres
 import (
 	"database/sql"
 	"embed"
-	"mapserver/coords"
 	"mapserver/db"
+	"mapserver/types"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -47,7 +47,7 @@ func (db *PostgresAccessor) Migrate() error {
 }
 
 func convertRows(posx, posy, posz int, data []byte, mtime int64) *db.Block {
-	c := coords.NewMapBlockCoords(posx, posy, posz)
+	c := types.NewMapBlockCoords(posx, posy, posz)
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
@@ -122,7 +122,7 @@ func (a *PostgresAccessor) GetTimestamp() (int64, error) {
 	return 0, nil
 }
 
-func (a *PostgresAccessor) GetBlock(pos *coords.MapBlockCoords) (*db.Block, error) {
+func (a *PostgresAccessor) GetBlock(pos *types.MapBlockCoords) (*db.Block, error) {
 	rows, err := a.db.Query(getBlockQuery, pos.X, pos.Y, pos.Z)
 	if err != nil {
 		return nil, err

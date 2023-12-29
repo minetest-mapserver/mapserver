@@ -3,24 +3,25 @@ package tilerenderer
 import (
 	"bytes"
 	"errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/sirupsen/logrus"
 	"image"
 	"image/draw"
 	"image/png"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/eventbus"
-	"mapserver/layer"
 	"mapserver/mapblockrenderer"
 	"mapserver/tiledb"
+	"mapserver/types"
 	"strconv"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/sirupsen/logrus"
 )
 
 type TileRenderer struct {
 	mapblockrenderer *mapblockrenderer.MapBlockRenderer
-	layers           []*layer.Layer
+	layers           []*types.Layer
 	tdb              *tiledb.TileDB
 	dba              db.DBAccessor
 	Eventbus         *eventbus.Eventbus
@@ -56,7 +57,7 @@ func resizeImage(src *image.NRGBA, tgt *image.NRGBA, xoffset int, yoffset int) {
 func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 	tdb *tiledb.TileDB,
 	dba db.DBAccessor,
-	layers []*layer.Layer) *TileRenderer {
+	layers []*types.Layer) *TileRenderer {
 
 	return &TileRenderer{
 		mapblockrenderer: mapblockrenderer,
@@ -123,14 +124,14 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 	timer := prometheus.NewTimer(renderDuration)
 	defer timer.ObserveDuration()
 
-	currentLayer := layer.FindLayerById(tr.layers, tc.LayerId)
+	currentLayer := types.FindLayerById(tr.layers, tc.LayerId)
 
 	if currentLayer == nil {
-		return nil, errors.New("No layer found")
+		return nil, errors.New("no layer found")
 	}
 
 	if tc.Zoom > 13 || tc.Zoom < 1 {
-		return nil, errors.New("Invalid zoom")
+		return nil, errors.New("invalid zoom")
 	}
 
 	if tc.Zoom == 13 {

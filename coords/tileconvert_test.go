@@ -1,15 +1,16 @@
 package coords
 
 import (
-	"github.com/stretchr/testify/assert"
-	"mapserver/layer"
+	"mapserver/types"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestConvertMapblockToTile1(t *testing.T) {
-	mbc := NewMapBlockCoords(0, 0, 0)
-	layers := []*layer.Layer{
-		&layer.Layer{
+	mbc := types.NewMapBlockCoords(0, 0, 0)
+	layers := []*types.Layer{
+		{
 			Id:   0,
 			Name: "Base",
 			From: -16,
@@ -47,9 +48,9 @@ func TestGetMapBlockRangeFromTile(t *testing.T) {
 }
 
 func TestConvertMapblockToTile2(t *testing.T) {
-	mbc := NewMapBlockCoords(1, 0, 1)
-	layers := []*layer.Layer{
-		&layer.Layer{
+	mbc := types.NewMapBlockCoords(1, 0, 1)
+	layers := []*types.Layer{
+		{
 			Id:   0,
 			Name: "Base",
 			From: -16,
@@ -73,9 +74,9 @@ func TestConvertMapblockToTile2(t *testing.T) {
 }
 
 func TestConvertMapblockToTile3(t *testing.T) {
-	mbc := NewMapBlockCoords(-1, 0, -1)
-	layers := []*layer.Layer{
-		&layer.Layer{
+	mbc := types.NewMapBlockCoords(-1, 0, -1)
+	layers := []*types.Layer{
+		{
 			Id:   0,
 			Name: "Base",
 			From: -16,

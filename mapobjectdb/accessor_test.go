@@ -2,7 +2,7 @@ package mapobjectdb
 
 import (
 	"fmt"
-	"mapserver/coords"
+	"mapserver/types"
 	"testing"
 )
 
@@ -10,7 +10,7 @@ func TestNewMapBlockCoords(t *testing.T) {
 	attrs := make(map[string]string)
 	attrs["X"] = "y"
 
-	pos := coords.NewMapBlockCoords(1, 2, 3)
+	pos := types.NewMapBlockCoords(1, 2, 3)
 	fmt.Println(pos)
 
 	obj := NewMapObject(pos, 10, 12, 14, "xy")

@@ -2,9 +2,9 @@ package mapblockaccessor
 
 import (
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/db/sqlite"
 	"mapserver/testutils"
+	"mapserver/types"
 	"os"
 	"testing"
 	"time"
@@ -33,7 +33,7 @@ func TestSimpleAccess(t *testing.T) {
 	}
 
 	cache := NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond, 1000)
-	mb, err := cache.GetMapBlock(coords.NewMapBlockCoords(0, 0, 0))
+	mb, err := cache.GetMapBlock(types.NewMapBlockCoords(0, 0, 0))
 
 	if err != nil {
 		panic(err)

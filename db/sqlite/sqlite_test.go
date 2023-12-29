@@ -2,8 +2,8 @@ package sqlite
 
 import (
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/testutils"
+	"mapserver/types"
 	"os"
 	"testing"
 
@@ -11,7 +11,7 @@ import (
 )
 
 func TestMigrateEmpty(t *testing.T) {
-	tmpfile, err := ioutil.TempFile("", "TestMigrateEmpty.*.sqlite")
+	tmpfile, err := os.CreateTemp("", "TestMigrateEmpty.*.sqlite")
 	if err != nil {
 		panic(err)
 	}
@@ -64,7 +64,7 @@ func TestMigrateAndQuery(t *testing.T) {
 		panic(err)
 	}
 
-	block, err := a.GetBlock(coords.NewMapBlockCoords(0, 0, 0))
+	block, err := a.GetBlock(types.NewMapBlockCoords(0, 0, 0))
 
 	if err != nil {
 		panic(err)

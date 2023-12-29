@@ -2,7 +2,7 @@ package web
 
 import (
 	"encoding/json"
-	"mapserver/coords"
+	"mapserver/types"
 	"net/http"
 	"strconv"
 	"strings"
@@ -26,7 +26,7 @@ func (api *Api) GetBlockData(resp http.ResponseWriter, req *http.Request) {
 	y, _ := strconv.Atoi(parts[1])
 	z, _ := strconv.Atoi(parts[2])
 
-	c := coords.NewMapBlockCoords(x, y, z)
+	c := types.NewMapBlockCoords(x, y, z)
 	mb, err := api.Context.MapBlockAccessor.GetMapBlock(c)
 
 	if err != nil {

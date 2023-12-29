@@ -4,11 +4,11 @@ import (
 	"io/ioutil"
 	"mapserver/coords"
 	"mapserver/db/sqlite"
-	"mapserver/layer"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/testutils"
 	"mapserver/tiledb"
+	"mapserver/types"
 	"os"
 	"testing"
 	"time"
@@ -53,7 +53,7 @@ func BenchmarkTileRender(b *testing.B) {
 
 	tdb, _ := tiledb.New(tiletmpdir)
 
-	layers := []*layer.Layer{
+	layers := []*types.Layer{
 		{
 			Id:   0,
 			Name: "Base",

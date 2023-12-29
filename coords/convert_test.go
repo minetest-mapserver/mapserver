@@ -1,6 +1,7 @@
 package coords
 
 import (
+	"mapserver/types"
 	"testing"
 
 	"github.com/sirupsen/logrus"
@@ -13,7 +14,7 @@ func init() {
 }
 
 func TestMinCoord(t *testing.T) {
-	c := NewMapBlockCoords(MinCoord, MinCoord, MinCoord)
+	c := types.NewMapBlockCoords(types.MinCoord, types.MinCoord, types.MinCoord)
 	pc := CoordToPlain(c)
 
 	log.WithFields(logrus.Fields{"coords": c, "plain": pc, "plain-1": pc - 1}).Info("TestMinCoord")
@@ -22,7 +23,7 @@ func TestMinCoord(t *testing.T) {
 	}
 }
 
-func testCoordConvert(t *testing.T, mb *MapBlockCoords) {
+func testCoordConvert(t *testing.T, mb *types.MapBlockCoords) {
 	log.WithFields(logrus.Fields{"coords": mb}).Info("MapblockCoords")
 
 	p := CoordToPlain(mb)
@@ -45,6 +46,6 @@ func testCoordConvert(t *testing.T, mb *MapBlockCoords) {
 
 }
 
-func TestZeorCoord(t *testing.T) {
-	testCoordConvert(t, NewMapBlockCoords(0, 0, 0))
+func TestZeroCoord(t *testing.T) {
+	testCoordConvert(t, types.NewMapBlockCoords(0, 0, 0))
 }

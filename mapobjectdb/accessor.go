@@ -2,6 +2,7 @@ package mapobjectdb
 
 import (
 	"mapserver/coords"
+	"mapserver/types"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -21,7 +22,7 @@ type Tile struct {
 
 type MapObject struct {
 	//mapblock position
-	MBPos *coords.MapBlockCoords `json:"mapblock"`
+	MBPos *types.MapBlockCoords `json:"mapblock"`
 
 	//block position
 	X int `json:"x"`
@@ -33,7 +34,7 @@ type MapObject struct {
 	Attributes map[string]string `json:"attributes"`
 }
 
-func NewMapObject(MBPos *coords.MapBlockCoords, x int, y int, z int, _type string) *MapObject {
+func NewMapObject(MBPos *types.MapBlockCoords, x int, y int, z int, _type string) *MapObject {
 
 	fields := logrus.Fields{
 		"mbpos": MBPos,
@@ -64,11 +65,11 @@ type SearchAttributeLike struct {
 
 type SearchQuery struct {
 	//mapblock position
-	Pos1          *coords.MapBlockCoords `json:"pos1"`
-	Pos2          *coords.MapBlockCoords `json:"pos2"`
-	Type          string                 `json:"type"`
-	AttributeLike *SearchAttributeLike   `json:"attributelike"`
-	Limit         *int                   `json:"limit"`
+	Pos1          *types.MapBlockCoords `json:"pos1"`
+	Pos2          *types.MapBlockCoords `json:"pos2"`
+	Type          string                `json:"type"`
+	AttributeLike *SearchAttributeLike  `json:"attributelike"`
+	Limit         *int                  `json:"limit"`
 }
 
 type DBAccessor interface {
@@ -77,7 +78,7 @@ type DBAccessor interface {
 
 	//Generic map objects (poi, etc)
 	GetMapData(q *SearchQuery) ([]*MapObject, error)
-	RemoveMapData(pos *coords.MapBlockCoords) error
+	RemoveMapData(pos *types.MapBlockCoords) error
 	AddMapData(data *MapObject) error
 
 	//Settings

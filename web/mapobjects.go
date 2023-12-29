@@ -2,8 +2,8 @@ package web
 
 import (
 	"encoding/json"
-	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -31,11 +31,11 @@ func (api *Api) QueryMapobjects(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	if q.Pos1 == nil {
-		q.Pos1 = &coords.MapBlockCoords{X: -2048, Y: -2048, Z: -2048}
+		q.Pos1 = &types.MapBlockCoords{X: -2048, Y: -2048, Z: -2048}
 	}
 
 	if q.Pos2 == nil {
-		q.Pos2 = &coords.MapBlockCoords{X: 2048, Y: 2048, Z: 2048}
+		q.Pos2 = &types.MapBlockCoords{X: 2048, Y: 2048, Z: 2048}
 	}
 
 	objects, err := api.Context.Objectdb.GetMapData(&q)

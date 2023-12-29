@@ -3,8 +3,8 @@ package sqlite
 import (
 	"fmt"
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/mapobjectdb"
+	"mapserver/types"
 	"os"
 	"testing"
 )
@@ -48,7 +48,7 @@ func TestMapObjects(t *testing.T) {
 	attrs := make(map[string]string)
 	attrs["X"] = "y"
 
-	pos := coords.NewMapBlockCoords(0, 0, 0)
+	pos := types.NewMapBlockCoords(0, 0, 0)
 
 	o := mapobjectdb.MapObject{
 		MBPos:      pos,
@@ -105,7 +105,7 @@ func TestMapObjectsQueryWithAttribute(t *testing.T) {
 	attrs := make(map[string]string)
 	attrs["X"] = "y"
 
-	pos := coords.NewMapBlockCoords(0, 0, 0)
+	pos := types.NewMapBlockCoords(0, 0, 0)
 
 	o := mapobjectdb.MapObject{
 		MBPos:      pos,
@@ -169,7 +169,7 @@ func TestMapObjectsQueryWithAttributeIgnoreCase(t *testing.T) {
 	attrs := make(map[string]string)
 	attrs["X"] = "ABC"
 
-	pos := coords.NewMapBlockCoords(0, 0, 0)
+	pos := types.NewMapBlockCoords(0, 0, 0)
 
 	o := mapobjectdb.MapObject{
 		MBPos:      pos,

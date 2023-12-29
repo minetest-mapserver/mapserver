@@ -1,4 +1,4 @@
-package layer
+package types
 
 type Layer struct {
 	Id   int    `json:"id"`

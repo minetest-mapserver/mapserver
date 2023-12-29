@@ -3,8 +3,8 @@ package sqlite
 import (
 	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/layer"
 	"mapserver/settings"
+	"mapserver/types"
 )
 
 const (
@@ -21,7 +21,7 @@ order by b.pos asc, b.mtime asc
 limit ?
 `
 
-func (a *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*db.InitialBlocksResult, error) {
+func (a *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*types.Layer, limit int) (*db.InitialBlocksResult, error) {
 	result := &db.InitialBlocksResult{}
 
 	blocks := make([]*db.Block, 0)
@@ -70,7 +70,7 @@ func (a *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*l
 		lastpos = pos
 
 		blockcoordy := mb.Pos.Y
-		currentlayer := layer.FindLayerByY(layers, blockcoordy)
+		currentlayer := types.FindLayerByY(layers, blockcoordy)
 
 		if currentlayer != nil {
 			blocks = append(blocks, mb)

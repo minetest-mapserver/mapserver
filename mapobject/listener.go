@@ -12,11 +12,11 @@ import (
 )
 
 type MapObjectListener interface {
-	onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject
+	onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject
 }
 
 type MapMultiObjectListener interface {
-	onMapObject(mbpos *coords.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject
+	onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject
 }
 
 type Listener struct {

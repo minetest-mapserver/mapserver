@@ -1,6 +1,8 @@
 package coords
 
-//https://bitbucket.org/s_l_teichmann/mtsatellite/src/e1bf980a2b278c570b3f44f9452c9c087558acb3/common/coords.go?at=default&fileviewer=file-view-default
+import "mapserver/types"
+
+// https://bitbucket.org/s_l_teichmann/mtsatellite/src/e1bf980a2b278c570b3f44f9452c9c087558acb3/common/coords.go?at=default&fileviewer=file-view-default
 const (
 	numBitsPerComponent = 12
 	modulo              = 1 << numBitsPerComponent
@@ -11,7 +13,7 @@ const (
 	MinPlainCoord = -34351347711
 )
 
-func CoordToPlain(c *MapBlockCoords) int64 {
+func CoordToPlain(c *types.MapBlockCoords) int64 {
 	return int64(c.Z)<<(2*numBitsPerComponent) +
 		int64(c.Y)<<numBitsPerComponent +
 		int64(c.X)
@@ -33,8 +35,8 @@ func pythonModulo(i int16) int16 {
 	return modulo - -i&mask
 }
 
-func PlainToCoord(i int64) *MapBlockCoords {
-	c := MapBlockCoords{}
+func PlainToCoord(i int64) *types.MapBlockCoords {
+	c := types.MapBlockCoords{}
 	c.X = unsignedToSigned(pythonModulo(int16(i)))
 	i = (i - int64(c.X)) >> numBitsPerComponent
 	c.Y = unsignedToSigned(pythonModulo(int16(i)))

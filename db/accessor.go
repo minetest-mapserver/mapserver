@@ -1,13 +1,12 @@
 package db
 
 import (
-	"mapserver/coords"
-	"mapserver/layer"
 	"mapserver/settings"
+	"mapserver/types"
 )
 
 type Block struct {
-	Pos   *coords.MapBlockCoords
+	Pos   *types.MapBlockCoords
 	Data  []byte
 	Mtime int64
 }
@@ -25,6 +24,6 @@ type DBAccessor interface {
 
 	GetTimestamp() (int64, error)
 	FindBlocksByMtime(gtmtime int64, limit int) ([]*Block, error)
-	FindNextInitialBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*InitialBlocksResult, error)
-	GetBlock(pos *coords.MapBlockCoords) (*Block, error)
+	FindNextInitialBlocks(s settings.Settings, layers []*types.Layer, limit int) (*InitialBlocksResult, error)
+	GetBlock(pos *types.MapBlockCoords) (*Block, error)
 }

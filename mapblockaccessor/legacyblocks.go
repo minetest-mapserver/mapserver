@@ -2,7 +2,6 @@ package mapblockaccessor
 
 import (
 	"mapserver/eventbus"
-	"mapserver/layer"
 	"mapserver/settings"
 	"mapserver/types"
 
@@ -19,7 +18,7 @@ type FindNextLegacyBlocksResult struct {
 	LastMtime       int64
 }
 
-func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*layer.Layer, limit int) (*FindNextLegacyBlocksResult, error) {
+func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*types.Layer, limit int) (*FindNextLegacyBlocksResult, error) {
 
 	nextResult, err := a.accessor.FindNextInitialBlocks(s, layers, limit)
 

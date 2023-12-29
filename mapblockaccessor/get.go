@@ -1,7 +1,6 @@
 package mapblockaccessor
 
 import (
-	"mapserver/coords"
 	"mapserver/eventbus"
 	"mapserver/types"
 	"sync"
@@ -14,7 +13,7 @@ import (
 
 var lock = &sync.RWMutex{}
 
-func (a *MapBlockAccessor) GetMapBlock(pos *coords.MapBlockCoords) (*mapparser.MapBlock, error) {
+func (a *MapBlockAccessor) GetMapBlock(pos *types.MapBlockCoords) (*mapparser.MapBlock, error) {
 	cache_enabled := a.maxcount > 0
 	key := getKey(pos)
 
