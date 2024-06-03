@@ -1,5 +1,5 @@
 #== Container for running rolllup. That's all.
-FROM node:22-alphine as rollup
+FROM node:22 as rollup
 
 RUN npm install --global rollup
 
