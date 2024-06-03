@@ -19,6 +19,9 @@ WORKDIR /src
 # Build the binary
 RUN go build
 
+# Keep backward compatibility
+RUN ln -s ../src/mapserver /bin/mapserver
+
 # Set up default env variables
 ENV MT_CONFIG_PATH "mapserver.json"
 ENV MT_LOGLEVEL "INFO"
