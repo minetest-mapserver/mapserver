@@ -6,3 +6,14 @@ mapserver.sqlite
 mapserver.sqlite-journal
 mapserver.json
 debug.txt
+
+mapserver
+.github
+dev
+doc
+readme.md
+
+public/js/bundle.js
+public/js/bundle.js.map
+public/js/bundle-stats.js
+public/js/bundle-stats.js.map

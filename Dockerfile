@@ -8,17 +8,18 @@ FROM node:${NODE_VER}-alpine${ALPHINE_VER} as rollup
 
 RUN npm install --global rollup
 
-COPY . /src
-WORKDIR /src
+COPY ./public /public
+WORKDIR /public
 
-WORKDIR /src/public
 RUN rollup -c rollup.config.js
 
 #== The container building Go codes.
 FROM golang:${GO_VER}-alpine${ALPHINE_VER} AS build
 
 # Get the rolled up files
-COPY --from=rollup /src /src
+COPY . /src
+COPY --from=rollup /public/js/bundle.js /src/public/js/bundle.js
+COPY --from=rollup /public/js/bundle.js.map /src/public/js/bundle.js.map
 WORKDIR /src
 
 # Build the binary
@@ -33,8 +34,9 @@ RUN go test -v ./...
 ## docker build . --progress plain --no-cache --target run-test
 FROM scratch AS release
 
-# Copy the binary
+# Copy the binary and license
 COPY --from=build /src/mapserver /bin/mapserver
+COPY license.txt license_mapserver.txt
 
 # Set up default env variables
 ENV MT_CONFIG_PATH "mapserver.json"
