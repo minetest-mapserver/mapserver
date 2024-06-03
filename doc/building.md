@@ -1,7 +1,11 @@
 
 # Building the mapserver
 
-Instructions to build the mapserver from source
+Instructions to build the mapserver from source.
+
+## Docker instructions
+
+Build the image using the provided `Dockerfile`. That's all you have to do. The compiling process will be done inside containers.
 
 ## Build dependencies
 
