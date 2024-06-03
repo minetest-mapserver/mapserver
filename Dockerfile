@@ -1,9 +1,9 @@
 #== Define versions here.
 ARG ALPHINE_VER=3.20
 ARG NODE_VER=22.2
-ARG GO_VER=1.22
+ARG GO_VER=1.21
 
-#== Container for running rolllup. That's all.
+#== Container for running rollup. That's all.
 FROM node:${NODE_VER}-alpine${ALPHINE_VER} as rollup
 
 RUN npm install --global rollup
@@ -31,7 +31,7 @@ RUN go test -v ./...
 #== Export the image
 # Use this command to ensure it runs:
 ## docker build . --progress plain --no-cache --target run-test
-FROM alpine:${ALPHINE_VER} AS release
+FROM scratch AS release
 
 # Copy the binary
 COPY --from=build /src/mapserver /bin/mapserver
