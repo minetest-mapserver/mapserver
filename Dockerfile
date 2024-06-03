@@ -1,5 +1,5 @@
 #== Container for running rolllup. That's all.
-FROM node:22 as rollup
+FROM node:22-alpine as rollup
 
 RUN npm install --global rollup
 
@@ -10,7 +10,7 @@ WORKDIR /src/public
 RUN rollup -c rollup.config.js
 
 #== The runtime golang container. This is the one to be exported.
-FROM golang:1.19 as runtime
+FROM golang:1.22-alpine as runtime
 
 # Get the rolled up files
 COPY --from=rollup /src /src
