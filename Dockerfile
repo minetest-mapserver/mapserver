@@ -26,12 +26,12 @@ WORKDIR /src
 RUN CGO_ENABLED=0 GOOS=linux go build
 
 #== Run the tests
+# Use this command to ensure it runs:
+## docker build . --progress plain --no-cache --target run-test
 FROM build AS run-test
 RUN go test -v ./...
 
 #== Export the image
-# Use this command to ensure it runs:
-## docker build . --progress plain --no-cache --target run-test
 FROM scratch AS release
 
 # Copy the binary and license
