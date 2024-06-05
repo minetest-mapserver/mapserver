@@ -117,7 +117,7 @@ export default L.LayerGroup.extend({
             return;
           }
 
-          marker = L.marker([obj.z, obj.x], {icon: icon});
+          marker = L.marker([obj.z + 0.5, obj.x + 0.5], {icon: icon});
           popup = self.createPopup(obj);
           if (popup)
             marker.bindPopup(popup);
