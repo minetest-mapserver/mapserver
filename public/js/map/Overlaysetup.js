@@ -23,6 +23,7 @@ import TrainOverlay from './overlays/TrainOverlay.js';
 import TrainsignalOverlay from './overlays/TrainsignalOverlay.js';
 import SignOverlay from './overlays/SignOverlay.js';
 import AirUtilsPlanesOverlay from "./overlays/AirUtilsPlanesOverlay.js";
+import UnifiedMoneyAreaForSaleOverlay from './overlays/UnifiedMoneyAreaForSaleOverlay.js';
 
 export default function(cfg, map, overlays, wsChannel){
 
@@ -204,6 +205,13 @@ export default function(cfg, map, overlays, wsChannel){
     overlays.Planes = new AirUtilsPlanesOverlay();
     if (isDefault("mapserver_airutils")) {
       map.addLayer(overlays.Planes);
+    }
+  }
+
+  if (cfg.mapobjects.um_area_forsale) {
+    overlays.UnifiedMoneyAreaForSale = new UnifiedMoneyAreaForSaleOverlay();
+    if (isDefault("um_area_forsale")) {
+      map.addLayer(overlays.UnifiedMoneyAreaForSale);
     }
   }
 
