@@ -209,9 +209,9 @@ export default function(cfg, map, overlays, wsChannel){
   }
 
   if (cfg.mapobjects.um_area_forsale) {
-    overlays.UnifiedMoneyAreaForSale = new UnifiedMoneyAreaForSaleOverlay();
+    overlays["Area For Sale"] = new UnifiedMoneyAreaForSaleOverlay();
     if (isDefault("um_area_forsale")) {
-      map.addLayer(overlays.UnifiedMoneyAreaForSale);
+      map.addLayer(overlays["Area For Sale"]);
     }
   }
 
