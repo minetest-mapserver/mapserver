@@ -20,10 +20,10 @@ export default AbstractIconOverlay.extend({
   },
 
   createPopup: function (obj) {
-    return "<h4>Area for sale</h4>" +
+    return "<h4>Area For Sale</h4>" +
       "<h5>" + HtmlSanitizer.SanitizeHtml(obj.attributes.description || "No Description") + "</h5><hr>" +
       "<b>Owner:</b> " + HtmlSanitizer.SanitizeHtml(obj.attributes.owner) + "<br>" +
-      "<b>Area IDs:</b> " + HtmlSanitizer.SanitizeHtml(obj.attributes.id) + "<br>" +
+      "<b>Area ID(s):</b> " + HtmlSanitizer.SanitizeHtml(obj.attributes.id) + "<br>" +
       "<b>Price:</b> $" + HtmlSanitizer.SanitizeHtml(obj.attributes.price) + "<br>";
   }
 });
