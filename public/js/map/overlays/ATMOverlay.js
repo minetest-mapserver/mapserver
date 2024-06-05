@@ -19,7 +19,7 @@ export default AbstractIconOverlay.extend({
     else if (obj.attributes.type == "atm3")
       img = "pics/atm3_front.png";
 
-    L.icon({
+    return L.icon({
       iconUrl: img,
       iconSize:     [16, 16],
       iconAnchor:   [8, 8],
