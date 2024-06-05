@@ -31,6 +31,7 @@ function search(query){
     searchFor("label", "text", query),
     searchFor("digiterm", "display_text", query),
     searchFor("digilinelcd", "text", query)
+    searchFor("um_area_forsale", "description", query)
   ];
 
   Promise.all(prom_list)
