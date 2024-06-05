@@ -30,7 +30,7 @@ function search(query){
     searchFor("locator", "name", query),
     searchFor("label", "text", query),
     searchFor("digiterm", "display_text", query),
-    searchFor("digilinelcd", "text", query)
+    searchFor("digilinelcd", "text", query),
     searchFor("um_area_forsale", "description", query)
   ];
 
