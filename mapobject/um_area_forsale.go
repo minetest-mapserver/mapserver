@@ -12,6 +12,10 @@ type UnifiefMoneyAreaForSale struct{}
 func (this *UnifiefMoneyAreaForSale) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
+	if _, ok := md["id"]; !ok {
+		return nil
+	}
+
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "um_area_forsale")
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["id"] = md["id"] // ", " seperated
