@@ -13,7 +13,7 @@ export default AbstractIconOverlay.extend({
   getIcon: function (obj) {
     return L.icon({
       iconUrl: "pics/um_area_forsale_sign_alpha.png",
-      iconSize: [16, 16],
+      iconSize: [32, 32],
       iconAnchor: [16, 16],
       popupAnchor: [0, -16]
     });
