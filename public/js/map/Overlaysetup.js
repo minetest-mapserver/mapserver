@@ -23,6 +23,7 @@ import TrainOverlay from './overlays/TrainOverlay.js';
 import TrainsignalOverlay from './overlays/TrainsignalOverlay.js';
 import SignOverlay from './overlays/SignOverlay.js';
 import AirUtilsPlanesOverlay from "./overlays/AirUtilsPlanesOverlay.js";
+import PhonographOverlay from "./overlays/PhonographOverlay.js";
 
 export default function(cfg, map, overlays, wsChannel){
 
@@ -207,4 +208,10 @@ export default function(cfg, map, overlays, wsChannel){
     }
   }
 
+  if (cfg.mapobjects.phonograph) {
+    overlays.Phonographs = new PhonographOverlay();
+    if (isDefault("phonograph")) {
+      map.addLayer(overlays.Phonographs);
+    }
+  }
 }

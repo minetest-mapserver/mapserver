@@ -72,3 +72,7 @@
 * unifieddyes_palette_extended.png
   * GPL 2.0
   * Source: https://gitlab.com/VanessaE/unifieddyes
+
+* phonograph_node_temp.png
+  * License: CC By-SA 4.0
+  * Source: [phonograph](https://github.com/C-C-Minetest-Server/phonograph/)
