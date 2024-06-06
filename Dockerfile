@@ -1,10 +1,10 @@
 #== Define versions here.
-ARG ALPHINE_VER=3.20
+ARG ALPINE_VER=3.20
 ARG NODE_VER=22.2
 ARG GO_VER=1.21
 
 #== Container for running rollup. That's all.
-FROM node:${NODE_VER}-alpine${ALPHINE_VER} as rollup
+FROM node:${NODE_VER}-alpine${ALPINE_VER} as rollup
 
 RUN npm install --global rollup
 
@@ -14,16 +14,22 @@ WORKDIR /public
 RUN rollup -c rollup.config.js
 
 #== The container building Go codes.
-FROM golang:${GO_VER}-alpine${ALPHINE_VER} AS build
+FROM golang:${GO_VER}-alpine${ALPINE_VER} AS build
+
+RUN mkdir /src
+WORKDIR /src
+
+# Download Go packages (should be cached)
+COPY go.mod go.sum /src/
+RUN go mod download -x
 
 # Get the rolled up files
 COPY . /src
 COPY --from=rollup /public/js/bundle.js /src/public/js/bundle.js
 COPY --from=rollup /public/js/bundle.js.map /src/public/js/bundle.js.map
-WORKDIR /src
 
 # Build the binary
-RUN CGO_ENABLED=0 GOOS=linux go build
+RUN CGO_ENABLED=0 GOOS=linux go build -v
 
 #== Run the tests
 # Use this command to ensure it runs:
