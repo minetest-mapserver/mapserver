@@ -197,5 +197,10 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("phonograph:phonograph", &Phonograph{})
 	}
 
+	//For Sale Sign for Unified Money
+	if ctx.Config.MapObjects.UnifiefMoneyAreaForSale {
+		l.AddMapObject("um_area_forsale:for_sale_sign", &UnifiefMoneyAreaForSale{})
+	}
+
 	ctx.MapBlockAccessor.Eventbus.AddListener(&l)
 }
