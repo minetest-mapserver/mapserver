@@ -14,18 +14,15 @@ func (this *ATM) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *ma
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "atm")
 
-	if nodename == "atm:wtt" {
-		o.Attributes["type"] = "wiretransfer"
-
-	} else if nodename == "atm:atm2" {
-		o.Attributes["type"] = "atm2"
-
-	} else if nodename == "atm:atm3" {
-		o.Attributes["type"] = "atm3"
-
-	} else {
-		o.Attributes["type"] = "atm"
-
+	switch nodename {
+		case "atm:wtt", "um_wtt:wtt":
+			o.Attributes["type"] = "wiretransfer"
+		case "atm:atm2", "um_atm:atm_2":
+			o.Attributes["type"] = "atm2"
+		case "atm:atm3", "um_atm:atm_3":
+			o.Attributes["type"] = "atm3"
+		default:
+			o.Attributes["type"] = "atm"
 	}
 
 	return o

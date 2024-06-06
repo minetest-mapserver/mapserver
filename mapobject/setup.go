@@ -164,10 +164,18 @@ func Setup(ctx *app.App) {
 
 	if ctx.Config.MapObjects.ATM {
 		atm := &ATM{}
+
+		// ATMs and WTT of gpcf's mod
 		l.AddMapObject("atm:atm", atm)
 		l.AddMapObject("atm:atm2", atm)
 		l.AddMapObject("atm:atm3", atm)
 		l.AddMapObject("atm:wtt", atm)
+
+		// ATMs and WTT of Unified Money
+		l.AddMapObject("um_atm:atm_1", atm)
+		l.AddMapObject("um_atm:atm_2", atm)
+		l.AddMapObject("um_atm:atm_3", atm)
+		l.AddMapObject("um_wtt:wtt", atm)
 	}
 
 	//locator
