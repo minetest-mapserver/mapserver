@@ -64,6 +64,7 @@ type MapObjectConfig struct {
 	Locator            bool `json:"locator"`
 	Signs              bool `json:"signs"`
 	MapserverAirutils  bool `json:"mapserver_airutils"`
+	Phonograph         bool `json:"phonograph"`
 }
 
 type WebApiConfig struct {

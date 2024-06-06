@@ -184,5 +184,10 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("default:sign_wall_steel", &SignBlock{Material: "steel"})
 	}
 
+	//signs
+	if ctx.Config.MapObjects.Phonograph {
+		l.AddMapObject("phonograph:phonograph", &Phonograph{})
+	}
+
 	ctx.MapBlockAccessor.Eventbus.AddListener(&l)
 }

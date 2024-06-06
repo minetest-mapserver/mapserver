@@ -88,6 +88,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Locator:            false,
 		Signs:              true,
 		MapserverAirutils:  true,
+		Phonograph:         true,
 	}
 
 	mapblockaccessor := MapBlockAccessorConfig{

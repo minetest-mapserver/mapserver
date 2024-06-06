@@ -207,4 +207,10 @@ export default function(cfg, map, overlays, wsChannel){
     }
   }
 
+  if (cfg.mapobjects.phonograph) {
+    overlays.Phonographs = new PhonographOverlay();
+    if (isDefault("phonograph")) {
+      map.addLayer(overlays.Phonographs);
+    }
+  }
 }
