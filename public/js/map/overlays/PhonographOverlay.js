@@ -14,9 +14,9 @@ export default AbstractIconOverlay.extend({
     AbstractIconOverlay.prototype.initialize.call(this, "phonograph", PhonographIcon);
   },
 
-  createPopup: function(lcd){
+  createPopup: function(obj){
     return "<h4>Phonograph</h4><br>" +
-      "<b>Now playing:</b> <i>" + HtmlSanitizer.SanitizeHtml(poi.attributes.song_title) + "</i> by " +
-      HtmlSanitizer.SanitizeHtml(poi.attributes.song_artist);
+      "<b>Now playing:</b> <i>" + HtmlSanitizer.SanitizeHtml(obj.attributes.song_title) + "</i> by " +
+      HtmlSanitizer.SanitizeHtml(obj.attributes.song_artist);
   }
 });
