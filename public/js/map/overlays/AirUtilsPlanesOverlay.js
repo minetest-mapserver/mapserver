@@ -66,7 +66,7 @@ export default L.LayerGroup.extend({
   },
 
   createMarker: function(plane) {
-    let marker = L.marker([plane.pos.z, plane.pos.x], {icon: this.getIcon(plane)});
+    let marker = L.marker([plane.pos.z + 0.5, plane.pos.x + 0.5], {icon: this.getIcon(plane)});
 
     marker.bindPopup(this.createPopup(plane));
 
@@ -115,7 +115,7 @@ export default L.LayerGroup.extend({
       if (this.currentObjects[plane.id]) {
         //marker exists
         let marker = this.currentObjects[plane.id];
-        marker.setLatLng([plane.pos.z, plane.pos.x]);
+        marker.setLatLng([plane.pos.z + 0.5, plane.pos.x + 0.5]);
         marker.setIcon(this.getIcon(plane));
         marker.setPopupContent(this.createPopup(plane));
       } else {

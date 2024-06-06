@@ -96,7 +96,7 @@ export default L.LayerGroup.extend({
       popupAnchor:  [0, -16]
     });
 
-    var marker = L.marker([train.pos.z, train.pos.x], {icon: Icon});
+    var marker = L.marker([train.pos.z + 0.5, train.pos.x + 0.5], {icon: Icon});
     marker.bindPopup(this.createPopup(train));
 
     return marker;
@@ -134,7 +134,7 @@ export default L.LayerGroup.extend({
       if (this.currentObjects[train.id]){
         //marker exists
         let marker = this.currentObjects[train.id];
-        marker.setLatLng([train.pos.z, train.pos.x]);
+        marker.setLatLng([train.pos.z + 0.5, train.pos.x + 0.5]);
         marker.setPopupContent(this.createPopup(train));
 
       } else {
