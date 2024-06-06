@@ -63,13 +63,13 @@ export default AbstractGeoJsonOverlay.extend({
 
       //Add stations
       borders[bordername].forEach(function(entry){
-        coords.push([entry.x, entry.z]);
+        coords.push([entry.x + 0.5, entry.z + 0.5]);
       });
 
       // closing border
       coords.push([
-        borders[bordername][0].x,
-        borders[bordername][0].z
+        borders[bordername][0].x + 0.5,
+        borders[bordername][0].z + 0.5
       ]);
 
       var feature = {

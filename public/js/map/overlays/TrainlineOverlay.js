@@ -115,13 +115,13 @@ export default AbstractGeoJsonOverlay.extend({
                 if (pos == null) {
                   console.warn("[Trainlines][linepath_from_prv]", "line "+linename, "block "+pos_to_string(entry), "index "+entry.attributes.index, "Invalid point:", p);
                 } else {
-                  feat.coords.push([pos.x, pos.z]);
+                  feat.coords.push([pos.x + 0.5, pos.z + 0.5]);
                 }
               });
             } else if (rail_pos) {
-              feat.coords.push([rail_pos.x, rail_pos.z]);
+              feat.coords.push([rail_pos.x + 0.5, rail_pos.z + 0.5]);
             } else {
-              feat.coords.push([entry.x, entry.z]);
+              feat.coords.push([entry.x + 0.5, entry.z + 0.5]);
             }
 
             if (entry.attributes.station) {

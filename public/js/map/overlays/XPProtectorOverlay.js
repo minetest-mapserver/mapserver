@@ -11,11 +11,11 @@ export default AbstractGeoJsonOverlay.extend({
       "geometry": {
         "type":"Polygon",
         "coordinates":[[
-            [protector.x-5,protector.z-5],
-            [protector.x-5,protector.z+6],
-            [protector.x+6,protector.z+6],
-            [protector.x+6,protector.z-5],
-            [protector.x-5,protector.z-5]
+            [protector.x-5 + 0.5,protector.z-5 + 0.5],
+            [protector.x-5 + 0.5,protector.z+6 + 0.5],
+            [protector.x+6 + 0.5,protector.z+6 + 0.5],
+            [protector.x+6 + 0.5,protector.z-5 + 0.5],
+            [protector.x-5 + 0.5,protector.z-5 + 0.5]
         ]]
       },
       "properties":{

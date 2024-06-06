@@ -29,7 +29,7 @@ export default L.LayerGroup.extend({
       popupAnchor:  [0, -32]
     });
 
-    var marker = L.marker([cart.pos.z, cart.pos.x], {icon: Icon});
+    var marker = L.marker([cart.pos.z + 0.5, cart.pos.x + 0.5], {icon: Icon});
     var html = "<b>Minecart</b><hr>";
     html += "<b>Id: </b> " + cart.id + "<br>";
 
@@ -64,7 +64,7 @@ export default L.LayerGroup.extend({
 
       if (self.currentObjects[cart.id]){
         //marker exists
-        self.currentObjects[cart.id].setLatLng([cart.pos.z, cart.pos.x]);
+        self.currentObjects[cart.id].setLatLng([cart.pos.z + 0.5, cart.pos.x + 0.5]);
         //setPopupContent
 
       } else {

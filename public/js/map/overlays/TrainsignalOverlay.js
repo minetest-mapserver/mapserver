@@ -50,7 +50,7 @@ export default L.LayerGroup.extend({
   createMarker: function(signal){
 
     var Icon = signal.green ? IconOn : IconOff;
-    var marker = L.marker([signal.pos.z, signal.pos.x], {icon: Icon});
+    var marker = L.marker([signal.pos.z + 0.5, signal.pos.x + 0.5], {icon: Icon});
     marker.bindPopup(this.createPopup(signal));
 
     return marker;
@@ -89,7 +89,7 @@ export default L.LayerGroup.extend({
       if (this.currentObjects[signalId]){
         //marker exists
         let marker = this.currentObjects[signalId];
-        marker.setLatLng([signal.pos.z, signal.pos.x]);
+        marker.setLatLng([signal.pos.z + 0.5, signal.pos.x + 0.5]);
         marker.setPopupContent(this.createPopup(signal));
         marker.setIcon(signal.green ? IconOn : IconOff);
 

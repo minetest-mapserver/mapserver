@@ -57,7 +57,7 @@ export default L.LayerGroup.extend({
   },
 
   createMarker: function(player) {
-    const marker = L.marker([player.pos.z, player.pos.x], {icon: this.getIcon(player)});
+    const marker = L.marker([player.pos.z + 0.5, player.pos.x + 0.5], {icon: this.getIcon(player)});
 
     marker.bindPopup(this.createPopup(player), {minWidth: 220});
     return marker;
@@ -154,7 +154,7 @@ export default L.LayerGroup.extend({
       if (this.currentObjects[player.name]){
         //marker exists
         const marker = this.currentObjects[player.name];
-        marker.setLatLng([player.pos.z, player.pos.x]);
+        marker.setLatLng([player.pos.z + 0.5, player.pos.x + 0.5]);
         marker.setIcon(this.getIcon(player));
         marker.setPopupContent(this.createPopup(player));
 
