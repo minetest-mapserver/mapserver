@@ -24,6 +24,7 @@ import TrainsignalOverlay from './overlays/TrainsignalOverlay.js';
 import SignOverlay from './overlays/SignOverlay.js';
 import AirUtilsPlanesOverlay from "./overlays/AirUtilsPlanesOverlay.js";
 import PhonographOverlay from "./overlays/PhonographOverlay.js";
+import UnifiedMoneyAreaForSaleOverlay from './overlays/UnifiedMoneyAreaForSaleOverlay.js';
 
 export default function(cfg, map, overlays, wsChannel){
 
@@ -210,8 +211,15 @@ export default function(cfg, map, overlays, wsChannel){
 
   if (cfg.mapobjects.phonograph) {
     overlays.Phonographs = new PhonographOverlay();
-    if (isDefault("phonograph")) {
+    if (isDefault("Phonographs")) {
       map.addLayer(overlays.Phonographs);
     }
   }
+  if (cfg.mapobjects.um_area_forsale) {
+    overlays["Area For Sale"] = new UnifiedMoneyAreaForSaleOverlay();
+    if (isDefault("Area For Sale")) {
+      map.addLayer(overlays["Area For Sale"]);
+    }
+  }
+
 }

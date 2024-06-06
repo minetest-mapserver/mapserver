@@ -76,3 +76,7 @@
 * phonograph_node_temp.png
   * License: CC By-SA 4.0
   * Source: [phonograph](https://github.com/C-C-Minetest-Server/phonograph/)
+
+* um_area_forsale_sign_alpha.png
+  * By Gabriel Pérez-Cerezo; AGPL 3.0
+  * Modified from https://github.com/C-C-Minetest-Server/um_area_forsale/blob/main/textures/um_area_forsale_sign.png

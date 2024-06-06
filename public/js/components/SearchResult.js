@@ -88,6 +88,12 @@ export default {
         ]);
       }
 
+      // For Sale Sign
+      if (obj.type == "um_area_forsale"){
+        description = m("span", obj.attributes.description || "No Description");
+        type = m("img", { src: "pics/um_area_forsale_sign_alpha.png" });
+      }
+
       //shop
       if (obj.type == "shop") {
         if (obj.attributes.stock == 0){
