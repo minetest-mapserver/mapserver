@@ -1,0 +1,15 @@
+#== Minimal Dockerfile for goreleaser.
+FROM scratch AS release
+
+# Copy the binary and license
+COPY /mapserver /bin/mapserver
+COPY license.txt license_mapserver.txt
+
+# Set up default env variables
+ENV MT_CONFIG_PATH "mapserver.json"
+ENV MT_LOGLEVEL "INFO"
+ENV MT_READONLY "false"
+
+# Final definitions
+EXPOSE 8080
+ENTRYPOINT ["/bin/mapserver"]
