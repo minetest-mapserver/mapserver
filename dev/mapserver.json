@@ -60,7 +60,9 @@
 		"minecart": false,
 		"locator": false,
 		"signs": true,
-		"mapserver_airutils": true
+		"mapserver_airutils": true,
+		"phonograph": true,
+		"um_area_forsale": true
 	},
 	"mapblockaccessor": {
 		"expiretime": "15s",
@@ -78,5 +80,5 @@
 	},
 	"worldpath": "./",
 	"datapath": "./",
-	"ColorsTxtPath": "./"
+	"colorstxtpath": "./"
 }
