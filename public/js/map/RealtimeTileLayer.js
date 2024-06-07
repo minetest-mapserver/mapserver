@@ -42,7 +42,10 @@ export default L.TileLayer.extend({
     tile.id = this.getImageId(coords.x, coords.y, coords.z);
 
     // trigger callbacks
-    tile.onload = () => done(null, tile);
+    tile.onload = () => {
+      tile.onload = undefined;
+      done(null, tile);
+    };
     tile.onerror = e => done(e, tile);
 
     return tile;
