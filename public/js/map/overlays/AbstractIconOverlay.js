@@ -16,6 +16,15 @@ export default L.LayerGroup.extend({
     this.onLayerChange = this.onLayerChange.bind(this);
     this.onMapObjectUpdated = this.onMapObjectUpdated.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
+    this.onPopupOpen = this.onPopupOpen.bind(this);
+
+    this.on("popupopen", this.onPopupOpen);
+  },
+
+  onPopupOpen: function (e) {
+    this.map.panTo(e.popup.getLatLng(), {
+      duration: 0.5,
+    });
   },
 
   //websocket update
