@@ -16,6 +16,7 @@ export default L.LayerGroup.extend({
     this.onLayerChange = this.onLayerChange.bind(this);
     this.onMapObjectUpdated = this.onMapObjectUpdated.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
+    this.onPopupOpen = this.onPopupOpen.bind(this);
   },
 
   //websocket update

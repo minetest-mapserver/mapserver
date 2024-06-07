@@ -9,6 +9,7 @@ export default L.LayerGroup.extend({
     this.type = type;
 
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
+    this.onPopupOpen = this.onPopupOpen.bind(this);
   },
 
 
