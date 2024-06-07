@@ -83,7 +83,9 @@ export default L.LayerGroup.extend({
   },
 
   onPopupOpen: function(PopupEvent) {
-    this.map.panTo(PopupEvent.popup.getLatLng());
+    this.map.panTo(PopupEvent.popup.getLatLng(), {
+      duration: 0.5,
+    });
   },
 
   onAdd: function(map) {
