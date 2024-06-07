@@ -9,13 +9,6 @@ import RealtimeTileLayer from './RealtimeTileLayer.js';
 
 import config from '../config.js';
 
-function onPopupOpen(e) {
-  this.map.panTo(e.popup.getLatLng(), {
-    duration: 0.5,
-  });
-}
-
-
 export function createMap(node, layerId, zoom, lat, lon){
 
   const cfg = config.get();
