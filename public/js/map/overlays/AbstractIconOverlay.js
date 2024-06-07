@@ -16,7 +16,6 @@ export default L.LayerGroup.extend({
     this.onLayerChange = this.onLayerChange.bind(this);
     this.onMapObjectUpdated = this.onMapObjectUpdated.bind(this);
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
-    this.onPopupOpen = this.onPopupOpen.bind(this);
   },
 
   //websocket update
@@ -132,17 +131,10 @@ export default L.LayerGroup.extend({
 
   },
 
-  onPopupOpen: function(PopupEvent) {
-    this.map.panTo(PopupEvent.popup.getLatLng(), {
-      duration: 0.5,
-    });
-  },
-
   onAdd: function(map) {
     this.map = map;
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
-    map.on("popupopen", this.onPopupOpen);
     wsChannel.addListener("mapobject-created", this.onMapObjectUpdated);
     this.reDraw(true);
   },
@@ -151,7 +143,6 @@ export default L.LayerGroup.extend({
     this.clearLayers();
     map.off("zoomend", this.onMapMove);
     map.off("moveend", this.onMapMove);
-    map.off("popupopen", this.onPopupOpen);
     wsChannel.removeListener("mapobject-created", this.onMapObjectUpdated);
   }
 
