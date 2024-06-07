@@ -9,7 +9,6 @@ export default L.LayerGroup.extend({
     this.type = type;
 
     this.onMapMove = debounce(this.onMapMove.bind(this), 50);
-    this.onPopupOpen = this.onPopupOpen.bind(this);
   },
 
 
@@ -82,17 +81,10 @@ export default L.LayerGroup.extend({
 
   },
 
-  onPopupOpen: function(PopupEvent) {
-    this.map.panTo(PopupEvent.popup.getLatLng(), {
-      duration: 0.5,
-    });
-  },
-
   onAdd: function(map) {
     this.map = map;
     map.on("zoomend", this.onMapMove);
     map.on("moveend", this.onMapMove);
-    map.on("popupopen", this.onPopupOpen);
     this.reDraw(true);
   },
 
@@ -100,7 +92,6 @@ export default L.LayerGroup.extend({
     this.clearLayers();
     map.off("zoomend", this.onMapMove);
     map.off("moveend", this.onMapMove);
-    map.off("popupopen", this.onPopupOpen);
   }
 
 });

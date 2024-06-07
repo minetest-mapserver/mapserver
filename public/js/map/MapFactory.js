@@ -6,8 +6,15 @@ import TopRightControl from './TopRightControl.js';
 import Overlaysetup from './Overlaysetup.js';
 import CustomOverlay from './CustomOverlay.js';
 import RealtimeTileLayer from './RealtimeTileLayer.js';
+import PanOnPopup from './PanOnPopup.js';
 
 import config from '../config.js';
+
+function onPopupOpen(e) {
+  this.map.panTo(e.popup.getLatLng(), {
+    duration: 0.5,
+  });
+}
 
 
 export function createMap(node, layerId, zoom, lat, lon){
@@ -35,6 +42,7 @@ export function createMap(node, layerId, zoom, lat, lon){
   var overlays = {};
   Overlaysetup(cfg, map, overlays);
   CustomOverlay(map, overlays);
+  PanOnPopup(map);
 
   new CoordinatesDisplay({ position: 'bottomleft' }).addTo(map);
   new WorldInfoDisplay(wsChannel, { position: 'bottomright' }).addTo(map);
