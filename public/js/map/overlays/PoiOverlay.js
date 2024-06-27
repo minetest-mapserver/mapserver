@@ -24,9 +24,9 @@ export default AbstractIconOverlay.extend({
 
     if (poi.attributes.url) {
       innerHTML += "<a href=\"" + HtmlSanitizer.SanitizeHtml(poi.attributes.url) + "\">" +
-        "<h4>" + HtmlSanitizer.SanitizeHtml(poi.attributes.name) + "</h4></a><hr>";
+        "<h4>" + HtmlSanitizer.SanitizeHtml(poi.attributes.name) + "</h4></a>";
     } else {
-      innerHTML += "<h4>" + HtmlSanitizer.SanitizeHtml(poi.attributes.name) + "</h4><hr>";
+      innerHTML += "<h4>" + HtmlSanitizer.SanitizeHtml(poi.attributes.name) + "</h4>";
     }
 
     if (poi.attributes.image) {
@@ -34,7 +34,7 @@ export default AbstractIconOverlay.extend({
         "\" crossorigin=\"anonymous\" referrerpolicy=\"origin-when-cross-origin\">";
     }
 
-    innerHTML += "<b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
+    innerHTML += "<hr><b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
 
     return innerHTML;
   }
