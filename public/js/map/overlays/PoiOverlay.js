@@ -31,7 +31,7 @@ export default AbstractIconOverlay.extend({
 
     if (poi.attributes.image) {
       innerHTML += "<img class=\"poi_image\" src=\"" + HtmlSanitizer.SanitizeHtml(poi.attributes.image) +
-        " crossorigin=\"anonymous\" referrerpolicy=\"origin-when-cross-origin\">";
+        "\" crossorigin=\"anonymous\" referrerpolicy=\"origin-when-cross-origin\">";
     }
 
     innerHTML += "<b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
