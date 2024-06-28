@@ -9,6 +9,8 @@ import RealtimeTileLayer from './RealtimeTileLayer.js';
 
 import config from '../config.js';
 
+const BORDER_BOUNDS = 5000;
+
 export function createMap(node, layerId, zoom, lat, lon){
 
   const cfg = config.get();
@@ -20,8 +22,8 @@ export function createMap(node, layerId, zoom, lat, lon){
     zoom: zoom,
     crs: SimpleCRS,
     maxBounds: L.latLngBounds(
-      L.latLng(-31000, -31000),
-      L.latLng(31000, 31000)
+      L.latLng(-31000-BORDER_BOUNDS, -31000-BORDER_BOUNDS),
+      L.latLng(31000+BORDER_BOUNDS, 31000+BORDER_BOUNDS)
     )
   });
 
