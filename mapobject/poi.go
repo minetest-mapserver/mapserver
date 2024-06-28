@@ -18,6 +18,7 @@ func (this *PoiBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, bloc
 	o.Attributes["name"] = md["name"]
 	o.Attributes["category"] = md["category"]
 	o.Attributes["url"] = md["url"]
+	o.Attributes["image"] = md["image"]
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["icon"] = md["icon"]
 	o.Attributes["color"] = this.Color

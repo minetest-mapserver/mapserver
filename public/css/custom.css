@@ -48,3 +48,8 @@ body {
 .player-popup div.info {
   grid-area: info;
 }
+
+.poi_image {
+  width: 100%;
+  height: auto;
+}
