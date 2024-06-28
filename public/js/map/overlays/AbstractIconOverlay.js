@@ -121,6 +121,11 @@ export default L.LayerGroup.extend({
           popup = self.createPopup(obj);
           if (popup)
             marker.bindPopup(popup);
+
+          marker.on('click', function () {
+            self.map.panTo(marker.getLatLng());
+          });
+
           marker.addTo(self);
 
           self.currentObjects[hash] = marker;

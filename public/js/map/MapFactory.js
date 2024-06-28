@@ -9,7 +9,6 @@ import RealtimeTileLayer from './RealtimeTileLayer.js';
 
 import config from '../config.js';
 
-
 export function createMap(node, layerId, zoom, lat, lon){
 
   const cfg = config.get();
