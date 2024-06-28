@@ -14,12 +14,10 @@ For additional infos (lag,time,players => active mode) on the mapserver interfac
 
 ## Docker image
 
-* Docker-hub: https://hub.docker.com/repository/docker/minetestmapserver/mapserver
-
 Simple docker run example to run in the world-directory:
 
 ```
-docker run --rm --it -p 8080:8080 -v $(pwd):/minetest -w /minetest minetestmapserver/mapserver
+docker run --rm --it -p 8080:8080 -v $(pwd):/minetest -w /minetest ghcr.io/minetest-mapserver/mapserver
 ```
 
 ## Docker compose
@@ -29,7 +27,7 @@ Examplary `docker-compose` config:
 ```yml
 services:
   mapserver:
-   image: minetesttools/mapserver
+   image: ghcr.io/minetest-mapserver/mapserver
    restart: always
    networks:
     - default

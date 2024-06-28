@@ -142,6 +142,9 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 						continue
 					}
 
+					// clamp alpha channel to max
+					c.A = 255
+
 					if r.enableShadow {
 						var left, leftAbove, top, topAbove string
 
