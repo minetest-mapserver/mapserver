@@ -30,8 +30,9 @@ export default AbstractIconOverlay.extend({
     }
 
     if (poi.attributes.image) {
-      innerHTML += "<img class=\"poi_image\" src=\"" + HtmlSanitizer.SanitizeHtml(poi.attributes.image) +
-        "\" crossorigin=\"anonymous\" referrerpolicy=\"origin-when-cross-origin\">";
+      innerHTML += "<div class=\"poi_image_container\">" +
+        "<img class=\"poi_image\" src=\"" + HtmlSanitizer.SanitizeHtml(poi.attributes.image) +
+        "\" crossorigin=\"anonymous\" referrerpolicy=\"origin-when-cross-origin\"></div>";
     }
 
     innerHTML += "<hr><b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
