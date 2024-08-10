@@ -17,6 +17,7 @@ func (this *PoiBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, bloc
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "poi")
 	o.Attributes["name"] = md["name"]
 	o.Attributes["category"] = md["category"]
+	o.Attributes["addr"] = md["addr"]
 	o.Attributes["url"] = md["url"]
 	o.Attributes["image"] = md["image"]
 	o.Attributes["owner"] = md["owner"]
