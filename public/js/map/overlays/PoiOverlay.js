@@ -37,7 +37,7 @@ export default AbstractIconOverlay.extend({
 
     innerHTML += "<hr>";
     if (poi.attributes.addr) {
-      innerHTML += "<b>Address: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.addr) + "<br>"
+      innerHTML += "<b>Address: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.addr) + "<br>";
     }
     innerHTML += "<b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
 
