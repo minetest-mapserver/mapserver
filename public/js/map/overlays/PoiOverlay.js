@@ -35,7 +35,11 @@ export default AbstractIconOverlay.extend({
         "\" crossorigin=\"anonymous\" referrerpolicy=\"origin-when-cross-origin\"></div>";
     }
 
-    innerHTML += "<hr><b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
+    innerHTML += "<hr>";
+    if (poi.attributes.addr) {
+      innerHTML += "<b>Address: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.addr) + "<br>";
+    }
+    innerHTML += "<b>Owner: </b> " + HtmlSanitizer.SanitizeHtml(poi.attributes.owner) + "<br>";
 
     return innerHTML;
   }
