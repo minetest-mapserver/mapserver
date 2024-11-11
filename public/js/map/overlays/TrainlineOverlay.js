@@ -58,6 +58,10 @@ export default AbstractGeoJsonOverlay.extend({
       }
     });
   },
+
+  getMaxDisplayedZoom: function(){
+    return 4;
+  },
   
   createGeoJson: function(objects){
     var self = this;

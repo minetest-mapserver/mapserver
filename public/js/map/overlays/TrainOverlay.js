@@ -71,7 +71,7 @@ export default L.LayerGroup.extend({
 
 
   getMaxDisplayedZoom: function(){
-    return 10;
+    return 7;
   },
 
   createMarker: function(train){
