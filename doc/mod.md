@@ -54,7 +54,7 @@ You need to configure the *url* and the *secretkey* in your `minetest.conf`
 
 Example config:
 ```
-secure.http_mods = mapserver
+secure.http_mods = mapserver_mod
 mapserver.url = http://127.0.0.1:8080
 mapserver.key = ZJoSpysiKGlYexof
 ```
