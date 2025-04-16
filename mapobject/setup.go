@@ -247,8 +247,6 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("mcl_signs:standing_sign67_5_cherrywood", &SignBlock{Material: "wood"})
 	}
 
-	}
-
 	//Phonograph
 	if ctx.Config.MapObjects.Phonograph {
 		l.AddMapObject("phonograph:phonograph", &Phonograph{})
