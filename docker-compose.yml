@@ -2,7 +2,7 @@ version: "3.6"
 
 services:
  mapserver_frontend:
-  image: node:21.7.3-alpine
+  image: node:22.16.0-alpine
   volumes:
    - "dev_home:/root"
    - ".:/data"
