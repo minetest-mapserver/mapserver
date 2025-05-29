@@ -28,6 +28,6 @@ export default AbstractIconOverlay.extend({
   },
 
   createPopup: function(sign) {
-    return sign.attributes.display_text;
+    return sign.attributes.display_text.replaceAll("\n","<br/>");
   }
 });
