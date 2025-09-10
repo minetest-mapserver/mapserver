@@ -74,6 +74,7 @@
 		"mapserver_label",
 		"mapserver_player"
 	],
+	"pagename": "Minetest Mapserver",
 	"skins": {
 		"enableskinsdb": false,
 		"skinspath": ""

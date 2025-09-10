@@ -13,6 +13,7 @@ type PublicConfig struct {
 	Layers          []*types.Layer       `json:"layers"`
 	MapObjects      *app.MapObjectConfig `json:"mapobjects"`
 	DefaultOverlays []string             `json:"defaultoverlays"`
+	PageName        string               `json:"pagename"`
 	EnableSearch    bool                 `json:"enablesearch"`
 }
 
@@ -24,6 +25,7 @@ func (api *Api) GetConfig(resp http.ResponseWriter, req *http.Request) {
 	webcfg.MapObjects = api.Context.Config.MapObjects
 	webcfg.Version = app.Version
 	webcfg.DefaultOverlays = api.Context.Config.DefaultOverlays
+	webcfg.PageName = api.Context.Config.PageName
 	webcfg.EnableSearch = api.Context.Config.EnableSearch
 
 	json.NewEncoder(resp).Encode(webcfg)
