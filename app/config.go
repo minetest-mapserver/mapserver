@@ -128,6 +128,7 @@ func ParseConfig(filename string) (*Config, error) {
 		MapObjects:                &mapobjs,
 		MapBlockAccessorCfg:       &mapblockaccessor,
 		DefaultOverlays:           defaultoverlays,
+		PageName:                  "Minetest Mapserver",
 		Skins:                     &skins,
 		WorldPath:                 "./",
 		DataPath:                  "./",

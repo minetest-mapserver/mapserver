@@ -15,6 +15,10 @@ export function createMap(node, layerId, zoom, lat, lon){
 
   const cfg = config.get();
 
+  if (cfg.pagename) {
+    document.title = cfg.pagename;
+  }
+
   const map = L.map(node, {
     minZoom: 2,
     maxZoom: 12,

@@ -8,6 +8,7 @@
 * Hide travelnets and missions by pattern "(P)"
 * Added benchmark
 * Minor speed improvements
+* Configurable page name
 
 ## 3.0.0
 
