@@ -9,6 +9,7 @@
 * Added benchmark
 * Minor speed improvements
 * Configurable page name
+* Option to restrict webserver to localhost
 
 ## 3.0.0
 
