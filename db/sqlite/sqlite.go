@@ -2,8 +2,8 @@ package sqlite
 
 import (
 	"database/sql"
-	"embed"
 	"errors"
+	"fmt"
 	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/types"
@@ -19,12 +19,10 @@ sqlite3 my.db "SELECT writefile('object0.gz', MyBlob) FROM MyTable WHERE id = 1"
 */
 
 type Sqlite3Accessor struct {
-	db       *sql.DB
-	filename string
+	db         *sql.DB
+	filename   string
+	legacy_pos bool // legacy pos-column (instead of x/y/z columns)
 }
-
-//go:embed migrations/*.sql
-var migrations embed.FS
 
 func (db *Sqlite3Accessor) Migrate() error {
 
@@ -42,21 +40,37 @@ func (db *Sqlite3Accessor) Migrate() error {
 		hasMtime = false
 	}
 
+	_, err = rwdb.Query("select x, y, z from blocks limit 1")
+	if err != nil {
+		// x/y/z fields not found, set legacy flag
+		db.legacy_pos = true
+	}
+
 	if !hasMtime {
 		log.WithFields(logrus.Fields{
 			"filename": db.filename,
 		}).Info("Migrating database, this might take a while depending on the mapblock-count")
 		start := time.Now()
 
-		sql, err := migrations.ReadFile("migrations/sqlite_mapdb_migrate.sql")
+		// create pos(mtime) column
+		_, err = rwdb.Exec(createMtimeColumnQuery)
 		if err != nil {
-			return err
+			return fmt.Errorf("create mtime column failed: %v", err)
 		}
 
-		_, err = rwdb.Exec(string(sql))
-		if err != nil {
-			return err
+		// create trigger to update mtime column
+		if db.legacy_pos {
+			_, err = rwdb.Exec(createMtimeUpdateTriggerPosLegacy)
+			if err != nil {
+				return fmt.Errorf("create legacy trigger failed: %v", err)
+			}
+		} else {
+			_, err = rwdb.Exec(createMtimeUpdateTriggerPosXYZ)
+			if err != nil {
+				return fmt.Errorf("create trigger failed: %v", err)
+			}
 		}
+
 		t := time.Now()
 		elapsed := t.Sub(start)
 		log.WithFields(logrus.Fields{"elapsed": elapsed}).Info("Migration completed")
@@ -73,25 +87,45 @@ func convertRows(pos int64, data []byte, mtime int64) *db.Block {
 func (a *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
 
-	rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
-	if err != nil {
-		return nil, err
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var pos int64
-		var data []byte
-		var mtime int64
-
-		err = rows.Scan(&pos, &data, &mtime)
+	if a.legacy_pos {
+		rows, err := a.db.Query(getBlocksByMtimeQueryLegacy, gtmtime, limit)
 		if err != nil {
 			return nil, err
 		}
 
-		mb := convertRows(pos, data, mtime)
-		blocks = append(blocks, mb)
+		defer rows.Close()
+
+		for rows.Next() {
+			var pos int64
+			var data []byte
+			var mtime int64
+
+			err = rows.Scan(&pos, &data, &mtime)
+			if err != nil {
+				return nil, err
+			}
+
+			mb := convertRows(pos, data, mtime)
+			blocks = append(blocks, mb)
+		}
+	} else {
+		rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
+		if err != nil {
+			return nil, err
+		}
+
+		defer rows.Close()
+
+		for rows.Next() {
+			mb := &db.Block{Pos: &types.MapBlockCoords{}}
+
+			err = rows.Scan(&mb.Pos.X, &mb.Pos.Y, &mb.Pos.Z, &mb.Data, &mb.Mtime)
+			if err != nil {
+				return nil, err
+			}
+
+			blocks = append(blocks, mb)
+		}
 	}
 
 	return blocks, nil
@@ -141,31 +175,71 @@ func (db *Sqlite3Accessor) GetTimestamp() (int64, error) {
 	return 0, nil
 }
 
-func (db *Sqlite3Accessor) GetBlock(pos *types.MapBlockCoords) (*db.Block, error) {
-	ppos := coords.CoordToPlain(pos)
+func (a *Sqlite3Accessor) GetBlock(pos *types.MapBlockCoords) (*db.Block, error) {
 
-	rows, err := db.db.Query(getBlockQuery, ppos)
+	if a.legacy_pos {
+		ppos := coords.CoordToPlain(pos)
+		rows, err := a.db.Query(getBlockQueryLegacy, ppos)
+		if err != nil {
+			return nil, err
+		}
+
+		defer rows.Close()
+
+		if rows.Next() {
+			var pos int64
+			var data []byte
+			var mtime int64
+
+			err = rows.Scan(&pos, &data, &mtime)
+			if err != nil {
+				return nil, err
+			}
+
+			mb := convertRows(pos, data, mtime)
+			return mb, nil
+		}
+	} else {
+		rows, err := a.db.Query(getBlockQuery, pos.X, pos.Y, pos.Z)
+		if err != nil {
+			return nil, err
+		}
+
+		defer rows.Close()
+
+		if rows.Next() {
+			mb := &db.Block{Pos: &types.MapBlockCoords{}}
+			err = rows.Scan(&mb.Pos.X, &mb.Pos.Y, &mb.Pos.Z, &mb.Data, &mb.Mtime)
+			if err != nil {
+				return nil, err
+			}
+
+			return mb, nil
+		}
+	}
+
+	return nil, nil
+}
+
+func (a *Sqlite3Accessor) intQuery(q string, params ...interface{}) int {
+	rows, err := a.db.Query(q, params...)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	defer rows.Close()
 
 	if rows.Next() {
-		var pos int64
-		var data []byte
-		var mtime int64
-
-		err = rows.Scan(&pos, &data, &mtime)
+		var result int
+		err = rows.Scan(&result)
 		if err != nil {
-			return nil, err
+			panic(err)
 		}
 
-		mb := convertRows(pos, data, mtime)
-		return mb, nil
+		return result
 	}
 
-	return nil, nil
+	panic("no result!")
 }
 
 func New(filename string) (*Sqlite3Accessor, error) {

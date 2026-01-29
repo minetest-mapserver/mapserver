@@ -1,3 +1,6 @@
 [submodule "dev/worldmods/mapserver_mod"]
 	path = dev/worldmods/mapserver_mod
 	url = https://github.com/minetest-mapserver/mapserver_mod
+[submodule "dev/minetest_game"]
+	path = dev/minetest_game
+	url = https://github.com/luanti-org/minetest_game
