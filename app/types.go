@@ -5,6 +5,7 @@ import "mapserver/types"
 type Config struct {
 	ConfigVersion             int                     `json:"configversion"`
 	Port                      int                     `json:"port"`
+	LocalhostOnly             bool                    `json:"localhostonly"`
 	EnablePrometheus          bool                    `json:"enableprometheus"`
 	EnableRendering           bool                    `json:"enablerendering"`
 	EnableSearch              bool                    `json:"enablesearch"`

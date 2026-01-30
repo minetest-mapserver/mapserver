@@ -1,6 +1,7 @@
 {
 	"configversion": 1,
 	"port": 8080,
+	"localhostonly": false,
 	"enableprometheus": true,
 	"enablerendering": true,
 	"enablesearch": true,

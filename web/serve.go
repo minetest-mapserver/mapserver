@@ -16,6 +16,7 @@ func Serve(ctx *app.App) {
 	fields := logrus.Fields{
 		"port":   ctx.Config.Port,
 		"webdev": ctx.Config.Webdev,
+		"localhostonly": ctx.Config.LocalhostOnly,
 	}
 	logrus.WithFields(fields).Info("Starting http server")
 
@@ -68,9 +69,14 @@ func Serve(ctx *app.App) {
 		mux.HandleFunc("/api/mapblock/", api.GetMapBlockData)
 	}
 
+	var bind_addr string = ":"+strconv.Itoa(ctx.Config.Port)
+	if ctx.Config.LocalhostOnly {
+		bind_addr = "127.0.0.1:"+strconv.Itoa(ctx.Config.Port)
+	}
+
 	// main entry point
 	http.HandleFunc("/", mux.ServeHTTP)
-	err := http.ListenAndServe(":"+strconv.Itoa(ctx.Config.Port), nil)
+	err := http.ListenAndServe(bind_addr, nil)
 	if err != nil {
 		panic(err)
 	}
