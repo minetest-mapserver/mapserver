@@ -28,10 +28,12 @@ services:
   command: ["go", "run", ".."]
 
  minetest:
-  image: registry.gitlab.com/minetest/minetest/server:5.7.0
+  image: ghcr.io/luanti-org/luanti:5.15.0
   user: root
+  command: "--gameid minetest"
   volumes:
    - "world_data:/root/.minetest/worlds/world"
+   - "./dev/minetest_game:/root/.minetest/games/minetest_game"
    - "./dev/worldmods:/root/.minetest/worlds/world/worldmods"
    - "./dev/minetest.conf:/etc/minetest/minetest.conf"
    - "./dev/mapserver.json:/root/.minetest/worlds/world/mapserver.json"
