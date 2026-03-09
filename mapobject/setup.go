@@ -190,6 +190,7 @@ func Setup(ctx *app.App) {
 	if ctx.Config.MapObjects.Signs {
 		l.AddMapObject("default:sign_wall_wood", &SignBlock{Material: "wood"})
 		l.AddMapObject("default:sign_wall_steel", &SignBlock{Material: "steel"})
+		// Mineclonia legacy
 		l.AddMapObject("mcl_signs:wall_sign", &SignBlock{Material: "wood"})
 		l.AddMapObject("mcl_signs:standing_sign", &SignBlock{Material: "wood"})
 		l.AddMapObject("mcl_signs:standing_sign22_5", &SignBlock{Material: "wood"})
@@ -245,6 +246,26 @@ func Setup(ctx *app.App) {
 		l.AddMapObject("mcl_signs:standing_sign22_5_cherrywood", &SignBlock{Material: "wood"})
 		l.AddMapObject("mcl_signs:standing_sign45_cherrywood", &SignBlock{Material: "wood"})
 		l.AddMapObject("mcl_signs:standing_sign67_5_cherrywood", &SignBlock{Material: "wood"})
+		// Mineclonia current
+		prefix := "mcl_signs:"
+		materials := []string{
+			"acacia", "bamboo", "birch", "cherry_blossom", "crimson",
+			"dark_oak", "jungle", "mangrove", "oak", "pale_oak",
+			"spruce", "warped",
+		}
+		types := []string{
+			"hanging_sign",
+			"hanging_sign_attached",
+			"hanging_sign_wall",
+			"standing_sign",
+			"wall_sign",
+		}
+		for _, t := range types {
+			for _, m := range materials {
+				blockName := prefix + t + "_" + m
+				l.AddMapObject(blockName, &SignBlock{Material: "wood"})
+			}
+		}
 	}
 
 	//Phonograph
