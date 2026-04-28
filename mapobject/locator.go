@@ -9,7 +9,7 @@ import (
 
 type Locator struct{}
 
-func (this *Locator) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (l *Locator) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 

@@ -14,8 +14,8 @@ import (
 
 func Serve(ctx *app.App) {
 	fields := logrus.Fields{
-		"port":   ctx.Config.Port,
-		"webdev": ctx.Config.Webdev,
+		"port":          ctx.Config.Port,
+		"webdev":        ctx.Config.Webdev,
 		"localhostonly": ctx.Config.LocalhostOnly,
 	}
 	logrus.WithFields(fields).Info("Starting http server")
@@ -35,9 +35,7 @@ func Serve(ctx *app.App) {
 		mux.HandleFunc("/", CachedServeFunc(fs.ServeHTTP))
 	}
 
-	tiles := &Tiles{ctx: ctx}
-	tiles.Init()
-	mux.Handle("/api/tile/", tiles)
+	mux.Handle("/api/tile/", &Tiles{ctx: ctx})
 	mux.HandleFunc("/api/config", api.GetConfig)
 	mux.HandleFunc("/api/stats", api.GetStats)
 	mux.HandleFunc("/api/media/", api.GetMedia)
@@ -69,9 +67,9 @@ func Serve(ctx *app.App) {
 		mux.HandleFunc("/api/mapblock/", api.GetMapBlockData)
 	}
 
-	var bind_addr string = ":"+strconv.Itoa(ctx.Config.Port)
+	var bind_addr string = ":" + strconv.Itoa(ctx.Config.Port)
 	if ctx.Config.LocalhostOnly {
-		bind_addr = "127.0.0.1:"+strconv.Itoa(ctx.Config.Port)
+		bind_addr = "127.0.0.1:" + strconv.Itoa(ctx.Config.Port)
 	}
 
 	// main entry point

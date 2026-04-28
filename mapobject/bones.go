@@ -10,7 +10,7 @@ import (
 
 type BonesBlock struct{}
 
-func (this *BonesBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (bb *BonesBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)

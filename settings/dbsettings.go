@@ -15,8 +15,8 @@ func New(db mapobjectdb.DBAccessor) Settings {
 	}
 }
 
-func (this *DBSettings) GetString(key string, defaultValue string) string {
-	str, err := this.db.GetSetting(key, defaultValue)
+func (s *DBSettings) GetString(key string, defaultValue string) string {
+	str, err := s.db.GetSetting(key, defaultValue)
 	if err != nil {
 		panic(err)
 	}
@@ -24,15 +24,15 @@ func (this *DBSettings) GetString(key string, defaultValue string) string {
 	return str
 }
 
-func (this *DBSettings) SetString(key string, value string) {
-	err := this.db.SetSetting(key, value)
+func (s *DBSettings) SetString(key string, value string) {
+	err := s.db.SetSetting(key, value)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func (this *DBSettings) GetInt(key string, defaultValue int) int {
-	str, err := this.db.GetSetting(key, strconv.Itoa(defaultValue))
+func (s *DBSettings) GetInt(key string, defaultValue int) int {
+	str, err := s.db.GetSetting(key, strconv.Itoa(defaultValue))
 	if err != nil {
 		panic(err)
 	}
@@ -45,15 +45,15 @@ func (this *DBSettings) GetInt(key string, defaultValue int) int {
 	return value
 }
 
-func (this *DBSettings) SetInt(key string, value int) {
-	err := this.db.SetSetting(key, strconv.Itoa(value))
+func (s *DBSettings) SetInt(key string, value int) {
+	err := s.db.SetSetting(key, strconv.Itoa(value))
 	if err != nil {
 		panic(err)
 	}
 }
 
-func (this *DBSettings) GetInt64(key string, defaultValue int64) int64 {
-	str, err := this.db.GetSetting(key, strconv.FormatInt(defaultValue, 10))
+func (s *DBSettings) GetInt64(key string, defaultValue int64) int64 {
+	str, err := s.db.GetSetting(key, strconv.FormatInt(defaultValue, 10))
 	if err != nil {
 		panic(err)
 	}
@@ -66,20 +66,20 @@ func (this *DBSettings) GetInt64(key string, defaultValue int64) int64 {
 	return value
 }
 
-func (this *DBSettings) SetInt64(key string, value int64) {
-	err := this.db.SetSetting(key, strconv.FormatInt(value, 10))
+func (s *DBSettings) SetInt64(key string, value int64) {
+	err := s.db.SetSetting(key, strconv.FormatInt(value, 10))
 	if err != nil {
 		panic(err)
 	}
 }
 
-func (this *DBSettings) GetBool(key string, defaultValue bool) bool {
+func (s *DBSettings) GetBool(key string, defaultValue bool) bool {
 	defStr := "false"
 	if defaultValue {
 		defStr = "true"
 	}
 
-	str, err := this.db.GetSetting(key, defStr)
+	str, err := s.db.GetSetting(key, defStr)
 	if err != nil {
 		panic(err)
 	}
@@ -87,13 +87,13 @@ func (this *DBSettings) GetBool(key string, defaultValue bool) bool {
 	return str == "true"
 }
 
-func (this *DBSettings) SetBool(key string, value bool) {
+func (s *DBSettings) SetBool(key string, value bool) {
 	defStr := "false"
 	if value {
 		defStr = "true"
 	}
 
-	err := this.db.SetSetting(key, defStr)
+	err := s.db.SetSetting(key, defStr)
 	if err != nil {
 		panic(err)
 	}

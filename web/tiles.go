@@ -1,7 +1,6 @@
 package web
 
 import (
-	"github.com/prometheus/client_golang/prometheus"
 	"image/color"
 	"mapserver/app"
 	"mapserver/coords"
@@ -9,15 +8,14 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
-type Tiles struct {
-	ctx   *app.App
-	blank []byte
-}
+var blankTile = tilerenderer.CreateBlankTile(color.RGBA{255, 255, 255, 255})
 
-func (t *Tiles) Init() {
-	t.blank = tilerenderer.CreateBlankTile(color.RGBA{255, 255, 255, 255})
+type Tiles struct {
+	ctx *app.App
 }
 
 func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
@@ -46,14 +44,16 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Write([]byte(err.Error()))
 
 	} else {
-		resp.Header().Add("content-type", "image/png")
+		resp.Header().Add("Content-Type", "image/png")
 
 		if tile == nil {
-			resp.Write(t.blank)
-			//TODO: cache/layer color
+			// cache blank tile for a while (heavy re-use)
+			resp.Header().Add("Cache-Control", "max-age=300")
+			resp.Write(blankTile)
 
 		} else {
-			tilesCumulativeSize.Add(float64(len(tile)))
+			// cache tile up to 10 seconds (realtime)
+			resp.Header().Add("Cache-Control", "max-age=10")
 			resp.Write(tile)
 
 		}

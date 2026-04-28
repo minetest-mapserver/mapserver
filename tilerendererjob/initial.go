@@ -57,9 +57,5 @@ func initialRender(ctx *app.App) {
 			"elapsed":   elapsed,
 		}
 		logrus.WithFields(fields).Info("Initial rendering")
-
-		//tile gc
-		ctx.TileDB.GC()
-
 	}
 }

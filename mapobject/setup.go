@@ -253,8 +253,8 @@ func Setup(ctx *app.App) {
 	}
 
 	//For Sale Sign for Unified Money
-	if ctx.Config.MapObjects.UnifiefMoneyAreaForSale {
-		l.AddMapObject("um_area_forsale:for_sale_sign", &UnifiefMoneyAreaForSale{})
+	if ctx.Config.MapObjects.UnifiedMoneyAreaForSale {
+		l.AddMapObject("um_area_forsale:for_sale_sign", &UnifiedMoneyAreaForSale{})
 	}
 
 	ctx.MapBlockAccessor.Eventbus.AddListener(&l)

@@ -9,7 +9,7 @@ import (
 
 type Phonograph struct{}
 
-func (this *Phonograph) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (phg *Phonograph) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	if _, ok := md["song_title"]; !ok {

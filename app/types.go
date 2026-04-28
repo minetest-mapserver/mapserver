@@ -67,7 +67,7 @@ type MapObjectConfig struct {
 	Signs                   bool `json:"signs"`
 	MapserverAirutils       bool `json:"mapserver_airutils"`
 	Phonograph              bool `json:"phonograph"`
-	UnifiefMoneyAreaForSale bool `json:"um_area_forsale"`
+	UnifiedMoneyAreaForSale bool `json:"um_area_forsale"`
 }
 
 type WebApiConfig struct {

@@ -9,7 +9,7 @@ import (
 
 type MissionBlock struct{}
 
-func (this *MissionBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (blk *MissionBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	if md["hidden"] == "1" {

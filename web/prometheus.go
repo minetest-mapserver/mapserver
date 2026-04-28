@@ -5,12 +5,6 @@ import (
 )
 
 var (
-	tilesCumulativeSize = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "tiles_cumulative_size_served",
-			Help: "Overall sent bytes of tiles",
-		},
-	)
 	tileServeDuration = prometheus.NewHistogram(prometheus.HistogramOpts{
 		Name:    "tiles_serve_durations",
 		Help:    "Histogram for tile serve timings",
@@ -36,7 +30,6 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(tilesCumulativeSize)
 	prometheus.MustRegister(tileServeDuration)
 	prometheus.MustRegister(mapobjectServeDuration)
 	prometheus.MustRegister(wsClients)

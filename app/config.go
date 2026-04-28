@@ -88,7 +88,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Locator:                 false,
 		Signs:                   true,
 		MapserverAirutils:       true,
-		UnifiefMoneyAreaForSale: true,
+		UnifiedMoneyAreaForSale: true,
 		Phonograph:              true,
 	}
 

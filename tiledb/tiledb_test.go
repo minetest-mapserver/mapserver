@@ -1,14 +1,13 @@
 package tiledb
 
 import (
-	"io/ioutil"
 	"mapserver/coords"
 	"os"
 	"testing"
 )
 
 func TestTileDB(t *testing.T) {
-	tmpfile, err := ioutil.TempDir("", "TestTileDB")
+	tmpfile, err := os.MkdirTemp("", "TestTileDB")
 	if err != nil {
 		panic(err)
 	}

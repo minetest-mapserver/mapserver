@@ -9,7 +9,7 @@ import (
 
 type QuarryBlock struct{}
 
-func (this *QuarryBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (blk *QuarryBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	if md["owner"] == "" {

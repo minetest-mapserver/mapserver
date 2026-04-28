@@ -60,9 +60,5 @@ func incrementalRender(ctx *app.App) {
 			"lastMtime": result.LastMtime,
 		}
 		logrus.WithFields(fields).Info("incremental rendering")
-
-		//tile gc
-		ctx.TileDB.GC()
-
 	}
 }

@@ -9,7 +9,7 @@ import (
 
 type BorderBlock struct{}
 
-func (this *BorderBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (bb *BorderBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "border")

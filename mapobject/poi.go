@@ -11,7 +11,7 @@ type PoiBlock struct {
 	Color string
 }
 
-func (this *PoiBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (blk *PoiBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "poi")
@@ -22,7 +22,7 @@ func (this *PoiBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, bloc
 	o.Attributes["image"] = md["image"]
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["icon"] = md["icon"]
-	o.Attributes["color"] = this.Color
+	o.Attributes["color"] = blk.Color
 
 	return o
 }

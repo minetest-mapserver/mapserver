@@ -27,18 +27,18 @@ func New() *Eventbus {
 	return &eb
 }
 
-func (this *Eventbus) Emit(eventtype string, o interface{}) {
-	this.mutex.RLock()
-	defer this.mutex.RUnlock()
+func (b *Eventbus) Emit(eventtype string, o interface{}) {
+	b.mutex.RLock()
+	defer b.mutex.RUnlock()
 
-	for _, l := range this.listeners {
+	for _, l := range b.listeners {
 		l.OnEvent(eventtype, o)
 	}
 }
 
-func (this *Eventbus) AddListener(l Listener) {
-	this.mutex.Lock()
-	defer this.mutex.Unlock()
+func (b *Eventbus) AddListener(l Listener) {
+	b.mutex.Lock()
+	defer b.mutex.Unlock()
 
-	this.listeners = append(this.listeners, l)
+	b.listeners = append(b.listeners, l)
 }

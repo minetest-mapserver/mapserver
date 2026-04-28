@@ -7,9 +7,9 @@ import (
 	"github.com/minetest-go/mapparser"
 )
 
-type UnifiefMoneyAreaForSale struct{}
+type UnifiedMoneyAreaForSale struct{}
 
-func (this *UnifiefMoneyAreaForSale) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (um *UnifiedMoneyAreaForSale) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	if _, ok := md["id"]; !ok {

@@ -1,13 +1,9 @@
 package tiledb
 
 import (
-	"io/ioutil"
+	"fmt"
 	"mapserver/coords"
 	"os"
-	"strconv"
-
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/sirupsen/logrus"
 )
 
 func New(path string) (*TileDB, error) {
@@ -20,30 +16,14 @@ type TileDB struct {
 	path string
 }
 
-func (this *TileDB) getDirAndFile(pos *coords.TileCoords) (string, string) {
-	dir := this.path + "/" +
-		strconv.Itoa(pos.LayerId) + "/" +
-		strconv.Itoa(pos.Zoom) + "/" +
-		strconv.Itoa(pos.X)
-
-	file := dir + "/" + strconv.Itoa(pos.Y) + ".png"
+func (tdb *TileDB) getDirAndFile(pos *coords.TileCoords) (string, string) {
+	dir := fmt.Sprintf("%s/%d/%d/%d", tdb.path, pos.LayerId, pos.Zoom, pos.X)
+	file := fmt.Sprintf("%s/%d.png", dir, pos.Y)
 	return dir, file
 }
 
-func (this *TileDB) GC() {
-	//No-Op
-}
-
-func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
-	timer := prometheus.NewTimer(tiledbLoadDuration)
-	defer timer.ObserveDuration()
-
-	fields := logrus.Fields{
-		"pos": pos,
-	}
-	log.WithFields(fields).Debug("GetTile")
-
-	_, file := this.getDirAndFile(pos)
+func (tdb *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
+	_, file := tdb.getDirAndFile(pos)
 	info, _ := os.Stat(file)
 	if info != nil {
 		content, err := os.ReadFile(file)
@@ -57,20 +37,10 @@ func (this *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 	return nil, nil
 }
 
-func (this *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
-	timer := prometheus.NewTimer(tiledbSaveDuration)
-	defer timer.ObserveDuration()
-
-	fields := logrus.Fields{
-		"pos":  pos,
-		"size": len(tile),
-	}
-	log.WithFields(fields).Debug("SetTile")
-
-	dir, file := this.getDirAndFile(pos)
+func (tdb *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
+	dir, file := tdb.getDirAndFile(pos)
 	os.MkdirAll(dir, 0700)
 
-	err := ioutil.WriteFile(file, tile, 0644)
-
+	err := os.WriteFile(file, tile, 0644)
 	return err
 }

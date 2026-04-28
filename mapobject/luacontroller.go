@@ -9,7 +9,7 @@ import (
 
 type LuaControllerBlock struct{}
 
-func (this *LuaControllerBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (l *LuaControllerBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	//md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 

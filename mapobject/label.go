@@ -9,7 +9,7 @@ import (
 
 type LabelBlock struct{}
 
-func (this *LabelBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (blk *LabelBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "label")

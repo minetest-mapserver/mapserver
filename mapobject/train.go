@@ -9,7 +9,7 @@ import (
 
 type TrainBlock struct{}
 
-func (this *TrainBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
+func (blk *TrainBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
 	md := block.Metadata.GetMetadata(x, y, z)
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "train")

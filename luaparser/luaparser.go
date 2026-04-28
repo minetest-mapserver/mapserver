@@ -2,8 +2,9 @@ package luaparser
 
 import (
 	"errors"
-	"github.com/yuin/gopher-lua"
 	"strconv"
+
+	lua "github.com/yuin/gopher-lua"
 )
 
 func New() *LuaParser {
@@ -47,15 +48,15 @@ func parseMap(t *lua.LTable) map[string]interface{} {
 	return result
 }
 
-func (this *LuaParser) ParseList(expr string) ([]map[string]interface{}, error) {
+func (lp *LuaParser) ParseList(expr string) ([]map[string]interface{}, error) {
 	result := make([]map[string]interface{}, 0)
 
-	err := this.state.DoString(expr)
+	err := lp.state.DoString(expr)
 	if err != nil {
 		return result, err
 	}
 
-	lv := this.state.Get(-1)
+	lv := lp.state.Get(-1)
 
 	tbl, ok := lv.(*lua.LTable)
 	if !ok {
@@ -77,15 +78,15 @@ func (this *LuaParser) ParseList(expr string) ([]map[string]interface{}, error) 
 	return result, nil
 }
 
-func (this *LuaParser) ParseMap(expr string) (map[string]interface{}, error) {
+func (lp *LuaParser) ParseMap(expr string) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 
-	err := this.state.DoString(expr)
+	err := lp.state.DoString(expr)
 	if err != nil {
 		return result, err
 	}
 
-	lv := this.state.Get(-1)
+	lv := lp.state.Get(-1)
 
 	tbl, ok := lv.(*lua.LTable)
 	if !ok {
