@@ -28,7 +28,7 @@ services:
   command: ["go", "run", ".."]
 
  minetest:
-  image: ghcr.io/luanti-org/luanti:5.15.0
+  image: ghcr.io/luanti-org/luanti:5.17.0
   user: root
   command: "--gameid minetest"
   volumes:
