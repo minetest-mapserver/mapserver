@@ -50,6 +50,7 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 		"digiterms": true,
 		"digilines": true,
 		"travelnet": true,
+		"respawn_places": true,
 		"mapserver": true,
 		"mission": true,
 		"jumpdrive": true,
@@ -62,10 +63,13 @@ The mapserver will generate a fresh `mapserver.json` if there is none at startup
 		"purgetime": "15s",
 		"maxitems": 5000
 	},
-    "skins": {
-      "enableskinsdb": true,
-      "skinspath": "/path/to/minetest/mods/skinsdb/textures"
-    }
+	"skins": {
+		"enableskinsdb": true,
+		"skinspath": "/path/to/minetest/mods/skinsdb/textures"
+	},
+	"respawn": {
+		"placescolor": "green"
+	},
 }
 ```
 
@@ -129,3 +133,6 @@ Enables support for serving/displaying custom player skins provided by the Skins
 The path to where SkinsDB textures are stored. This should be the SkinsDB textures directory.
 
 Example: `/path/to/minetest/mods/skinsdb/textures`
+
+#### respawn.placescolor
+The [marker color](https://github.com/lennardv2/Leaflet.awesome-markers) of the map pin for each respawn point.

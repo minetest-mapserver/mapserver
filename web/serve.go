@@ -48,6 +48,10 @@ func Serve(ctx *app.App) {
 		mux.Handle("/api/areas", &AreasHandler{ctx: ctx})
 	}
 
+	if ctx.Config.MapObjects.RespawnPlaces {
+		mux.Handle("/api/respawnplaces", &RespawnPlacesHandler{ctx: ctx})
+	}
+
 	if ctx.Config.EnablePrometheus {
 		mux.Handle("/metrics", promhttp.Handler())
 	}

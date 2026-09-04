@@ -15,6 +15,7 @@ type PublicConfig struct {
 	DefaultOverlays []string             `json:"defaultoverlays"`
 	PageName        string               `json:"pagename"`
 	EnableSearch    bool                 `json:"enablesearch"`
+	Respawn         *app.RespawnConfig   `json:"respawn"`
 }
 
 func (api *Api) GetConfig(resp http.ResponseWriter, req *http.Request) {
@@ -27,6 +28,7 @@ func (api *Api) GetConfig(resp http.ResponseWriter, req *http.Request) {
 	webcfg.DefaultOverlays = api.Context.Config.DefaultOverlays
 	webcfg.PageName = api.Context.Config.PageName
 	webcfg.EnableSearch = api.Context.Config.EnableSearch
+	webcfg.Respawn = api.Context.Config.Respawn
 
 	json.NewEncoder(resp).Encode(webcfg)
 }
