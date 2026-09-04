@@ -45,6 +45,7 @@
 		"digiterms": true,
 		"digilines": true,
 		"travelnet": true,
+		"respawn_places": true,
 		"mapserver_player": true,
 		"mapserver_poi": true,
 		"mapserver_label": true,
@@ -82,5 +83,8 @@
 	},
 	"worldpath": "./",
 	"datapath": "./",
-	"colorstxtpath": "./"
+	"colorstxtpath": "./",
+	"respawn": {
+		"placescolor": "green"
+	}
 }

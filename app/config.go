@@ -71,6 +71,7 @@ func ParseConfig(filename string) (*Config, error) {
 		Digiterms:               true,
 		Digilines:               true,
 		Travelnet:               true,
+		RespawnPlaces:           true,
 		MapserverPlayer:         true,
 		MapserverPOI:            true,
 		MapserverLabel:          true,
@@ -109,6 +110,10 @@ func ParseConfig(filename string) (*Config, error) {
 		SkinsPath:     "",
 	}
 
+	respawn := RespawnConfig{
+		PlacesColor: "green",
+	}
+
 	cfg := Config{
 		ConfigVersion:             1,
 		Port:                      8080,
@@ -134,6 +139,7 @@ func ParseConfig(filename string) (*Config, error) {
 		WorldPath:                 "./",
 		DataPath:                  "./",
 		ColorsTxtPath:             "./",
+		Respawn:                   &respawn,
 	}
 
 	info, err := os.Stat(filename)

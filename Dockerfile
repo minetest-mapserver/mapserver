@@ -7,7 +7,11 @@ FROM golang:1.24.3 as go-builder
 COPY . /data
 COPY --from=bundle-builder /public/js/bundle* /data/public/js/
 WORKDIR /data
-RUN CGO_ENABLED=0 go build .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 go build .
 
 FROM alpine:3.21.3
 COPY --from=go-builder /data/mapserver /bin/mapserver

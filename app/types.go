@@ -27,6 +27,7 @@ type Config struct {
 	WorldPath                 string                  `json:"worldpath"`
 	DataPath                  string                  `json:"datapath"`
 	ColorsTxtPath             string                  `json:"colorstxtpath"`
+	Respawn                   *RespawnConfig          `json:"respawn"`
 }
 
 type MapBlockAccessorConfig struct {
@@ -49,6 +50,7 @@ type MapObjectConfig struct {
 	Digiterms               bool `json:"digiterms"`
 	Digilines               bool `json:"digilines"`
 	Travelnet               bool `json:"travelnet"`
+	RespawnPlaces           bool `json:"respawn_places"`
 	MapserverPlayer         bool `json:"mapserver_player"`
 	MapserverPOI            bool `json:"mapserver_poi"`
 	MapserverLabel          bool `json:"mapserver_label"`
@@ -81,4 +83,8 @@ type WebApiConfig struct {
 type SkinsConfig struct {
 	EnableSkinsDB bool   `json:"enableskinsdb"`
 	SkinsPath     string `json:"skinspath"`
+}
+
+type RespawnConfig struct {
+	PlacesColor   string `json:"placescolor"`
 }
