@@ -4,6 +4,7 @@ import ShopOverlay from './overlays/ShopOverlay.js';
 import LabelOverlay from './overlays/LabelOverlay.js';
 import TrainlineOverlay from './overlays/TrainlineOverlay.js';
 import TravelnetOverlay from './overlays/TravelnetOverlay.js';
+import RespawnOverlay from './overlays/RespawnOverlay.js';
 import BonesOverlay from './overlays/BonesOverlay.js';
 import LcdOverlay from './overlays/LcdOverlay.js';
 import DigitermOverlay from './overlays/DigitermOverlay.js';
@@ -78,6 +79,13 @@ export default function(cfg, map, overlays, wsChannel){
     overlays.Travelnet = new TravelnetOverlay();
     if (isDefault("travelnet")) {
       map.addLayer(overlays.Travelnet);
+    }
+  }
+
+  if (cfg.mapobjects.respawn_places) {
+    overlays["Respawn places"] = new RespawnOverlay(cfg);
+    if (isDefault("respawn_places")) {
+      map.addLayer(overlays.RespawnPlaces);
     }
   }
 

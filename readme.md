@@ -65,6 +65,7 @@ See: [Incremental rendering](doc/incrementalrendering.md)
 * Protector display
 * LCD Displays as markers
 * Monitoring with [Prometheus](doc/prometheus.md)
+* Mod [respawn](https://gitlab.com/cronvel/mt-respawn) places
 
 ## Planned Features
 
