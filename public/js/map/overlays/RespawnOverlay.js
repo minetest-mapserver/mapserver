@@ -53,7 +53,7 @@ export default L.LayerGroup.extend({
       icon: "user-plus",
       prefix: "fa",
       markerColor: color || this.placescolor || "green"
-    })
+    });
   },
 
   createMarker: function(place, name) {
