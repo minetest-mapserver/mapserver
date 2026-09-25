@@ -46,20 +46,22 @@ export default L.LayerGroup.extend({
     return html;
   },
 
-  getIcon: function(color){
+  getIcon: function(color, icon){
     return L.AwesomeMarkers.icon({
       // person-arrow-up-from-line is my first choice, but not present
       // in the bundled fontawesome file.
-      icon: "user-plus",
+      icon: icon,
       prefix: "fa",
-      markerColor: color || this.placescolor || "green"
+      markerColor: color
     });
   },
 
   createMarker: function(place, name) {
     let marker = L.marker([place.pos.z + 0.5, place.pos.x + 0.5]);
     marker.bindPopup(this.createPopup(place, name));
-    marker.setIcon(this.getIcon());
+    let color = place.color || this.placescolor || "green";
+    let icon = place.icon || "user-plus";
+    marker.setIcon(this.getIcon(color, icon));
     return marker;
   },
 
