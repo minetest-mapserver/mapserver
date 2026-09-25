@@ -51,22 +51,13 @@ func (pos *GenericPos) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Parse only the contents before the first newline, because
-// mods/respawn/storage.lua save_db() uses newline as EOF indicator.
 func Parse(data []byte) (File, error) {
-	if newline := bytes.IndexByte(data, '\n'); newline >= 0 {
-		data = data[:newline]
-	}
-
-	// Remove possible windows-style CR line ending
-	data = bytes.TrimSuffix(data, []byte{'\r'})
-
-	var respawnplaces File
-	if err := json.Unmarshal(data, &respawnplaces); err != nil {
-		return nil, fmt.Errorf("parse respawn data: %w", err)
-	}
-
-	return respawnplaces, nil
+    decoder := json.NewDecoder(bytes.NewReader(data))
+    var respawnplaces File
+    if err := decoder.Decode(&respawnplaces); err != nil {
+        return nil, fmt.Errorf("parse respawn data: %w", err)
+    }
+    return respawnplaces, nil
 }
 
 // ParseFile reads a file and passes its contents to Parse.
