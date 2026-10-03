@@ -1,11 +1,14 @@
 package public
 
-import "embed"
+import (
+	"embed"
+	"io/fs"
+)
 
-//go:embed css/*
-//go:embed pics/*
-//go:embed webfonts/*
-//go:embed *.html
-//go:embed *.txt
-//go:embed js/*
-var Files embed.FS
+// frontend build output, created with `npm run build`
+//
+//go:embed all:dist
+var dist embed.FS
+
+// Files contains the built frontend (index.html, assets, pics)
+var Files, _ = fs.Sub(dist, "dist")
