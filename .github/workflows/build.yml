@@ -25,10 +25,10 @@ jobs:
       - name: Set up nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: '17'
+          node-version: '22'
       
       - name: Create frontend bundle
-        run: cd public && npm ci && npm run bundle
+        run: cd public && npm ci && npm run build
 
       - name: Cache Go modules
         uses: actions/cache@v4

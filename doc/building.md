@@ -6,17 +6,18 @@ Instructions to build the mapserver from source
 ## Build dependencies
 
 * go >= 1.11 (for the binary)
-* rollup >= 1.x (for the embedded js/css assets)
+* nodejs >= 22 / npm (for the embedded frontend)
 
 Ubuntu install: https://github.com/golang/go/wiki/Ubuntu
 
 ## Compile
 
 
-Generate the js bundle for the frontend:
-```
+Build the frontend (output in `public/dist`, embedded into the binary):
+```bash
 cd public
-rollup -c rollup.config.js
+npm ci
+npm run build
 ```
 
 Generate the `mapserver` binary:

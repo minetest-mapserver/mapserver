@@ -2,4 +2,4 @@ mapserver
 output
 test-output
 
-dist/
+/dist/
