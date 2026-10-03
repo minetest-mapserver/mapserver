@@ -26,7 +26,7 @@ func Serve(ctx *app.App) {
 	// static files
 	if ctx.Config.Webdev {
 		logrus.Print("using live mode")
-		fs := http.FileServer(http.FS(os.DirFS("public")))
+		fs := http.FileServer(http.FS(os.DirFS("public/dist")))
 		mux.HandleFunc("/", fs.ServeHTTP)
 
 	} else {
@@ -87,7 +87,7 @@ func Serve(ctx *app.App) {
 func getFileSystem(useLocalfs bool, content embed.FS) http.FileSystem {
 	if useLocalfs {
 		log.Print("using live mode")
-		return http.FS(os.DirFS("public"))
+		return http.FS(os.DirFS("public/dist"))
 	}
 
 	log.Print("using embed mode")

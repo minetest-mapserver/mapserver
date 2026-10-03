@@ -1,24 +1,25 @@
 {
   "name": "mapserver_frontend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "jshint": "cd js && jshint .",
-		"bundle": "rollup -c rollup.config.js"
-  },
-  "author": "",
+  "private": true,
+  "type": "module",
   "license": "ISC",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint ."
+  },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.0.0",
-    "bootstrap": "^5.0.1",
-    "vue": "^2.6.14",
-    "vue-i18n": "^8.24.5",
-    "vue-router": "^3.5.2"
+    "leaflet": "^1.9.4",
+    "vue": "^3.5.43",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "jshint": "2.13.6",
-    "rollup": "4.57.1"
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "eslint": "^10.12.0",
+    "eslint-plugin-vue": "^10.11.1",
+    "globals": "^17.13.0",
+    "vite": "^8.3.2"
   }
 }

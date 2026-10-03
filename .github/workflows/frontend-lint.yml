@@ -1,0 +1,22 @@
+name: frontend-lint
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up nodejs
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - name: Run eslint
+      run: cd public && npm ci && npm run lint
+
+    - name: Build frontend
+      run: cd public && npm run build

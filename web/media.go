@@ -1,6 +1,7 @@
 package web
 
 import (
+	"io/fs"
 	"mapserver/public"
 	"net/http"
 	"strings"
@@ -22,7 +23,7 @@ func (api *Api) GetMedia(resp http.ResponseWriter, req *http.Request) {
 
 	if content == nil && hasfallback && len(fallback) > 0 {
 		var err error
-		content, err = public.Files.ReadFile("pics/" + fallback[0])
+		content, err = fs.ReadFile(public.Files, "pics/"+fallback[0])
 		if err != nil {
 			resp.WriteHeader(http.StatusInternalServerError)
 			return
