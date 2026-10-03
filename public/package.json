@@ -6,7 +6,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && touch dist/.gitkeep",
+    "build": "vite build",
     "lint": "eslint ."
   },
   "dependencies": {
