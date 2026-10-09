@@ -9,12 +9,12 @@ import (
 	"time"
 
 	"mapserver/app"
-	"mapserver/respawnparser"
+	"mapserver/util"
 )
 
 type RespawnPlacesHandler struct {
 	ctx      *app.App
-	cache    map[string]respawnparser.RespawnPlace
+	cache    map[string]util.RespawnPlace
 	lasttime int64
 }
 
@@ -38,7 +38,7 @@ func (h *RespawnPlacesHandler) ServeHTTP(resp http.ResponseWriter, req *http.Req
 		mutex_respawn.Lock()
 
 		h.lasttime = now
-		places, err := respawnparser.ParseFile(RESPAWN_PLACES_FILENAME)
+		places, err := util.ParseRespawnFile(RESPAWN_PLACES_FILENAME)
 
 		if err != nil {
 			resp.WriteHeader(500)

@@ -86,5 +86,5 @@ type SkinsConfig struct {
 }
 
 type RespawnConfig struct {
-	PlacesColor   string `json:"placescolor"`
+	PlacesColor string `json:"placescolor"`
 }

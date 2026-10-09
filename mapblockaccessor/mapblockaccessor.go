@@ -3,8 +3,8 @@ package mapblockaccessor
 import (
 	"fmt"
 	"mapserver/db"
-	"mapserver/eventbus"
 	"mapserver/types"
+	"mapserver/util"
 
 	"time"
 
@@ -14,7 +14,7 @@ import (
 type MapBlockAccessor struct {
 	accessor   db.DBAccessor
 	blockcache *cache.Cache
-	Eventbus   *eventbus.Eventbus
+	Eventbus   *util.Eventbus
 	maxcount   int
 }
 
@@ -28,7 +28,7 @@ func NewMapBlockAccessor(accessor db.DBAccessor, expiretime, purgetime time.Dura
 	return &MapBlockAccessor{
 		accessor:   accessor,
 		blockcache: blockcache,
-		Eventbus:   eventbus.New(),
+		Eventbus:   util.NewEventbus(),
 		maxcount:   maxcount,
 	}
 }

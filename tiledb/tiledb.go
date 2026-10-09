@@ -2,7 +2,7 @@ package tiledb
 
 import (
 	"fmt"
-	"mapserver/coords"
+	"mapserver/util"
 	"os"
 )
 
@@ -16,13 +16,13 @@ type TileDB struct {
 	path string
 }
 
-func (tdb *TileDB) getDirAndFile(pos *coords.TileCoords) (string, string) {
+func (tdb *TileDB) getDirAndFile(pos *util.TileCoords) (string, string) {
 	dir := fmt.Sprintf("%s/%d/%d/%d", tdb.path, pos.LayerId, pos.Zoom, pos.X)
 	file := fmt.Sprintf("%s/%d.png", dir, pos.Y)
 	return dir, file
 }
 
-func (tdb *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
+func (tdb *TileDB) GetTile(pos *util.TileCoords) ([]byte, error) {
 	_, file := tdb.getDirAndFile(pos)
 	info, _ := os.Stat(file)
 	if info != nil {
@@ -37,7 +37,7 @@ func (tdb *TileDB) GetTile(pos *coords.TileCoords) ([]byte, error) {
 	return nil, nil
 }
 
-func (tdb *TileDB) SetTile(pos *coords.TileCoords, tile []byte) error {
+func (tdb *TileDB) SetTile(pos *util.TileCoords, tile []byte) error {
 	dir, file := tdb.getDirAndFile(pos)
 	os.MkdirAll(dir, 0700)
 

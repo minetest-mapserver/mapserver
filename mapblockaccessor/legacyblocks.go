@@ -1,9 +1,9 @@
 package mapblockaccessor
 
 import (
-	"mapserver/eventbus"
 	"mapserver/settings"
 	"mapserver/types"
+	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
@@ -59,7 +59,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*t
 			return nil, err
 		}
 
-		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
+		a.Eventbus.Emit(util.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
 
 		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
 		cacheBlockCount.Inc()

@@ -1,8 +1,8 @@
 package mapblockaccessor
 
 import (
-	"mapserver/eventbus"
 	"mapserver/types"
+	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
 	cache "github.com/patrickmn/go-cache"
@@ -76,7 +76,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 			continue
 		}
 
-		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
+		a.Eventbus.Emit(util.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
 
 		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
 		cacheBlockCount.Inc()

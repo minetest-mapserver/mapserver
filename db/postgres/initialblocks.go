@@ -1,10 +1,10 @@
 package postgres
 
 import (
-	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/settings"
 	"mapserver/types"
+	"mapserver/util"
 	"math"
 
 	"github.com/sirupsen/logrus"
@@ -87,10 +87,10 @@ func (a *PostgresAccessor) FindNextInitialBlocks(s settings.Settings, layers []*
 		return result, nil
 	}
 
-	tc := coords.NewTileCoords(lastxblock, lastyblock, 9, lastlayer)
+	tc := util.NewTileCoords(lastxblock, lastyblock, 9, lastlayer)
 	currentlayer := types.FindLayerById(layers, lastlayer)
 
-	tcr := coords.GetMapBlockRangeFromTile(tc, 0)
+	tcr := util.GetMapBlockRangeFromTile(tc, 0)
 	tcr.Pos1.Y = currentlayer.From
 	tcr.Pos2.Y = currentlayer.To
 

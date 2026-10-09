@@ -1,4 +1,4 @@
-package eventbus
+package util
 
 import (
 	"sync"
@@ -19,7 +19,7 @@ type Eventbus struct {
 	listeners []Listener
 }
 
-func New() *Eventbus {
+func NewEventbus() *Eventbus {
 	eb := Eventbus{}
 	eb.mutex = &sync.RWMutex{}
 	eb.listeners = make([]Listener, 0)

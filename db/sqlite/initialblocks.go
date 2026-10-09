@@ -1,10 +1,10 @@
 package sqlite
 
 import (
-	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/settings"
 	"mapserver/types"
+	"mapserver/util"
 	"math"
 
 	"github.com/sirupsen/logrus"
@@ -25,7 +25,7 @@ func (a *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*t
 		result := &db.InitialBlocksResult{}
 
 		blocks := make([]*db.Block, 0)
-		lastpos := s.GetInt64(SETTING_LAST_POS, coords.MinPlainCoord-1)
+		lastpos := s.GetInt64(SETTING_LAST_POS, util.MinPlainCoord-1)
 
 		processedcount := s.GetInt64(SETTING_PROCESSED_LEGACY_COUNT, 0)
 		totallegacycount := s.GetInt64(SETTING_TOTAL_LEGACY_COUNT, -1)
@@ -120,10 +120,10 @@ func (a *Sqlite3Accessor) FindNextInitialBlocks(s settings.Settings, layers []*t
 			return result, nil
 		}
 
-		tc := coords.NewTileCoords(lastxblock, lastyblock, 9, lastlayer)
+		tc := util.NewTileCoords(lastxblock, lastyblock, 9, lastlayer)
 		currentlayer := types.FindLayerById(layers, lastlayer)
 
-		tcr := coords.GetMapBlockRangeFromTile(tc, 0)
+		tcr := util.GetMapBlockRangeFromTile(tc, 0)
 		tcr.Pos1.Y = currentlayer.From
 		tcr.Pos2.Y = currentlayer.To
 

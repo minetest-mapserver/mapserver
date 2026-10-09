@@ -1,35 +1,34 @@
-package travelnetparser
+package util
 
 import (
 	"errors"
 	"fmt"
-	"mapserver/luaparser"
 	"os"
 )
 
-type GenericPos struct {
+type TravelnetPos struct {
 	X int `json:"x"`
 	Y int `json:"y"`
 	Z int `json:"z"`
 }
 
 type Travelnet struct {
-	Timestamp int64       `json:"timestamp"`
-	Pos       *GenericPos `json:"pos"`
+	Timestamp int64         `json:"timestamp"`
+	Pos       *TravelnetPos `json:"pos"`
 }
 
-func ParseFile(filename string) (map[string]map[string]map[string]*Travelnet, error) {
+func ParseTravelnetFile(filename string) (map[string]map[string]map[string]*Travelnet, error) {
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
 
-	return Parse(content)
+	return ParseTravelnet(content)
 }
 
 // owner -> network -> name ->Travelnet-Data
-func Parse(data []byte) (map[string]map[string]map[string]*Travelnet, error) {
-	p := luaparser.New()
+func ParseTravelnet(data []byte) (map[string]map[string]map[string]*Travelnet, error) {
+	p := NewLuaParser()
 	travelnets := make(map[string]map[string]map[string]*Travelnet)
 
 	ownermap, err := p.ParseMap(string(data[:]))

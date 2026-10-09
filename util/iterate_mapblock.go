@@ -1,4 +1,4 @@
-package coords
+package util
 
 type MapblockIterator func(x, y, z int)
 

@@ -6,12 +6,11 @@ import (
 	"image"
 	"image/draw"
 	"image/png"
-	"mapserver/coords"
 	"mapserver/db"
-	"mapserver/eventbus"
 	"mapserver/mapblockrenderer"
 	"mapserver/tiledb"
 	"mapserver/types"
+	"mapserver/util"
 	"strconv"
 	"time"
 
@@ -24,7 +23,7 @@ type TileRenderer struct {
 	layers           []*types.Layer
 	tdb              *tiledb.TileDB
 	dba              db.DBAccessor
-	Eventbus         *eventbus.Eventbus
+	Eventbus         *util.Eventbus
 }
 
 func resizeImage(src *image.NRGBA, tgt *image.NRGBA, xoffset int, yoffset int) {
@@ -64,7 +63,7 @@ func NewTileRenderer(mapblockrenderer *mapblockrenderer.MapBlockRenderer,
 		layers:           layers,
 		tdb:              tdb,
 		dba:              dba,
-		Eventbus:         eventbus.New(),
+		Eventbus:         util.NewEventbus(),
 	}
 }
 
@@ -73,7 +72,7 @@ const (
 	SUB_IMG_SIZE = IMG_SIZE >> 1
 )
 
-func (tr *TileRenderer) Render(tc *coords.TileCoords) error {
+func (tr *TileRenderer) Render(tc *util.TileCoords) error {
 	//No tile in db
 	_, err := tr.renderImage(tc, 2)
 
@@ -84,7 +83,7 @@ func (tr *TileRenderer) Render(tc *coords.TileCoords) error {
 	return nil
 }
 
-func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (*image.NRGBA, error) {
+func (tr *TileRenderer) renderImage(tc *util.TileCoords, recursionDepth int) (*image.NRGBA, error) {
 
 	if recursionDepth < 2 {
 		cachedtile, err := tr.tdb.GetTile(tc)
@@ -136,7 +135,7 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 
 	if tc.Zoom == 13 {
 		//max zoomed in on mapblock level
-		mbr := coords.GetMapBlockRangeFromTile(tc, 0)
+		mbr := util.GetMapBlockRangeFromTile(tc, 0)
 		mbr.Pos1.Y = currentLayer.From
 		mbr.Pos2.Y = currentLayer.To
 
@@ -242,7 +241,7 @@ func (tr *TileRenderer) renderImage(tc *coords.TileCoords, recursionDepth int) (
 	}
 	log.WithFields(fields).Debug("Cross stitch")
 
-	tr.Eventbus.Emit(eventbus.TILE_RENDERED, tc)
+	tr.Eventbus.Emit(util.TILE_RENDERED, tc)
 
 	return img, nil
 }

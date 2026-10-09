@@ -1,4 +1,4 @@
-package worldconfig
+package util
 
 import (
 	"bufio"
@@ -19,7 +19,7 @@ const (
 	CONFIG_PSQL_MAPSERVER  string = "pgsql_mapserver_connection"
 )
 
-func Parse(filename string) map[string]string {
+func ParseWorldConfig(filename string) map[string]string {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)

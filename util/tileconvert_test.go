@@ -1,4 +1,4 @@
-package coords
+package util
 
 import (
 	"mapserver/types"

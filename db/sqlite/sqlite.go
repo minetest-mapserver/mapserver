@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"mapserver/coords"
 	"mapserver/db"
 	"mapserver/types"
+	"mapserver/util"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -80,7 +80,7 @@ func (db *Sqlite3Accessor) Migrate() error {
 }
 
 func convertRows(pos int64, data []byte, mtime int64) *db.Block {
-	c := coords.PlainToCoord(pos)
+	c := util.PlainToCoord(pos)
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
@@ -178,7 +178,7 @@ func (db *Sqlite3Accessor) GetTimestamp() (int64, error) {
 func (a *Sqlite3Accessor) GetBlock(pos *types.MapBlockCoords) (*db.Block, error) {
 
 	if a.legacy_pos {
-		ppos := coords.CoordToPlain(pos)
+		ppos := util.CoordToPlain(pos)
 		rows, err := a.db.Query(getBlockQueryLegacy, ppos)
 		if err != nil {
 			return nil, err

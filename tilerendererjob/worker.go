@@ -3,10 +3,10 @@ package tilerendererjob
 import (
 	"github.com/sirupsen/logrus"
 	"mapserver/app"
-	"mapserver/coords"
+	"mapserver/util"
 )
 
-func worker(ctx *app.App, coords <-chan *coords.TileCoords, done chan bool) {
+func worker(ctx *app.App, coords <-chan *util.TileCoords, done chan bool) {
 	for tc := range coords {
 		//render tile
 

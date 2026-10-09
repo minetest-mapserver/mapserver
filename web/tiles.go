@@ -3,8 +3,8 @@ package web
 import (
 	"image/color"
 	"mapserver/app"
-	"mapserver/coords"
 	"mapserver/tilerenderer"
+	"mapserver/util"
 	"net/http"
 	"strconv"
 	"strings"
@@ -36,7 +36,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	y, _ := strconv.Atoi(parts[2])
 	zoom, _ := strconv.Atoi(parts[3])
 
-	c := coords.NewTileCoords(x, y, zoom, layerid)
+	c := util.NewTileCoords(x, y, zoom, layerid)
 	tile, err := t.ctx.TileDB.GetTile(c)
 
 	if err != nil {

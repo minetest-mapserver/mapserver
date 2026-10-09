@@ -1,4 +1,4 @@
-package worldconfig
+package util
 
 import (
 	"fmt"
@@ -6,14 +6,14 @@ import (
 )
 
 func TestParseSqlite(t *testing.T) {
-	cfg := Parse("./testdata/world.mt.sqlite")
+	cfg := ParseWorldConfig("testdata/world.mt.sqlite")
 	if cfg[CONFIG_BACKEND] != BACKEND_SQLITE3 {
 		t.Fatal("not sqlite3")
 	}
 }
 
 func TestParsePostgres(t *testing.T) {
-	cfg := Parse("./testdata/world.mt.postgres")
+	cfg := ParseWorldConfig("testdata/world.mt.postgres")
 	fmt.Println(cfg)
 	if cfg[CONFIG_BACKEND] != BACKEND_POSTGRES {
 		t.Fatal("not postgres")

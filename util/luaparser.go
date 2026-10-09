@@ -1,4 +1,4 @@
-package luaparser
+package util
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 	lua "github.com/yuin/gopher-lua"
 )
 
-func New() *LuaParser {
+func NewLuaParser() *LuaParser {
 	p := LuaParser{
 		state: lua.NewState(lua.Options{SkipOpenLibs: true}),
 	}

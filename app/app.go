@@ -2,20 +2,19 @@ package app
 
 import (
 	"mapserver/db"
-	"mapserver/eventbus"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/mapobjectdb"
-	"mapserver/params"
 	"mapserver/settings"
 	"mapserver/tiledb"
 	"mapserver/tilerenderer"
+	"mapserver/util"
 
 	"github.com/minetest-go/colormapping"
 )
 
 type App struct {
-	Params      params.ParamsType
+	Params      util.ParamsType
 	Config      *Config
 	Worldconfig map[string]string
 
@@ -31,5 +30,5 @@ type App struct {
 
 	MediaRepo map[string][]byte
 
-	WebEventbus *eventbus.Eventbus
+	WebEventbus *util.Eventbus
 }

@@ -1,9 +1,9 @@
 package mapobject
 
 import (
-	"mapserver/luaparser"
 	"mapserver/mapobjectdb"
 	"mapserver/types"
+	"mapserver/util"
 	"math"
 	"strconv"
 
@@ -17,7 +17,7 @@ func (blk *FancyVend) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, bloc
 	md := block.Metadata.GetMetadata(x, y, z)
 	nodename := block.GetNodeName(x, y, z)
 	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
-	parser := luaparser.New()
+	parser := util.NewLuaParser()
 
 	isAdmin := false
 

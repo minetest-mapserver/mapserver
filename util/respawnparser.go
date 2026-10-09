@@ -1,4 +1,5 @@
-package respawnparser
+package util
+
 // ref https://github.com/minetest-go/areasparser/blob/master/parser.go
 // duck.ai
 // docker go cache help: https://oneuptime.com/blog/post/2026-02-08-how-to-speed-up-docker-build-for-go-projects/view
@@ -14,13 +15,13 @@ type File map[string]RespawnPlace
 
 type RespawnPlace struct {
 	FullName string     `json:"full_name,omitempty"`
-	Pos      GenericPos `json:"pos"`
+	Pos      RespawnPos `json:"pos"`
 	Look     *Direction `json:"look,omitempty"`
 	Color    string     `json:"color,omitempty"`
 	Icon     string     `json:"icon,omitempty"`
 }
 
-type GenericPos struct {
+type RespawnPos struct {
 	X int `json:"x"`
 	Y int `json:"y"`
 	Z int `json:"z"`
@@ -36,7 +37,7 @@ func getInt(o interface{}) int {
 	return int(v)
 }
 
-func (pos *GenericPos) UnmarshalJSON(data []byte) error {
+func (pos *RespawnPos) UnmarshalJSON(data []byte) error {
 	m := make(map[string]interface{})
 
 	err := json.Unmarshal(data, &m)
@@ -51,23 +52,23 @@ func (pos *GenericPos) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func Parse(data []byte) (File, error) {
-    decoder := json.NewDecoder(bytes.NewReader(data))
-    var respawnplaces File
-    if err := decoder.Decode(&respawnplaces); err != nil {
-        return nil, fmt.Errorf("parse respawn data: %w", err)
-    }
-    return respawnplaces, nil
+func ParseRespawn(data []byte) (File, error) {
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	var respawnplaces File
+	if err := decoder.Decode(&respawnplaces); err != nil {
+		return nil, fmt.Errorf("parse respawn data: %w", err)
+	}
+	return respawnplaces, nil
 }
 
-// ParseFile reads a file and passes its contents to Parse.
-func ParseFile(filename string) (File, error) {
+// ParseRespawnFile reads a file and passes its contents to ParseRespawn.
+func ParseRespawnFile(filename string) (File, error) {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
 
-	respawnplaces, err := Parse(data)
+	respawnplaces, err := ParseRespawn(data)
 	if err != nil {
 		return nil, fmt.Errorf("parse %s: %w", filename, err)
 	}

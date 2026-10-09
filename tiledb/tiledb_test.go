@@ -1,7 +1,7 @@
 package tiledb
 
 import (
-	"mapserver/coords"
+	"mapserver/util"
 	"os"
 	"testing"
 )
@@ -18,7 +18,7 @@ func TestTileDB(t *testing.T) {
 		panic(err)
 	}
 
-	c := coords.NewTileCoords(0, 0, 1, 2)
+	c := util.NewTileCoords(0, 0, 1, 2)
 
 	err = db.SetTile(c, []byte{1, 2, 3})
 	if err != nil {
@@ -34,7 +34,7 @@ func TestTileDB(t *testing.T) {
 		t.Error("wrong size")
 	}
 
-	c2 := coords.NewTileCoords(1, 0, 1, 2)
+	c2 := util.NewTileCoords(1, 0, 1, 2)
 	tile, err = db.GetTile(c2)
 	if err != nil {
 		panic(err)

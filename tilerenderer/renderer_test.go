@@ -2,13 +2,13 @@ package tilerenderer
 
 import (
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/db/sqlite"
 	"mapserver/mapblockaccessor"
 	"mapserver/mapblockrenderer"
 	"mapserver/testutils"
 	"mapserver/tiledb"
 	"mapserver/types"
+	"mapserver/util"
 	"os"
 	"testing"
 	"time"
@@ -68,7 +68,7 @@ func TestTileRender(t *testing.T) {
 		panic("no renderer")
 	}
 
-	coord := coords.NewTileCoords(0, 0, 12, 0)
+	coord := util.NewTileCoords(0, 0, 12, 0)
 	err = tr.Render(coord)
 	if err != nil {
 		panic(err)

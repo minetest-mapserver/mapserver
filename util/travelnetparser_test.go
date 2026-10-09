@@ -1,4 +1,4 @@
-package travelnetparser
+package util
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 func TestParse(t *testing.T) {
 
 	//TODO: test takes about 3 seconds for 350kb data :/
-	a, err := ParseFile("testdata/mod_travelnet.data")
+	a, err := ParseTravelnetFile("testdata/mod_travelnet.data")
 
 	if err != nil {
 		t.Fatal(err)

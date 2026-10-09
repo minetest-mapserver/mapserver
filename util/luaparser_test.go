@@ -1,4 +1,4 @@
-package luaparser
+package util
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 )
 
 func TestParseList(t *testing.T) {
-	p := New()
+	p := NewLuaParser()
 	m, err := p.ParseList(`return {{["x"]=1},{["y"]=2}}`)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func TestParseList(t *testing.T) {
 }
 
 func TestParseMap(t *testing.T) {
-	p := New()
+	p := NewLuaParser()
 	m, err := p.ParseMap(`return {a=1, b=true, c="abc"}`)
 
 	if err != nil {

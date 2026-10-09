@@ -1,4 +1,4 @@
-package params
+package util
 
 import (
 	"flag"
@@ -11,7 +11,7 @@ type ParamsType struct {
 	CreateConfig bool
 }
 
-func Parse() ParamsType {
+func ParseParams() ParamsType {
 	params := ParamsType{}
 
 	flag.BoolVar(&(params.Help), "help", false, "Show help")

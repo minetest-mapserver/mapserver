@@ -3,11 +3,11 @@ package mapblockrenderer
 import (
 	"fmt"
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/db/sqlite"
 	"mapserver/mapblockaccessor"
 	"mapserver/testutils"
 	"mapserver/types"
+	"mapserver/util"
 	"os"
 	"testing"
 	"time"
@@ -69,7 +69,7 @@ func TestSimpleRender(t *testing.T) {
 				continue
 			}
 
-			tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1, layers)
+			tc := util.GetTileCoordsFromMapBlock(result.Job.Pos1, layers)
 			f, _ := os.Create(fmt.Sprintf("../test-output/image_%d_%d.png", tc.X, tc.Y))
 			result.Data.WriteTo(f)
 			f.Close()

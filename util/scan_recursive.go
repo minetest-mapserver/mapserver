@@ -1,4 +1,4 @@
-package media
+package util
 
 import (
 	"os"
@@ -21,7 +21,7 @@ func scan_recursive(dir_path string, ignore []string) ([]string, []string) {
 		for _, i := range ignore {
 
 			// If ignored path
-			if strings.Index(path, i) != -1 {
+			if strings.Contains(path, i) {
 
 				// Continue
 				_continue = true

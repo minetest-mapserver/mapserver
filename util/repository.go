@@ -1,4 +1,4 @@
-package media
+package util
 
 import (
 	"io/ioutil"
