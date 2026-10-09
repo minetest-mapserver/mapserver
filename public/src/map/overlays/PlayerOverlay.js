@@ -81,11 +81,9 @@ export default L.LayerGroup.extend({
   },
 
   getSkin: function(player) {
-    if (!player.skin || player.skin === "" || player.skin === "character.png") return defaultSkin;
+    if (!player.skin_texture || !player.skin) return defaultSkin;
 
-    let skin = `api/skins/${player.skin}`;
-
-    if (playerSkins[skin]) return playerSkins[skin];
+    if (playerSkins[player.skin]) return playerSkins[player.skin];
 
     // no cached skin, we need to build the image
     let img = new Image();
@@ -117,11 +115,11 @@ export default L.LayerGroup.extend({
       }
 
       // store the skin, so it gets used on next update
-      playerSkins[skin] = canvas.toDataURL("image/png");
+      playerSkins[player.skin] = canvas.toDataURL("image/png");
     };
 
     // trigger source image load
-    img.src = skin;
+    img.src = "data:image/png;base64, " + player.skin_texture;
 
     // return the default skin while the replacement loads
     return defaultSkin;

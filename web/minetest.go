@@ -52,6 +52,7 @@ type Player struct {
 	ProtocolVersion float64    `json:"protocol_version"`
 	Yaw             float64    `json:"yaw"`
 	Skin            string     `json:"skin"`
+	SkinTexture     string     `json:"skin_texture"`
 	//TODO: stamina, armor, etc
 }
 

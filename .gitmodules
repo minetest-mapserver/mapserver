@@ -4,3 +4,6 @@
 [submodule "dev/minetest_game"]
 	path = dev/minetest_game
 	url = https://github.com/luanti-org/minetest_game
+[submodule "dev/worldmods/skinsdb"]
+	path = dev/worldmods/skinsdb
+	url = https://github.com/minetest-mods/skinsdb

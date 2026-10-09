@@ -106,11 +106,6 @@ func ParseConfig(filename string) (*Config, error) {
 		"mapserver_player",
 	}
 
-	skins := SkinsConfig{
-		EnableSkinsDB: false,
-		SkinsPath:     "",
-	}
-
 	respawn := RespawnConfig{
 		PlacesColor: "green",
 	}
@@ -136,7 +131,6 @@ func ParseConfig(filename string) (*Config, error) {
 		MapBlockAccessorCfg:       &mapblockaccessor,
 		DefaultOverlays:           defaultoverlays,
 		PageName:                  "Minetest Mapserver",
-		Skins:                     &skins,
 		WorldPath:                 "./",
 		DataPath:                  "./",
 		ColorsTxtPath:             "./",

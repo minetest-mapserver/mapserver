@@ -77,10 +77,6 @@
 		"mapserver_player"
 	],
 	"pagename": "Minetest Mapserver",
-	"skins": {
-		"enableskinsdb": false,
-		"skinspath": ""
-	},
 	"worldpath": "./",
 	"datapath": "./",
 	"colorstxtpath": "./",

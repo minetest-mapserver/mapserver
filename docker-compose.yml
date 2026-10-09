@@ -37,6 +37,7 @@ services:
    - "./dev/worldmods:/root/.minetest/worlds/world/worldmods"
    - "./dev/minetest.conf:/minetest.conf"
    - "./dev/mapserver.json:/root/.minetest/worlds/world/mapserver.json"
+   - "./dev/skins/character_10.png:/root/.minetest/worlds/world/worldmods/skinsdb/textures/character_10.png:ro"
   ports:
    - "30000:30000/udp"
 

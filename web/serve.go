@@ -56,10 +56,6 @@ func Serve(ctx *app.App) {
 		mux.Handle("/metrics", promhttp.Handler())
 	}
 
-	if ctx.Config.Skins.EnableSkinsDB && len(ctx.Config.Skins.SkinsPath) > 0 {
-		mux.HandleFunc("/api/skins/", api.GetSkin)
-	}
-
 	ws := NewWS(ctx)
 	mux.Handle("/api/ws", ws)
 
