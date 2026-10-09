@@ -12,7 +12,7 @@ services:
  mapserver:
   image: golang:1.24.3
   depends_on:
-   - minetest
+   - luanti
    - mapserver_frontend
   volumes:
    - "dev_home:/root"
@@ -27,15 +27,15 @@ services:
   working_dir: /data/world
   command: ["go", "run", ".."]
 
- minetest:
+ luanti:
   image: ghcr.io/luanti-org/luanti:5.17.0
   user: root
-  command: "--gameid minetest"
+  command: "--gameid minetest --config /minetest.conf"
   volumes:
    - "world_data:/root/.minetest/worlds/world"
    - "./dev/minetest_game:/root/.minetest/games/minetest_game"
    - "./dev/worldmods:/root/.minetest/worlds/world/worldmods"
-   - "./dev/minetest.conf:/etc/minetest/minetest.conf"
+   - "./dev/minetest.conf:/minetest.conf"
    - "./dev/mapserver.json:/root/.minetest/worlds/world/mapserver.json"
   ports:
    - "30000:30000/udp"
