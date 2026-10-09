@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 
 import './assets/css/bootstrap.min.css';
 import './assets/css/fontawesome.min.css';
-import './assets/css/leaflet.awesome-markers.css';
+import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import './assets/css/custom.css';
 
 import { createApp } from 'vue';

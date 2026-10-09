@@ -1,4 +1,5 @@
 import L from 'leaflet';
+import 'leaflet.awesome-markers';
 import AbstractIconOverlay from './AbstractIconOverlay.js';
 import HtmlSanitizer from '@jitbit/htmlsanitizer';
 
