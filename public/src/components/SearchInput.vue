@@ -27,13 +27,11 @@ function doSearch(){
       class="form-control"
       @keydown.enter="doSearch"
     >
-    <div
-      class="input-group-append"
+    <span
+      class="input-group-text"
       @click="doSearch"
     >
-      <span class="input-group-text">
-        <i class="fa fa-search" />
-      </span>
-    </div>
+      <i class="fa fa-search" />
+    </span>
   </div>
 </template>

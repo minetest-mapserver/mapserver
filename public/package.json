@@ -10,7 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@jitbit/htmlsanitizer": "^2.0.4",
+    "bootstrap": "^5.3.8",
     "leaflet": "^1.9.4",
     "leaflet.awesome-markers": "^2.0.5",
     "vue": "^3.5.43",

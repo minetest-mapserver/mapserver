@@ -43,7 +43,7 @@ function goto(obj){
         <td>{{ obj.attributes.owner }}</td>
         <td>{{ getLayerName(obj) }}</td>
         <td>
-          <span class="badge badge-success">{{ obj.x }}/{{ obj.y }}/{{ obj.z }}</span>
+          <span class="badge text-bg-success">{{ obj.x }}/{{ obj.y }}/{{ obj.z }}</span>
         </td>
         <td><SearchResultDescription :obj="obj" /></td>
         <td>

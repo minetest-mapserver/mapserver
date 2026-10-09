@@ -19,22 +19,22 @@ const textAttributes = {
   <span v-if="obj.type == 'train'">
     <span>{{ obj.attributes.station }}</span>
     {{ " " }}
-    <span class="badge badge-info">{{ obj.attributes.line }}</span>
+    <span class="badge text-bg-info">{{ obj.attributes.line }}</span>
   </span>
 
   <span v-else-if="obj.type == 'shop'">
     Shop, trading
-    <span class="badge badge-primary">
+    <span class="badge text-bg-primary">
       {{ obj.attributes.out_count }}x<i class="fa fa-cart-arrow-down" />
     </span>
-    <span class="badge badge-info">{{ obj.attributes.out_item }}</span>
+    <span class="badge text-bg-info">{{ obj.attributes.out_item }}</span>
     for
-    <span class="badge badge-primary">
+    <span class="badge text-bg-primary">
       {{ obj.attributes.in_count }}x<i class="fa fa-money-bill" />
     </span>
-    <span class="badge badge-info">{{ obj.attributes.in_item }}</span>
+    <span class="badge text-bg-info">{{ obj.attributes.in_item }}</span>
     Stock:
-    <span class="badge badge-info">{{ obj.attributes.stock }}</span>
+    <span class="badge text-bg-info">{{ obj.attributes.stock }}</span>
   </span>
 
   <span v-else-if="obj.type == 'um_area_forsale'">

@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css';
 
-import './assets/css/bootstrap.min.css';
-import './assets/css/fontawesome.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import './assets/css/custom.css';
 
