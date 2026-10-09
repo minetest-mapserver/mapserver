@@ -1,3 +1,4 @@
+import L from 'leaflet';
 
 // empty leaflet control, used as a mount-point (teleport target) for vue components
 export default L.Control.extend({

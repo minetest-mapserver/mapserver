@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import debounce from '../../util/debounce.js';
 import layerMgr from '../../LayerManager.js';
 

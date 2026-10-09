@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import wsChannel from '../WebSocketChannel.js';
 import SimpleCRS from './SimpleCRS.js';
 import CoordinatesDisplay from './CoordinatesDisplay.js';

@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import wsChannel from '../../WebSocketChannel.js';
 import layerMgr from '../../LayerManager.js';
 

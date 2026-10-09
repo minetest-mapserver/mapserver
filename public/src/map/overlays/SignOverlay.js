@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import AbstractIconOverlay from './AbstractIconOverlay.js';
 
 const IconWood = L.icon({

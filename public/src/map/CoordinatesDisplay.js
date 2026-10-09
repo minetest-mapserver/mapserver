@@ -1,3 +1,4 @@
+import L from 'leaflet';
 
 export default L.Control.extend({
     onAdd: function(map) {

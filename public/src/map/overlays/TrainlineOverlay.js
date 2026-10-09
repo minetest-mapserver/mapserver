@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
 import { getMapObjects } from '../../api.js';
 

@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import AbstractIconOverlay from './AbstractIconOverlay.js';
 import { HtmlSanitizer } from '../../lib/HtmlSanitizer.js';
 

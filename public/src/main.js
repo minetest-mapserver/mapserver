@@ -1,6 +1,4 @@
-// leaflet has to be imported first, everything below relies on the global `L`
-import './leaflet.js';
-import './lib/leaflet.awesome-markers.js';
+import 'leaflet/dist/leaflet.css';
 
 import './assets/css/bootstrap.min.css';
 import './assets/css/fontawesome.min.css';
