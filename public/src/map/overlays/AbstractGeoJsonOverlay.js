@@ -48,7 +48,7 @@ export default L.LayerGroup.extend({
     return 13;
   },
 
-  reDraw: function(){
+  reDraw: async function(){
     var self = this;
     var zoom = this.map.getZoom();
 
@@ -68,12 +68,12 @@ export default L.LayerGroup.extend({
     var z1 = Math.floor(min.lat/16);
     var z2 = Math.floor(max.lat/16);
 
-    getMapObjects({
-      pos1: { x:x1, y:y1, z:z1 },
-      pos2: { x:x2, y:y2, z:z2 },
-      type: this.type
-    })
-    .then(function(objects){
+    try {
+      const objects = await getMapObjects({
+        pos1: { x:x1, y:y1, z:z1 },
+        pos2: { x:x2, y:y2, z:z2 },
+        type: this.type
+      });
       if (!self._map) {
         // layer was removed while the request was in flight
         return;
@@ -83,10 +83,9 @@ export default L.LayerGroup.extend({
 
       var geoJsonLayer = self.createGeoJson(objects);
       geoJsonLayer.addTo(self);
-    })
-    .catch(function(e){
+    } catch (e) {
       console.error('mapobject query failed', e);
-    });
+    }
 
   },
 

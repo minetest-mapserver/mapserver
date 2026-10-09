@@ -43,16 +43,11 @@ class WebSocketChannel {
       return;
     }
 
-    this.pollingHandle = setInterval(() => {
-      getStats()
-      .then(stats => {
+    this.pollingHandle = setInterval(async () => {
+        const stats = await getStats();
         if (stats){
           this.emit("minetest-info", stats);
         }
-      })
-      .catch(() => {
-        // ignore, retry on next interval
-      });
     }, 2000);
   }
 

@@ -13,21 +13,24 @@ import wsChannel from './WebSocketChannel.js';
 import config from './config.js';
 import layerManager from './LayerManager.js';
 
-getConfig()
-.then(cfg => {
-  layerManager.setup(cfg.layers);
-  config.set(cfg);
+async function main() {
+  try {
+    const cfg = await getConfig();
+    layerManager.setup(cfg.layers);
+    config.set(cfg);
 
-  if (cfg.pagename) {
-    document.title = cfg.pagename;
+    if (cfg.pagename) {
+      document.title = cfg.pagename;
+    }
+
+    wsChannel.connect();
+
+    createApp(App)
+      .use(createAppRouter())
+      .mount("#app");
+  } catch (e) {
+    document.getElementById("app").textContent = e;
   }
+}
 
-  wsChannel.connect();
-
-  createApp(App)
-    .use(createAppRouter())
-    .mount("#app");
-})
-.catch(e => {
-  document.getElementById("app").textContent = e;
-});
+main();
