@@ -2,6 +2,10 @@ import L from 'leaflet';
 import wsChannel from '../../WebSocketChannel.js';
 import layerMgr from '../../LayerManager.js';
 
+const escapeHtml = str => String(str).replace(/[&<>"']/g, c => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[c]));
+
 const defaultSkin = "pics/sam.png";
 
 let players = [];
@@ -26,7 +30,7 @@ export default L.LayerGroup.extend({
     // moderators get a small crown icon
     let moderator = player.moderator ? `<img src="pics/crown.png" alt="moderator" title="moderator">` : "";
 
-    let info = `<b>${moderator} ${player.name}</b>`;
+    let info = `<b>${moderator} ${escapeHtml(player.name)}</b>`;
     info += "<hr>";
 
     for (let i = 0; i < Math.floor(player.hp / 2); i++)
@@ -52,7 +56,7 @@ export default L.LayerGroup.extend({
 
     info = `<div class="info">${info}</div>`;
 
-    let portrait = `<img class="portrait" src="${this.getSkin(player)}" alt="${player.name}">`;
+    let portrait = `<img class="portrait" src="${this.getSkin(player)}" alt="${escapeHtml(player.name)}">`;
 
     return `<div class="player-popup">${portrait}${info}</div>`;
   },
@@ -70,8 +74,8 @@ export default L.LayerGroup.extend({
     const indicator = player.yaw === 0 ? false : player.velocity.x !== 0 || player.velocity.z !== 0 ? 'pics/sam_dir_move.png' : 'pics/sam_dir.png';
     return L.divIcon({
       html: `<div style="display:inline-block;width:48px;height:48px">
-          <img src="${icon}" style="position:absolute;top:8px;left:16px;width:16px;height:32px;" alt="${player.name}">
-          ${indicator ? `<img src="${indicator}" style="position:absolute;top:0;left:0;width:48px;height:48px;transform:rotate(${player.yaw*-1}rad)" alt="${player.name}">` : ''}
+          <img src="${icon}" style="position:absolute;top:8px;left:16px;width:16px;height:32px;" alt="${escapeHtml(player.name)}">
+          ${indicator ? `<img src="${indicator}" style="position:absolute;top:0;left:0;width:48px;height:48px;transform:rotate(${player.yaw*-1}rad)" alt="${escapeHtml(player.name)}">` : ''}
         </div>`,
       className: '', // don't use leaflet default of a white block
       iconSize:     [48, 48],

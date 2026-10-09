@@ -11,7 +11,7 @@ func (api *Api) GetMedia(resp http.ResponseWriter, req *http.Request) {
 	str := strings.TrimPrefix(req.URL.Path, "/api/media/")
 	parts := strings.Split(str, "/")
 	if len(parts) != 1 {
-		resp.WriteHeader(500)
+		resp.WriteHeader(http.StatusBadRequest)
 		resp.Write([]byte("wrong number of arguments"))
 		return
 	}
@@ -31,8 +31,8 @@ func (api *Api) GetMedia(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	if content != nil {
-		resp.Write(content)
 		resp.Header().Add("content-type", "image/png")
+		resp.Write(content)
 		return
 	}
 

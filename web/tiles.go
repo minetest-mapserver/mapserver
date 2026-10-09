@@ -23,7 +23,7 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	// {layerId}/x/y/zoom
 	parts := strings.Split(str, "/")
 	if len(parts) != 4 {
-		resp.WriteHeader(500)
+		resp.WriteHeader(http.StatusBadRequest)
 		resp.Write([]byte("wrong number of arguments"))
 		return
 	}
@@ -31,10 +31,15 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	timer := prometheus.NewTimer(tileServeDuration)
 	defer timer.ObserveDuration()
 
-	layerid, _ := strconv.Atoi(parts[0])
-	x, _ := strconv.Atoi(parts[1])
-	y, _ := strconv.Atoi(parts[2])
-	zoom, _ := strconv.Atoi(parts[3])
+	layerid, err1 := strconv.Atoi(parts[0])
+	x, err2 := strconv.Atoi(parts[1])
+	y, err3 := strconv.Atoi(parts[2])
+	zoom, err4 := strconv.Atoi(parts[3])
+	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
+		resp.WriteHeader(http.StatusBadRequest)
+		resp.Write([]byte("invalid tile coordinates"))
+		return
+	}
 
 	c := util.NewTileCoords(x, y, zoom, layerid)
 	tile, err := t.ctx.TileDB.GetTile(c)

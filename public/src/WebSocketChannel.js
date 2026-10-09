@@ -27,7 +27,7 @@ class WebSocketChannel {
       return;
     }
 
-    this.listenerMap[type] = list.filter(l => l != listener);
+    this.listenerMap[type] = list.filter(l => l !== listener);
   }
 
   emit(type, data){
@@ -56,11 +56,28 @@ class WebSocketChannel {
     }, 2000);
   }
 
+  stopPolling(){
+    if (this.pollingHandle){
+      clearInterval(this.pollingHandle);
+      this.pollingHandle = null;
+    }
+  }
+
   connect(){
     var ws = new WebSocket(this.wsUrl);
 
+    ws.onopen = () => {
+      this.stopPolling();
+    };
+
     ws.onmessage = e => {
-      var event = JSON.parse(e.data);
+      var event;
+      try {
+        event = JSON.parse(e.data);
+      } catch (err) {
+        console.error("invalid websocket message", err);
+        return;
+      }
       //rendered-tile, mapobject-created, mapobjects-cleared, minetest-info
       this.emit(event.type, event.data);
     };
@@ -68,6 +85,12 @@ class WebSocketChannel {
     ws.onerror = () => {
       //fallback to polling stats
       this.startPolling();
+    };
+
+    ws.onclose = () => {
+      //fallback to polling stats and try to reconnect
+      this.startPolling();
+      setTimeout(() => this.connect(), 5000);
     };
   }
 }

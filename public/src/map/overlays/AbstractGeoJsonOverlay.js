@@ -63,10 +63,10 @@ export default L.LayerGroup.extend({
 
     var y1 = parseInt(mapLayer.from);
     var y2 = parseInt(mapLayer.to);
-    var x1 = parseInt(min.lng/16);
-    var x2 = parseInt(max.lng/16);
-    var z1 = parseInt(min.lat/16);
-    var z2 = parseInt(max.lat/16);
+    var x1 = Math.floor(min.lng/16);
+    var x2 = Math.floor(max.lng/16);
+    var z1 = Math.floor(min.lat/16);
+    var z2 = Math.floor(max.lat/16);
 
     getMapObjects({
       pos1: { x:x1, y:y1, z:z1 },
@@ -74,10 +74,18 @@ export default L.LayerGroup.extend({
       type: this.type
     })
     .then(function(objects){
+      if (!self._map) {
+        // layer was removed while the request was in flight
+        return;
+      }
+
       self.clearLayers();
 
       var geoJsonLayer = self.createGeoJson(objects);
       geoJsonLayer.addTo(self);
+    })
+    .catch(function(e){
+      console.error('mapobject query failed', e);
     });
 
   },

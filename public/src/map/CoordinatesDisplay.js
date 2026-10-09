@@ -19,10 +19,10 @@ export default L.Control.extend({
       function update(){
         var html = "";
         if (hoverCoord)
-          html = html + "X=" + parseInt(hoverCoord.lng) + " Z=" + parseInt(hoverCoord.lat);
+          html = html + "X=" + Math.floor(hoverCoord.lng) + " Z=" + Math.floor(hoverCoord.lat);
 
         if (clickCoord)
-          html = html + " (marked: X=" + parseInt(clickCoord.lng) + " Z=" + parseInt(clickCoord.lat) + ")";
+          html = html + " (marked: X=" + Math.floor(clickCoord.lng) + " Z=" + Math.floor(clickCoord.lat) + ")";
 
         div.innerHTML = html;
       }

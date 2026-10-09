@@ -1,6 +1,7 @@
 package tiledb
 
 import (
+	"errors"
 	"fmt"
 	"mapserver/util"
 	"os"
@@ -24,23 +25,23 @@ func (tdb *TileDB) getDirAndFile(pos *util.TileCoords) (string, string) {
 
 func (tdb *TileDB) GetTile(pos *util.TileCoords) ([]byte, error) {
 	_, file := tdb.getDirAndFile(pos)
-	info, _ := os.Stat(file)
-	if info != nil {
-		content, err := os.ReadFile(file)
-		if err != nil {
-			panic(err)
-		}
-
-		return content, err
+	content, err := os.ReadFile(file)
+	if errors.Is(err, os.ErrNotExist) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
 	}
 
-	return nil, nil
+	return content, nil
 }
 
 func (tdb *TileDB) SetTile(pos *util.TileCoords, tile []byte) error {
 	dir, file := tdb.getDirAndFile(pos)
-	os.MkdirAll(dir, 0700)
+	err := os.MkdirAll(dir, 0700)
+	if err != nil {
+		return err
+	}
 
-	err := os.WriteFile(file, tile, 0644)
-	return err
+	return os.WriteFile(file, tile, 0644)
 }

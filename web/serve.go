@@ -1,7 +1,6 @@
 package web
 
 import (
-	"embed"
 	"mapserver/app"
 	"mapserver/public"
 	"net/http"
@@ -79,14 +78,4 @@ func Serve(ctx *app.App) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-func getFileSystem(useLocalfs bool, content embed.FS) http.FileSystem {
-	if useLocalfs {
-		log.Print("using live mode")
-		return http.FS(os.DirFS("public/dist"))
-	}
-
-	log.Print("using embed mode")
-	return http.FS(content)
 }

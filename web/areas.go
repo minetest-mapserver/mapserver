@@ -31,27 +31,23 @@ func (h *AreasHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	mutex.Lock()
 	now := time.Now().Unix()
-	diff := now - h.lasttime
-
-	if diff > 5 {
-		mutex.Lock()
-
-		h.lasttime = now
+	if now-h.lasttime > 5 {
 		areas, err := areasparser.ParseFile(AREAS_FILENAME)
-
 		if err != nil {
+			mutex.Unlock()
 			resp.WriteHeader(500)
 			resp.Write([]byte(err.Error()))
 			return
 		}
 
+		h.lasttime = now
 		h.cache = areas
-
-		mutex.Unlock()
 	}
+	cache := h.cache
+	mutex.Unlock()
 
 	resp.Header().Add("content-type", "application/json")
-	json.NewEncoder(resp).Encode(h.cache)
-
+	json.NewEncoder(resp).Encode(cache)
 }
