@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@jitbit/htmlsanitizer": "^2.0.4",
     "leaflet": "^1.9.4",
     "vue": "^3.5.43",
     "vue-router": "^4.6.4"

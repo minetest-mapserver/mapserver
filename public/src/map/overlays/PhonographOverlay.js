@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import AbstractIconOverlay from './AbstractIconOverlay.js';
-import {HtmlSanitizer} from '../../lib/HtmlSanitizer.js';
+import HtmlSanitizer from '@jitbit/htmlsanitizer';
 
 var PhonographIcon = L.icon({
   iconUrl: 'pics/phonograph_node_temp.png',

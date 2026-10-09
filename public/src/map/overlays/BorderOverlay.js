@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import AbstractGeoJsonOverlay from './AbstractGeoJsonOverlay.js';
-import { HtmlSanitizer } from '../../lib/HtmlSanitizer.js';
+import HtmlSanitizer from '@jitbit/htmlsanitizer';
 
 export default AbstractGeoJsonOverlay.extend({
   initialize: function() {
