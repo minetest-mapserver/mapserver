@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"fmt"
 	"mapserver/types"
 	"os"
 	"runtime"
@@ -149,9 +150,17 @@ func ParseConfig(filename string) (*Config, error) {
 			return nil, err
 		}
 
+		// apply on-disk config over default config
 		err = json.Unmarshal(data, &cfg)
 		if err != nil {
 			return nil, err
+		}
+	}
+
+	// check layer config
+	for i, layer := range cfg.Layers {
+		if layer.From > layer.To {
+			return nil, fmt.Errorf("layer %d, '%s' has invalid range: 'to' should be greater or equal 'from'", i, layer.Name)
 		}
 	}
 
