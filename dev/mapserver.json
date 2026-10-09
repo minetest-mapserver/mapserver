@@ -7,7 +7,6 @@
 	"enablesearch": true,
 	"enableinitialrendering": true,
 	"enabletransparency": false,
-	"enablemediarepository": false,
 	"webdev": true,
 	"webapi": {
 		"enablemapblock": false,

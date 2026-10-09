@@ -11,7 +11,6 @@ type Config struct {
 	EnableSearch              bool                    `json:"enablesearch"`
 	EnableInitialRendering    bool                    `json:"enableinitialrendering"`
 	EnableTransparency        bool                    `json:"enabletransparency"`
-	EnableMediaRepository     bool                    `json:"enablemediarepository"`
 	Webdev                    bool                    `json:"webdev"`
 	WebApi                    *WebApiConfig           `json:"webapi"`
 	Layers                    []*types.Layer          `json:"layers"`

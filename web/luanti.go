@@ -81,10 +81,8 @@ type MinetestInfo struct {
 
 var LastStats *MinetestInfo
 
-func (api *Api) PostMinetestData(resp http.ResponseWriter, req *http.Request) {
-	if req.Header.Get("Authorization") != api.Context.Config.WebApi.SecretKey {
-		resp.WriteHeader(403)
-		resp.Write([]byte("invalid key!"))
+func (api *Api) PostLuantiStats(resp http.ResponseWriter, req *http.Request) {
+	if !api.check_auth(resp, req) {
 		return
 	}
 
@@ -108,4 +106,12 @@ func (api *Api) PostMinetestData(resp http.ResponseWriter, req *http.Request) {
 	api.Context.WebEventbus.Emit("minetest-info", data)
 
 	json.NewEncoder(resp).Encode("stub")
+}
+
+func (api *Api) PostLuantiNodedefs(resp http.ResponseWriter, req *http.Request) {
+	// TODO: save into temporary file
+}
+
+func (api *Api) PostLuantiMedia(resp http.ResponseWriter, req *http.Request) {
+	// TODO: save into temporary file
 }
