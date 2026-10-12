@@ -107,11 +107,3 @@ func (api *Api) PostLuantiStats(resp http.ResponseWriter, req *http.Request) {
 
 	json.NewEncoder(resp).Encode("stub")
 }
-
-func (api *Api) PostLuantiNodedefs(resp http.ResponseWriter, req *http.Request) {
-	// TODO: save into temporary file
-}
-
-func (api *Api) PostLuantiMedia(resp http.ResponseWriter, req *http.Request) {
-	// TODO: save into temporary file
-}

@@ -39,7 +39,7 @@ func Serve(ctx *app.App) {
 	mux.HandleFunc("/api/stats", api.GetStats)
 	mux.HandleFunc("/api/luanti/stats", api.PostLuantiStats)
 	mux.HandleFunc("/api/luanti/nodedefs", api.PostLuantiNodedefs)
-	mux.HandleFunc("/api/luanti/textures", api.PostLuantiMedia)
+	mux.HandleFunc("/api/luanti/media", api.PostLuantiMedia)
 	mux.HandleFunc("/api/mapobjects/", api.QueryMapobjects)
 	mux.HandleFunc("/api/colormapping", api.GetColorMapping)
 	mux.HandleFunc("/api/viewblock/", api.GetBlockData)
