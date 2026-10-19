@@ -26,45 +26,45 @@ func Serve(ctx *app.App) {
 	if ctx.Config.Webdev {
 		logrus.Print("using live mode")
 		fs := http.FileServer(http.FS(os.DirFS("public/dist")))
-		mux.HandleFunc("/", fs.ServeHTTP)
+		mux.HandleFunc("GET /", fs.ServeHTTP)
 
 	} else {
 		logrus.Print("using embed mode")
 		fs := http.FileServer(http.FS(public.Files))
-		mux.HandleFunc("/", CachedServeFunc(fs.ServeHTTP))
+		mux.HandleFunc("GET /", CachedServeFunc(fs.ServeHTTP))
 	}
 
-	mux.Handle("/api/tile/", &Tiles{ctx: ctx})
-	mux.HandleFunc("/api/config", api.GetConfig)
-	mux.HandleFunc("/api/stats", api.GetStats)
-	mux.HandleFunc("/api/luanti/stats", api.PostLuantiStats)
-	mux.HandleFunc("/api/luanti/nodedefs", api.PostLuantiNodedefs)
-	mux.HandleFunc("/api/luanti/media", api.PostLuantiMedia)
-	mux.HandleFunc("/api/mapobjects/", api.QueryMapobjects)
-	mux.HandleFunc("/api/colormapping", api.GetColorMapping)
-	mux.HandleFunc("/api/viewblock/", api.GetBlockData)
+	mux.Handle("GET /api/tile/", &Tiles{ctx: ctx})
+	mux.HandleFunc("GET /api/config", api.GetConfig)
+	mux.HandleFunc("GET /api/stats", api.GetStats)
+	mux.HandleFunc("POST /api/luanti/stats", api.PostLuantiStats)
+	mux.HandleFunc("POST /api/luanti/nodedefs", api.PostLuantiNodedefs)
+	mux.HandleFunc("POST /api/luanti/media", api.PostLuantiMedia)
+	mux.HandleFunc("POST /api/mapobjects/", api.QueryMapobjects)
+	mux.HandleFunc("GET /api/colormapping", api.GetColorMapping)
+	mux.HandleFunc("GET /api/viewblock/", api.GetBlockData)
 
 	if ctx.Config.MapObjects.Areas {
-		mux.Handle("/api/areas", &AreasHandler{ctx: ctx})
+		mux.Handle("GET /api/areas", &AreasHandler{ctx: ctx})
 	}
 
 	if ctx.Config.MapObjects.RespawnPlaces {
-		mux.Handle("/api/respawnplaces", &RespawnPlacesHandler{ctx: ctx})
+		mux.Handle("GET /api/respawnplaces", &RespawnPlacesHandler{ctx: ctx})
 	}
 
 	if ctx.Config.EnablePrometheus {
-		mux.Handle("/metrics", promhttp.Handler())
+		mux.Handle("GET /metrics", promhttp.Handler())
 	}
 
 	ws := NewWS(ctx)
-	mux.Handle("/api/ws", ws)
+	mux.Handle("GET /api/ws", ws)
 
 	ctx.Tilerenderer.Eventbus.AddListener(ws)
 	ctx.WebEventbus.AddListener(ws)
 
 	if ctx.Config.WebApi.EnableMapblock {
 		//mapblock endpoint
-		mux.HandleFunc("/api/mapblock/", api.GetMapBlockData)
+		mux.HandleFunc("GET /api/mapblock/", api.GetMapBlockData)
 	}
 
 	var bind_addr string = ":" + strconv.Itoa(ctx.Config.Port)
