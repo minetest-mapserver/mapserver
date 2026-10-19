@@ -30,7 +30,6 @@ type Config struct {
 
 type MapBlockAccessorConfig struct {
 	Expiretime string `json:"expiretime"`
-	Purgetime  string `json:"purgetime"`
 	MaxItems   int    `json:"maxitems"`
 }
 

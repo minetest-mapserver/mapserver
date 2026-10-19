@@ -9,7 +9,6 @@
 	"enabletransparency": false,
 	"webdev": true,
 	"webapi": {
-		"enablemapblock": false,
 		"secretkey": "bUpZTaxtjnXbNUbA"
 	},
 	"layers": [
@@ -67,7 +66,6 @@
 	},
 	"mapblockaccessor": {
 		"expiretime": "15s",
-		"purgetime": "30s",
 		"maxitems": 0
 	},
 	"defaultoverlays": [

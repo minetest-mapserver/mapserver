@@ -39,7 +39,7 @@ func TestTileRender(t *testing.T) {
 		panic(err)
 	}
 
-	cache := mapblockaccessor.NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond, 1000)
+	cache := mapblockaccessor.NewMapBlockAccessor(a, 1000*time.Millisecond, 1000)
 	c := colormapping.NewColorMapping()
 	err = c.LoadDefaults()
 	if err != nil {

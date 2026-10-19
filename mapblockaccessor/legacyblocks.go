@@ -6,7 +6,6 @@ import (
 	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
-	cache "github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
 )
 
@@ -61,7 +60,7 @@ func (a *MapBlockAccessor) FindNextLegacyBlocks(s settings.Settings, layers []*t
 
 		a.Eventbus.Emit(util.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
 
-		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
+		a.blockcache.Add(key, mapblock)
 		cacheBlockCount.Inc()
 		mblist = append(mblist, types.NewParsedMapblock(mapblock, block.Pos))
 

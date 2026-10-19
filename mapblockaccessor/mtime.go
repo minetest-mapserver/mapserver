@@ -5,7 +5,6 @@ import (
 	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
-	cache "github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 )
@@ -78,7 +77,7 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 
 		a.Eventbus.Emit(util.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
 
-		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
+		a.blockcache.Add(key, mapblock)
 		cacheBlockCount.Inc()
 		mblist = append(mblist, types.NewParsedMapblock(mapblock, block.Pos))
 
