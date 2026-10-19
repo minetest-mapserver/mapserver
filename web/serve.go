@@ -62,11 +62,6 @@ func Serve(ctx *app.App) {
 	ctx.Tilerenderer.Eventbus.AddListener(ws)
 	ctx.WebEventbus.AddListener(ws)
 
-	if ctx.Config.WebApi.EnableMapblock {
-		//mapblock endpoint
-		mux.HandleFunc("GET /api/mapblock/", api.GetMapBlockData)
-	}
-
 	var bind_addr string = ":" + strconv.Itoa(ctx.Config.Port)
 	if ctx.Config.LocalhostOnly {
 		bind_addr = "127.0.0.1:" + strconv.Itoa(ctx.Config.Port)

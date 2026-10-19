@@ -40,8 +40,7 @@ func WriteConfig(filename string, cfg *Config) error {
 
 func ParseConfig(filename string) (*Config, error) {
 	webapi := WebApiConfig{
-		EnableMapblock: false,
-		SecretKey:      RandStringRunes(16),
+		SecretKey: RandStringRunes(16),
 	}
 
 	layers := []*types.Layer{

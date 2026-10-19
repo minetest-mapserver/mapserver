@@ -71,9 +71,6 @@ type MapObjectConfig struct {
 }
 
 type WebApiConfig struct {
-	//mapblock debugging
-	EnableMapblock bool `json:"enablemapblock"`
-
 	//mod http bridge secret
 	SecretKey string `json:"secretkey"`
 }
