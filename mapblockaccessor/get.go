@@ -4,13 +4,10 @@ import (
 	"fmt"
 	"mapserver/types"
 	"mapserver/util"
-	"sync"
 
 	"github.com/minetest-go/mapparser"
 	"github.com/prometheus/client_golang/prometheus"
 )
-
-var lock = &sync.RWMutex{}
 
 func (a *MapBlockAccessor) GetMapBlock(pos *types.MapBlockCoords) (*mapparser.MapBlock, error) {
 	key := getKey(pos)
