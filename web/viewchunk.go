@@ -4,16 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"mapserver/types"
+	"mapserver/util"
 	"net/http"
 	"strconv"
-
-	"github.com/minetest-go/mapparser"
 )
 
 type ViewBlock struct {
-	//TODO: send as deflated base64 string
-	Mapdata      *mapparser.MapData `json:"mapdata"`
-	BlockMapping map[int]string     `json:"blockmapping"`
+	BlockPos     *types.MapBlockCoords `json:"block_pos"`
+	Mapdata      string                `json:"mapdata"`
+	BlockMapping map[int]string        `json:"blockmapping"`
 }
 
 func (api *Api) ViewChunk(resp http.ResponseWriter, req *http.Request) {
@@ -29,22 +28,32 @@ func (api *Api) ViewChunk(resp http.ResponseWriter, req *http.Request) {
 	for x := x1; x <= x2; x++ {
 		for y := y1; y <= y2; y++ {
 			for z := z1; z <= z2; z++ {
-				coords := types.NewMapBlockCoords(x, y, z)
-				mb, err := api.Context.MapBlockAccessor.GetMapBlock(coords)
+				blockpos := types.NewMapBlockCoords(x, y, z)
+				mb, err := api.Context.MapBlockAccessor.GetMapBlock(blockpos)
 				if err != nil {
+					fmt.Printf("viewblock GetMapBlock error: %v", err)
 					resp.WriteHeader(http.StatusInternalServerError)
 					resp.Write([]byte(err.Error()))
 					return
 				}
 				if mb != nil {
+					mapstr, err := util.SerializeMapdata(mb.Mapdata)
+					if err != nil {
+						fmt.Printf("viewblock SerializeMapdata error: %v", err)
+						resp.WriteHeader(http.StatusInternalServerError)
+						resp.Write([]byte(err.Error()))
+						return
+					}
 					blocks = append(blocks, &ViewBlock{
-						Mapdata:      mb.Mapdata,
+						BlockPos:     blockpos,
+						Mapdata:      mapstr,
 						BlockMapping: mb.BlockMapping,
 					})
 				}
 			}
 		}
 	}
+	//TODO: caching
 
 	resp.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(resp).Encode(blocks)
