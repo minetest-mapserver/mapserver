@@ -123,6 +123,22 @@ export default {
         ]);
       }
 
+      if (obj.type == "sign"){
+        description = m("span", obj.attributes.text);
+        type = m("img", { src: "pics/default_sign_" + obj.attributes.material + ".png" });
+      }
+
+      if (obj.type == "respawn_place"){
+        description = m("span", obj.attributes.name);
+
+        var color = obj.attributes.color || "blue";
+        var icon = obj.attributes.icon || "user-plus";
+
+        type = m("div", { style: "position: relative", class: "awesome-marker awesome-marker-icon-" + color }, [
+          m("i", { class: "fa fa-" + icon })
+        ]);
+      }
+
       function onclick(){
         var layer = layerMgr.getLayerByY(obj.y);
         m.route.set(`/map/${layer.id}/${12}/${obj.x}/${obj.z}`);

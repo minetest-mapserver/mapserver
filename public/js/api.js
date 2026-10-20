@@ -7,6 +7,13 @@ export function getMapObjects(query){
   });
 }
 
+export function getRespawnPlaces() {
+  return m.request({
+    method: "GET",
+    url: "api/respawnplaces"
+  });
+}
+
 export function getConfig(){
   return m.request("api/config");
 }
