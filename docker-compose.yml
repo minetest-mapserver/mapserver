@@ -3,6 +3,7 @@ services:
   image: node:22.23.2-alpine
   volumes:
    - "dev_home:/root"
+   - "node_modules:/data/public/node_modules"
    - ".:/data"
   working_dir: /data/public
   command: ["sh", "-c", "npm ci && npm run build -- --watch"]
@@ -40,6 +41,7 @@ services:
    - "30000:30000/udp"
 
 volumes:
+  node_modules: {}
   world_data: {}
   dev_home: {}
   go_dir: {}
