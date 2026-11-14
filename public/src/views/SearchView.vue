@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { getMapObjects } from '../api.js';
+import { getMapObjects, getRespawnPlaces } from '../api.js';
 import SearchResult from '../components/SearchResult.vue';
 
 const props = defineProps({
@@ -19,7 +19,8 @@ const searchFields = {
   label: "text",
   digiterm: "display_text",
   digilinelcd: "text",
-  um_area_forsale: "description"
+  um_area_forsale: "description",
+  sign: "display_text"
 };
 
 const router = useRouter();
@@ -48,15 +49,49 @@ function searchFor(type, key, valuelike){
   });
 }
 
+// respawn places are not mapobjects, filter them here and return them in the mapobject format
+async function searchRespawnPlaces(valuelike){
+  const needle = valuelike.toLowerCase();
+  const places = await getRespawnPlaces();
+
+  return Object.entries(places || {})
+    .filter(([key, place]) => {
+      return key.toLowerCase().includes(needle) ||
+        (place.full_name || "").toLowerCase().includes(needle);
+    })
+    .map(([key, place]) => {
+      const pos = place.pos;
+      return {
+        mapblock: {
+          x: Math.floor(pos.x / 16),
+          y: Math.floor(pos.y / 16),
+          z: Math.floor(pos.z / 16)
+        },
+        x: pos.x,
+        y: pos.y,
+        z: pos.z,
+        type: "respawn_place",
+        attributes: {
+          name: place.full_name || key,
+          full_name: place.full_name,
+          key: key,
+          color: place.color,
+          icon: place.icon
+        }
+      };
+    });
+}
+
 async function search(query){
   busy.value = true;
   error.value = null;
   result.value = [];
 
   try {
-    const results = await Promise.all(
-      Object.entries(searchFields).map(([type, key]) => searchFor(type, key, query))
-    );
+    const results = await Promise.all([
+      ...Object.entries(searchFields).map(([type, key]) => searchFor(type, key, query)),
+      searchRespawnPlaces(query)
+    ]);
     result.value = results.flatMap(r => r || []);
   } catch (e) {
     error.value = e;

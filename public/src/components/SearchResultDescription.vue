@@ -11,7 +11,9 @@ const textAttributes = {
   digiterm: "display_text",
   digilinelcd: "text",
   locator: "name",
-  poi: "name"
+  poi: "name",
+  sign: "display_text",
+  respawn_place: "name"
 };
 </script>
 

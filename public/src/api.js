@@ -15,6 +15,11 @@ export async function getMapObjects(query){
   return json(res);
 }
 
+// place key -> { pos, full_name, color, icon }
+export async function getRespawnPlaces(){
+  return json(await fetch("api/respawnplaces"));
+}
+
 export async function getConfig(){
   return json(await fetch("api/config"));
 }

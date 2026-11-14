@@ -25,6 +25,9 @@ const image = computed(() => {
         return "pics/locator_beacon_level3.png";
       return "pics/locator_beacon_level1.png";
 
+    case "sign":
+      return attributes.material == "steel" ? "pics/default_sign_steel.png" : "pics/default_sign_wood.png";
+
     case "shop":
       return attributes.stock == 0 ? "pics/shop_empty.png" : "pics/shop.png";
 
@@ -45,6 +48,13 @@ const image = computed(() => {
     :class="'awesome-marker awesome-marker-icon-' + (obj.attributes.color || 'blue')"
   >
     <i :class="'fa fa-' + (obj.attributes.icon || 'home')" />
+  </div>
+  <div
+    v-else-if="obj.type == 'respawn_place'"
+    style="position: relative"
+    :class="'awesome-marker awesome-marker-icon-' + (obj.attributes.color || 'blue')"
+  >
+    <i :class="'fa fa-' + (obj.attributes.icon || 'user-plus')" />
   </div>
   <img
     v-else-if="image"
