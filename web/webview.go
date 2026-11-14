@@ -97,22 +97,71 @@ func (api *Api) GetViewNodedefs(resp http.ResponseWriter, req *http.Request) {
 	http.ServeFile(resp, req, webview_nodedefs)
 }
 
+// max number of files in a media batch request, see public/src/util/ViewMediaLoader.js
+const maxViewMediaBatch = 128
+
+// returns the path and type of a texture or model posted by the mapserver mod, empty if it does not exist
+func findViewMedia(filename string) (string, string) {
+	if filename == "" || filename != path.Base(filename) || filename == ".." || filename == "." {
+		return "", ""
+	}
+
+	for _, mediatype := range []string{"texture", "model"} {
+		filepath := path.Join(webview_directory, mediatype+"s", filename)
+		fi, err := os.Stat(filepath)
+		if err == nil && !fi.IsDir() {
+			return filepath, mediatype
+		}
+	}
+
+	return "", ""
+}
+
 // serves a texture or model posted by the mapserver mod
 func (api *Api) GetViewMedia(resp http.ResponseWriter, req *http.Request) {
-	filename := req.PathValue("filename")
-	if filename == "" || filename != path.Base(filename) || filename == ".." {
+	filepath, _ := findViewMedia(req.PathValue("filename"))
+	if filepath == "" {
+		resp.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	http.ServeFile(resp, req, filepath)
+}
+
+// serves a batch of textures and models, expects a list of filenames
+// files that do not exist are omitted from the result
+func (api *Api) PostViewMedia(resp http.ResponseWriter, req *http.Request) {
+	filenames := []string{}
+	err := json.NewDecoder(http.MaxBytesReader(resp, req.Body, 64*1024)).Decode(&filenames)
+	if err != nil || len(filenames) > maxViewMediaBatch {
 		resp.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	for _, subpath := range []string{"textures", "models"} {
-		filepath := path.Join(webview_directory, subpath, filename)
-		fi, err := os.Stat(filepath)
-		if err == nil && !fi.IsDir() {
-			http.ServeFile(resp, req, filepath)
+	bunch := []*LuantiMedia{}
+	for _, filename := range filenames {
+		filepath, mediatype := findViewMedia(filename)
+		if filepath == "" {
+			continue
+		}
+
+		data, err := os.ReadFile(filepath)
+		if err != nil {
+			logrus.WithError(err).Errorf("file read: '%s'", filepath)
+			resp.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+
+		bunch = append(bunch, &LuantiMedia{
+			Filename: filename,
+			Data:     base64.RawStdEncoding.EncodeToString(data),
+			Type:     mediatype,
+		})
 	}
 
-	resp.WriteHeader(http.StatusNotFound)
+	resp.Header().Set("Content-Type", "application/json")
+	err = json.NewEncoder(resp).Encode(bunch)
+	if err != nil {
+		logrus.WithError(err).Error("media batch encode")
+	}
 }

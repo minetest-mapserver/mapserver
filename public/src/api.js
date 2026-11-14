@@ -33,8 +33,13 @@ export async function getViewNodedefs(){
   return json(await fetch("api/view/nodedefs"));
 }
 
-// texture or model as blob, null if it does not exist
-export async function getViewMedia(filename){
-  const res = await fetch(`api/view/media/${encodeURIComponent(filename)}`);
-  return res.ok ? res.blob() : null;
+// batch of textures and models: list of { filename, data (base64 without padding), type }
+// files that do not exist are omitted
+export async function getViewMediaBatch(filenames){
+  const res = await fetch("api/view/media", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(filenames)
+  });
+  return json(res);
 }

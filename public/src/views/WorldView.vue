@@ -1,7 +1,8 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { createView } from '@buckaroobanzay/luanti-viewer';
-import { getViewNodedefs, getViewMedia } from '../api.js';
+import { getViewNodedefs } from '../api.js';
+import { getViewMedia } from '../util/ViewMediaLoader.js';
 import { createViewChunkLoader } from '../util/ViewChunkLoader.js';
 
 // camera position in node coordinates

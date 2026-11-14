@@ -45,6 +45,7 @@ func Serve(ctx *app.App) {
 	mux.HandleFunc("GET /api/viewchunk/{chunk_x}/{chunk_y}/{chunk_z}", api.ViewChunk)
 	mux.HandleFunc("GET /api/view/nodedefs", api.GetViewNodedefs)
 	mux.HandleFunc("GET /api/view/media/{filename}", api.GetViewMedia)
+	mux.HandleFunc("POST /api/view/media", api.PostViewMedia)
 
 	if ctx.Config.MapObjects.Areas {
 		mux.Handle("GET /api/areas", &AreasHandler{ctx: ctx})
