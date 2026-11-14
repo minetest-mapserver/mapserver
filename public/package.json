@@ -10,11 +10,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@buckaroobanzay/luanti-viewer": "^1.0.0",
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@jitbit/htmlsanitizer": "^2.0.4",
     "bootstrap": "^5.3.8",
     "leaflet": "^1.9.4",
     "leaflet.awesome-markers": "^2.0.5",
+    "three": "^0.187.0",
     "vue": "^3.5.43",
     "vue-router": "^4.6.4"
   },

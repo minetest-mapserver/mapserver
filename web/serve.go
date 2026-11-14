@@ -43,6 +43,8 @@ func Serve(ctx *app.App) {
 	mux.HandleFunc("POST /api/mapobjects/", api.QueryMapobjects)
 	mux.HandleFunc("GET /api/colormapping", api.GetColorMapping)
 	mux.HandleFunc("GET /api/viewchunk/{chunk_x}/{chunk_y}/{chunk_z}", api.ViewChunk)
+	mux.HandleFunc("GET /api/view/nodedefs", api.GetViewNodedefs)
+	mux.HandleFunc("GET /api/view/media/{filename}", api.GetViewMedia)
 
 	if ctx.Config.MapObjects.Areas {
 		mux.Handle("GET /api/areas", &AreasHandler{ctx: ctx})

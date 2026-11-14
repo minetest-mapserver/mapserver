@@ -91,3 +91,28 @@ func (api *Api) PostLuantiMedia(resp http.ResponseWriter, req *http.Request) {
 	resp.WriteHeader(200)
 
 }
+
+// serves the node definitions posted by the mapserver mod
+func (api *Api) GetViewNodedefs(resp http.ResponseWriter, req *http.Request) {
+	http.ServeFile(resp, req, webview_nodedefs)
+}
+
+// serves a texture or model posted by the mapserver mod
+func (api *Api) GetViewMedia(resp http.ResponseWriter, req *http.Request) {
+	filename := req.PathValue("filename")
+	if filename == "" || filename != path.Base(filename) || filename == ".." {
+		resp.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	for _, subpath := range []string{"textures", "models"} {
+		filepath := path.Join(webview_directory, subpath, filename)
+		fi, err := os.Stat(filepath)
+		if err == nil && !fi.IsDir() {
+			http.ServeFile(resp, req, filepath)
+			return
+		}
+	}
+
+	resp.WriteHeader(http.StatusNotFound)
+}
