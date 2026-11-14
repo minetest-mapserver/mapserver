@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 )
@@ -30,12 +31,17 @@ func init() {
 }
 
 func (api *Api) PostLuantiNodedefs(resp http.ResponseWriter, req *http.Request) {
+	if !api.check_auth(resp, req) {
+		return
+	}
+
 	f, err := os.OpenFile(webview_nodedefs, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 0666)
 	if err != nil {
 		logrus.WithError(err).Error("nodedefs file open failed")
 		resp.WriteHeader(500)
 		return
 	}
+	defer f.Close()
 
 	n, err := io.Copy(f, req.Body)
 	if err != nil {
@@ -55,6 +61,10 @@ type LuantiMedia struct {
 }
 
 func (api *Api) PostLuantiMedia(resp http.ResponseWriter, req *http.Request) {
+	if !api.check_auth(resp, req) {
+		return
+	}
+
 	bunch := []*LuantiMedia{}
 	err := json.NewDecoder(req.Body).Decode(&bunch)
 	if err != nil {
@@ -64,6 +74,12 @@ func (api *Api) PostLuantiMedia(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	for _, media := range bunch {
+		if !isValidMediaFilename(media.Filename) {
+			// not a plain filename, would be written outside of the media directory
+			logrus.Warnf("skipping media with invalid filename: '%s'", media.Filename)
+			continue
+		}
+
 		data, err := base64.RawStdEncoding.DecodeString(media.Data)
 		if err != nil {
 			logrus.WithError(err).Errorf("base64 Decode: %s", media.Filename)
@@ -100,9 +116,15 @@ func (api *Api) GetViewNodedefs(resp http.ResponseWriter, req *http.Request) {
 // max number of files in a media batch request, see public/src/util/ViewMediaLoader.js
 const maxViewMediaBatch = 128
 
+// returns true if the name is a plain filename without any directory parts
+func isValidMediaFilename(filename string) bool {
+	return filename != "" && filename == path.Base(filename) && filename != ".." && filename != "." &&
+		!strings.ContainsAny(filename, "/\\")
+}
+
 // returns the path and type of a texture or model posted by the mapserver mod, empty if it does not exist
 func findViewMedia(filename string) (string, string) {
-	if filename == "" || filename != path.Base(filename) || filename == ".." || filename == "." {
+	if !isValidMediaFilename(filename) {
 		return "", ""
 	}
 
