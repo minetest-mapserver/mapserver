@@ -17,16 +17,19 @@ type FindMapBlocksByMtimeResult struct {
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []*types.Layer) (*FindMapBlocksByMtimeResult, error) {
+// returns the changed mapblocks after the given mtime and position (optional, tie-breaker for blocks with the same mtime)
+// the LastMtime and LastPos of the result are the starting point for the next call
+func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, lastpos *types.MapBlockCoords, limit int, layerfilter []*types.Layer) (*FindMapBlocksByMtimeResult, error) {
 
 	fields := logrus.Fields{
 		"lastmtime": lastmtime,
+		"lastpos":   lastpos,
 		"limit":     limit,
 	}
 	logrus.WithFields(fields).Debug("FindMapBlocksByMtime")
 
 	timer := prometheus.NewTimer(dbGetMtimeDuration)
-	blocks, err := a.accessor.FindBlocksByMtime(lastmtime, limit)
+	blocks, err := a.accessor.FindBlocksByMtime(lastmtime, lastpos, limit)
 	timer.ObserveDuration()
 
 	changedBlockCount.Add(float64(len(blocks)))

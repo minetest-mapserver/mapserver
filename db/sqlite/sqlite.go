@@ -7,6 +7,7 @@ import (
 	"mapserver/db"
 	"mapserver/types"
 	"mapserver/util"
+	"math"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -84,11 +85,17 @@ func convertRows(pos int64, data []byte, mtime int64) *db.Block {
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-func (a *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
+func (a *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, gtpos *types.MapBlockCoords, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
 
 	if a.legacy_pos {
-		rows, err := a.db.Query(getBlocksByMtimeQueryLegacy, gtmtime, limit)
+		// without a position: greater than every possible position, only newer blocks match
+		var gtplainpos int64 = math.MaxInt64
+		if gtpos != nil {
+			gtplainpos = util.CoordToPlain(gtpos)
+		}
+
+		rows, err := a.db.Query(getBlocksByMtimeQueryLegacy, gtmtime, gtmtime, gtplainpos, limit)
 		if err != nil {
 			return nil, err
 		}
@@ -109,7 +116,12 @@ func (a *Sqlite3Accessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Blo
 			blocks = append(blocks, mb)
 		}
 	} else {
-		rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
+		// without a position: greater than every possible position, only newer blocks match
+		if gtpos == nil {
+			gtpos = types.NewMapBlockCoords(math.MaxInt32, math.MaxInt32, math.MaxInt32)
+		}
+
+		rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, gtmtime, gtpos.X, gtpos.Y, gtpos.Z, limit)
 		if err != nil {
 			return nil, err
 		}

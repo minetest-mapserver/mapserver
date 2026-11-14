@@ -22,12 +22,14 @@ and b.posy <= $5
 and b.posz <= $6
 `
 
+// the mtime is not unique: the position is used as tie-breaker
 const getBlocksByMtimeQuery = `
 select posx,posy,posz,data,mtime
 from blocks b
-where b.mtime > $1
-order by b.mtime asc
-limit $2
+where b.mtime >= $1
+and (b.mtime > $1 or (b.posx, b.posy, b.posz) > ($2, $3, $4))
+order by b.mtime asc, b.posx asc, b.posy asc, b.posz asc
+limit $5
 `
 
 const countBlocksQuery = `
