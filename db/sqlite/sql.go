@@ -1,18 +1,23 @@
 package sqlite
 
+// the mtime is not unique: the position is used as tie-breaker
+// params: mtime, mtime, x, y, z, limit
 const getBlocksByMtimeQuery = `
 	select x,y,z,data,mtime
 	from blocks b
-	where b.mtime > ?
-	order by b.mtime asc
+	where b.mtime >= ?
+	and (b.mtime > ? or (b.x, b.y, b.z) > (?, ?, ?))
+	order by b.mtime asc, b.x asc, b.y asc, b.z asc
 	limit ?
 `
 
+// params: mtime, mtime, pos, limit
 const getBlocksByMtimeQueryLegacy = `
 	select pos,data,mtime
 	from blocks b
-	where b.mtime > ?
-	order by b.mtime asc
+	where b.mtime >= ?
+	and (b.mtime > ? or b.pos > ?)
+	order by b.mtime asc, b.pos asc
 	limit ?
 `
 

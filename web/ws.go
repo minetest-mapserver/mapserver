@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"mapserver/app"
-	"math/rand"
 	"net/http"
 	"sync"
 
@@ -17,6 +16,7 @@ type WS struct {
 	channels map[int]chan []byte
 	mutex    *sync.RWMutex
 	clients  int
+	nextid   int
 }
 
 func NewWS(ctx *app.App) *WS {
@@ -38,7 +38,8 @@ var upgrader = websocket.Upgrader{
 func (t *WS) OnEvent(eventtype string, o interface{}) {
 	data, err := json.Marshal(o)
 	if err != nil {
-		panic(err)
+		logrus.WithFields(logrus.Fields{"err": err, "type": eventtype}).Error("ws-marshal")
+		return
 	}
 
 	buf := new(bytes.Buffer)
@@ -61,43 +62,49 @@ func (t *WS) OnEvent(eventtype string, o interface{}) {
 
 func (t *WS) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	conn, err := upgrader.Upgrade(resp, req, nil)
-
 	if err != nil {
-		fields := logrus.Fields{
-			"err": err,
-		}
-		logrus.WithFields(fields).Error("ws-upgrade")
-
+		logrus.WithFields(logrus.Fields{"err": err}).Error("ws-upgrade")
+		return
 	}
+	defer conn.Close()
 
-	id := rand.Intn(64000)
-	ch := make(chan []byte)
+	ch := make(chan []byte, 32)
 
 	t.mutex.Lock()
+	t.nextid++
+	id := t.nextid
 	t.channels[id] = ch
 	t.clients++
 	wsClients.Set(float64(t.clients))
 	t.mutex.Unlock()
 
-	for {
-		data := <-ch
+	defer func() {
+		t.mutex.Lock()
+		t.clients--
+		wsClients.Set(float64(t.clients))
+		delete(t.channels, id)
+		t.mutex.Unlock()
+	}()
 
-		if data == nil {
-			//how the hell got a nil reference in here..?!
-			//related issue: #18
-			continue
+	// detect closed connections: the read fails as soon as the client disconnects
+	done := make(chan struct{})
+	go func() {
+		defer close(done)
+		for {
+			if _, _, err := conn.ReadMessage(); err != nil {
+				return
+			}
 		}
+	}()
 
-		err := conn.WriteMessage(websocket.TextMessage, data)
-		if err != nil {
-			break
+	for {
+		select {
+		case <-done:
+			return
+		case data := <-ch:
+			if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
+				return
+			}
 		}
 	}
-
-	t.mutex.Lock()
-	t.clients--
-	wsClients.Set(float64(t.clients))
-	delete(t.channels, id)
-	close(ch)
-	t.mutex.Unlock()
 }

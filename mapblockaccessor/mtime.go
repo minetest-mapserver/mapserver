@@ -1,11 +1,10 @@
 package mapblockaccessor
 
 import (
-	"mapserver/eventbus"
 	"mapserver/types"
+	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
-	cache "github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 )
@@ -18,16 +17,19 @@ type FindMapBlocksByMtimeResult struct {
 	UnfilteredCount int
 }
 
-func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, layerfilter []*types.Layer) (*FindMapBlocksByMtimeResult, error) {
+// returns the changed mapblocks after the given mtime and position (optional, tie-breaker for blocks with the same mtime)
+// the LastMtime and LastPos of the result are the starting point for the next call
+func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, lastpos *types.MapBlockCoords, limit int, layerfilter []*types.Layer) (*FindMapBlocksByMtimeResult, error) {
 
 	fields := logrus.Fields{
 		"lastmtime": lastmtime,
+		"lastpos":   lastpos,
 		"limit":     limit,
 	}
 	logrus.WithFields(fields).Debug("FindMapBlocksByMtime")
 
 	timer := prometheus.NewTimer(dbGetMtimeDuration)
-	blocks, err := a.accessor.FindBlocksByMtime(lastmtime, limit)
+	blocks, err := a.accessor.FindBlocksByMtime(lastmtime, lastpos, limit)
 	timer.ObserveDuration()
 
 	changedBlockCount.Add(float64(len(blocks)))
@@ -76,9 +78,9 @@ func (a *MapBlockAccessor) FindMapBlocksByMtime(lastmtime int64, limit int, laye
 			continue
 		}
 
-		a.Eventbus.Emit(eventbus.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
+		a.Eventbus.Emit(util.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, block.Pos))
 
-		a.blockcache.Set(key, mapblock, cache.DefaultExpiration)
+		a.blockcache.Add(key, mapblock)
 		cacheBlockCount.Inc()
 		mblist = append(mblist, types.NewParsedMapblock(mapblock, block.Pos))
 

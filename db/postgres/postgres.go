@@ -5,6 +5,7 @@ import (
 	"embed"
 	"mapserver/db"
 	"mapserver/types"
+	"math"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -51,10 +52,15 @@ func convertRows(posx, posy, posz int, data []byte, mtime int64) *db.Block {
 	return &db.Block{Pos: c, Data: data, Mtime: mtime}
 }
 
-func (a *PostgresAccessor) FindBlocksByMtime(gtmtime int64, limit int) ([]*db.Block, error) {
+func (a *PostgresAccessor) FindBlocksByMtime(gtmtime int64, gtpos *types.MapBlockCoords, limit int) ([]*db.Block, error) {
 	blocks := make([]*db.Block, 0)
 
-	rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, limit)
+	// without a position: greater than every possible position, only newer blocks match
+	if gtpos == nil {
+		gtpos = types.NewMapBlockCoords(math.MaxInt32, math.MaxInt32, math.MaxInt32)
+	}
+
+	rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, gtpos.X, gtpos.Y, gtpos.Z, limit)
 	if err != nil {
 		return nil, err
 	}

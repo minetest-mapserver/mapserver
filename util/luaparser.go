@@ -1,0 +1,97 @@
+package util
+
+import (
+	"errors"
+	"strconv"
+
+	lua "github.com/yuin/gopher-lua"
+)
+
+func NewLuaParser() *LuaParser {
+	p := LuaParser{
+		state: lua.NewState(lua.Options{SkipOpenLibs: true}),
+	}
+
+	return &p
+}
+
+type LuaParser struct {
+	state *lua.LState
+}
+
+func parseMap(t *lua.LTable) map[string]interface{} {
+	result := make(map[string]interface{})
+
+	t.ForEach(func(k1, v1 lua.LValue) {
+
+		boolValue, ok := v1.(lua.LBool)
+		if ok {
+			result[k1.String()] = boolValue == lua.LTrue
+		}
+
+		intValue, ok := v1.(lua.LNumber)
+		if ok {
+			result[k1.String()], _ = strconv.Atoi(intValue.String())
+		}
+
+		strValue, ok := v1.(lua.LString)
+		if ok {
+			result[k1.String()] = strValue.String()
+		}
+
+		tblValue, ok := v1.(*lua.LTable)
+		if ok {
+			result[k1.String()] = parseMap(tblValue)
+		}
+	})
+
+	return result
+}
+
+func (lp *LuaParser) ParseList(expr string) ([]map[string]interface{}, error) {
+	result := make([]map[string]interface{}, 0)
+
+	err := lp.state.DoString(expr)
+	if err != nil {
+		return result, err
+	}
+
+	lv := lp.state.Get(-1)
+
+	tbl, ok := lv.(*lua.LTable)
+	if !ok {
+		return result, errors.New("parsing failed")
+	}
+
+	tbl.ForEach(func(k, v lua.LValue) {
+		key, ok := v.(*lua.LTable)
+
+		if !ok {
+			return
+		}
+
+		mapresult := parseMap(key)
+
+		result = append(result, mapresult)
+	})
+
+	return result, nil
+}
+
+func (lp *LuaParser) ParseMap(expr string) (map[string]interface{}, error) {
+	result := make(map[string]interface{})
+
+	err := lp.state.DoString(expr)
+	if err != nil {
+		return result, err
+	}
+
+	lv := lp.state.Get(-1)
+
+	tbl, ok := lv.(*lua.LTable)
+	if !ok {
+		return result, errors.New("parsing failed")
+	}
+
+	return parseMap(tbl), nil
+}

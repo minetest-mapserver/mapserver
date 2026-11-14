@@ -1,17 +1,9 @@
-<!DOCTYPE HTML>
-<html >
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000">
-
-    <!-- styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/fontawesome.min.css"/>
-    <link rel="stylesheet" href="css/leaflet.css"/>
-    <link rel="stylesheet" href="css/leaflet.awesome-markers.css"/>
-    <link rel="stylesheet" href="css/custom.css"/>
-
     <title>Minetest Mapserver</title>
   </head>
   <body>
@@ -19,14 +11,6 @@
       <br>
       <h5 id="title">Starting mapserver...</h5>
     </div>
-
-    <!-- libraries -->
-    <script src="js/lib/mithril.min.js"></script>
-    <script src="js/lib/leaflet.js"></script>
-    <script src="js/lib/leaflet.awesome-markers.js"></script>
-    <script src="js/lib/moment.min.js"></script>
-
-    <!-- main script -->
-    <script src="js/bundle.js" onerror="import('./js/main.js')"></script>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>

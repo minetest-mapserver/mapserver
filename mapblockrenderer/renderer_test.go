@@ -3,11 +3,11 @@ package mapblockrenderer
 import (
 	"fmt"
 	"io/ioutil"
-	"mapserver/coords"
 	"mapserver/db/sqlite"
 	"mapserver/mapblockaccessor"
 	"mapserver/testutils"
 	"mapserver/types"
+	"mapserver/util"
 	"os"
 	"testing"
 	"time"
@@ -46,7 +46,7 @@ func TestSimpleRender(t *testing.T) {
 		panic(err)
 	}
 
-	cache := mapblockaccessor.NewMapBlockAccessor(a, 500*time.Millisecond, 1000*time.Millisecond, 1000)
+	cache := mapblockaccessor.NewMapBlockAccessor(a, 1000*time.Millisecond, 1000)
 	c := colormapping.NewColorMapping()
 	err = c.LoadDefaults()
 	if err != nil {
@@ -69,7 +69,7 @@ func TestSimpleRender(t *testing.T) {
 				continue
 			}
 
-			tc := coords.GetTileCoordsFromMapBlock(result.Job.Pos1, layers)
+			tc := util.GetTileCoordsFromMapBlock(result.Job.Pos1, layers)
 			f, _ := os.Create(fmt.Sprintf("../test-output/image_%d_%d.png", tc.X, tc.Y))
 			result.Data.WriteTo(f)
 			f.Close()

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"io/fs"
 	"mapserver/public"
 	"net/http"
 	"strings"
@@ -10,7 +11,7 @@ func (api *Api) GetMedia(resp http.ResponseWriter, req *http.Request) {
 	str := strings.TrimPrefix(req.URL.Path, "/api/media/")
 	parts := strings.Split(str, "/")
 	if len(parts) != 1 {
-		resp.WriteHeader(500)
+		resp.WriteHeader(http.StatusBadRequest)
 		resp.Write([]byte("wrong number of arguments"))
 		return
 	}
@@ -22,7 +23,7 @@ func (api *Api) GetMedia(resp http.ResponseWriter, req *http.Request) {
 
 	if content == nil && hasfallback && len(fallback) > 0 {
 		var err error
-		content, err = public.Files.ReadFile("pics/" + fallback[0])
+		content, err = fs.ReadFile(public.Files, "pics/"+fallback[0])
 		if err != nil {
 			resp.WriteHeader(http.StatusInternalServerError)
 			return
@@ -30,8 +31,8 @@ func (api *Api) GetMedia(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	if content != nil {
-		resp.Write(content)
 		resp.Header().Add("content-type", "image/png")
+		resp.Write(content)
 		return
 	}
 

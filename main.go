@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"mapserver/app"
 	"mapserver/mapobject"
-	"mapserver/params"
 	"mapserver/tilerendererjob"
+	"mapserver/util"
 	"mapserver/web"
+	"os"
 	"runtime"
 
 	"github.com/sirupsen/logrus"
@@ -24,7 +24,7 @@ func main() {
 	}
 
 	//Parse command line
-	p := params.Parse()
+	p := util.ParseParams()
 
 	if p.Debug || env("MT_LOGLEVEL", "INFO") == "DEBUG" {
 		logrus.SetLevel(logrus.DebugLevel)
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	if p.Help {
-		params.PrintHelp()
+		util.PrintHelp()
 		return
 	}
 

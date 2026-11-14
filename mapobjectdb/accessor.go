@@ -1,8 +1,8 @@
 package mapobjectdb
 
 import (
-	"mapserver/coords"
 	"mapserver/types"
+	"mapserver/util"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -15,7 +15,7 @@ PRAGMA journal_mode = MEMORY
 */
 
 type Tile struct {
-	Pos   *coords.TileCoords
+	Pos   *util.TileCoords
 	Data  []byte
 	Mtime int64
 }

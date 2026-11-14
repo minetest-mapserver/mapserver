@@ -11,7 +11,6 @@ type Config struct {
 	EnableSearch              bool                    `json:"enablesearch"`
 	EnableInitialRendering    bool                    `json:"enableinitialrendering"`
 	EnableTransparency        bool                    `json:"enabletransparency"`
-	EnableMediaRepository     bool                    `json:"enablemediarepository"`
 	Webdev                    bool                    `json:"webdev"`
 	WebApi                    *WebApiConfig           `json:"webapi"`
 	Layers                    []*types.Layer          `json:"layers"`
@@ -23,7 +22,6 @@ type Config struct {
 	MapBlockAccessorCfg       *MapBlockAccessorConfig `json:"mapblockaccessor"`
 	DefaultOverlays           []string                `json:"defaultoverlays"`
 	PageName                  string                  `json:"pagename"`
-	Skins                     *SkinsConfig            `json:"skins"`
 	WorldPath                 string                  `json:"worldpath"`
 	DataPath                  string                  `json:"datapath"`
 	ColorsTxtPath             string                  `json:"colorstxtpath"`
@@ -32,7 +30,6 @@ type Config struct {
 
 type MapBlockAccessorConfig struct {
 	Expiretime string `json:"expiretime"`
-	Purgetime  string `json:"purgetime"`
 	MaxItems   int    `json:"maxitems"`
 }
 
@@ -73,18 +70,10 @@ type MapObjectConfig struct {
 }
 
 type WebApiConfig struct {
-	//mapblock debugging
-	EnableMapblock bool `json:"enablemapblock"`
-
 	//mod http bridge secret
 	SecretKey string `json:"secretkey"`
 }
 
-type SkinsConfig struct {
-	EnableSkinsDB bool   `json:"enableskinsdb"`
-	SkinsPath     string `json:"skinspath"`
-}
-
 type RespawnConfig struct {
-	PlacesColor   string `json:"placescolor"`
+	PlacesColor string `json:"placescolor"`
 }

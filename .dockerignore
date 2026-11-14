@@ -6,3 +6,4 @@ mapserver.sqlite
 mapserver.sqlite-journal
 mapserver.json
 debug.txt
+public/node_modules

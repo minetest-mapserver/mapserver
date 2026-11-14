@@ -19,7 +19,7 @@ func (blk *SmartShopBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int,
 	mainInv := invMap["main"]
 	isCreative := md["type"] == "0"
 
-	if mainInv.IsEmpty() {
+	if mainInv == nil || mainInv.IsEmpty() {
 		return list
 	}
 
@@ -30,7 +30,7 @@ func (blk *SmartShopBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int,
 		pay := invMap[payInvName]
 		give := invMap[giveInvName]
 
-		if len(pay.Items) == 0 || len(give.Items) == 0 {
+		if pay == nil || give == nil || len(pay.Items) == 0 || len(give.Items) == 0 {
 			continue
 		}
 

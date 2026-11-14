@@ -168,7 +168,7 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 							}
 						}
 
-						if z < 14 {
+						if z < 15 {
 							//same mapblock
 							top = mb.GetNodeName(x, y, z+1)
 							if y < 15 {

@@ -2,14 +2,14 @@ package tilerendererjob
 
 import (
 	"mapserver/app"
-	"mapserver/coords"
 	"mapserver/types"
+	"mapserver/util"
 	"strconv"
 
 	"github.com/sirupsen/logrus"
 )
 
-func getTileKey(tc *coords.TileCoords) string {
+func getTileKey(tc *util.TileCoords) string {
 	return strconv.Itoa(tc.X) + "/" + strconv.Itoa(tc.Y) + "/" +
 		strconv.Itoa(tc.Zoom) + "/" + strconv.Itoa(tc.LayerId)
 }
@@ -22,7 +22,7 @@ func renderMapblocks(ctx *app.App, mblist []*types.ParsedMapblock) int {
 	for i := 12; i >= 1; i-- {
 
 		//Spin up workers
-		jobs := make(chan *coords.TileCoords, ctx.Config.RenderingQueue)
+		jobs := make(chan *util.TileCoords, ctx.Config.RenderingQueue)
 		done := make(chan bool, 1)
 
 		for j := 0; j < ctx.Config.RenderingJobs; j++ {
@@ -38,7 +38,7 @@ func renderMapblocks(ctx *app.App, mblist []*types.ParsedMapblock) int {
 			}
 			logrus.WithFields(fields).Debug("Tile render job mapblock")
 
-			tc := coords.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
+			tc := util.GetTileCoordsFromMapBlock(mb.Pos, ctx.Config.Layers)
 
 			if tc == nil {
 				fields := logrus.Fields{

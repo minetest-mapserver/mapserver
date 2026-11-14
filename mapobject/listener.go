@@ -2,10 +2,9 @@ package mapobject
 
 import (
 	"mapserver/app"
-	"mapserver/coords"
-	"mapserver/eventbus"
 	"mapserver/mapobjectdb"
 	"mapserver/types"
+	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
 	"github.com/sirupsen/logrus"
@@ -34,7 +33,7 @@ func (l *Listener) AddMapMultiObject(blockname string, ol MapMultiObjectListener
 }
 
 func (l *Listener) OnEvent(eventtype string, o interface{}) {
-	if eventtype != eventbus.MAPBLOCK_RENDERED {
+	if eventtype != util.MAPBLOCK_RENDERED {
 		return
 	}
 
@@ -53,7 +52,7 @@ func (l *Listener) OnEvent(eventtype string, o interface{}) {
 		for k, v := range l.multiobjectlisteners {
 			if k == name {
 				//block matches
-				coords.IterateMapblock(func(x, y, z int) {
+				util.IterateMapblock(func(x, y, z int) {
 					nodeid := pmb.Mapblock.GetNodeId(x, y, z)
 					if nodeid == id {
 						fields := logrus.Fields{
@@ -97,7 +96,7 @@ func (l *Listener) OnEvent(eventtype string, o interface{}) {
 		for k, v := range l.objectlisteners {
 			if k == name {
 				//block matches
-				coords.IterateMapblock(func(x, y, z int) {
+				util.IterateMapblock(func(x, y, z int) {
 					nodeid := pmb.Mapblock.GetNodeId(x, y, z)
 					if nodeid == id {
 						fields := logrus.Fields{

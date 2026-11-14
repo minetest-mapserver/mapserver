@@ -10,6 +10,23 @@
 docker-compose up mapserver_frontend
 ```
 
+This builds the frontend into `public/dist` and rebuilds it on changes (served by the mapserver in `webdev` mode).
+
+# Frontend development (vite)
+
+The frontend is a Vue 3 app (`public/src`), built with [vite](https://vite.dev).
+With a mapserver running on `localhost:8080` the vite dev-server (with hot-reload) can be used:
+
+```bash
+cd public
+npm ci
+npm run dev
+# lint
+npm run lint
+```
+
+The `/api` requests are proxied to `http://localhost:8080` (override with the `MAPSERVER_URL` env variable).
+
 # Development setup (sqlite)
 
 ```bash

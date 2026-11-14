@@ -9,12 +9,12 @@ import (
 	"time"
 
 	"mapserver/app"
-	"mapserver/respawnparser"
+	"mapserver/util"
 )
 
 type RespawnPlacesHandler struct {
 	ctx      *app.App
-	cache    map[string]respawnparser.RespawnPlace
+	cache    map[string]util.RespawnPlace
 	lasttime int64
 }
 
@@ -31,27 +31,23 @@ func (h *RespawnPlacesHandler) ServeHTTP(resp http.ResponseWriter, req *http.Req
 		return
 	}
 
+	mutex_respawn.Lock()
 	now := time.Now().Unix()
-	diff := now - h.lasttime
-
-	if diff > 5 {
-		mutex_respawn.Lock()
-
-		h.lasttime = now
-		places, err := respawnparser.ParseFile(RESPAWN_PLACES_FILENAME)
-
+	if now-h.lasttime > 5 {
+		places, err := util.ParseRespawnFile(RESPAWN_PLACES_FILENAME)
 		if err != nil {
+			mutex_respawn.Unlock()
 			resp.WriteHeader(500)
 			resp.Write([]byte(err.Error()))
 			return
 		}
 
+		h.lasttime = now
 		h.cache = places
-
-		mutex_respawn.Unlock()
 	}
+	cache := h.cache
+	mutex_respawn.Unlock()
 
 	resp.Header().Add("content-type", "application/json")
-	json.NewEncoder(resp).Encode(h.cache)
-
+	json.NewEncoder(resp).Encode(cache)
 }

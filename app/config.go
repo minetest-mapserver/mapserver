@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"fmt"
 	"mapserver/types"
 	"os"
 	"runtime"
@@ -39,8 +40,7 @@ func WriteConfig(filename string, cfg *Config) error {
 
 func ParseConfig(filename string) (*Config, error) {
 	webapi := WebApiConfig{
-		EnableMapblock: false,
-		SecretKey:      RandStringRunes(16),
+		SecretKey: RandStringRunes(16),
 	}
 
 	layers := []*types.Layer{
@@ -94,20 +94,14 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	mapblockaccessor := MapBlockAccessorConfig{
-		Expiretime: "10s",
-		Purgetime:  "15s",
-		MaxItems:   50,
+		Expiretime: "60s",
+		MaxItems:   500,
 	}
 
 	defaultoverlays := []string{
 		"mapserver_poi",
 		"mapserver_label",
 		"mapserver_player",
-	}
-
-	skins := SkinsConfig{
-		EnableSkinsDB: false,
-		SkinsPath:     "",
 	}
 
 	respawn := RespawnConfig{
@@ -123,7 +117,6 @@ func ParseConfig(filename string) (*Config, error) {
 		EnableSearch:              true,
 		EnableInitialRendering:    true,
 		EnableTransparency:        false,
-		EnableMediaRepository:     false,
 		Webdev:                    false,
 		WebApi:                    &webapi,
 		Layers:                    layers,
@@ -134,8 +127,7 @@ func ParseConfig(filename string) (*Config, error) {
 		MapObjects:                &mapobjs,
 		MapBlockAccessorCfg:       &mapblockaccessor,
 		DefaultOverlays:           defaultoverlays,
-		PageName:                  "Minetest Mapserver",
-		Skins:                     &skins,
+		PageName:                  "Luanti Mapserver",
 		WorldPath:                 "./",
 		DataPath:                  "./",
 		ColorsTxtPath:             "./",
@@ -149,9 +141,17 @@ func ParseConfig(filename string) (*Config, error) {
 			return nil, err
 		}
 
+		// apply on-disk config over default config
 		err = json.Unmarshal(data, &cfg)
 		if err != nil {
 			return nil, err
+		}
+	}
+
+	// check layer config
+	for i, layer := range cfg.Layers {
+		if layer.From > layer.To {
+			return nil, fmt.Errorf("layer %d, '%s' has invalid range: 'to' should be greater or equal 'from'", i, layer.Name)
 		}
 	}
 

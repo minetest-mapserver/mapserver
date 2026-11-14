@@ -1,7 +1,6 @@
 package web
 
 import (
-	"embed"
 	"mapserver/app"
 	"mapserver/public"
 	"net/http"
@@ -26,50 +25,45 @@ func Serve(ctx *app.App) {
 	// static files
 	if ctx.Config.Webdev {
 		logrus.Print("using live mode")
-		fs := http.FileServer(http.FS(os.DirFS("public")))
-		mux.HandleFunc("/", fs.ServeHTTP)
+		fs := http.FileServer(http.FS(os.DirFS("public/dist")))
+		mux.HandleFunc("GET /", fs.ServeHTTP)
 
 	} else {
 		logrus.Print("using embed mode")
 		fs := http.FileServer(http.FS(public.Files))
-		mux.HandleFunc("/", CachedServeFunc(fs.ServeHTTP))
+		mux.HandleFunc("GET /", CachedServeFunc(fs.ServeHTTP))
 	}
 
-	mux.Handle("/api/tile/", &Tiles{ctx: ctx})
-	mux.HandleFunc("/api/config", api.GetConfig)
-	mux.HandleFunc("/api/stats", api.GetStats)
-	mux.HandleFunc("/api/media/", api.GetMedia)
-	mux.HandleFunc("/api/minetest", api.PostMinetestData)
-	mux.HandleFunc("/api/mapobjects/", api.QueryMapobjects)
-	mux.HandleFunc("/api/colormapping", api.GetColorMapping)
-	mux.HandleFunc("/api/viewblock/", api.GetBlockData)
+	mux.Handle("GET /api/tile/", &Tiles{ctx: ctx})
+	mux.HandleFunc("GET /api/config", api.GetConfig)
+	mux.HandleFunc("GET /api/stats", api.GetStats)
+	mux.HandleFunc("POST /api/luanti/stats", api.PostLuantiStats)
+	mux.HandleFunc("POST /api/luanti/nodedefs", api.PostLuantiNodedefs)
+	mux.HandleFunc("POST /api/luanti/media", api.PostLuantiMedia)
+	mux.HandleFunc("POST /api/mapobjects/", api.QueryMapobjects)
+	mux.HandleFunc("GET /api/colormapping", api.GetColorMapping)
+	mux.HandleFunc("GET /api/viewchunk/{chunk_x}/{chunk_y}/{chunk_z}", api.ViewChunk)
+	mux.HandleFunc("GET /api/view/nodedefs", api.GetViewNodedefs)
+	mux.HandleFunc("GET /api/view/media/{filename}", api.GetViewMedia)
+	mux.HandleFunc("POST /api/view/media", api.PostViewMedia)
 
 	if ctx.Config.MapObjects.Areas {
-		mux.Handle("/api/areas", &AreasHandler{ctx: ctx})
+		mux.Handle("GET /api/areas", &AreasHandler{ctx: ctx})
 	}
 
 	if ctx.Config.MapObjects.RespawnPlaces {
-		mux.Handle("/api/respawnplaces", &RespawnPlacesHandler{ctx: ctx})
+		mux.Handle("GET /api/respawnplaces", &RespawnPlacesHandler{ctx: ctx})
 	}
 
 	if ctx.Config.EnablePrometheus {
-		mux.Handle("/metrics", promhttp.Handler())
-	}
-
-	if ctx.Config.Skins.EnableSkinsDB && len(ctx.Config.Skins.SkinsPath) > 0 {
-		mux.HandleFunc("/api/skins/", api.GetSkin)
+		mux.Handle("GET /metrics", promhttp.Handler())
 	}
 
 	ws := NewWS(ctx)
-	mux.Handle("/api/ws", ws)
+	mux.Handle("GET /api/ws", ws)
 
 	ctx.Tilerenderer.Eventbus.AddListener(ws)
 	ctx.WebEventbus.AddListener(ws)
-
-	if ctx.Config.WebApi.EnableMapblock {
-		//mapblock endpoint
-		mux.HandleFunc("/api/mapblock/", api.GetMapBlockData)
-	}
 
 	var bind_addr string = ":" + strconv.Itoa(ctx.Config.Port)
 	if ctx.Config.LocalhostOnly {
@@ -82,14 +76,4 @@ func Serve(ctx *app.App) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-func getFileSystem(useLocalfs bool, content embed.FS) http.FileSystem {
-	if useLocalfs {
-		log.Print("using live mode")
-		return http.FS(os.DirFS("public"))
-	}
-
-	log.Print("using embed mode")
-	return http.FS(content)
 }

@@ -1,11 +1,11 @@
 FROM node:22.23.2 as bundle-builder
 COPY public /public
 WORKDIR /public
-RUN npm ci && npm run bundle
+RUN npm ci && npm run build
 
 FROM golang:1.24.3 as go-builder
 COPY . /data
-COPY --from=bundle-builder /public/js/bundle* /data/public/js/
+COPY --from=bundle-builder /public/dist /data/public/dist
 WORKDIR /data
 RUN --mount=type=cache,target=/go/pkg/mod \
     go mod download

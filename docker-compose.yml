@@ -1,18 +1,17 @@
-version: "3.6"
-
 services:
  mapserver_frontend:
   image: node:22.23.2-alpine
   volumes:
    - "dev_home:/root"
+   - "node_modules:/data/public/node_modules"
    - ".:/data"
   working_dir: /data/public
-  command: ["npm", "ci"]
+  command: ["sh", "-c", "npm ci && npm run build -- --watch"]
  
  mapserver:
   image: golang:1.24.3
   depends_on:
-   - minetest
+   - luanti
    - mapserver_frontend
   volumes:
    - "dev_home:/root"
@@ -27,20 +26,22 @@ services:
   working_dir: /data/world
   command: ["go", "run", ".."]
 
- minetest:
+ luanti:
   image: ghcr.io/luanti-org/luanti:5.17.0
   user: root
-  command: "--gameid minetest"
+  command: "--gameid minetest --config /minetest.conf"
   volumes:
    - "world_data:/root/.minetest/worlds/world"
    - "./dev/minetest_game:/root/.minetest/games/minetest_game"
    - "./dev/worldmods:/root/.minetest/worlds/world/worldmods"
-   - "./dev/minetest.conf:/etc/minetest/minetest.conf"
+   - "./dev/minetest.conf:/minetest.conf"
    - "./dev/mapserver.json:/root/.minetest/worlds/world/mapserver.json"
+   - "./dev/skins/character_10.png:/root/.minetest/worlds/world/worldmods/skinsdb/textures/character_10.png:ro"
   ports:
    - "30000:30000/udp"
 
 volumes:
+  node_modules: {}
   world_data: {}
   dev_home: {}
   go_dir: {}

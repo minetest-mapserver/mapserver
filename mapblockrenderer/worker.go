@@ -5,6 +5,8 @@ import (
 	"image/png"
 	"mapserver/types"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 type JobData struct {
@@ -19,13 +21,19 @@ type JobResult struct {
 
 func Worker(r *MapBlockRenderer, jobs <-chan JobData, results chan<- JobResult) {
 	for d := range jobs {
-		img, _ := r.Render(d.Pos1, d.Pos2)
+		img, err := r.Render(d.Pos1, d.Pos2)
+		if err != nil {
+			log.WithFields(logrus.Fields{"err": err}).Error("render")
+		}
 
 		w := new(bytes.Buffer)
 		start := time.Now()
 
 		if img != nil {
-			png.Encode(w, img)
+			if err := png.Encode(w, img); err != nil {
+				log.WithFields(logrus.Fields{"err": err}).Error("png-encode")
+				w.Reset()
+			}
 		}
 
 		t := time.Now()

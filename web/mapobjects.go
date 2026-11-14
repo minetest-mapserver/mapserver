@@ -19,7 +19,7 @@ func (api *Api) QueryMapobjects(resp http.ResponseWriter, req *http.Request) {
 
 	err := decoder.Decode(&q)
 	if err != nil {
-		resp.WriteHeader(500)
+		resp.WriteHeader(http.StatusBadRequest)
 		resp.Write([]byte(err.Error()))
 		return
 	}
