@@ -10,7 +10,7 @@ require (
 	github.com/minetest-go/colormapping v1.0.5
 	github.com/minetest-go/mapparser v0.1.9
 	github.com/prometheus/client_golang v1.23.2
-	github.com/sirupsen/logrus v1.9.3
+	github.com/sirupsen/logrus v1.10.2
 	github.com/stretchr/testify v1.12.1
 	github.com/yuin/gopher-lua v1.1.2
 	modernc.org/sqlite v1.37.1
