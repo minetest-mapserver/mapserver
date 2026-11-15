@@ -1,14 +1,14 @@
 package types
 
 import (
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type ParsedMapblock struct {
-	Mapblock *mapparser.MapBlock
+	Mapblock *mtypes.MapBlock
 	Pos      *MapBlockCoords
 }
 
-func NewParsedMapblock(mb *mapparser.MapBlock, pos *MapBlockCoords) *ParsedMapblock {
+func NewParsedMapblock(mb *mtypes.MapBlock, pos *MapBlockCoords) *ParsedMapblock {
 	return &ParsedMapblock{Mapblock: mb, Pos: pos}
 }

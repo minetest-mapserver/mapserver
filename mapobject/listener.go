@@ -6,16 +6,16 @@ import (
 	"mapserver/types"
 	"mapserver/util"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 	"github.com/sirupsen/logrus"
 )
 
 type MapObjectListener interface {
-	onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject
+	onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject
 }
 
 type MapMultiObjectListener interface {
-	onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject
+	onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) []*mapobjectdb.MapObject
 }
 
 type Listener struct {
@@ -53,7 +53,7 @@ func (l *Listener) OnEvent(eventtype string, o interface{}) {
 			if k == name {
 				//block matches
 				util.IterateMapblock(func(x, y, z int) {
-					nodeid := pmb.Mapblock.GetNodeId(x, y, z)
+					nodeid := pmb.Mapblock.GetNodeId(mtypes.NewPos(x, y, z))
 					if nodeid == id {
 						fields := logrus.Fields{
 							"mbpos":  pmb.Pos,
@@ -97,7 +97,7 @@ func (l *Listener) OnEvent(eventtype string, o interface{}) {
 			if k == name {
 				//block matches
 				util.IterateMapblock(func(x, y, z int) {
-					nodeid := pmb.Mapblock.GetNodeId(x, y, z)
+					nodeid := pmb.Mapblock.GetNodeId(mtypes.NewPos(x, y, z))
 					if nodeid == id {
 						fields := logrus.Fields{
 							"mbpos":  pmb.Pos,

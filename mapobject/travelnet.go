@@ -5,13 +5,13 @@ import (
 	"mapserver/types"
 	"strings"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type TravelnetBlock struct{}
 
-func (tn *TravelnetBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
-	md := block.Metadata.GetMetadata(x, y, z)
+func (tn *TravelnetBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject {
+	md := getMetadata(block, x, y, z)
 
 	// ignore (P) prefixed stations
 	// TODO: configurable prefix
@@ -23,7 +23,7 @@ func (tn *TravelnetBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, 
 	o.Attributes["owner"] = md["owner"]
 	o.Attributes["station_name"] = md["station_name"]
 	o.Attributes["station_network"] = md["station_network"]
-	o.Attributes["nodename"] = block.GetNodeName(x, y, z)
+	o.Attributes["nodename"] = block.GetNodeName(mtypes.NewPos(x, y, z))
 
 	return o
 }

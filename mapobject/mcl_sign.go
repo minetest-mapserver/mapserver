@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 var utextNumberRE = regexp.MustCompile(`\d+`)
@@ -38,8 +38,8 @@ type MclSignBlock struct {
 	Material string
 }
 
-func (this *MclSignBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
-	md := block.Metadata.GetMetadata(x, y, z)
+func (this *MclSignBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject {
+	md := getMetadata(block, x, y, z)
 	displayText := decodeUText(md["utext"])
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "sign")

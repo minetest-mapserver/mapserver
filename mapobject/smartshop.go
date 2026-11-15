@@ -6,16 +6,16 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type SmartShopBlock struct{}
 
-func (blk *SmartShopBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject {
+func (blk *SmartShopBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) []*mapobjectdb.MapObject {
 	list := make([]*mapobjectdb.MapObject, 0)
 
-	md := block.Metadata.GetMetadata(x, y, z)
-	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
+	md := getMetadata(block, x, y, z)
+	invMap := getInventoryMap(block, x, y, z)
 	mainInv := invMap["main"]
 	isCreative := md["type"] == "0"
 

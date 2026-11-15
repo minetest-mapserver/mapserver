@@ -9,6 +9,7 @@ import (
 
 	"github.com/minetest-go/colormapping"
 	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 const (
@@ -17,20 +18,18 @@ const (
 )
 
 // creates an air-filled mapblock
-func newTestMapblock() *mapparser.MapBlock {
-	mb := mapparser.NewMapblock()
-	mb.Mapdata = &mapparser.MapData{
-		ContentId: make([]int, 4096),
-		Param1:    make([]int, 4096),
-		Param2:    make([]int, 4096),
-	}
+func newTestMapblock() *mtypes.MapBlock {
+	mb := mtypes.NewMapblock()
+	mb.ContentId = make([]int, 4096)
+	mb.Param1 = make([]int, 4096)
+	mb.Param2 = make([]int, 4096)
 	mb.BlockMapping[testAirId] = "air"
 	mb.BlockMapping[testStoneId] = "default:stone"
 	return mb
 }
 
-func setTestNode(mb *mapparser.MapBlock, x, y, z, id int) {
-	mb.Mapdata.ContentId[mapparser.GetNodePos(x, y, z)] = id
+func setTestNode(mb *mtypes.MapBlock, x, y, z, id int) {
+	mb.ContentId[mapparser.GetNodePos(x, y, z)] = id
 }
 
 // the shading of a node depends on its neighbour in +z direction,

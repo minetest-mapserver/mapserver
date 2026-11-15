@@ -37,7 +37,7 @@ func (api *Api) ViewChunk(resp http.ResponseWriter, req *http.Request) {
 					return
 				}
 				if mb != nil {
-					mapstr, err := util.SerializeMapdata(mb.Mapdata)
+					mapstr, err := util.SerializeMapdata(mb)
 					if err != nil {
 						fmt.Printf("viewblock SerializeMapdata error: %v", err)
 						resp.WriteHeader(http.StatusInternalServerError)

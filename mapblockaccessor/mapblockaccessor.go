@@ -9,12 +9,12 @@ import (
 	"time"
 
 	"github.com/hashicorp/golang-lru/v2/expirable"
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type MapBlockAccessor struct {
 	accessor   db.DBAccessor
-	blockcache *expirable.LRU[string, *mapparser.MapBlock]
+	blockcache *expirable.LRU[string, *mtypes.MapBlock]
 	Eventbus   *util.Eventbus
 	maxcount   int
 }
@@ -26,7 +26,7 @@ func getKey(pos *types.MapBlockCoords) string {
 func NewMapBlockAccessor(accessor db.DBAccessor, expiretime time.Duration, maxcount int) *MapBlockAccessor {
 	return &MapBlockAccessor{
 		accessor:   accessor,
-		blockcache: expirable.NewLRU[string, *mapparser.MapBlock](maxcount, nil, expiretime),
+		blockcache: expirable.NewLRU[string, *mtypes.MapBlock](maxcount, nil, expiretime),
 		Eventbus:   util.NewEventbus(),
 		maxcount:   maxcount,
 	}

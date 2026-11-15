@@ -3,7 +3,7 @@ package mapobject
 import (
 	"testing"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -110,9 +110,9 @@ func TestBonesBlock(t *testing.T) {
 			mb := newTestBlock("bones:bones", 0, 0, 0)
 			setMeta(mb, 0, 0, 0, tc.meta)
 			setInv(mb, 0, 0, 0, "main",
-				&mapparser.Item{Name: "default:stone", Count: 3},
-				&mapparser.Item{Name: "default:dirt", Count: 4},
-				&mapparser.Item{})
+				&Item{Name: "default:stone", Count: 3},
+				&Item{Name: "default:dirt", Count: 4},
+				&Item{})
 
 			o := (&BonesBlock{}).onMapObject(testMBPos, 0, 0, 0, mb)
 			require.NotNil(t, o)
@@ -129,17 +129,17 @@ func TestBonesBlockNoInventory(t *testing.T) {
 }
 
 func TestSmartShopBlock(t *testing.T) {
-	newShop := func(shoptype string) *mapparser.MapBlock {
+	newShop := func(shoptype string) *mtypes.MapBlock {
 		mb := newTestBlock("smartshop:shop", 0, 0, 0)
 		setMeta(mb, 0, 0, 0, map[string]string{"owner": "seller", "type": shoptype})
 		setInv(mb, 0, 0, 0, "main",
-			&mapparser.Item{Name: "default:apple", Count: 10},
-			&mapparser.Item{Name: "default:apple", Count: 11},
-			&mapparser.Item{Name: "default:stone", Count: 99})
-		setInv(mb, 0, 0, 0, "pay1", &mapparser.Item{Name: "default:gold_ingot", Count: 2})
-		setInv(mb, 0, 0, 0, "give1", &mapparser.Item{Name: "default:apple", Count: 5})
+			&Item{Name: "default:apple", Count: 10},
+			&Item{Name: "default:apple", Count: 11},
+			&Item{Name: "default:stone", Count: 99})
+		setInv(mb, 0, 0, 0, "pay1", &Item{Name: "default:gold_ingot", Count: 2})
+		setInv(mb, 0, 0, 0, "give1", &Item{Name: "default:apple", Count: 5})
 		// slot 2 has no give-item and is skipped
-		setInv(mb, 0, 0, 0, "pay2", &mapparser.Item{Name: "default:gold_ingot", Count: 1})
+		setInv(mb, 0, 0, 0, "pay2", &Item{Name: "default:gold_ingot", Count: 1})
 		setInv(mb, 0, 0, 0, "give2")
 		return mb
 	}
@@ -173,17 +173,17 @@ func TestSmartShopBlock(t *testing.T) {
 }
 
 func TestFancyVend(t *testing.T) {
-	newVend := func(nodename string) *mapparser.MapBlock {
+	newVend := func(nodename string) *mtypes.MapBlock {
 		mb := newTestBlock(nodename, 0, 0, 0)
 		setMeta(mb, 0, 0, 0, map[string]string{
 			"owner":    "seller",
 			"settings": "return {input_item_qty=3, output_item_qty=2}",
 		})
-		setInv(mb, 0, 0, 0, "wanted_item", &mapparser.Item{Name: "default:gold_ingot", Count: 1})
-		setInv(mb, 0, 0, 0, "given_item", &mapparser.Item{Name: "default:apple", Count: 1})
+		setInv(mb, 0, 0, 0, "wanted_item", &Item{Name: "default:gold_ingot", Count: 1})
+		setInv(mb, 0, 0, 0, "given_item", &Item{Name: "default:apple", Count: 1})
 		setInv(mb, 0, 0, 0, "main",
-			&mapparser.Item{Name: "default:apple", Count: 4},
-			&mapparser.Item{Name: "default:stone", Count: 4})
+			&Item{Name: "default:apple", Count: 4},
+			&Item{Name: "default:stone", Count: 4})
 		return mb
 	}
 
@@ -207,13 +207,13 @@ func TestFancyVend(t *testing.T) {
 
 	t.Run("missing inventories", func(t *testing.T) {
 		mb := newVend("fancy_vend:player_vendor")
-		delete(mb.Metadata.GetInventoryMapAtPos(0, 0, 0), "wanted_item")
+		delete(mb.Inventory[0], "wanted_item")
 		assert.Nil(t, (&FancyVend{}).onMapObject(testMBPos, 0, 0, 0, mb))
 	})
 
 	t.Run("empty wanted item", func(t *testing.T) {
 		mb := newVend("fancy_vend:player_vendor")
-		setInv(mb, 0, 0, 0, "wanted_item", &mapparser.Item{})
+		setInv(mb, 0, 0, 0, "wanted_item", &Item{})
 		assert.Nil(t, (&FancyVend{}).onMapObject(testMBPos, 0, 0, 0, mb))
 	})
 

@@ -7,10 +7,10 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
-func SerializeMapdata(mapdata *mapparser.MapData) (string, error) {
+func SerializeMapdata(mapdata *mtypes.MapBlock) (string, error) {
 	mapbytes := make([]byte, 4096*4) // 16^3: nodeid's (16 bit), param1 (8 bit), param2 (8 bit)
 
 	for i := 0; i < 4096; i++ {
