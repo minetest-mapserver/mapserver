@@ -4,13 +4,13 @@ import (
 	"mapserver/mapobjectdb"
 	"mapserver/types"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type ATM struct{}
 
-func (atm *ATM) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
-	nodename := block.GetNodeName(x, y, z)
+func (atm *ATM) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject {
+	nodename := block.GetNodeName(mtypes.NewPos(x, y, z))
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "atm")
 

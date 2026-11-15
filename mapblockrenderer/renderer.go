@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/minetest-go/colormapping"
+	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
@@ -129,8 +131,8 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 						break
 					}
 
-					nodeName := mb.GetNodeName(x, y, z)
-					param2 := mb.GetParam2(x, y, z)
+					nodeName := nodeNameAt(mb, x, y, z)
+					param2 := mb.Param2[mapparser.GetNodePos(x, y, z)]
 
 					if nodeName == "" {
 						continue
@@ -150,9 +152,9 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 
 						if x > 0 {
 							//same mapblock
-							left = mb.GetNodeName(x-1, y, z)
+							left = nodeNameAt(mb, x-1, y, z)
 							if y < 15 {
-								leftAbove = mb.GetNodeName(x-1, y+1, z)
+								leftAbove = nodeNameAt(mb, x-1, y+1, z)
 							}
 
 						} else {
@@ -161,18 +163,18 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
 
 							if neighbourMapblock != nil && err == nil {
-								left = neighbourMapblock.GetNodeName(15, y, z)
+								left = nodeNameAt(neighbourMapblock, 15, y, z)
 								if y < 15 {
-									leftAbove = neighbourMapblock.GetNodeName(15, y+1, z)
+									leftAbove = nodeNameAt(neighbourMapblock, 15, y+1, z)
 								}
 							}
 						}
 
 						if z < 15 {
 							//same mapblock
-							top = mb.GetNodeName(x, y, z+1)
+							top = nodeNameAt(mb, x, y, z+1)
 							if y < 15 {
-								topAbove = mb.GetNodeName(x, y+1, z+1)
+								topAbove = nodeNameAt(mb, x, y+1, z+1)
 							}
 
 						} else {
@@ -181,9 +183,9 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
 
 							if neighbourMapblock != nil && err == nil {
-								top = neighbourMapblock.GetNodeName(x, y, 0)
+								top = nodeNameAt(neighbourMapblock, x, y, 0)
 								if y < 15 {
-									topAbove = neighbourMapblock.GetNodeName(x, y+1, 0)
+									topAbove = nodeNameAt(neighbourMapblock, x, y+1, 0)
 								}
 							}
 						}
@@ -247,4 +249,9 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 	}
 
 	return img, nil
+}
+
+// returns the node name at the mapblock-relative position
+func nodeNameAt(mb *mtypes.MapBlock, x, y, z int) string {
+	return mb.BlockMapping[mb.ContentId[mapparser.GetNodePos(x, y, z)]]
 }

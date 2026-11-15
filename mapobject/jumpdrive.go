@@ -4,13 +4,13 @@ import (
 	"mapserver/mapobjectdb"
 	"mapserver/types"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type JumpdriveBlock struct{}
 
-func (blk *JumpdriveBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
-	md := block.Metadata.GetMetadata(x, y, z)
+func (blk *JumpdriveBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject {
+	md := getMetadata(block, x, y, z)
 
 	o := mapobjectdb.NewMapObject(mbpos, x, y, z, "jumpdrive")
 	o.Attributes["owner"] = md["owner"]

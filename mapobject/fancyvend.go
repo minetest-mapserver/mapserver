@@ -7,16 +7,16 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 	"github.com/sirupsen/logrus"
 )
 
 type FancyVend struct{}
 
-func (blk *FancyVend) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
-	md := block.Metadata.GetMetadata(x, y, z)
-	nodename := block.GetNodeName(x, y, z)
-	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
+func (blk *FancyVend) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject {
+	md := getMetadata(block, x, y, z)
+	nodename := block.GetNodeName(mtypes.NewPos(x, y, z))
+	invMap := getInventoryMap(block, x, y, z)
 	parser := util.NewLuaParser()
 
 	isAdmin := false
@@ -33,7 +33,7 @@ func (blk *FancyVend) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, bloc
 		return nil
 	}
 
-	if payInv.Items == nil || giveInv.Items == nil {
+	if len(payInv.Items) == 0 || len(giveInv.Items) == 0 {
 		return nil
 	}
 

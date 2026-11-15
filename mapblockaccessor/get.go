@@ -6,10 +6,11 @@ import (
 	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-func (a *MapBlockAccessor) GetMapBlock(pos *types.MapBlockCoords) (*mapparser.MapBlock, error) {
+func (a *MapBlockAccessor) GetMapBlock(pos *types.MapBlockCoords) (*mtypes.MapBlock, error) {
 	key := getKey(pos)
 
 	cachedblock, found := a.blockcache.Get(key)

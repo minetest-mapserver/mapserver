@@ -4,14 +4,14 @@ import (
 	"mapserver/mapobjectdb"
 	"mapserver/types"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type Locator struct{}
 
-func (l *Locator) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
-	md := block.Metadata.GetMetadata(x, y, z)
-	nodename := block.GetNodeName(x, y, z)
+func (l *Locator) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject {
+	md := getMetadata(block, x, y, z)
+	nodename := block.GetNodeName(mtypes.NewPos(x, y, z))
 
 	var level = "1"
 	switch nodename {

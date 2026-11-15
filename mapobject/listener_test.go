@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -24,7 +24,7 @@ func (r *recordingListener) OnEvent(eventtype string, o interface{}) {
 
 type multiTestListener struct{}
 
-func (multiTestListener) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) []*mapobjectdb.MapObject {
+func (multiTestListener) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) []*mapobjectdb.MapObject {
 	list := []*mapobjectdb.MapObject{
 		mapobjectdb.NewMapObject(mbpos, x, y, z, "multi"),
 		mapobjectdb.NewMapObject(mbpos, x, y, z, "multi"),

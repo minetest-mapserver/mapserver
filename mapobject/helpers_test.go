@@ -1,35 +1,48 @@
 package mapobject
 
 import (
+	"fmt"
 	"mapserver/types"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 var testMBPos = types.NewMapBlockCoords(1, -2, 3)
 
 // newTestBlock creates a mapblock with a single node of the given name at (x,y,z)
-func newTestBlock(nodename string, x, y, z int) *mapparser.MapBlock {
-	mb := mapparser.NewMapblock()
+func newTestBlock(nodename string, x, y, z int) *mtypes.MapBlock {
+	mb := mtypes.NewMapblock()
 	mb.Size = 4096
-	mb.Mapdata = &mapparser.MapData{
-		ContentId: make([]int, 4096),
-		Param1:    make([]int, 4096),
-		Param2:    make([]int, 4096),
-	}
+	mb.ContentId = make([]int, 4096)
+	mb.Param1 = make([]int, 4096)
+	mb.Param2 = make([]int, 4096)
 	mb.BlockMapping[0] = "air"
 	mb.BlockMapping[1] = nodename
-	mb.Mapdata.ContentId[mapparser.GetNodePos(x, y, z)] = 1
+	mb.ContentId[mtypes.NewPos(x, y, z).Index()] = 1
 	return mb
 }
 
-func setMeta(mb *mapparser.MapBlock, x, y, z int, pairs map[string]string) {
-	md := mb.Metadata.GetMetadata(x, y, z)
+func setMeta(mb *mtypes.MapBlock, x, y, z int, pairs map[string]string) {
+	i := mtypes.NewPos(x, y, z).Index()
+	if mb.Fields[i] == nil {
+		mb.Fields[i] = map[string]string{}
+	}
 	for k, v := range pairs {
-		md[k] = v
+		mb.Fields[i][k] = v
 	}
 }
 
-func setInv(mb *mapparser.MapBlock, x, y, z int, name string, items ...*mapparser.Item) {
-	mb.Metadata.GetInventoryMapAtPos(x, y, z)[name] = &mapparser.Inventory{Size: len(items), Items: items}
+// sets the inventory list in the serialized form the parser provides
+func setInv(mb *mtypes.MapBlock, x, y, z int, name string, items ...*Item) {
+	i := mtypes.NewPos(x, y, z).Index()
+	if mb.Inventory[i] == nil {
+		mb.Inventory[i] = map[string][]string{}
+	}
+	slots := make([]string, len(items))
+	for n, item := range items {
+		if !item.IsEmpty() {
+			slots[n] = fmt.Sprintf("%s %d", item.Name, item.Count)
+		}
+	}
+	mb.Inventory[i][name] = slots
 }

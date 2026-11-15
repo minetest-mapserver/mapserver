@@ -5,15 +5,15 @@ import (
 	"mapserver/types"
 	"strconv"
 
-	"github.com/minetest-go/mapparser"
+	mtypes "github.com/minetest-go/types"
 )
 
 type BonesBlock struct{}
 
-func (bb *BonesBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mapparser.MapBlock) *mapobjectdb.MapObject {
-	md := block.Metadata.GetMetadata(x, y, z)
+func (bb *BonesBlock) onMapObject(mbpos *types.MapBlockCoords, x, y, z int, block *mtypes.MapBlock) *mapobjectdb.MapObject {
+	md := getMetadata(block, x, y, z)
 
-	invMap := block.Metadata.GetInventoryMapAtPos(x, y, z)
+	invMap := getInventoryMap(block, x, y, z)
 	mainInv := invMap["main"]
 
 	if mainInv == nil {
