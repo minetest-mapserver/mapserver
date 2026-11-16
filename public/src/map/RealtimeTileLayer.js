@@ -51,7 +51,9 @@ export default L.TileLayer.extend({
 
   createTile: function(coords, done){
     var tile = document.createElement('img');
-    tile.src = this.getTileSource(coords.x, coords.y, coords.z, true);
+    // no cache-busting: the server sets short max-age headers and live updates
+    // are cache-busted separately in onRenderedTile
+    tile.src = this.getTileSource(coords.x, coords.y, coords.z, false);
     tile.id = this.getImageId(coords.x, coords.y, coords.z);
 
     // trigger callbacks
