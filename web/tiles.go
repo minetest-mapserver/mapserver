@@ -12,7 +12,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-var blankTile = tilerenderer.CreateBlankTile(color.RGBA{255, 255, 255, 255})
+// transparent, like the empty areas of rendered tiles
+var blankTile = tilerenderer.CreateBlankTile(color.RGBA{0, 0, 0, 0})
 
 type Tiles struct {
 	ctx *app.App
@@ -52,8 +53,9 @@ func (t *Tiles) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		resp.Header().Add("Content-Type", "image/png")
 
 		if tile == nil {
-			// cache blank tile for a while (heavy re-use)
-			resp.Header().Add("Cache-Control", "max-age=300")
+			// don't cache the blank tile: the tile may get rendered any moment and
+			// the frontend only re-fetches rendered tiles on the current zoom level
+			resp.Header().Add("Cache-Control", "no-cache")
 			resp.Write(blankTile)
 
 		} else {
