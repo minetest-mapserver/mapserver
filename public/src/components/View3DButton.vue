@@ -21,7 +21,9 @@ async function view3d(){
   try {
     const result = await getStartHeight(layerManager.getCurrentLayer().id, x, z);
     if (result){
-      router.push(`/view/${x}/${result.y + 1}/${z}`);
+      const y = result.y + 1;
+      // look along +z
+      router.push(`/view/${x}/${y}/${z}/${x}/${y}/${z + 10}`);
     }
   } catch (e){
     // fail silently
