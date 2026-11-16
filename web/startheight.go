@@ -57,7 +57,7 @@ func (api *Api) StartHeight(resp http.ResponseWriter, req *http.Request) {
 			resp.Write([]byte(err.Error()))
 			return
 		}
-		if mb == nil || mb.AirOnly || mb.IsEmpty() || containsIgnore(mb) {
+		if mb == nil || mb.AirOnly || mb.IsEmpty() || containsSkippedNode(mb) {
 			continue
 		}
 
@@ -84,10 +84,10 @@ func topNodeOffset(mb *mtypes.MapBlock, x, z int) int {
 	return 0
 }
 
-// returns true if the mapblock contains "ignore" nodes (not yet generated/loaded areas)
-func containsIgnore(mb *mtypes.MapBlock) bool {
+// returns true if the mapblock contains "ignore" nodes (not yet generated/loaded areas) or "vacuum:vacuum" nodes
+func containsSkippedNode(mb *mtypes.MapBlock) bool {
 	for _, name := range mb.BlockMapping {
-		if name == "ignore" {
+		if name == "ignore" || name == "vacuum:vacuum" {
 			return true
 		}
 	}

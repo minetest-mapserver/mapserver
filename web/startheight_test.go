@@ -60,10 +60,14 @@ func TestStartHeight(t *testing.T) {
 func TestStartHeightHelpers(t *testing.T) {
 	mb := &mtypes.MapBlock{ContentId: make([]int, 4096), BlockMapping: map[int]string{0: "air", 1: "default:stone"}}
 	mb.ContentId[mtypes.NewPos(3, 9, 4).Index()] = 1
-	assert.False(t, containsIgnore(mb))
+	assert.False(t, containsSkippedNode(mb))
 	assert.Equal(t, 9, topNodeOffset(mb, 3, 4))
 	assert.Equal(t, 0, topNodeOffset(mb, 0, 0))
 
 	mb.BlockMapping[2] = "ignore"
-	assert.True(t, containsIgnore(mb))
+	assert.True(t, containsSkippedNode(mb))
+
+	delete(mb.BlockMapping, 2)
+	mb.BlockMapping[3] = "vacuum:vacuum"
+	assert.True(t, containsSkippedNode(mb))
 }
