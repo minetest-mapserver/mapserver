@@ -6,7 +6,7 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/lib/pq v1.12.3
-	github.com/minetest-go/areasparser v1.0.5
+	github.com/minetest-go/areasparser v1.0.7
 	github.com/minetest-go/colormapping v1.0.5
 	github.com/minetest-go/mapparser v1.0.4
 	github.com/minetest-go/types v1.0.7
