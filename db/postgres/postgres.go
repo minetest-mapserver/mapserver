@@ -57,7 +57,8 @@ func (a *PostgresAccessor) FindBlocksByMtime(gtmtime int64, gtpos *types.MapBloc
 
 	// without a position: greater than every possible position, only newer blocks match
 	if gtpos == nil {
-		gtpos = types.NewMapBlockCoords(math.MaxInt32, math.MaxInt32, math.MaxInt32)
+		// the posx/posy/posz columns are smallint in postgres, MaxInt32 would be out of range
+		gtpos = types.NewMapBlockCoords(math.MaxInt16, math.MaxInt16, math.MaxInt16)
 	}
 
 	rows, err := a.db.Query(getBlocksByMtimeQuery, gtmtime, gtpos.X, gtpos.Y, gtpos.Z, limit)
