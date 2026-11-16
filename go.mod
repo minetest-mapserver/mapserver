@@ -9,7 +9,7 @@ require (
 	github.com/minetest-go/areasparser v1.0.5
 	github.com/minetest-go/colormapping v1.0.5
 	github.com/minetest-go/mapparser v1.0.4
-	github.com/minetest-go/types v1.0.7
+	github.com/minetest-go/types v1.0.8
 	github.com/prometheus/client_golang v1.25.0
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stretchr/testify v1.12.1
