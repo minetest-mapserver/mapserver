@@ -9,7 +9,7 @@ services:
   command: ["sh", "-c", "npm ci && npm run build -- --watch"]
  
  mapserver:
-  image: golang:1.24.3
+  image: golang:1.27.4
   depends_on:
    - luanti
    - mapserver_frontend
