@@ -8,7 +8,7 @@ require (
 	github.com/lib/pq v1.12.3
 	github.com/minetest-go/areasparser v1.0.5
 	github.com/minetest-go/colormapping v1.0.5
-	github.com/minetest-go/mapparser v1.0.4
+	github.com/minetest-go/mapparser v1.0.6
 	github.com/minetest-go/types v1.0.7
 	github.com/prometheus/client_golang v1.25.0
 	github.com/sirupsen/logrus v1.10.2
