@@ -6,6 +6,8 @@ import (
 	"image/color"
 	"mapserver/mapblockaccessor"
 	"mapserver/types"
+	"strings"
+	"sync"
 	"time"
 
 	"github.com/minetest-go/colormapping"
@@ -21,6 +23,26 @@ type MapBlockRenderer struct {
 	colors             *colormapping.ColorMapping
 	enableShadow       bool
 	enableTransparency bool
+
+	// node names colored by param2 (colormapping's extended palette)
+	paletteNodes map[string]bool
+	// resolved colors by node name, including misses (the colormapping does not cache those)
+	colorCache map[string]nodeColor
+	colorMutex sync.RWMutex
+}
+
+// color of a node name
+type nodeColor struct {
+	color    color.RGBA
+	hasColor bool
+	// color depends on param2, resolved per node
+	palette bool
+}
+
+// per-mapblock node info, indexed by content id
+type nodeInfo struct {
+	nodeColor
+	viewBlocking bool
 }
 
 func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *colormapping.ColorMapping) *MapBlockRenderer {
@@ -29,7 +51,110 @@ func NewMapBlockRenderer(accessor *mapblockaccessor.MapBlockAccessor, colors *co
 		colors:             colors,
 		enableShadow:       true,
 		enableTransparency: false,
+		paletteNodes:       loadPaletteNodes(),
+		colorCache:         map[string]nodeColor{},
 	}
+}
+
+// loads the node names the colormapping colors by param2, the list is not exported otherwise
+func loadPaletteNodes() map[string]bool {
+	nodes := map[string]bool{}
+	data, err := colormapping.Files.ReadFile("colors/extended_palette.txt")
+	if err != nil {
+		panic(err)
+	}
+	for _, line := range strings.Split(string(data), "\n") {
+		name := strings.TrimSpace(line)
+		if name != "" {
+			nodes[name] = true
+		}
+	}
+	return nodes
+}
+
+// returns the color of the node name, cached
+func (r *MapBlockRenderer) getNodeColor(name string) nodeColor {
+	r.colorMutex.RLock()
+	nc, found := r.colorCache[name]
+	r.colorMutex.RUnlock()
+	if found {
+		return nc
+	}
+
+	if r.paletteNodes[name] {
+		nc = nodeColor{palette: true}
+	} else if c := r.colors.GetColor(name, 0); c != nil {
+		// copy, the returned color is shared
+		nc = nodeColor{color: *c, hasColor: true}
+	}
+
+	r.colorMutex.Lock()
+	r.colorCache[name] = nc
+	r.colorMutex.Unlock()
+	return nc
+}
+
+// builds the content-id indexed node info table of a mapblock
+func (r *MapBlockRenderer) getNodeInfos(mb *mtypes.MapBlock) []nodeInfo {
+	maxId := -1
+	for id := range mb.BlockMapping {
+		if id > maxId {
+			maxId = id
+		}
+	}
+
+	infos := make([]nodeInfo, maxId+1)
+	for id, name := range mb.BlockMapping {
+		if id < 0 || name == "" {
+			continue
+		}
+		infos[id] = nodeInfo{
+			nodeColor:    r.getNodeColor(name),
+			viewBlocking: IsViewBlocking(name),
+		}
+	}
+	return infos
+}
+
+// a mapblock with its node info table
+type renderBlock struct {
+	mb    *mtypes.MapBlock
+	infos []nodeInfo
+}
+
+var emptyNodeInfo = nodeInfo{}
+
+// returns the node info at the mapblock-relative position, the empty info for unknown or missing nodes
+func (b *renderBlock) nodeAt(x, y, z int) *nodeInfo {
+	if b == nil {
+		return &emptyNodeInfo
+	}
+	pos := mapparser.GetNodePos(x, y, z)
+	if pos >= len(b.mb.ContentId) {
+		return &emptyNodeInfo
+	}
+	id := b.mb.ContentId[pos]
+	if id < 0 || id >= len(b.infos) {
+		return &emptyNodeInfo
+	}
+	return &b.infos[id]
+}
+
+// lazily loaded neighbour mapblock, used for the shading at the mapblock edges
+type neighbourBlock struct {
+	loaded bool
+	block  *renderBlock
+}
+
+func (r *MapBlockRenderer) getNeighbour(n *neighbourBlock, pos *types.MapBlockCoords) *renderBlock {
+	if !n.loaded {
+		n.loaded = true
+		mb, err := r.accessor.GetMapBlock(pos)
+		if mb != nil && err == nil {
+			n.block = &renderBlock{mb: mb, infos: r.getNodeInfos(mb)}
+		}
+	}
+	return n.block
 }
 
 const (
@@ -66,8 +191,8 @@ func clamp(num int) uint8 {
 	return uint8(num)
 }
 
-func addColorComponent(c *color.RGBA, value int) *color.RGBA {
-	return &color.RGBA{
+func addColorComponent(c color.RGBA, value int) color.RGBA {
+	return color.RGBA{
 		R: clamp(int(c.R) + value),
 		G: clamp(int(c.G) + value),
 		B: clamp(int(c.B) + value),
@@ -124,6 +249,10 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 			continue
 		}
 
+		block := &renderBlock{mb: mb, infos: r.getNodeInfos(mb)}
+		left := &neighbourBlock{}
+		top := &neighbourBlock{}
+
 		for x := 0; x < 16; x++ {
 			for z := 0; z < 16; z++ {
 				for y := 15; y >= 0; y-- {
@@ -131,16 +260,19 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 						break
 					}
 
-					nodeName := nodeNameAt(mb, x, y, z)
-					param2 := mb.Param2[mapparser.GetNodePos(x, y, z)]
+					node := block.nodeAt(x, y, z)
 
-					if nodeName == "" {
-						continue
-					}
-
-					c := r.colors.GetColor(nodeName, param2)
-
-					if c == nil {
+					var c color.RGBA
+					if node.palette {
+						nodePos := mapparser.GetNodePos(x, y, z)
+						pc := r.colors.GetColor(mb.BlockMapping[mb.ContentId[nodePos]], mb.Param2[nodePos])
+						if pc == nil {
+							continue
+						}
+						c = *pc
+					} else if node.hasColor {
+						c = node.color
+					} else {
 						continue
 					}
 
@@ -148,64 +280,56 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 					c.A = 255
 
 					if r.enableShadow {
-						var left, leftAbove, top, topAbove string
+						var leftNode, leftAbove, topNode, topAbove *nodeInfo = &emptyNodeInfo, &emptyNodeInfo, &emptyNodeInfo, &emptyNodeInfo
 
 						if x > 0 {
 							//same mapblock
-							left = nodeNameAt(mb, x-1, y, z)
+							leftNode = block.nodeAt(x-1, y, z)
 							if y < 15 {
-								leftAbove = nodeNameAt(mb, x-1, y+1, z)
+								leftAbove = block.nodeAt(x-1, y+1, z)
 							}
 
 						} else {
 							//neighbouring mapblock
-							neighbourPos := types.NewMapBlockCoords(currentPos.X-1, currentPos.Y, currentPos.Z)
-							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
-
-							if neighbourMapblock != nil && err == nil {
-								left = nodeNameAt(neighbourMapblock, 15, y, z)
-								if y < 15 {
-									leftAbove = nodeNameAt(neighbourMapblock, 15, y+1, z)
-								}
+							nb := r.getNeighbour(left, types.NewMapBlockCoords(currentPos.X-1, currentPos.Y, currentPos.Z))
+							leftNode = nb.nodeAt(15, y, z)
+							if y < 15 {
+								leftAbove = nb.nodeAt(15, y+1, z)
 							}
 						}
 
 						if z < 15 {
 							//same mapblock
-							top = nodeNameAt(mb, x, y, z+1)
+							topNode = block.nodeAt(x, y, z+1)
 							if y < 15 {
-								topAbove = nodeNameAt(mb, x, y+1, z+1)
+								topAbove = block.nodeAt(x, y+1, z+1)
 							}
 
 						} else {
 							//neighbouring mapblock
-							neighbourPos := types.NewMapBlockCoords(currentPos.X, currentPos.Y, currentPos.Z+1)
-							neighbourMapblock, err := r.accessor.GetMapBlock(neighbourPos)
-
-							if neighbourMapblock != nil && err == nil {
-								top = nodeNameAt(neighbourMapblock, x, y, 0)
-								if y < 15 {
-									topAbove = nodeNameAt(neighbourMapblock, x, y+1, 0)
-								}
+							nb := r.getNeighbour(top, types.NewMapBlockCoords(currentPos.X, currentPos.Y, currentPos.Z+1))
+							topNode = nb.nodeAt(x, y, 0)
+							if y < 15 {
+								topAbove = nb.nodeAt(x, y+1, 0)
 							}
 						}
 
-						if IsViewBlocking(leftAbove) {
+						if leftAbove.viewBlocking {
 							//add shadow
 							c = addColorComponent(c, -10)
 						}
 
-						if IsViewBlocking(topAbove) {
+						if topAbove.viewBlocking {
 							//add shadow
 							c = addColorComponent(c, -10)
 						}
 
-						if !IsViewBlocking(left) {
+						if !leftNode.viewBlocking {
 							//add light
 							c = addColorComponent(c, 10)
 						}
 
-						if !IsViewBlocking(top) {
+						if !topNode.viewBlocking {
 							//add light
 							c = addColorComponent(c, 10)
 						}
@@ -214,19 +338,15 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 					imgX := x * IMG_SCALE
 					imgY := (15 - z) * IMG_SCALE
 
-					r32, g32, b32, a32 := c.RGBA()
-					r8, g8, b8, a8 := uint8(r32), uint8(g32), uint8(b32), uint8(a32)
+					// alpha is always 255: premultiplied and non-premultiplied values are the same
 					for Y := imgY; Y < imgY+IMG_SCALE; Y++ {
 						ix := (Y*IMG_SIZE + imgX) << 2
 						for X := 0; X < IMG_SCALE; X++ {
-							img.Pix[ix] = r8
-							ix++
-							img.Pix[ix] = g8
-							ix++
-							img.Pix[ix] = b8
-							ix++
-							img.Pix[ix] = a8
-							ix++
+							img.Pix[ix] = c.R
+							img.Pix[ix+1] = c.G
+							img.Pix[ix+2] = c.B
+							img.Pix[ix+3] = c.A
+							ix += 4
 						}
 					}
 
@@ -249,9 +369,4 @@ func (r *MapBlockRenderer) Render(pos1, pos2 *types.MapBlockCoords) (*image.NRGB
 	}
 
 	return img, nil
-}
-
-// returns the node name at the mapblock-relative position
-func nodeNameAt(mb *mtypes.MapBlock, x, y, z int) string {
-	return mb.BlockMapping[mb.ContentId[mapparser.GetNodePos(x, y, z)]]
 }

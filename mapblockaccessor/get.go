@@ -3,7 +3,6 @@ package mapblockaccessor
 import (
 	"fmt"
 	"mapserver/types"
-	"mapserver/util"
 
 	"github.com/minetest-go/mapparser"
 	mtypes "github.com/minetest-go/types"
@@ -39,7 +38,8 @@ func (a *MapBlockAccessor) GetMapBlock(pos *types.MapBlockCoords) (*mtypes.MapBl
 		return nil, err
 	}
 
-	a.Eventbus.Emit(util.MAPBLOCK_RENDERED, types.NewParsedMapblock(mapblock, pos))
+	// no MAPBLOCK_RENDERED event here: this is a plain read (neighbours, 3d view, ...),
+	// changed blocks are emitted by the initial and incremental rendering jobs
 	a.blockcache.Add(key, mapblock)
 
 	return mapblock, nil
