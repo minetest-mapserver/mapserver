@@ -3,7 +3,8 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import layerManager from '../LayerManager.js';
 import { createView } from '@buckaroobanzay/luanti-viewer';
-import { getViewNodedefs } from '../api.js';
+import { getViewNodedefs, getStats } from '../api.js';
+import wsChannel from '../WebSocketChannel.js';
 import { getViewMedia } from '../util/ViewMediaLoader.js';
 import { createViewChunkLoader } from '../util/ViewChunkLoader.js';
 import throttle from '../util/throttle.js';
@@ -31,8 +32,25 @@ let nodedefs;
 // element of the current view, the viewer releases its resources once it is removed from the document
 let container;
 
+// handle of the current view
+let viewer = null;
+
 // latest camera position reported by the viewer
 let cameraPos = null;
+
+// latest ingame time of day (0 = midnight, 0.5 = noon), null until the game reported it
+let timeOfDay = null;
+
+// info.time: 0 - 24'000
+function onMinetestInfo(info){
+  if (!info || !Number.isFinite(info.time)){
+    return;
+  }
+  timeOfDay = info.time / 24000;
+  if (viewer){
+    viewer.setTimeOfDay(timeOfDay);
+  }
+}
 
 function view2d(){
   const x = Math.floor(cameraPos ? cameraPos.x : +props.posX);
@@ -62,6 +80,7 @@ function removeView(){
     container.remove();
     container = null;
   }
+  viewer = null;
 }
 
 function showView(){
@@ -88,7 +107,9 @@ function showView(){
   viewElement.value.appendChild(el);
 
   cameraPos = null;
-  createView(el, {
+  viewer = createView(el, {
+    // noon until the ingame time is known
+    timeOfDay,
     getNodeDefinitions: async name => {
       const def = (await nodedefs)[name];
       return def ? { name, ...def } : null;
@@ -112,8 +133,16 @@ function showView(){
   });
 }
 
-onMounted(showView);
-onBeforeUnmount(removeView);
+onMounted(() => {
+  showView();
+  wsChannel.addListener("minetest-info", onMinetestInfo);
+  // the last known time, the next websocket event may take a while
+  getStats().then(info => timeOfDay === null && onMinetestInfo(info)).catch(() => {});
+});
+onBeforeUnmount(() => {
+  wsChannel.removeListener("minetest-info", onMinetestInfo);
+  removeView();
+});
 watch(props, () => {
   // ignore the changes written by the view itself
   if (currentRoutePath() != appliedPos){
