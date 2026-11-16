@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

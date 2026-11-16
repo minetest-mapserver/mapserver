@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"mapserver/types"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 var testMBPos = types.NewMapBlockCoords(1, -2, 3)

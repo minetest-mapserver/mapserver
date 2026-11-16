@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/golang-lru/v2/expirable"
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 type MapBlockAccessor struct {

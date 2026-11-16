@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 type StartHeightResponse struct {

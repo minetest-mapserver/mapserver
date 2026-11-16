@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/minetest-go/areasparser"
+	"github.com/luanti-golang/areasparser"
 )
 
 type AreasHandler struct {

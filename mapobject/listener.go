@@ -6,7 +6,7 @@ import (
 	"mapserver/types"
 	"mapserver/util"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 	"github.com/sirupsen/logrus"
 )
 

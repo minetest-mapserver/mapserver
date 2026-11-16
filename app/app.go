@@ -10,7 +10,7 @@ import (
 	"mapserver/tilerenderer"
 	"mapserver/util"
 
-	"github.com/minetest-go/colormapping"
+	"github.com/luanti-golang/colormapping"
 )
 
 type App struct {

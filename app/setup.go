@@ -13,7 +13,7 @@ import (
 	"mapserver/util"
 	"time"
 
-	"github.com/minetest-go/colormapping"
+	"github.com/luanti-golang/colormapping"
 
 	"os"
 	"path/filepath"

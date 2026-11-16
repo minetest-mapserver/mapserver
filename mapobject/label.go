@@ -4,7 +4,7 @@ import (
 	"mapserver/mapobjectdb"
 	"mapserver/types"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 type LabelBlock struct{}

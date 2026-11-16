@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 // Item is a parsed itemstring of an inventory slot

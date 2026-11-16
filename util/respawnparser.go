@@ -1,6 +1,6 @@
 package util
 
-// ref https://github.com/minetest-go/areasparser/blob/master/parser.go
+// ref https://github.com/luanti-golang/areasparser/blob/master/parser.go
 // duck.ai
 // docker go cache help: https://oneuptime.com/blog/post/2026-02-08-how-to-speed-up-docker-build-for-go-projects/view
 

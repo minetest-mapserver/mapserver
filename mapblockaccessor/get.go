@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"mapserver/types"
 
-	"github.com/minetest-go/mapparser"
-	mtypes "github.com/minetest-go/types"
+	"github.com/luanti-golang/mapparser"
+	mtypes "github.com/luanti-golang/types"
 	"github.com/prometheus/client_golang/prometheus"
 )
 

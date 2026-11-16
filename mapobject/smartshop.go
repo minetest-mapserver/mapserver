@@ -6,7 +6,7 @@ import (
 	"math"
 	"strconv"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 type SmartShopBlock struct{}

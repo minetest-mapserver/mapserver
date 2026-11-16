@@ -3,7 +3,7 @@ package mapblockaccessor
 import (
 	"mapserver/types"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 func (a *MapBlockAccessor) Update(pos *types.MapBlockCoords, mb *mtypes.MapBlock) {

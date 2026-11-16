@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 var utextNumberRE = regexp.MustCompile(`\d+`)

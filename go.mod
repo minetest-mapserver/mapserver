@@ -6,10 +6,10 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/lib/pq v1.12.3
-	github.com/minetest-go/areasparser v1.0.5
-	github.com/minetest-go/colormapping v1.0.5
-	github.com/minetest-go/mapparser v1.0.4
-	github.com/minetest-go/types v1.0.7
+	github.com/luanti-golang/areasparser v1.0.7
+	github.com/luanti-golang/colormapping v1.1.0
+	github.com/luanti-golang/mapparser v1.1.0
+	github.com/luanti-golang/types v1.0.8
 	github.com/prometheus/client_golang v1.25.0
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stretchr/testify v1.12.1

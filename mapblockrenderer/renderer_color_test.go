@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/minetest-go/colormapping"
-	"github.com/minetest-go/mapparser"
+	"github.com/luanti-golang/colormapping"
+	"github.com/luanti-golang/mapparser"
 )
 
 const (

@@ -1,7 +1,7 @@
 package types
 
 import (
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 type ParsedMapblock struct {

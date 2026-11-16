@@ -5,7 +5,7 @@ import (
 	"mapserver/types"
 	"strings"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 type TravelnetBlock struct{}

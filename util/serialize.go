@@ -7,7 +7,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	mtypes "github.com/minetest-go/types"
+	mtypes "github.com/luanti-golang/types"
 )
 
 func SerializeMapdata(mapdata *mtypes.MapBlock) (string, error) {

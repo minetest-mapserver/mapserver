@@ -4,7 +4,7 @@ import (
 	"mapserver/types"
 	"mapserver/util"
 
-	"github.com/minetest-go/mapparser"
+	"github.com/luanti-golang/mapparser"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 )
