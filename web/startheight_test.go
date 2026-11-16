@@ -1,7 +1,6 @@
 package web
 
 import (
-	"encoding/json"
 	"mapserver/app"
 	"mapserver/db/sqlite"
 	"mapserver/mapblockaccessor"
@@ -13,6 +12,7 @@ import (
 	"testing"
 	"time"
 
+	mtypes "github.com/minetest-go/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -42,21 +42,8 @@ func TestStartHeight(t *testing.T) {
 		return rec
 	}
 
-	// column of mapblock x=0/z=0 (nodes 0..15), top non-air block
-	rec := get("/api/startheight/0/0/0")
-	assert.Equal(t, http.StatusOK, rec.Code)
-	res := &StartHeightResponse{}
-	assert.NoError(t, json.Unmarshal(rec.Body.Bytes(), res))
-	assert.Equal(t, 8, res.BlockY)
-	assert.GreaterOrEqual(t, res.Y, 8*16)
-	assert.LessOrEqual(t, res.Y, 8*16+15)
-
-	// other nodes in the same mapblock column give the same result
-	rec = get("/api/startheight/0/15/15")
-	assert.Equal(t, http.StatusOK, rec.Code)
-	res2 := &StartHeightResponse{}
-	assert.NoError(t, json.Unmarshal(rec.Body.Bytes(), res2))
-	assert.Equal(t, res.BlockY, res2.BlockY)
+	// the fixture's only non-air mapblocks contain "ignore" nodes and are skipped
+	assert.Equal(t, http.StatusNotFound, get("/api/startheight/0/0/0").Code)
 
 	// layer without non-air blocks in the column
 	assert.Equal(t, http.StatusNotFound, get("/api/startheight/1/0/0").Code)
@@ -68,4 +55,15 @@ func TestStartHeight(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, get("/api/startheight/x/0/0").Code)
 	assert.Equal(t, http.StatusBadRequest, get("/api/startheight/0/x/0").Code)
 	assert.Equal(t, http.StatusBadRequest, get("/api/startheight/0/0/x").Code)
+}
+
+func TestStartHeightHelpers(t *testing.T) {
+	mb := &mtypes.MapBlock{ContentId: make([]int, 4096), BlockMapping: map[int]string{0: "air", 1: "default:stone"}}
+	mb.ContentId[mtypes.NewPos(3, 9, 4).Index()] = 1
+	assert.False(t, containsIgnore(mb))
+	assert.Equal(t, 9, topNodeOffset(mb, 3, 4))
+	assert.Equal(t, 0, topNodeOffset(mb, 0, 0))
+
+	mb.BlockMapping[2] = "ignore"
+	assert.True(t, containsIgnore(mb))
 }

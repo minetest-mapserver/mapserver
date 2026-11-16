@@ -6,6 +6,7 @@ import config from '../config.js';
 import { createMap } from '../map/MapFactory.js';
 import SearchInput from '../components/SearchInput.vue';
 import LayerSelector from '../components/LayerSelector.vue';
+import View3DButton from '../components/View3DButton.vue';
 import WorldStats from '../components/WorldStats.vue';
 
 const props = defineProps({
@@ -85,7 +86,10 @@ watch(() => [props.zoom, props.lat, props.lon], () => {
     :to="topRight"
   >
     <SearchInput v-if="cfg.enablesearch" />
-    <LayerSelector />
+    <div class="d-flex mb-3 gap-2">
+      <View3DButton :get-map="() => map" />
+      <LayerSelector />
+    </div>
   </Teleport>
   <Teleport
     v-if="bottomRight"

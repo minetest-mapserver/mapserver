@@ -20,6 +20,15 @@ export async function getRespawnPlaces(){
   return json(await fetch("api/respawnplaces"));
 }
 
+// topmost non-air position of a layer at x/z, null if there is none
+export async function getStartHeight(layerId, x, z){
+  const res = await fetch(`api/startheight/${layerId}/${x}/${z}`);
+  if (res.status == 404){
+    return null;
+  }
+  return json(res);
+}
+
 export async function getConfig(){
   return json(await fetch("api/config"));
 }
