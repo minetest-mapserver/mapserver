@@ -25,13 +25,20 @@ const topRight = shallowRef(null);
 const bottomRight = shallowRef(null);
 
 let map;
+// last position written to the route by the map itself
+let lastRoute = null;
 
 function updateRoute(){
   const center = map.getCenter();
   const layerId = layerManager.getCurrentLayer().id;
 
-  router.replace(`/map/${layerId}/${map.getZoom()}/` +
-    `${Math.floor(center.lng)}/${Math.floor(center.lat)}`);
+  lastRoute = {
+    zoom: map.getZoom(),
+    lon: Math.floor(center.lng),
+    lat: Math.floor(center.lat)
+  };
+
+  router.replace(`/map/${layerId}/${lastRoute.zoom}/${lastRoute.lon}/${lastRoute.lat}`);
 }
 
 function setupMap(){
@@ -67,12 +74,15 @@ watch(() => props.layerId, () => {
 
 watch(() => [props.zoom, props.lat, props.lon], () => {
   // position changed from outside (history navigation, edited url)
-  const center = map.getCenter();
-  if (+props.zoom != map.getZoom() ||
-      +props.lon != Math.floor(center.lng) ||
-      +props.lat != Math.floor(center.lat)){
-    map.setView([+props.lat, +props.lon], +props.zoom);
+  // the route update is async: compare against what the map wrote, not the live map state,
+  // otherwise a late echo of our own update snaps the map back mid-gesture (pinch/drag)
+  if (lastRoute &&
+      +props.zoom == lastRoute.zoom &&
+      +props.lon == lastRoute.lon &&
+      +props.lat == lastRoute.lat){
+    return;
   }
+  map.setView([+props.lat, +props.lon], +props.zoom);
 });
 </script>
 
