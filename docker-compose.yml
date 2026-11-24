@@ -1,6 +1,6 @@
 services:
  mapserver_frontend:
-  image: node:22.23.2-alpine
+  image: node:22.23.5-alpine
   volumes:
    - "dev_home:/root"
    - "node_modules:/data/public/node_modules"
